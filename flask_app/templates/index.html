@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Wetterstation Wriezen</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <meta name="keywords" content="Enviro+, EnviroPlus, RaspberryPi" />
+    <meta name="description" content="Web interface for Enviro+ sensor board plugged into a Raspberry Pi"/>
+    <meta name="theme-color" content="#b0b0b0" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo-wriezen.png') }}"/>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/index.css') }}"
+      media="all"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/navbar.css') }}"
+      media="all"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='classColors.css') }}"
+      media="all"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='graph.css') }}"
+      media="all"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/normalize.css') }}"
+      media="all"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/main.css') }}"
+      media="all"
+    />
+  </head>
+
+  <body
+    id="body"
+    data-hasGasSensor="{{ gas_sensor }}"
+    data-hasParticulateSensor="{{ particulate_sensor }}"
+    data-hasFanGPIO="{{ fan_gpio }}"
+  >
+    <!-- header -->
+    <header class="header">
+      <!-- Title / logo -->
+      <div class="navbar__left-wrapper">
+        <div class="navbar__logo-img">
+          <img src="{{url_for("static", filename="images/logo-wriezen.png")}}"/>
+        </div>
+        <h1>Wetterstation</h1>
+      </div>
+
+      <!-- Mobile menu -->
+      <div class="container-menu-hamburger">
+        <button
+          type="button"
+          id="menu-hamburger"
+          class="menu-hamburger"
+          aria-label="Main menu"
+        >
+          <svg width="100%" height="100%" viewBox="0 0 100 100">
+            <path
+              class="menu-main-hamburger menu-line1"
+              d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058"
+            />
+            <path class="menu-main-hamburger menu-line2" d="M 20,50 H 80" />
+            <path
+              class="menu-main-hamburger menu-line3"
+              d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <div id="container-menu-settings" class="container-menu-settings">
+        <!-- Local time -->
+        <div class="container-info-time">
+          <span id="time"></span>
+        </div>
+
+        <!-- Time range dropdown -->
+        <div class="container-btn-timeRange">
+          <span class="header-icon" title="Time range">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512 512"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <circle cx="386" cy="210" r="20" />
+              <path
+                d="M432 50h-30V30c0-11.046-4.954-20-16-20s-14.901 9.009-16 20v20h-99V30c0-11.046-4.954-20-16-20s-14.901 9.009-16 20v20h-98V30c0-11.046-4.954-20-16-20s-14.901 9.009-16 20v20H80c-44.112 0-70 25.888-70 70v312c0 44.112 25.888 70 70 70h153c11.046 0 20-2.954 20-14s-8.954-16-20-16H80c-22.056 0-40-17.944-40-40V120c0-22.056 17.944-40 40-40h29v20c0 11.046 4.954 20 16 20s16-8.954 16-20V80h98v20c0 11.046 4.954 20 16 20s16-8.954 16-20V80h99v20c0 11.046 4.954 20 16 20s14.901-9.009 16-20V80h30c22.056 0 40 17.944 40 40v114c0 11.046 4.954 20 16 20s14-8.954 14-20V120c0-44.112-26.018-66.617-70-70zm-41 220c-66.72 0-121 54.28-121 121s54.28 121 121 121 121-54.28 121-121-54.28-121-121-121zm0 212c-44.663 0-91-46.336-91-91s46.337-91 91-91 91 46.336 91 91-46.337 91-91 91zm25-107h-9v-25c0-11.046-4.954-20-16-20s-16 8.954-16 20v39c0 11.046 4.954 18 16 18h29c11.046 0 20-4.954 20-16s-12.954-16-24-16z"
+              />
+              <circle cx="299" cy="210" r="20" />
+              <circle cx="212" cy="297" r="20" />
+              <circle cx="125" cy="210" r="20" />
+              <circle cx="125" cy="297" r="20" />
+              <circle cx="125" cy="384" r="20" />
+              <circle cx="212" cy="384" r="20" />
+              <circle cx="212" cy="210" r="20" />
+            </svg>
+          </span>
+          <label for="graph-sel" class="visually-hidden"> Time range </label>
+          <select id="graph-sel">
+            <option value="day" selected>1 day</option>
+            <option value="week">1 week</option>
+            <option value="month">1 month</option>
+            <option value="year">1 year</option>
+          </select>
+        </div>
+
+        <!-- Fan speed -->
+        <div class="container-btn-fanGpio">
+          <span class="header-icon" title="Fan power">
+            <img src="{{url_for("static", filename="images/icons/fan-power.svg")}}"/>
+          </span>
+          <label for="fan" class="visually-hidden"> Fan power </label>
+          <input
+            id="fan"
+            type="number"
+            min="0"
+            max="100"
+            step="5"
+            value="100"
+            name="fan"
+          />
+        </div>
+
+        <!-- Color Theme -->
+        <div class="container-btn-theme">
+          <button type="button" id="theme-dark" title="Change to Dark theme">
+            <img src="{{url_for("static", filename="images/icons/change-theme.svg")}}"/>
+          </button>
+          <button type="button" id="theme-light" title="Change to Light theme">
+            <img src="{{url_for("static", filename="images/icons/light-theme.svg")}}"/>
+          </button>
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="main">
+      <div class="graphs-container">
+        <!-- Temperature -->
+        <div class="graph-container graph-temp">
+          <div class="graph-header">
+            <h2 class="color-red">▣ Temperature:</h2>
+            <div class="graph-header-readings">
+              <div>
+                <span id="temp">-</span>&deg;C &nbsp;⸱&nbsp;
+                <span id="temp-f">-</span>&deg;F
+              </div>
+            </div>
+          </div>
+          <div class="graph-chart">
+            <canvas id="graphChartTemp" class="loading-spinner"></canvas>
+          </div>
+        </div>
+
+        <!-- Humidity -->
+        <div class="graph-container graph-humi">
+          <div class="graph-header">
+            <h2 class="color-blue">▣ Humidity:</h2>
+            <div class="graph-header-readings">
+              <div><span id="humi">-</span>%</div>
+            </div>
+          </div>
+          <div class="graph-chart">
+            <canvas id="graphChartHumi" class="loading-spinner"></canvas>
+          </div>
+        </div>
+
+        <!-- Pressure -->
+        <div class="graph-container graph-pres">
+          <div class="graph-header">
+            <h2 class="color-green">▣ Pressure:</h2>
+            <div class="graph-header-readings">
+              <div><span id="pres">-</span>&nbsp;hPa</div>
+            </div>
+          </div>
+          <div class="graph-chart">
+            <canvas id="graphChartPres" class="loading-spinner"></canvas>
+          </div>
+        </div>
+
+        <!-- Light -->
+        <div class="graph-container graph-lux">
+          <div class="graph-header">
+            <h2 class="color-yellow">▣ Light:</h2>
+            <div class="graph-header-readings">
+              <div><span id="lux">-</span>&nbsp;lux</div>
+            </div>
+          </div>
+          <div class="graph-chart">
+            <canvas id="graphChartLux" class="loading-spinner"></canvas>
+          </div>
+        </div>
+
+        <!-- Noise -->
+        <div class="graph-container graph-noise">
+          <div class="graph-header">
+            <h2>Noise:</h2>
+            <div class="graph-header-readings">
+              <div>
+                <span class="color-noise-high">▣ High</span>
+                <span id="high">-</span>&nbsp;u
+              </div>
+              <div>
+                <span class="color-noise-mid">▣ Mid</span>
+                <span id="mid">-</span>&nbsp;u
+              </div>
+              <div>
+                <span class="color-noise-low">▣ Low</span>
+                <span id="low">-</span>&nbsp;u
+              </div>
+              <div>
+                <span class="color-noise-amp">▣ Amp</span>
+                <span id="amp">-</span>&nbsp;u
+              </div>              
+            </div>
+          </div>
+
+          <div class="graph-chart">
+            <canvas id="graphChartNoise" class="loading-spinner"></canvas>
+          </div>
+        </div>
+
+        <!-- Gas -->
+        <div class="graph-container graph-gas">
+          <div class="graph-header">
+            <h2>Gas:</h2>
+            <div class="graph-header-readings">
+              <div>
+                <span class="color-olive">▣ NH<sub>3</sub></span>
+                <span id="nh3">-</span>&nbsp;kΩ
+              </div>
+              <div>
+                <span class="color-violet">▣ Reducing</span>
+                <span id="red">-</span>&nbsp;kΩ
+              </div>
+              <div>
+                <span class="color-turquoise">▣ Oxidising</span>
+                <span id="oxi">-</span>&nbsp;kΩ
+              </div>
+            </div>
+          </div>
+
+          <div class="graph-chart">
+            <canvas id="graphChartGas" class="loading-spinner"></canvas>
+          </div>
+        </div>
+
+        <!-- Particulate matter -->
+        <div class="graph-container graph-pm">
+          <div class="graph-header">
+            <h2>Particulate matter:</h2>
+            <div class="graph-header-readings">
+              <div>
+                <span class="color-pmColor100">▣ PM<sub>10.0</sub></span>
+                <span id="pm100">-</span>μg/m<sup>3</sup>
+              </div>
+              <div>
+                <span class="color-pmColor25">▣ PM<sub>2.5</sub></span>
+                <span id="pm25">-</span>μg/m<sup>3</sup>
+              </div>
+              <div>
+                <span class="color-pmColor10">▣ PM<sub>1.0</sub></span>
+                <span id="pm10">-</span>μg/m<sup>3</sup>
+              </div>
+            </div>
+          </div>
+
+          <div class="graph-chart">
+            <canvas id="graphChartPm" class="loading-spinner"></canvas>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Javascript -->
+    <script src="{{ url_for('static', filename='js/chart.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/chartjs-adapter-date-fns.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+  </body>
+</html>
