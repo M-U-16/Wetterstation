@@ -1,5 +1,5 @@
 /* header */
-.header {
+.navbar {
     display: flex;
     width: 100%;
     height: 5rem;
@@ -9,7 +9,7 @@
     border-bottom: 1px solid var(--color-gray-light);
     z-index: 1;
 }
-.theme-dark .header {
+.theme-dark .navbar {
     background-color: var(--color-black);
     border-bottom: 1px solid var(--color-gray-dark);
 }
