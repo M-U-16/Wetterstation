@@ -1,36 +1,31 @@
-# If you prefer to keep the Enviro LCD screen off, change the next value to False
-lcd_screen = True
-# If you don't have a fan plugged on GPIO, change the next value to False
-fan_gpio = True
-# Temperature and humidity compensation (edit values 'factor_temp' and 'factor_humi' to adjust them)
-temp_humi_compensation = True
-# If you have an Enviro board without gas sensor, change the next value to False
-gas_sensor = True
-# If you don't have a particle sensor PMS5003 attached, change the next value to False
-particulate_sensor = True
-assert gas_sensor or not particulate_sensor # Can't have particle sensor without gas sensor
-from bme280 import BME280
+
 try:
     # Transitional fix for breaking change in LTR559
     from ltr559 import LTR559
     ltr559 = LTR559()
 except ImportError:
     import ltr559
+from bme280 import BME280
 from enviroplus import gas
+assert gas_sensor or not particulate_sensor # Can't have particle sensor without gas sensor
 from enviroplus.noise import Noise
 from pms5003 import PMS5003, ReadTimeoutError as pmsReadTimeoutError
 import RPi.GPIO as IO
 import ST7735
+"""  """
 from PIL import Image
 from PIL import ImageDraw
 from PIL import ImageFont
+"""  """
 try:
     from smbus2 import SMBus
 except ImportError:
     from smbus import SMBus
+"""  """
 from math import ceil, floor
 from time import sleep, time, asctime, localtime, strftime, gmtime
-
+""" ------------ """
+""" import * from settings """
 
 bus = SMBus(1)
 # BME280 temperature, humidity and pressure sensor
