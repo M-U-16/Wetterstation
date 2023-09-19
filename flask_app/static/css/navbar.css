@@ -1,4 +1,4 @@
-/* header */
+/* Navbar */
 .navbar {
     display: flex;
     width: 100%;
@@ -86,14 +86,13 @@ body[data-hasFanGPIO="False"] .container-btn-fanGpio {
     display: none;
 }
   
-.container-btn-gitlab svg {
-    stroke: unset !important;
-}
-  
-/* header Mobile version */
+/* Navbar Mobile version */
 @media screen and (min-width: 1260px) {
     .container-menu-hamburger {
       display: none;
+    }
+    .container-btn-timeRange {
+        margin: 0;
     }
 }
 .menu-hamburger {
