@@ -48,7 +48,7 @@
     data-hasFanGPIO="{{ fan_gpio }}"
   >
     <!-- header -->
-    <nav class="navbar">
+    <nav class="navbar" id="app__navbar">
       <!-- Title / logo -->
       <div class="navbar__left-wrapper">
         <div class="navbar__logo-img">
@@ -125,7 +125,7 @@
             <img src="{{url_for("static", filename="images/icons/light-theme.svg")}}"/>
           </button>
       </div>
-    </header>
+    </nav>
 
     <!-- Main content -->
     <main class="main" id="main">
@@ -272,5 +272,6 @@
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
     <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/mainOffset.js') }}"></script>
   </body>
 </html>
