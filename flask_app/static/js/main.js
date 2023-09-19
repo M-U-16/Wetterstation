@@ -10,124 +10,36 @@ const gas_sensor = body.dataset.hasgassensor;
 const particulate_sensor = body.dataset.hasparticulatesensor;
 const fan_gpio = body.dataset.hasfangpio;
 const style = getComputedStyle(document.body);
-// All colors values are declared at main.css
+
+function itemBuilder(id, label, unit, color, min, max) {
+  return {
+    id: id,
+    label: label,
+    unit: unit,
+    color: color,
+    min: min,
+    max: max
+  }
+}
 const items_ngp = {
-  temp: {
-    id: "temp",
-    label: "Temperature",
-    unit: "°C",
-    color: style.getPropertyValue("--color-red"),
-    min: 0,
-    max: 50,
-  },
-  humi: {
-    id: "humi",
-    label: "Humidity",
-    unit: "%",
-    color: style.getPropertyValue("--color-blue"),
-    min: 0,
-    max: 100,
-  },
-  pres: {
-    id: "pres",
-    label: "Pressure",
-    unit: "hPa",
-    color: style.getPropertyValue("--color-green"),
-    min: 950,
-    max: 1050,
-  },
-  lux: {
-    id: "lux",
-    label: "Light",
-    unit: "lux",
-    color: style.getPropertyValue("--color-yellow"),
-    min: 0,
-    max: 25000,
-  },
-  high: {
-    id: "high",
-    label: "High",
-    unit: "u",
-    color: style.getPropertyValue("--color-noise-high"),
-    min: 0,
-    max: 300,
-  },
-  mid: {
-    id: "mid",
-    label: "Mid",
-    unit: "u",
-    color: style.getPropertyValue("--color-noise-mid"),
-    min: 0,
-    max: 300,
-  },
-  low: {
-    id: "low",
-    label: "Low",
-    unit: "u",
-    color: style.getPropertyValue("--color-noise-low"),
-    min: 0,
-    max: 300,
-  },
-  amp: {
-    id: "amp",
-    label: "Amp",
-    unit: "u",
-    color: style.getPropertyValue("--color-noise-amp"),
-    min: 0,
-    max: 300,
-  },
+  temp: itemBuilder("temp", "Temperature", "°C", style.getPropertyValue("--color-red"), 0, 50),
+  humi: itemBuilder("humi", "Humidity", "%", style.getPropertyValue("--color-blue"), 0, 100),
+  pres: itemBuilder("pres", "Pressure", "hPa", style.getPropertyValue("--color-green"), 950, 150),
+  lux: itemBuilder("lux", "Light", "lux", style.getPropertyValue("--color-yellow"), 0, 25000),
+  high: itemBuilder("high", "High", "u", style.getPropertyValue("--color-noise-high"), 0, 300),
+  mid: itemBuilder("mid", "Mid", "u", style.getPropertyValue("--color-noise-mid"), 0, 300),
+  low: itemBuilder("low", "Low", "u", style.getPropertyValue("--color-noise-low"), 0, 300),
+  amp: itemBuilder("amp", "Amp", "u", style.getPropertyValue("--color-noise-amp"), 0, 300),
 };
 const items_gas = {
-  nh3: {
-    id: "nh3",
-    label: "NH3",
-    unit: "kΩ",
-    color: style.getPropertyValue("--color-olive"),
-    min: 0,
-    max: 600,
-  },
-  oxi: {
-    id: "red",
-    label: "Reducing",
-    unit: "kΩ",
-    color: style.getPropertyValue("--color-turquoise"),
-    min: 0,
-    max: 400,
-  },
-  red: {
-    id: "oxi",
-    label: "Oxidising",
-    unit: "kΩ",
-    color: style.getPropertyValue("--color-violet"),
-    min: 0,
-    max: 1000,
-  },
+  nh3: itemBuilder("nh3", "NH3", "kΩ", style.getPropertyValue("--color-olive"), 0, 600),
+  oxi: itemBuilder("oxi", "Oxidising", "kΩ", style.getPropertyValue("--color-violet"), 0, 1000),
+  red: itemBuilder("red", "Reducing", "kΩ", style.getPropertyValue("--color-turquoise"), 0, 400)
 };
 const items_pm = {
-  pm10: {
-    id: "pm10",
-    label: "PM10.0",
-    unit: "μg/m3",
-    color: style.getPropertyValue("--color-dust10"),
-    min: 0,
-    max: 800,
-  },
-  pm25: {
-    id: "pm25",
-    label: "PM2.5",
-    unit: "μg/m3",
-    color: style.getPropertyValue("--color-dust25"),
-    min: 0,
-    max: 800,
-  },
-  pm100: {
-    id: "pm100",
-    label: "PM100",
-    unit: "μg/m3",
-    color: style.getPropertyValue("--color-dust100"),
-    min: 0,
-    max: 800,
-  },
+  pm10: itemBuilder("pm10", "PM10.0", "μg/m3", style.getPropertyValue("--color-dust10"), 0, 800),
+  pm25: itemBuilder("pm25", "PM2.5", "μg/m3", style.getPropertyValue("--color-dust25"), 0, 800),
+  pm100: itemBuilder("pm100", "PM100", "μg/m3", style.getPropertyValue("--color-dust100"), 0, 800)
 };
 let items;
 if (particulate_sensor) {
@@ -230,11 +142,10 @@ function getGraph() {
           };
         });
 
-        if (!firstRun) {
-          destroyAllCharts();
-        } else {
-          firstRun = false;
-        }
+        //looks if it is first run when it is sets firstrun false
+        //starts to destroy all charts for each iteration
+        !firstRun ? destroyAllCharts() : firstRun = false
+        //draw the graphs
         drawGraph(transformedData);
       }
     };
