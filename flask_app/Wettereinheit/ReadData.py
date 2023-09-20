@@ -2,7 +2,6 @@ from time import sleep, time, asctime, localtime, strftime, gmtime
 from bme280 import BME280
 
 
-
 # BME280 temperature, humidity and pressure sensor
 bme280 = BME280(i2c_dev=bus)
 # PMS5003 particulate sensor

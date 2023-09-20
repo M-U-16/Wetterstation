@@ -15,7 +15,9 @@ import logging
 import json
 import os
 
-from Wettereinheit.main import *
+from Wettereinheit import main
+printSettings()
+
 
 def read_day(fname):
     day = []
