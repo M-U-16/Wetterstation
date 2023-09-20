@@ -53,6 +53,7 @@ def index():
     fan_gpio=fan_gpio)
     """
     return render_template('index.html')
+
 @app.route('/wetterdaten', methods=["POST"])
 def wetterdaten():
     if request.method == "POST":

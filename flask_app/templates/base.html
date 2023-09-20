@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    {% block head %}
+        <title>Wetterstation | {% block title %}{% endblock %}</title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo-wriezen.png') }}"/>
+        <meta name="keywords" content="Enviro+, EnviroPlus, RaspberryPi" />
+        <meta name="description" content="Web interface for Enviro+ sensor board plugged into a Raspberry Pi"/>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#b0b0b0" />
+
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/index.css') }}"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/navbar.css') }}"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/classColors.css') }}"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/normalize.css') }}"
+            media="all"
+        />
+        <link
+            rel="stylesheet"
+            href="{{ url_for('static', filename='css/main.css') }}"
+            media="all"
+        />
+    {% endblock %}
+</head>
+<body
+    id="body"
+    data-hasGasSensor="{{ gas_sensor }}"
+    data-hasParticulateSensor="{{ particulate_sensor }}"
+    data-hasFanGPIO="{{ fan_gpio }}"
+>
+    {% block navbar %}
+        <!-- navbar -->
+        <nav class="navbar" id="app__navbar">
+            <!-- Title / logo -->
+            <div class="navbar__left-wrapper">
+            <div class="navbar__logo-img">
+                <img src="{{url_for("static", filename="images/logo-wriezen-edited.png")}}"/>
+            </div>
+            <h1>Wetterstation</h1>
+            </div>
+    
+            <!-- Mobile menu -->
+            <div class="container-menu-hamburger">
+            <button
+                type="button"
+                id="menu-hamburger"
+                class="menu-hamburger"
+                aria-label="Main menu"
+            >
+                <svg width="100%" height="100%" viewBox="0 0 100 100">
+                <path class="menu-main-hamburger menu-line1" d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058"/>
+                <path class="menu-main-hamburger menu-line2" d="M 20,50 H 80" />
+                <path class="menu-main-hamburger menu-line3" d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942"/>
+                </svg>
+            </button>
+            </div>
+    
+            <div id="container-menu-settings" class="container-menu-settings">
+            <!-- Local time -->
+            <div class="container-info-time">
+                <span id="time"></span>
+            </div>
+    
+            <!-- Time range dropdown -->
+            <div class="container-btn-timeRange">
+                <span class="header-icon" title="Time range">
+                <img src="{{url_for("static", filename="images/icons/time-range.svg")}}" />
+                </span>
+                <label for="graph-sel" class="visually-hidden"> Time range </label>
+                <select id="graph-sel">
+                <option value="day" selected>1 day</option>
+                <option value="week">1 week</option>
+                <option value="month">1 month</option>
+                <option value="year">1 year</option>
+                </select>
+            </div>
+    
+            <!-- Fan speed -->
+            <div class="container-btn-fanGpio">
+                <span class="header-icon" title="Fan power">
+                <img src="{{url_for("static", filename="images/icons/fan-power.svg")}}"/>
+                </span>
+                <label for="fan" class="visually-hidden"> Fan power </label>
+                <input id="fan" type="number" min="0" max="100" step="5" value="100" name="fan"/>
+            </div>
+    
+            <!-- Color Theme -->
+            <div class="container-btn-theme">
+                <button type="button" id="theme-dark" title="Change to Dark theme">
+                <img src="{{url_for("static", filename="images/icons/change-theme.svg")}}"/>
+                </button>
+                <button type="button" id="theme-light" title="Change to Light theme">
+                <img src="{{url_for("static", filename="images/icons/light-theme.svg")}}"/>
+                </button>
+            </div>
+            </div>
+        </nav>
+    {% endblock %}
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+    <div id="footer">
+        {% block footer %}{% endblock %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/mainOffset.js') }}"></script>
+    {% block code %}
+    {% endblock %}
+</body>
+</html>
