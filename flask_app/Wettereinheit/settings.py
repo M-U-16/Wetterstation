@@ -11,5 +11,6 @@ SETTINGS = {
     "particulate_sensor": True,
     #ip for sending data to flask server
     "ip_address": "localhost",
+    #port number
     "server_port": "80"
 }

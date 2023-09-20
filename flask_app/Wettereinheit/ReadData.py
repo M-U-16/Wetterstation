@@ -1,17 +1,17 @@
 from time import sleep, time, asctime, localtime, strftime, gmtime
-from bme280 import BME280
-
+import random
+""" from bme280 import BME280 """
 
 # BME280 temperature, humidity and pressure sensor
-bme280 = BME280(i2c_dev=bus)
+    #bme280 = BME280(i2c_dev=bus)
 # PMS5003 particulate sensor
-pms5003 = PMS5003()
+    #pms5003 = PMS5003()
 # Noise sensor
-noise = Noise()
+    #noise = Noise()
 
-def read_data(time):
+def read_data():
 
-    if temp_humi_compensation:
+    """ if temp_humi_compensation:
         cpu_temps = [get_cpu_temperature()] * 5
         cpu_temp = get_cpu_temperature()
         # Smooth out with some averaging to decrease jitter
@@ -74,5 +74,23 @@ def read_data(time):
         'pm10' : pm10,
         'pm25' : pm25,
         'pm100': pm100,
+        }
+    return record 
+    """
+    return {
+        "time": asctime(localtime()),
+        "temp": random.randrange(0,34),
+        "humi": random.randrange(0,100),
+        "pres": random.randrange(1, 1000),
+        "lux": random.randrange(1, 100),
+        "high": None,
+        "mid": None,
+        "low": None,
+        "amp": None,
+        "oxi": None,
+        "red": None,
+        "nh3": None,
+        "pm10": None,
+        "pm25": None,
+        "pm100": None,
     }
-    return record
