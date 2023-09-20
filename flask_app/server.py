@@ -15,9 +15,6 @@ import logging
 import json
 import os
 
-from Wettereinheit import main
-printSettings()
-
 
 def read_day(fname):
     day = []
@@ -56,7 +53,14 @@ def index():
     fan_gpio=fan_gpio)
     """
     return render_template('index.html')
-
+@app.route('/wetterdaten', methods=["POST"])
+def wetterdaten():
+    if request.method == "POST":
+        print(request.get_json())
+        
+        message = { "message": "Added Entry" }
+        return message
+    
 @app.route('/readings')
 def readings():
     if fan_gpio:
@@ -88,7 +92,7 @@ if __name__ == '__main__':
         days.append(read_day('enviro-data/' + f))
     """ background_thread.start() """
     """ try: """
-    app.run(debug = True, host = '0.0.0.0', port = 80, use_reloader = False)
+    app.run(debug = True, host = 'localhost', port = 80, use_reloader = False)
     """ except Exception as e:
         print(e) """
     run_flag = False

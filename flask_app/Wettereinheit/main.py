@@ -1,10 +1,14 @@
 from settings import SETTINGS
 from config import Config
+import requests
+import json
 
-conf = Config()
-conf.activateFan(SETTINGS["fan_gpio"])
+conf = Config(SETTINGS)
+conf.activateFan()
 
-def printSettings():
-    print(SETTINGS)
-    
-printSettings()
+ip = SETTINGS["ip_address"]
+port = SETTINGS["server_port"]
+data = json.dumps(SETTINGS)
+
+res = requests.post(f"http://{ip}:{port}/wetterdaten", json=data).json()
+print(res["message"])

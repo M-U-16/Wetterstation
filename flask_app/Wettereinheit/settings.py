@@ -8,5 +8,8 @@ SETTINGS = {
     # If you have an Enviro board without gas sensor, change the next value to False
     "gas_sensor": True,
     # If you don't have a particle sensor PMS5003 attached, change the next value to False
-    "particulate_sensor": True
+    "particulate_sensor": True,
+    #ip for sending data to flask server
+    "ip_address": "localhost",
+    "server_port": "80"
 }
