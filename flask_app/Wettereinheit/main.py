@@ -6,6 +6,7 @@ from settings import SETTINGS
 from config import Config
 from ReadData import read_data
 from SendData import send_data
+from SaveData import save_data
 
 if __name__ == "__main__":
     #create directory for data entrys
@@ -17,12 +18,15 @@ if __name__ == "__main__":
 
     ip = SETTINGS["ip_address"]
     port = SETTINGS["server_port"]
-    data = json.dumps(read_data())
+    data = read_data()
+    json_data = json.dumps(data)
+    
+    save_data(data)
 
     #trys to send weather data to the server
     #handles errors when there is no server
     try:
-        send_data(ip, port, data)
+        send_data(ip, port, json_data)
     except:
         print("Can't connect to server!")
     

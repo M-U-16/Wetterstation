@@ -35,7 +35,7 @@ def get_cpu_temperature(self, turnedOn):
     else:
         return None
 """
-        if turnedOn:
-            print("current temperature")
-        else:
-            print("cpu mesurement not turned on!")
+    if turnedOn:
+         print("current temperature")
+    else:
+        print("cpu mesurement not turned on!")
