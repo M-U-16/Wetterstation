@@ -6,20 +6,25 @@ function changeColorTheme() {
     body.className = this.id;
     localStorage.setItem("theme-color", this.id);
     hasThemeLight = !hasThemeLight;
+    console.log("hello")
 }
-themeLightBtn.onclick = changeColorTheme;
-themeDarkBtn.onclick = changeColorTheme;
+
+function changeIconColor() {
+    const timeRangeBtn = document.getElementById()
+}
 
 // Load user theme-color
-window.onload = () => {
-    const savedThemeColor = localStorage.getItem("theme-color");
-    if (savedThemeColor) {
-        document.body.className = savedThemeColor;
+const savedThemeColor = localStorage.getItem("theme-color");
+console.log(savedThemeColor)
+if (savedThemeColor) {
+    document.body.className = savedThemeColor;
+} else {
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        document.body.className = "theme-dark";
     } else {
-        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-            document.body.className = "theme-dark";
-        } else {
-            document.body.className = "theme-light";
-        }
+        document.body.className = "theme-light";
     }
 }
+
+themeLightBtn.onclick = changeColorTheme;
+themeDarkBtn.onclick = changeColorTheme;
