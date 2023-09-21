@@ -62,6 +62,9 @@
     max-height: 2rem;
     margin-right: 1rem;
 }
+.active-header-icon {
+    display: flex;
+}
 body[data-hasFanGPIO="False"] .container-btn-fanGpio {
     display: none !important;
 }
@@ -84,10 +87,6 @@ body[data-hasFanGPIO="False"] .container-btn-fanGpio {
 .theme-dark .header-icon svg {
     fill: var(--color-gray-light);
     stroke: var(--color-gray-light);
-}
-.theme-light button#theme-light,
-.theme-dark button#theme-dark {
-    display: none;
 }
   
 /* Navbar Mobile version */
