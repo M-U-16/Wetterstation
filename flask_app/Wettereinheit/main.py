@@ -10,7 +10,7 @@ from SendData import send_data
 if __name__ == "__main__":
     #create directory for data entrys
     if not os.path.isdir('enviro-data'):
-    os.makedirs('enviro-data')
+        os.makedirs('enviro-data')
 
     conf = Config(SETTINGS)
     conf.activateFan()
@@ -19,5 +19,10 @@ if __name__ == "__main__":
     port = SETTINGS["server_port"]
     data = json.dumps(read_data())
 
-    send_data(ip, port, data)
+    #trys to send weather data to the server
+    #handles errors when there is no server
+    try:
+        send_data(ip, port, data)
+    except:
+        print("Can't connect to server!")
     

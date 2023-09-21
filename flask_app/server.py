@@ -86,14 +86,5 @@ def graph():
     return json.dumps(data)
 
 if __name__ == '__main__':
-    files = sorted(os.listdir('enviro-data'))
-    for f in files:
-        days.append(read_day('enviro-data/' + f))
-    """ background_thread.start() """
-    """ try: """
     app.run(debug = True, host = 'localhost', port = 80, use_reloader = True)
-    """ except Exception as e:
-        print(e) """
     run_flag = False
-    """ print("Waiting for background to quit")
-    background_thread.join() """
