@@ -250,21 +250,21 @@ function drawGraph(data) {
   /*  */
   const graphChartTempInput = { ...default_config }
   const graphChartTempSettings = {
-      tension: 0.9,
-      frequency: graphfrequency,
-      scalesValues: {
-          y: [
-              {
-                  name: "y",
-                  grace: "90%",
-                  ticks: {
-                      callback: function (value) {
-                          return value + items.temp.unit;
-                      },
-                  },
-              }
-          ]
-      }
+    tension: 0.9,
+    frequency: graphfrequency,
+    scalesValues: {
+      y: [
+        {
+          name: "y",
+          grace: "90%",
+          ticks: {
+            callback: function (value) {
+              return value + items.temp.unit;
+            },
+          },
+        }
+      ]
+    }
   }
   const tempSets = [items.temp]
   graphChartTempInput.data.datasets = datasetBuilder(tempSets, data)
@@ -272,21 +272,21 @@ function drawGraph(data) {
   /*  */
   const graphChartHumiInput = { ...default_config }
   const graphChartHumiSettings = {
-      tension: 0.3,
-      frequency: graphfrequency,
-      scalesValues: {
-          y: [
-              {
-                  name: "y",
-                  grace: "90%",
-                  ticks: {
-                  callback: function (value) {
-                      return value + items.temp.unit;
-                  },
-                  },
-              }
-          ]
-      }
+    tension: 0.3,
+    frequency: graphfrequency,
+    scalesValues: {
+      y: [
+        {
+          name: "y",
+          grace: "90%",
+          ticks: {
+            callback: function (value) {
+              return value + items.temp.unit;
+            },
+          },
+        }
+      ]
+    }
   }
   const humiSets = [items.humi]
   graphChartHumiInput.data.datasets = datasetBuilder(humiSets, data)
@@ -294,21 +294,21 @@ function drawGraph(data) {
   /*  */
   const graphChartPresInput = { ...default_config }
   const graphChartPresSettings = {
-      tension: 0.6,
-      frequency: graphfrequency,
-      scalesValues: {
-          y:[
-              {
-                  name: "y",
-                  grace: "90%",
-                  ticks: {
-                      callback: function (value) {
-                          return value + items.temp.unit;
-                      },
-                  },
-              }
-          ]
-      }
+    tension: 0.6,
+    frequency: graphfrequency,
+    scalesValues: {
+      y:[
+        {
+          name: "y",
+          grace: "90%",
+          ticks: {
+            callback: function (value) {
+              return value + items.temp.unit;
+            },
+          },
+        }
+      ]
+    }
   }
   const presSets = [items.pres]
   graphChartPresInput.data.datasets = datasetBuilder(presSets, data)
@@ -316,23 +316,23 @@ function drawGraph(data) {
   /*  */
   const graphChartLuxInput = { ...default_config }
   const graphChartLuxSettings = {
-      tension: 0.2,
-      frequency: graphfrequency,
-      scalesValues: {
-          y: [
-              {
-                  name: "y",
-                  beginAtZero: true,
-                  grace: "40%",
-                  ticks: {
-                      stepSize: 100,
-                      callback: function (value) {
-                          return value + " " + items.lux.unit;
-                      },
-                  },
-              }
-          ]
-      }
+    tension: 0.2,
+    frequency: graphfrequency,
+    scalesValues: {
+      y: [
+        {
+          name: "y",
+          beginAtZero: true,
+          grace: "40%",
+          ticks: {
+            stepSize: 100,
+            callback: function (value) {
+              return value + " " + items.lux.unit;
+            },
+          },
+        }
+      ]
+    }
   }
   const luxSets = [items.lux]
   graphChartLuxInput.data.datasets = datasetBuilder(luxSets, data)
@@ -340,40 +340,40 @@ function drawGraph(data) {
   /*  */
   const graphChartNoiseInput = { ...default_config }
   const graphChartNoiseSettings = {
-      tension: 0.1,
-      frequency: graphfrequency,
-      scalesValues: {
-          y: [
-              {
-                  name: "y",
-                  min: items.high.min,
-                  max: items.high.max,
-                  ticks: {
-                  callback: function (value) {
-                      return value + " " + items.high.unit;
-                  },
-                  },
-              },
-              {
-                  name: "y1",
-                  min: items.high.min,
-                  max: items.high.max,
-                  display: false,
-              },
-              {
-                  name: "y2",
-                  min: items.high.min,
-                  max: items.high.max,
-                  display: false,
-              },
-              {
-                  name: "y3",
-                  min: items.high.min,
-                  max: items.high.max,
-                  display: false,
-              },
-          ]
-      }
+    tension: 0.1,
+    frequency: graphfrequency,
+    scalesValues: {
+      y:[
+        {
+          name: "y",
+          min: items.high.min,
+          max: items.high.max,
+          ticks: {
+            callback: function (value) {
+              return value + " " + items.high.unit;
+            },
+          },
+        },
+        {
+          name: "y1",
+          min: items.high.min,
+          max: items.high.max,
+          display: false,
+        },
+        {
+          name: "y2",
+          min: items.high.min,
+          max: items.high.max,
+          display: false,
+        },
+        {
+          name: "y3",
+          min: items.high.min,
+          max: items.high.max,
+          display: false,
+        },
+      ]
+    }
   }
   const noiseSets = [items.low, items.amp, items.mid, items.high]
   graphChartNoiseInput.data.datasets = datasetBuilder(noiseSets, data)
@@ -381,34 +381,34 @@ function drawGraph(data) {
   /*  */
   const graphChartGasInput = { ...default_config }
   const graphChartGasSettings = {
-      tension: 0.2,
-      frequency: graphfrequency,
-      scalesValues: {
-          y: [
-              {
-                  name: "y",
-                  min: items.oxi.min,
-                  max: items.oxi.max,
-                  ticks: {
-                  callback: function (value) {
-                      return value + " " + items.oxi.unit;
-                  },
-                  },
-              },
-              {
-                  name: "y1",
-                  min: items.red.min,
-                  max: items.red.max,
-                  display: false,
-              },
-              {
-                  name: "y2",
-                  min: items.oxi.min,
-                  max: items.oxi.max,
-                  display: false,
-              },
-          ]
-      }
+    tension: 0.2,
+    frequency: graphfrequency,
+    scalesValues: {
+      y: [
+        {
+          name: "y",
+          min: items.oxi.min,
+          max: items.oxi.max,
+          ticks: {
+            callback: function (value) {
+              return value + " " + items.oxi.unit;
+            },
+          },
+        },
+        {
+          name: "y1",
+          min: items.red.min,
+          max: items.red.max,
+          display: false,
+        },
+        {
+          name: "y2",
+          min: items.oxi.min,
+          max: items.oxi.max,
+          display: false,
+        },
+      ]
+    }
   }
   const gasSets = [items.nh3, items.red, items.oxi]
   graphChartGasInput.data.datasets = datasetBuilder(gasSets, data)
@@ -416,34 +416,34 @@ function drawGraph(data) {
   /*  */
   const graphChartPmInput = { ...default_config }
   const graphChartPmSettings = {
-      tension: 0.2,
-      frequency: graphfrequency,
-      scalesValues: {
-          y: [
-              {
-                  name: "y",
-                  min: items.pm10.min,
-                  max: items.pm10.max,
-                  ticks: {
-                  callback: function (value) {
-                      return value + " " + items.pm100.unit;
-                  },
-                  },
-              },
-              {
-                  name: "y1",
-                  min: items.pm100.min,
-                  max: items.pm100.max,
-                  display: false,
-              },
-              {
-                  name: "y2",
-                  min: items.pm25.min,
-                  max: items.pm25.max,
-                  display: false,
-              },
-          ]
-      }
+    tension: 0.2,
+    frequency: graphfrequency,
+    scalesValues: {
+      y:[
+        {
+          name: "y",
+          min: items.pm10.min,
+          max: items.pm10.max,
+          ticks: {
+            callback: function (value) {
+              return value + " " + items.pm100.unit;
+            },
+          },
+        },
+        {
+          name: "y1",
+          min: items.pm100.min,
+          max: items.pm100.max,
+          display: false,
+        },
+        {
+          name: "y2",
+          min: items.pm25.min,
+          max: items.pm25.max,
+          display: false,
+        },
+      ]
+    }
   }
   const pmSets = [items.pm10, items.pm25, items.pm100]
   graphChartPmInput.data.datasets = datasetBuilder(pmSets, data)
