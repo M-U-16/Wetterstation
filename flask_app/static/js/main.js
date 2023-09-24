@@ -57,18 +57,18 @@ let transformedData;
 let frequency;
 let last_frequency = "";
 let last_graph = 0;
-const ctxTemp = document.getElementById("graphChartTemp");
-const ctxHumi = document.getElementById("graphChartHumi");
-const ctxPres = document.getElementById("graphChartPres");
-const ctxLux = document.getElementById("graphChartLux");
-const ctxNoise = document.getElementById("graphChartNoise");
+const ctxTemp = document.getElementById("graphChartTempInput");
+const ctxHumi = document.getElementById("graphChartHumiInput");
+const ctxPres = document.getElementById("graphChartPresInput");
+const ctxLux = document.getElementById("graphChartLuxInput");
+const ctxNoise = document.getElementById("graphChartNoiseInput");
 const ctxGas = document.getElementById("graphChartGas");
 const ctxPm = document.getElementById("graphChartPm");
-let graphChartTemp;
-let graphChartHumi;
-let graphChartPres;
-let graphChartLux;
-let graphChartNoise;
+let graphChartTempInput;
+let graphChartHumiInput;
+let graphChartPresInput;
+let graphChartLuxInput;
+let graphChartNoiseInput;
 let graphChartGas;
 let graphChartPm;
 
@@ -157,11 +157,11 @@ function getGraph() {
 
 // Reload graph chart
 function destroyAllCharts() {
-  graphChartTemp.destroy();
-  graphChartHumi.destroy();
-  graphChartPres.destroy();
-  graphChartLux.destroy();
-  graphChartNoise.destroy();
+  graphChartTempInput.destroy();
+  graphChartHumiInput.destroy();
+  graphChartPresInput.destroy();
+  graphChartLuxInput.destroy();
+  graphChartNoiseInput.destroy();
   if (gas_sensor) graphChartGas.destroy();
   if (particulate_sensor) graphChartPm.destroy();
 }
@@ -183,7 +183,7 @@ function drawGraph(data) {
   let graphfrequency = getFrequency(frequency)
   
   // Push data for chartJS
-  graphChartTemp = new Chart(ctxTemp, {
+  graphChartTempInput = new Chart(ctxTemp, {
     type: "line",
     data: {
       datasets: [
@@ -236,7 +236,7 @@ function drawGraph(data) {
     },
   });
 
-  graphChartHumi = new Chart(ctxHumi, {
+  graphChartHumiInput = new Chart(ctxHumi, {
     type: "line",
     data: {
       datasets: [
@@ -290,7 +290,7 @@ function drawGraph(data) {
     },
   });
 
-  graphChartPres = new Chart(ctxPres, {
+  graphChartPresInput = new Chart(ctxPres, {
     type: "line",
     data: {
       datasets: [
@@ -346,7 +346,7 @@ function drawGraph(data) {
     },
   });
 
-  graphChartLux = new Chart(ctxLux, {
+  graphChartLuxInput = new Chart(ctxLux, {
     type: "line",
     data: {
       datasets: [
@@ -401,7 +401,7 @@ function drawGraph(data) {
     },
   });
 
-  graphChartNoise = new Chart(ctxNoise, {
+  graphChartNoiseInput = new Chart(ctxNoise, {
     type: "line",
     data: {
       datasets: [
