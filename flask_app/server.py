@@ -103,8 +103,8 @@ if __name__ == '__main__':
     ##############################
     
     #reset db for testing
-    if SERVER_SETTINGS["reset_db"] and database_exists:
-        setup_db.resetTable("./wetter.db")
+    """ if SERVER_SETTINGS["reset_db"] and database_exists:
+        setup_db.resetTable("./wetter.db") """
     
     
     app.run(debug = True, host = 'localhost', port = 80, use_reloader = False)
