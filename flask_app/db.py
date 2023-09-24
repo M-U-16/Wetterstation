@@ -39,7 +39,7 @@ class Database:
     def setPath(self, path):
         self.path = path
     #set connection
-    def setConnection(self)
+    def setConnection(self):
         try:
             self.con = sqlite3.connect(self.path)
         except Error as e:

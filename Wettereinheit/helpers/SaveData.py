@@ -3,7 +3,7 @@ import pathlib
 import json
 import shutil
 
-SAVE_DIRECTORY = "./enviro-data/"
+SAVE_DIRECTORY = "../enviro-data/"
 
 def make_path(items, directory=""):
     path = ""
