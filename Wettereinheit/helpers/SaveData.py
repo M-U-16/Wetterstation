@@ -3,7 +3,7 @@ import pathlib
 import json
 import shutil
 
-SAVE_DIRECTORY = "../enviro-data/"
+SAVE_DIRECTORY = "enviro-data"
 
 def make_path(items, directory=""):
     path = ""
@@ -11,7 +11,7 @@ def make_path(items, directory=""):
         path += f"{item}//"
     return path + directory
 
-def get_path(path):
+def get_path_list(path):
     new_path = path.split("\\")
     new_path.pop()
     return new_path
@@ -22,7 +22,9 @@ def removeDirs(dir_list, path):
 
 def save_data(data):
     p = str(pathlib.Path(__file__))
-    p = make_path(get_path(p), SAVE_DIRECTORY)
+    p = get_path_list(p)
+    p.pop() #remove last item of dir list
+    p = make_path(p, SAVE_DIRECTORY)
     dir_list = os.listdir(p)
     
     
@@ -42,9 +44,9 @@ def save_data(data):
         if not index == len(date_list) - 1:
             file_name += "--"
     
-    year_path = SAVE_DIRECTORY + entry_year
-    month_path = year_path + "/" + entry_month
-    file_path = month_path + "/" + f"{file_name}.json"
+    year_path = f"{SAVE_DIRECTORY}/{entry_year}"
+    month_path = f"{year_path}/{entry_month}"
+    file_path = f"{month_path}/{file_name}.json"
     
     #removeDirs(dir_list, year_path)
     
