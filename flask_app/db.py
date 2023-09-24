@@ -2,8 +2,7 @@ import sqlite3
 def setUpTable():
     con = sqlite3.connect("wetter.db")
     cursor = con.cursor()
-    """ cursor.execute("DROP TABLE wetterdaten") """
-    cursor.execute("CREATE TABLE wetterdaten (id INT AUTOINCREMENT ,time TEXT, temp INT, humi INT, pres INT, lux INT)")
+    cursor.execute("CREATE TABLE wetterdaten (entry_id INT AUTOINCREMENT ,date TEXT, temp INT, humi INT, pres INT, lux INT)")
 
 def addData(data):
     #create variables for data
@@ -16,7 +15,7 @@ def addData(data):
     
     con = sqlite3.connect("wetter.db")
     cursor = con.cursor()
-    cursor.execute("INSERT INTO wetterdaten VALUES (?, ?, ?, ?, ?)", (date, temp, humi, pres, lux))
+    cursor.execute("INSERT INTO wetterdaten(date, temp, humi, pres, lux) VALUES (?, ?, ?, ?, ?)", (date, temp, humi, pres, lux))
     con.commit()
 
 def printTable():

@@ -14,7 +14,10 @@ from flask import Flask, render_template, url_for, request
 import logging
 import json
 import os
+
 import db
+import setup_db
+from server_settings import SERVER_SETTINGS
 
 
 def read_day(fname):
@@ -59,7 +62,6 @@ def index():
 def wetterdaten():
     if request.method == "POST":
         #database
-        #db.setUpTable()
         data = json.loads(request.get_json())
         db.addData(data)
         db.printTable()
@@ -92,5 +94,11 @@ def graph():
     return json.dumps(data)
 
 if __name__ == '__main__':
-    app.run(debug = True, host = 'localhost', port = 80, use_reloader = True)
+    #set up database if first start
+    database_path = "/".join([SERVER_SETTINGS["db_path"], SERVER_SETTINGS["database"]])
+    if not os.path.isfile(database_path):
+        setup_db.setUp("./wetter.db")
+    ##############################
+    
+    app.run(debug = True, host = 'localhost', port = 80, use_reloader = False)
     run_flag = False
