@@ -42,19 +42,26 @@ const items_pm = {
 let items = { ...items_ngp, ...items_gas, ...items_pm }
 /*  */
 
-function datasetBuilder(item, data) {
-    const dataset = {}
-    dataset.label = item.id
-    dataset.data = data
-    dataset.parsing = {
-        yAxisKey: item.id
-    }
-    dataset.borderColor = item.color
-    dataset.borderWidth = 2
-    dataset.pointRadius = 1
-    dataset.pointBackgroundColor = item.color
+function datasetBuilder(items, data) {
+    const datasets = []
+    
+    items.forEach(item => {
+        const set = {}
 
-    return dataset
+        set.label = item.id
+        set.data = data
+        set.parsing = {
+            yAxisKey: item.id
+        }
+        set.borderColor = item.color
+        set.borderWidth = 2
+        set.pointRadius = 1
+        set.pointBackgroundColor = item.color
+
+        datasets.push(set)
+    })
+
+    return datasets
 }
 function optionsBuilder(context, settings) {
 
@@ -109,7 +116,8 @@ function drawGraph(data) {
             ]
         }
     }
-    graphChartTemp.data.datasets.push(datasetBuilder(items.temp, data))
+    const tempSets = [items.temp]
+    graphChartTemp.data.datasets = datasetBuilder(tempSets, data)
     graphChartTemp.options = optionsBuilder("ctxTemp", graphChartTempSettings)
     /*  */
     const graphChartHumi = { ...default_config }
@@ -130,7 +138,8 @@ function drawGraph(data) {
             ]
         }
     }
-    graphChartHumi.data.datasets.push(datasetBuilder(items.humi, data))
+    const humiSets = [items.humi]
+    graphChartHumi.data.datasets = datasetBuilder(humiSets, data)
     graphChartHumi.options = optionsBuilder("ctxHumi", graphChartHumiSettings)
     /*  */
     const graphChartPres = { ...default_config }
@@ -151,7 +160,8 @@ function drawGraph(data) {
             ]
         }
     }
-    graphChartPres.data.datasets.push(datasetBuilder(items.pres, data))
+    const presSets = [items.pres]
+    graphChartPres.data.datasets = datasetBuilder(presSets, data)
     graphChartPres.options = optionsBuilder("ctxPres", graphChartPresSettings)
     /*  */
     const graphChartLux = { ...default_config }
@@ -174,7 +184,8 @@ function drawGraph(data) {
             ]
         }
     }
-    graphChartLux.data.datasets.push(datasetBuilder(items.lux, data))
+    const luxSets = [items.lux]
+    graphChartLux.data.datasets = datasetBuilder(luxSets, data)
     graphChartLux.options = optionsBuilder("ctxLux", graphChartLuxSettings)
     /*  */
     const graphChartNoise = { ...default_config }
@@ -214,7 +225,8 @@ function drawGraph(data) {
             ]
         }
     }
-    graphChartNoise.data.datasets.push(datasetBuilder(items.noise, data))
+    const noiseSets = [items.low, items.amp, items.mid, items.high]
+    graphChartNoise.data.datasets = datasetBuilder(noiseSets, data)
     graphChartNoise.options = optionsBuilder("ctxNoise", graphChartNoiseSettings)
     /*  */
     const graphChartGas = { ...default_config }
@@ -248,7 +260,8 @@ function drawGraph(data) {
             ]
         }
     }
-    graphChartGas.data.datasets.push(datasetBuilder(items.gas, data))
+    const gasSets = [items.nh3, items.red, items.oxi]
+    graphChartGas.data.datasets = datasetBuilder(gasSets, data)
     graphChartGas.options = optionsBuilder("ctxGas", graphChartGasSettings)
     /*  */
     const graphChartPm = { ...default_config }
@@ -282,16 +295,12 @@ function drawGraph(data) {
             ]
         }
     }
-    graphChartPm.data.datasets.push(datasetBuilder(items.pm10, data))
-    graphChartPm.data.datasets.push(datasetBuilder(items.pm25, data))
-    graphChartPm.data.datasets.push(datasetBuilder(items.pm100, data))
+    const pmSets = [items.pm10, items.pm25, items.pm100]
+    graphChartPm.data.datasets = datasetBuilder(pmSets, data)
     graphChartPm.options = optionsBuilder("ctxPm", graphChartPmSettings)
     /*  */
-
-    console.log(graphChartTemp)
+    console.log(graphChartGas)
 }
-
-console.log(items)
 
 drawGraph({
     test: "lol"
