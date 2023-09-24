@@ -158,8 +158,8 @@ function destroyAllCharts() {
   graphChartPresInput.destroy();
   graphChartLuxInput.destroy();
   graphChartNoiseInput.destroy();
-  if (gas_sensor) graphChartGas.destroy();
-  if (particulate_sensor) graphChartPm.destroy();
+  if (gas_sensor) graphChartGasInput.destroy();
+  if (particulate_sensor) graphChartPmInput.destroy();
 }
 // Draw graph with data
 //get the current frequency depending on time period
@@ -237,7 +237,7 @@ function drawGraph(data) {
     options: {},
   }
   /*  */
-  const graphChartTempInput = { ...default_config }
+  const graphChartTemp = { ...default_config }
   const graphChartTempSettings = {
     tension: 0.9,
     frequency: graphfrequency,
@@ -256,10 +256,10 @@ function drawGraph(data) {
     }
   }
   const tempSets = [items.temp]
-  graphChartTempInput.data.datasets = datasetBuilder(tempSets, data)
-  graphChartTempInput.options = optionsBuilder(ctxTemp, graphChartTempSettings)
+  graphChartTemp.data.datasets = datasetBuilder(tempSets, data)
+  graphChartTemp.options = optionsBuilder(ctxTemp, graphChartTempSettings)
   /*  */
-  const graphChartHumiInput = { ...default_config }
+  const graphChartHumi = { ...default_config }
   const graphChartHumiSettings = {
     tension: 0.3,
     frequency: graphfrequency,
@@ -278,10 +278,10 @@ function drawGraph(data) {
     }
   }
   const humiSets = [items.humi]
-  graphChartHumiInput.data.datasets = datasetBuilder(humiSets, data)
-  graphChartHumiInput.options = optionsBuilder(ctxHumi, graphChartHumiSettings)
+  graphChartHumi.data.datasets = datasetBuilder(humiSets, data)
+  graphChartHumi.options = optionsBuilder(ctxHumi, graphChartHumiSettings)
   /*  */
-  const graphChartPresInput = { ...default_config }
+  const graphChartPres = { ...default_config }
   const graphChartPresSettings = {
     tension: 0.6,
     frequency: graphfrequency,
@@ -300,10 +300,10 @@ function drawGraph(data) {
     }
   }
   const presSets = [items.pres]
-  graphChartPresInput.data.datasets = datasetBuilder(presSets, data)
-  graphChartPresInput.options = optionsBuilder(ctxPres, graphChartPresSettings)
+  graphChartPres.data.datasets = datasetBuilder(presSets, data)
+  graphChartPres.options = optionsBuilder(ctxPres, graphChartPresSettings)
   /*  */
-  const graphChartLuxInput = { ...default_config }
+  const graphChartLux = { ...default_config }
   const graphChartLuxSettings = {
     tension: 0.2,
     frequency: graphfrequency,
@@ -324,10 +324,10 @@ function drawGraph(data) {
     }
   }
   const luxSets = [items.lux]
-  graphChartLuxInput.data.datasets = datasetBuilder(luxSets, data)
-  graphChartLuxInput.options = optionsBuilder(ctxLux, graphChartLuxSettings)
+  graphChartLux.data.datasets = datasetBuilder(luxSets, data)
+  graphChartLux.options = optionsBuilder(ctxLux, graphChartLuxSettings)
   /*  */
-  const graphChartNoiseInput = { ...default_config }
+  const graphChartNoise = { ...default_config }
   const graphChartNoiseSettings = {
     tension: 0.1,
     frequency: graphfrequency,
@@ -365,10 +365,10 @@ function drawGraph(data) {
     }
   }
   const noiseSets = [items.low, items.amp, items.mid, items.high]
-  graphChartNoiseInput.data.datasets = datasetBuilder(noiseSets, data)
-  graphChartNoiseInput.options = optionsBuilder(ctxNoise, graphChartNoiseSettings)
+  graphChartNoise.data.datasets = datasetBuilder(noiseSets, data)
+  graphChartNoise.options = optionsBuilder(ctxNoise, graphChartNoiseSettings)
   /*  */
-  const graphChartGasInput = { ...default_config }
+  const graphChartGas = { ...default_config }
   const graphChartGasSettings = {
     tension: 0.2,
     frequency: graphfrequency,
@@ -400,10 +400,10 @@ function drawGraph(data) {
     }
   }
   const gasSets = [items.nh3, items.red, items.oxi]
-  graphChartGasInput.data.datasets = datasetBuilder(gasSets, data)
-  graphChartGasInput.options = optionsBuilder(ctxGas, graphChartGasSettings)
+  graphChartGas.data.datasets = datasetBuilder(gasSets, data)
+  graphChartGas.options = optionsBuilder(ctxGas, graphChartGasSettings)
   /*  */
-  const graphChartPmInput = { ...default_config }
+  const graphChartPm = { ...default_config }
   const graphChartPmSettings = {
     tension: 0.2,
     frequency: graphfrequency,
@@ -435,18 +435,18 @@ function drawGraph(data) {
     }
   }
   const pmSets = [items.pm10, items.pm25, items.pm100]
-  graphChartPmInput.data.datasets = datasetBuilder(pmSets, data)
-  graphChartPmInput.options = optionsBuilder(ctxPm, graphChartPmSettings)
+  graphChartPm.data.datasets = datasetBuilder(pmSets, data)
+  graphChartPm.options = optionsBuilder(ctxPm, graphChartPmSettings)
   /*  */
 
   // Push data for chartJS
-  /* graphChartTempInput = new Chart(ctxTemp, graphChartTempInput)
+  graphChartTempInput = new Chart(ctxTemp, graphChartTempInput)
   graphChartHumiInput = new Chart(ctxHumi, graphChartHumiInput)
   graphChartPresInput = new Chart(ctxPres, graphChartPresInput)
   graphChartLuxInput = new Chart(ctxLux, graphChartLuxInput)
   graphChartNoiseInput = new Chart(ctxNoise, graphChartNoiseInput)
-  graphChartGas = new Chart(ctxGas, graphChartGasInput)
-  graphChartPm = new Chart(ctxPm, graphChartPmInput) */
+  graphChartGasInput = new Chart(ctxGas, graphChartGasInput)
+  graphChartPmInput = new Chart(ctxPm, graphChartPmInput)
 }
 
 // Call a function repetitively with 1 second interval
