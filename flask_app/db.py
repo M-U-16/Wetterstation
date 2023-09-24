@@ -6,16 +6,26 @@ def setUpTable():
 
 def addData(data):
     #create variables for data
+    #date
     date = data["time"]
+    date_list = date.split(" ")
+    year = int(date_list[4])
+    month = date_list[1]
+    day = int(date_list[2])
+    time = date_list[3]
+    
+    #wetterdaten
     temp = data["temp"]
     humi = data["humi"]
     pres = data["pres"]
     lux = data["lux"]
-    print(date, temp, humi, pres, lux)
     
     con = sqlite3.connect("wetter.db")
     cursor = con.cursor()
-    cursor.execute("INSERT INTO wetterdaten(date, temp, humi, pres, lux) VALUES (?, ?, ?, ?, ?)", (date, temp, humi, pres, lux))
+    cursor.execute(
+        "INSERT INTO wetterdaten(full_date, entry_year, entry_day, entry_month, entry_time, temp, humi, pres, lux) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        (date, year, day, month, time, temp, humi, pres, lux)
+    )
     con.commit()
 
 def printTable():

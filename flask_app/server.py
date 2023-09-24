@@ -94,11 +94,18 @@ def graph():
     return json.dumps(data)
 
 if __name__ == '__main__':
-    #set up database if first start
     database_path = "/".join([SERVER_SETTINGS["db_path"], SERVER_SETTINGS["database"]])
-    if not os.path.isfile(database_path):
+    database_exists = os.path.isfile(database_path)
+    
+    #set up database if first start
+    if not database_exists:
         setup_db.setUp("./wetter.db")
     ##############################
+    
+    #reset db for testing
+    if SERVER_SETTINGS["reset_db"] and database_exists:
+        setup_db.resetTable("./wetter.db")
+    
     
     app.run(debug = True, host = 'localhost', port = 80, use_reloader = False)
     run_flag = False
