@@ -62,15 +62,15 @@ const ctxHumi = document.getElementById("graphChartHumiInput");
 const ctxPres = document.getElementById("graphChartPresInput");
 const ctxLux = document.getElementById("graphChartLuxInput");
 const ctxNoise = document.getElementById("graphChartNoiseInput");
-const ctxGas = document.getElementById("graphChartGas");
-const ctxPm = document.getElementById("graphChartPm");
+const ctxGas = document.getElementById("graphChartGasInput");
+const ctxPm = document.getElementById("graphChartPmInput");
 let graphChartTempInput;
 let graphChartHumiInput;
 let graphChartPresInput;
 let graphChartLuxInput;
 let graphChartNoiseInput;
-let graphChartGas;
-let graphChartPm;
+let graphChartGasInput;
+let graphChartPmInput;
 // Request to get readings data
 function getData() {
   let xhttp = new XMLHttpRequest();
@@ -440,7 +440,7 @@ function drawGraph(data) {
   /*  */
 
   // Push data for chartJS
- /*  graphChartTempInput = new Chart(ctxTemp, graphChartTempInput)
+  /* graphChartTempInput = new Chart(ctxTemp, graphChartTempInput)
   graphChartHumiInput = new Chart(ctxHumi, graphChartHumiInput)
   graphChartPresInput = new Chart(ctxPres, graphChartPresInput)
   graphChartLuxInput = new Chart(ctxLux, graphChartLuxInput)
