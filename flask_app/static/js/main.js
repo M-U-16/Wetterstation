@@ -71,7 +71,6 @@ let graphChartLuxInput;
 let graphChartNoiseInput;
 let graphChartGas;
 let graphChartPm;
-
 // Request to get readings data
 function getData() {
   let xhttp = new XMLHttpRequest();
@@ -89,7 +88,6 @@ function getData() {
   }
   xhttp.send();
 }
-
 // Show live readings in
 function listReadings(d) {
   dataReadings = d;
@@ -106,7 +104,6 @@ function listReadings(d) {
     }
   }
 }
-
 // Request to get graph data
 function getGraph() {
   frequency = document.getElementById("graph-sel").value;
@@ -154,7 +151,6 @@ function getGraph() {
     xhttp.send();
   }
 }
-
 // Reload graph chart
 function destroyAllCharts() {
   graphChartTempInput.destroy();
@@ -165,7 +161,6 @@ function destroyAllCharts() {
   if (gas_sensor) graphChartGas.destroy();
   if (particulate_sensor) graphChartPm.destroy();
 }
-
 // Draw graph with data
 //get the current frequency depending on time period
 function getFrequency(frequency) {
@@ -175,26 +170,24 @@ function getFrequency(frequency) {
   if (frequency === "year") return "month"
   return frequency
 }
-
 function datasetBuilder(items, data) {
   const datasets = []
   
   items.forEach(item => {
-      const set = {}
+    const set = {}
 
-      set.label = item.id
-      set.data = data
-      set.parsing = {
-          yAxisKey: item.id
-      }
-      set.borderColor = item.color
-      set.borderWidth = 2
-      set.pointRadius = 1
-      set.pointBackgroundColor = item.color
+    set.label = item.id
+    set.data = data
+    set.parsing = {
+      yAxisKey: item.id
+    }
+    set.borderColor = item.color
+    set.borderWidth = 2
+    set.pointRadius = 1
+    set.pointBackgroundColor = item.color
 
-      datasets.push(set)
+    datasets.push(set)
   })
-
   return datasets
 }
 function optionsBuilder(context, settings) {
@@ -204,39 +197,36 @@ function optionsBuilder(context, settings) {
   options.maintainAspectRatio = false
   options.tension = settings.tension
   options.plugins = {
-      legend: {
-          display: false,
-      },
+    legend: {
+      display: false,
+    },
   }
   options.parsing = {
-      xAxisKey: "time",
+    xAxisKey: "time",
   }
   options.animation = {
-      onComplete: function () {
-          /* context.classList.remove("loading-spinner"); */
-      },
+    onComplete: function () {
+      context.classList.remove("loading-spinner");
+    },
   }
   options.scales = {}
   options.scales.x = {
-      type: "time",
-      time: {
-          unit: settings.frequency
-      }
+    type: "time",
+    time: {
+      unit: settings.frequency
+    }
   }
   settings.scalesValues.y.forEach(element => {
       const elementKeys = Object.keys(element)
       elementKeys.forEach(key => { if (key !== "name") options.scales[element.name] = element } )
   });
-
   return options
 }
 
 function drawGraph(data) {
   // console.log("drawGraph(): ", data);
-
   // Change time range to read better the X axis
   let graphfrequency = getFrequency(frequency)
-
   const default_config = {
     type: "line",
     data: {
@@ -246,7 +236,6 @@ function drawGraph(data) {
     },
     options: {},
   }
-
   /*  */
   const graphChartTempInput = { ...default_config }
   const graphChartTempSettings = {
@@ -268,7 +257,7 @@ function drawGraph(data) {
   }
   const tempSets = [items.temp]
   graphChartTempInput.data.datasets = datasetBuilder(tempSets, data)
-  graphChartTempInput.options = optionsBuilder("ctxTemp", graphChartTempSettings)
+  graphChartTempInput.options = optionsBuilder(ctxTemp, graphChartTempSettings)
   /*  */
   const graphChartHumiInput = { ...default_config }
   const graphChartHumiSettings = {
@@ -290,7 +279,7 @@ function drawGraph(data) {
   }
   const humiSets = [items.humi]
   graphChartHumiInput.data.datasets = datasetBuilder(humiSets, data)
-  graphChartHumiInput.options = optionsBuilder("ctxHumi", graphChartHumiSettings)
+  graphChartHumiInput.options = optionsBuilder(ctxHumi, graphChartHumiSettings)
   /*  */
   const graphChartPresInput = { ...default_config }
   const graphChartPresSettings = {
@@ -312,7 +301,7 @@ function drawGraph(data) {
   }
   const presSets = [items.pres]
   graphChartPresInput.data.datasets = datasetBuilder(presSets, data)
-  graphChartPresInput.options = optionsBuilder("ctxPres", graphChartPresSettings)
+  graphChartPresInput.options = optionsBuilder(ctxPres, graphChartPresSettings)
   /*  */
   const graphChartLuxInput = { ...default_config }
   const graphChartLuxSettings = {
@@ -336,7 +325,7 @@ function drawGraph(data) {
   }
   const luxSets = [items.lux]
   graphChartLuxInput.data.datasets = datasetBuilder(luxSets, data)
-  graphChartLuxInput.options = optionsBuilder("ctxLux", graphChartLuxSettings)
+  graphChartLuxInput.options = optionsBuilder(ctxLux, graphChartLuxSettings)
   /*  */
   const graphChartNoiseInput = { ...default_config }
   const graphChartNoiseSettings = {
@@ -377,7 +366,7 @@ function drawGraph(data) {
   }
   const noiseSets = [items.low, items.amp, items.mid, items.high]
   graphChartNoiseInput.data.datasets = datasetBuilder(noiseSets, data)
-  graphChartNoiseInput.options = optionsBuilder("ctxNoise", graphChartNoiseSettings)
+  graphChartNoiseInput.options = optionsBuilder(ctxNoise, graphChartNoiseSettings)
   /*  */
   const graphChartGasInput = { ...default_config }
   const graphChartGasSettings = {
@@ -412,7 +401,7 @@ function drawGraph(data) {
   }
   const gasSets = [items.nh3, items.red, items.oxi]
   graphChartGasInput.data.datasets = datasetBuilder(gasSets, data)
-  graphChartGasInput.options = optionsBuilder("ctxGas", graphChartGasSettings)
+  graphChartGasInput.options = optionsBuilder(ctxGas, graphChartGasSettings)
   /*  */
   const graphChartPmInput = { ...default_config }
   const graphChartPmSettings = {
@@ -447,17 +436,17 @@ function drawGraph(data) {
   }
   const pmSets = [items.pm10, items.pm25, items.pm100]
   graphChartPmInput.data.datasets = datasetBuilder(pmSets, data)
-  graphChartPmInput.options = optionsBuilder("ctxPm", graphChartPmSettings)
+  graphChartPmInput.options = optionsBuilder(ctxPm, graphChartPmSettings)
   /*  */
 
   // Push data for chartJS
- /*  graphChartTempInput = new Chart(ctxTemp, {})
-  graphChartHumiInput = new Chart(ctxHumi, {})
-  graphChartPresInput = new Chart(ctxPres, {})
-  graphChartLuxInput = new Chart(ctxLux, {})
-  graphChartNoiseInput = new Chart(ctxNoise, {})
-  graphChartGas = new Chart(ctxGas, {})
-  graphChartPm = new Chart(ctxPm, {}) */
+ /*  graphChartTempInput = new Chart(ctxTemp, graphChartTempInput)
+  graphChartHumiInput = new Chart(ctxHumi, graphChartHumiInput)
+  graphChartPresInput = new Chart(ctxPres, graphChartPresInput)
+  graphChartLuxInput = new Chart(ctxLux, graphChartLuxInput)
+  graphChartNoiseInput = new Chart(ctxNoise, graphChartNoiseInput)
+  graphChartGas = new Chart(ctxGas, graphChartGasInput)
+  graphChartPm = new Chart(ctxPm, graphChartPmInput) */
 }
 
 // Call a function repetitively with 1 second interval
