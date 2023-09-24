@@ -176,514 +176,288 @@ function getFrequency(frequency) {
   return frequency
 }
 
+function datasetBuilder(items, data) {
+  const datasets = []
+  
+  items.forEach(item => {
+      const set = {}
+
+      set.label = item.id
+      set.data = data
+      set.parsing = {
+          yAxisKey: item.id
+      }
+      set.borderColor = item.color
+      set.borderWidth = 2
+      set.pointRadius = 1
+      set.pointBackgroundColor = item.color
+
+      datasets.push(set)
+  })
+
+  return datasets
+}
+function optionsBuilder(context, settings) {
+
+  const options = {}
+  options.bezierCurve = true
+  options.maintainAspectRatio = false
+  options.tension = settings.tension
+  options.plugins = {
+      legend: {
+          display: false,
+      },
+  }
+  options.parsing = {
+      xAxisKey: "time",
+  }
+  options.animation = {
+      onComplete: function () {
+          /* context.classList.remove("loading-spinner"); */
+      },
+  }
+  options.scales = {}
+  options.scales.x = {
+      type: "time",
+      time: {
+          unit: settings.frequency
+      }
+  }
+  settings.scalesValues.y.forEach(element => {
+      const elementKeys = Object.keys(element)
+      elementKeys.forEach(key => { if (key !== "name") options.scales[element.name] = element } )
+  });
+
+  return options
+}
+
 function drawGraph(data) {
   // console.log("drawGraph(): ", data);
 
   // Change time range to read better the X axis
   let graphfrequency = getFrequency(frequency)
-  
-  // Push data for chartJS
-  graphChartTempInput = new Chart(ctxTemp, {
+
+  const default_config = {
     type: "line",
     data: {
-      datasets: [
-        {
-          label: items.temp.id,
-          data: data,
-          parsing: {
-            yAxisKey: items.temp.id,
-          },
-          borderColor: items.temp.color,
-          borderWidth: 2,
-          pointBackgroundColor: items.temp.color,
-          pointRadius: 1,
-        },
-      ],
+        datasets: [
+
+        ]
     },
-    options: {
-      bezierCurve: true,
+    options: {},
+  }
+
+  /*  */
+  const graphChartTempInput = { ...default_config }
+  const graphChartTempSettings = {
       tension: 0.9,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          grace: "90%",
-          ticks: {
-            callback: function (value) {
-              return value + items.temp.unit;
-            },
-          },
-        },
-        x: {
-          type: "time",
-          time: {
-            unit: graphfrequency,
-          },
-        },
-      },
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
-      parsing: {
-        xAxisKey: "time",
-      },
-      animation: {
-        onComplete: function () {
-          ctxTemp.classList.remove("loading-spinner");
-        },
-      },
-    },
-  });
-
-  graphChartHumiInput = new Chart(ctxHumi, {
-    type: "line",
-    data: {
-      datasets: [
-        {
-          label: items.humi.id,
-          data: data,
-          parsing: {
-            yAxisKey: items.humi.id,
-          },
-          borderColor: items.humi.color,
-          borderWidth: 2,
-          pointBackgroundColor: items.humi.color,
-          pointRadius: 1,
-        },
-      ],
-    },
-    options: {
-      bezierCurve: true,
+      frequency: graphfrequency,
+      scalesValues: {
+          y: [
+              {
+                  name: "y",
+                  grace: "90%",
+                  ticks: {
+                      callback: function (value) {
+                          return value + items.temp.unit;
+                      },
+                  },
+              }
+          ]
+      }
+  }
+  const tempSets = [items.temp]
+  graphChartTempInput.data.datasets = datasetBuilder(tempSets, data)
+  graphChartTempInput.options = optionsBuilder("ctxTemp", graphChartTempSettings)
+  /*  */
+  const graphChartHumiInput = { ...default_config }
+  const graphChartHumiSettings = {
       tension: 0.3,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          grace: "90%",
-          ticks: {
-            stepSize: 5,
-            callback: function (value) {
-              return value + items.humi.unit;
-            },
-          },
-        },
-        x: {
-          type: "time",
-          time: {
-            unit: graphfrequency,
-          },
-        },
-      },
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
-      parsing: {
-        xAxisKey: "time",
-      },
-      animation: {
-        onComplete: function () {
-          ctxHumi.classList.remove("loading-spinner");
-        },
-      },
-    },
-  });
-
-  graphChartPresInput = new Chart(ctxPres, {
-    type: "line",
-    data: {
-      datasets: [
-        {
-          label: items.pres.id,
-          data: data,
-          parsing: {
-            yAxisKey: items.pres.id,
-          },
-          fill: items.pres.color,
-          borderColor: items.pres.color,
-          borderWidth: 2,
-          pointBackgroundColor: items.pres.color,
-          pointRadius: 1,
-        },
-      ],
-    },
-    options: {
-      bezierCurve: true,
+      frequency: graphfrequency,
+      scalesValues: {
+          y: [
+              {
+                  name: "y",
+                  grace: "90%",
+                  ticks: {
+                  callback: function (value) {
+                      return value + items.temp.unit;
+                  },
+                  },
+              }
+          ]
+      }
+  }
+  const humiSets = [items.humi]
+  graphChartHumiInput.data.datasets = datasetBuilder(humiSets, data)
+  graphChartHumiInput.options = optionsBuilder("ctxHumi", graphChartHumiSettings)
+  /*  */
+  const graphChartPresInput = { ...default_config }
+  const graphChartPresSettings = {
       tension: 0.6,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          min: items.pres.min,
-          max: items.pres.max,
-          ticks: {
-            stepSize: 20,
-            callback: function (value) {
-              return value + " " + items.pres.unit;
-            },
-          },
-        },
-        x: {
-          type: "time",
-          time: {
-            unit: graphfrequency,
-          },
-        },
-      },
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
-      parsing: {
-        xAxisKey: "time",
-      },
-      animation: {
-        onComplete: function () {
-          ctxPres.classList.remove("loading-spinner");
-        },
-      },
-    },
-  });
-
-  graphChartLuxInput = new Chart(ctxLux, {
-    type: "line",
-    data: {
-      datasets: [
-        {
-          label: items.lux.id,
-          data: data,
-          parsing: {
-            yAxisKey: items.lux.id,
-          },
-          borderColor: items.lux.color,
-          borderWidth: 2,
-          pointBackgroundColor: items.lux.color,
-          pointRadius: 1,
-        },
-      ],
-    },
-    options: {
-      bezierCurve: true,
+      frequency: graphfrequency,
+      scalesValues: {
+          y:[
+              {
+                  name: "y",
+                  grace: "90%",
+                  ticks: {
+                      callback: function (value) {
+                          return value + items.temp.unit;
+                      },
+                  },
+              }
+          ]
+      }
+  }
+  const presSets = [items.pres]
+  graphChartPresInput.data.datasets = datasetBuilder(presSets, data)
+  graphChartPresInput.options = optionsBuilder("ctxPres", graphChartPresSettings)
+  /*  */
+  const graphChartLuxInput = { ...default_config }
+  const graphChartLuxSettings = {
       tension: 0.2,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          beginAtZero: true,
-          grace: "40%",
-          ticks: {
-            stepSize: 100,
-            callback: function (value) {
-              return value + " " + items.lux.unit;
-            },
-          },
-        },
-        x: {
-          type: "time",
-          time: {
-            unit: graphfrequency,
-          },
-        },
-      },
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
-      parsing: {
-        xAxisKey: "time",
-      },
-      animation: {
-        onComplete: function () {
-          ctxLux.classList.remove("loading-spinner");
-        },
-      },
-    },
-  });
-
-  graphChartNoiseInput = new Chart(ctxNoise, {
-    type: "line",
-    data: {
-      datasets: [
-        {
-          label: items.high.id,
-          data: data,
-          parsing: {
-            yAxisKey: items.high.id,
-          },
-          yAxisID: "y",
-          borderColor: items.high.color,
-          borderWidth: 2,
-          pointBackgroundColor: items.high.color,
-          pointRadius: 1,
-        },
-        {
-          label: items.mid.id,
-          data: data,
-          parsing: {
-            yAxisKey: items.mid.id,
-          },
-          yAxisID: "y1",
-          borderColor: items.mid.color,
-          borderWidth: 2,
-          pointBackgroundColor: items.mid.color,
-          pointRadius: 1,
-        },
-        {
-          label: items.low.id,
-          data: data,
-          parsing: {
-            yAxisKey: items.low.id,
-          },
-          yAxisID: "y2",
-          borderColor: items.low.color,
-          borderWidth: 2,
-          pointBackgroundColor: items.low.color,
-          pointRadius: 1,
-        },
-        {
-          label: items.amp.id,
-          data: data,
-          parsing: {
-            yAxisKey: items.amp.id,
-          },
-          yAxisID: "y3",
-          borderColor: items.amp.color,
-          borderWidth: 2,
-          pointBackgroundColor: items.amp.color,
-          pointRadius: 1,
-        },
-      ],
-    },
-    options: {
-      bezierCurve: true,
+      frequency: graphfrequency,
+      scalesValues: {
+          y: [
+              {
+                  name: "y",
+                  beginAtZero: true,
+                  grace: "40%",
+                  ticks: {
+                      stepSize: 100,
+                      callback: function (value) {
+                          return value + " " + items.lux.unit;
+                      },
+                  },
+              }
+          ]
+      }
+  }
+  const luxSets = [items.lux]
+  graphChartLuxInput.data.datasets = datasetBuilder(luxSets, data)
+  graphChartLuxInput.options = optionsBuilder("ctxLux", graphChartLuxSettings)
+  /*  */
+  const graphChartNoiseInput = { ...default_config }
+  const graphChartNoiseSettings = {
       tension: 0.1,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          min: items.high.min,
-          max: items.high.max,
-          ticks: {
-            callback: function (value) {
-              return value + " " + items.high.unit;
-            },
-          },
-        },
-        y1: {
-          min: items.high.min,
-          max: items.high.max,
-          display: false,
-        },
-        y2: {
-          min: items.high.min,
-          max: items.high.max,
-          display: false,
-        },
-        y3: {
-          min: items.high.min,
-          max: items.high.max,
-          display: false,
-        },
-        x: {
-          type: "time",
-          time: {
-            unit: graphfrequency,
-          },
-        },
-      },
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
-      parsing: {
-        xAxisKey: "time",
-      },
-      animation: {
-        onComplete: function () {
-          ctxNoise.classList.remove("loading-spinner");
-        },
-      },
-    },
-  });
-
-  graphChartGas = new Chart(ctxGas, {
-    type: "line",
-    data: {
-      datasets: [
-        {
-          label: items.nh3.id,
-          data: data,
-          parsing: {
-            yAxisKey: items.nh3.id,
-          },
-          yAxisID: "y",
-          borderColor: items.nh3.color,
-          borderWidth: 2,
-          pointBackgroundColor: items.nh3.color,
-          pointRadius: 1,
-        },
-        {
-          label: items.red.id,
-          data: data,
-          parsing: {
-            yAxisKey: items.red.id,
-          },
-          yAxisID: "y1",
-          borderColor: items.red.color,
-          borderWidth: 2,
-          pointBackgroundColor: items.red.color,
-          pointRadius: 1,
-        },
-        {
-          label: items.oxi.id,
-          data: data,
-          parsing: {
-            yAxisKey: items.oxi.id,
-          },
-          yAxisID: "y2",
-          borderColor: items.oxi.color,
-          borderWidth: 2,
-          pointBackgroundColor: items.oxi.color,
-          pointRadius: 1,
-        },
-      ],
-    },
-    options: {
-      bezierCurve: true,
+      frequency: graphfrequency,
+      scalesValues: {
+          y: [
+              {
+                  name: "y",
+                  min: items.high.min,
+                  max: items.high.max,
+                  ticks: {
+                  callback: function (value) {
+                      return value + " " + items.high.unit;
+                  },
+                  },
+              },
+              {
+                  name: "y1",
+                  min: items.high.min,
+                  max: items.high.max,
+                  display: false,
+              },
+              {
+                  name: "y2",
+                  min: items.high.min,
+                  max: items.high.max,
+                  display: false,
+              },
+              {
+                  name: "y3",
+                  min: items.high.min,
+                  max: items.high.max,
+                  display: false,
+              },
+          ]
+      }
+  }
+  const noiseSets = [items.low, items.amp, items.mid, items.high]
+  graphChartNoiseInput.data.datasets = datasetBuilder(noiseSets, data)
+  graphChartNoiseInput.options = optionsBuilder("ctxNoise", graphChartNoiseSettings)
+  /*  */
+  const graphChartGasInput = { ...default_config }
+  const graphChartGasSettings = {
       tension: 0.2,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          min: items.oxi.min,
-          max: items.oxi.max,
-          ticks: {
-            callback: function (value) {
-              return value + " " + items.oxi.unit;
-            },
-          },
-        },
-        y1: {
-          min: items.red.min,
-          max: items.red.max,
-          display: false,
-        },
-        y2: {
-          min: items.oxi.min,
-          max: items.oxi.max,
-          display: false,
-        },
-        x: {
-          type: "time",
-          time: {
-            unit: graphfrequency,
-          },
-        },
-      },
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
-      parsing: {
-        xAxisKey: "time",
-      },
-      animation: {
-        onComplete: function () {
-          ctxGas.classList.remove("loading-spinner");
-        },
-      },
-    },
-  });
-
-  graphChartPm = new Chart(ctxPm, {
-    type: "line",
-    data: {
-      datasets: [
-        {
-          label: items.pm10.id,
-          data: data,
-          parsing: {
-            yAxisKey: items.pm10.id,
-          },
-          yAxisID: "y",
-          borderColor: items.pm10.color,
-          borderWidth: 2,
-          pointBackgroundColor: items.pm10.color,
-          pointRadius: 1,
-        },
-        {
-          label: items.pm100.id,
-          data: data,
-          parsing: {
-            yAxisKey: items.pm100.id,
-          },
-          yAxisID: "y1",
-          borderColor: items.pm100.color,
-          borderWidth: 2,
-          pointBackgroundColor: items.pm100.color,
-          pointRadius: 1,
-        },
-        {
-          label: items.pm25.id,
-          data: data,
-          parsing: {
-            yAxisKey: items.pm25.id,
-          },
-          yAxisID: "y2",
-          borderColor: items.pm25.color,
-          borderWidth: 2,
-          pointBackgroundColor: items.pm25.color,
-          pointRadius: 1,
-        },
-      ],
-    },
-    options: {
-      bezierCurve: true,
+      frequency: graphfrequency,
+      scalesValues: {
+          y: [
+              {
+                  name: "y",
+                  min: items.oxi.min,
+                  max: items.oxi.max,
+                  ticks: {
+                  callback: function (value) {
+                      return value + " " + items.oxi.unit;
+                  },
+                  },
+              },
+              {
+                  name: "y1",
+                  min: items.red.min,
+                  max: items.red.max,
+                  display: false,
+              },
+              {
+                  name: "y2",
+                  min: items.oxi.min,
+                  max: items.oxi.max,
+                  display: false,
+              },
+          ]
+      }
+  }
+  const gasSets = [items.nh3, items.red, items.oxi]
+  graphChartGasInput.data.datasets = datasetBuilder(gasSets, data)
+  graphChartGasInput.options = optionsBuilder("ctxGas", graphChartGasSettings)
+  /*  */
+  const graphChartPmInput = { ...default_config }
+  const graphChartPmSettings = {
       tension: 0.2,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          min: items.pm10.min,
-          max: items.pm10.max,
-          ticks: {
-            callback: function (value) {
-              return value + " " + items.pm100.unit;
-            },
-          },
-        },
-        y1: {
-          min: items.pm100.min,
-          max: items.pm100.max,
-          display: false,
-        },
-        y2: {
-          min: items.pm25.min,
-          max: items.pm25.max,
-          display: false,
-        },
-        x: {
-          type: "time",
-          time: {
-            unit: graphfrequency,
-          },
-        },
-      },
-      plugins: {
-        legend: {
-          display: false,
-        },
-      },
-      parsing: {
-        xAxisKey: "time",
-      },
-      animation: {
-        onComplete: function () {
-          ctxPm.classList.remove("loading-spinner");
-        },
-      },
-    },
-  });
+      frequency: graphfrequency,
+      scalesValues: {
+          y: [
+              {
+                  name: "y",
+                  min: items.pm10.min,
+                  max: items.pm10.max,
+                  ticks: {
+                  callback: function (value) {
+                      return value + " " + items.pm100.unit;
+                  },
+                  },
+              },
+              {
+                  name: "y1",
+                  min: items.pm100.min,
+                  max: items.pm100.max,
+                  display: false,
+              },
+              {
+                  name: "y2",
+                  min: items.pm25.min,
+                  max: items.pm25.max,
+                  display: false,
+              },
+          ]
+      }
+  }
+  const pmSets = [items.pm10, items.pm25, items.pm100]
+  graphChartPmInput.data.datasets = datasetBuilder(pmSets, data)
+  graphChartPmInput.options = optionsBuilder("ctxPm", graphChartPmSettings)
+  /*  */
+
+  // Push data for chartJS
+ /*  graphChartTempInput = new Chart(ctxTemp, {})
+  graphChartHumiInput = new Chart(ctxHumi, {})
+  graphChartPresInput = new Chart(ctxPres, {})
+  graphChartLuxInput = new Chart(ctxLux, {})
+  graphChartNoiseInput = new Chart(ctxNoise, {})
+  graphChartGas = new Chart(ctxGas, {})
+  graphChartPm = new Chart(ctxPm, {}) */
 }
 
 // Call a function repetitively with 1 second interval
