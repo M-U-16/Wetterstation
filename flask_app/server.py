@@ -14,6 +14,7 @@ from flask import Flask, render_template, url_for, request
 import logging
 import json
 import os
+import db
 
 
 def read_day(fname):
@@ -57,10 +58,15 @@ def index():
 @app.route('/wetterdaten', methods=["POST"])
 def wetterdaten():
     if request.method == "POST":
-        print(request.get_json())
+        #database
+        #db.setUpTable()
+        data = json.loads(request.get_json())
+        db.addData(data)
+        db.printTable()
         
-        message = { "message": "Added Entry" }
-        return message
+        #handling response
+        print("received data")
+        return { "message": "Added Entry" }
     
 @app.route('/readings')
 def readings():
