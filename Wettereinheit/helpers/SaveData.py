@@ -27,12 +27,12 @@ def save_data(data):
     p = make_path(p, SAVE_DIRECTORY)
     dir_list = os.listdir(p)
     
-    
     date = data["time"]
     date_list = date.split(" ")
     time = "-".join(date_list[3].split(":"))
     entry_year = date_list[4]
     entry_month =  date_list[1]
+    entry_day = date_list[0] + "--" + date_list[2]
     
     #create proper file name out of date value
     file_name = ""

@@ -32,7 +32,6 @@ body[data-hasParticulateSensor="False"] .graph-pm {
     background-size: min(2.5rem, calc(100% - 0.5rem));
 }
 .graph-container {
-    width: 100%;
     background-color: var(--color-white);
     border-radius: 0.25rem;
 }
