@@ -32,10 +32,9 @@ body[data-hasParticulateSensor="False"] .graph-pm {
     background-size: min(2.5rem, calc(100% - 0.5rem));
 }
 .graph-container {
-    width: calc(100% - 1.5rem);
+    width: 100%;
     background-color: var(--color-white);
     border-radius: 0.25rem;
-    margin-top: 2rem;
 }
 .graph-header {
     display: flex;
@@ -61,7 +60,7 @@ body[data-hasParticulateSensor="False"] .graph-pm {
 .graph-header-readings {
     display: flex;
     flex-wrap: wrap;
-    gap: 2rem;
+    gap: 1rem;
 }
 @media screen and (max-width: 640px) {
     .graph-header-readings {
@@ -94,10 +93,11 @@ body[data-hasParticulateSensor="False"] .graph-pm {
       "pm pm"
       ". .";
     height: calc(100% - 6.5rem);
-    margin: 2.5rem 2rem 0 2rem;
-    gap: 4rem;
+    margin: 2rem 2rem 0 2rem;
+    gap: 2rem;
+    margin-top: calc(var(--navbar-height) + 2rem);
 }
-@media screen and (max-width: 640px) {
+@media screen and (max-width: 800px) {
     .graphs-container {
       grid-template-columns: 1fr;
       grid-template-areas:

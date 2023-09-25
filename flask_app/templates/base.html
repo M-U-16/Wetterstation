@@ -76,37 +76,40 @@
                     <span id="time"></span>
                 </div>
     
-                <!-- Time range dropdown -->
-                <div class="container-btn-timeRange">
-                    <span class="header-icon" title="Time range">
-                        <img id="time-range-light" id="time-range-light" src="{{url_for("static", filename="images/icons/light-theme/time-range.svg")}}" />
-                        <img id="time-range-dark" id="time-range-dark" src="{{url_for("static", filename="images/icons/dark-theme/time-range.svg")}}" />
-                    </span>
-                    <label for="graph-sel" class="visually-hidden"> Time range </label>
-                    <select id="graph-sel">
-                        <option value="day" selected>1 day</option>
-                        <option value="week">1 week</option>
-                        <option value="month">1 month</option>
-                        <option value="year">1 year</option>
-                    </select>
-                </div>
-    
-                <!-- Fan speed -->
-                <div class="container-btn-fanGpio">
-                    <span class="header-icon" title="Fan power">
-                        <img id="fan-power-light" src="{{url_for("static", filename="images/icons/dark-theme/fan-power.svg")}}"/>
-                        <img id="fan-power-dark" src="{{url_for("static", filename="images/icons/dark-theme/fan-power.svg")}}"/>
-                    </span>
-                    <label for="fan" class="visually-hidden"> Fan power </label>
-                    <input id="fan" type="number" min="0" max="100" step="5" value="100" name="fan"/>
-                </div>
-    
-                <!-- Color Theme -->
-                <div class="container-btn-theme">
-                    <button type="button" id="theme-light" title="Change to Dark theme">
-                        <img id="theme-dark-img" src="{{url_for("static", filename="images/icons/light-theme/light-img.svg")}}"/>
-                        <img id="theme-light-img" src="{{url_for("static", filename="images/icons/light-theme/light-img.svg")}}"/>
-                    </button>
+                <div class="app__settings-container">
+                    <h1>Einstellungen</h1>
+                    <!-- Time range dropdown -->
+                    <div class="container-btn-timeRange">
+                        <span class="header-icon" title="Time range">
+                            <img id="time-range-light" id="time-range-light" src="{{url_for("static", filename="images/icons/light-theme/time-range.svg")}}" />
+                            <img id="time-range-dark" id="time-range-dark" src="{{url_for("static", filename="images/icons/dark-theme/time-range.svg")}}" />
+                        </span>
+                        <label for="graph-sel" class="visually-hidden"> Time range </label>
+                        <select id="graph-sel">
+                            <option value="day" selected>1 day</option>
+                            <option value="week">1 week</option>
+                            <option value="month">1 month</option>
+                            <option value="year">1 year</option>
+                        </select>
+                    </div>
+        
+                    <!-- Fan speed -->
+                    <div class="container-btn-fanGpio">
+                        <span class="header-icon" title="Fan power">
+                            <img id="fan-power-light" src="{{url_for("static", filename="images/icons/dark-theme/fan-power.svg")}}"/>
+                            <img id="fan-power-dark" src="{{url_for("static", filename="images/icons/dark-theme/fan-power.svg")}}"/>
+                        </span>
+                        <label for="fan" class="visually-hidden"> Fan power </label>
+                        <input id="fan" type="number" min="0" max="100" step="5" value="100" name="fan"/>
+                    </div>
+        
+                    <!-- Color Theme -->
+                    <div class="container-btn-theme">
+                        <button type="button" id="theme-light" title="Change to Dark theme">
+                            <img id="theme-dark-img" src="{{url_for("static", filename="images/icons/light-theme/light-img.svg")}}"/>
+                            <img id="theme-light-img" src="{{url_for("static", filename="images/icons/light-theme/light-img.svg")}}"/>
+                        </button>
+                    </div>
                 </div>
             </div>
         </nav>
