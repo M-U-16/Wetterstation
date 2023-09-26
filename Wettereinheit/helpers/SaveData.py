@@ -20,12 +20,42 @@ def removeDirs(dir_list, path):
     for name in dir_list:
         shutil.rmtree(path)
 
+def createFile(file_path):
+    if not os.path.isfile(file_path):
+        f = open(file_path, "w")
+        f.write('{\n  "samples": []\n}')
+        f.close()
+  
+def jsonFormater(data):
+    file_string = json.dumps(data)
+    new_json = ""
+    for index, letter in enumerate(file_string):
+        if letter == "{":
+            new_json += f"{letter}\n"
+        elif letter == ",":
+            new_json += f"{letter}\n"
+        elif letter == "[":
+            new_json += f"{letter}\n"
+        else:
+            new_json += letter
+    return new_json
+                
+        
+def addEntry(file_path, file_data, data):
+    print(file_data, data)
+    file_data["samples"].append(data)
+    
+    f = open(file_path, "w")
+    f.write(jsonFormater(file_data))
+    f.close()
+    
+def readEntry(file_path):
+    f = open(file_path, "r")
+    file_content = json.loads(f.read())
+    f.close()
+    return file_content
+
 def save_data(data):
-    p = str(pathlib.Path(__file__))
-    p = get_path_list(p)
-    p.pop() #remove last item of dir list
-    p = make_path(p, SAVE_DIRECTORY)
-    dir_list = os.listdir(p)
     
     date = data["time"]
     date_list = date.split(" ")
@@ -46,7 +76,7 @@ def save_data(data):
     
     year_path = f"{SAVE_DIRECTORY}/{entry_year}"
     month_path = f"{year_path}/{entry_month}"
-    file_path = f"{month_path}/{file_name}.json"
+    file_path = f"{month_path}/{entry_day}.json"
     
     #removeDirs(dir_list, year_path)
     
@@ -55,6 +85,8 @@ def save_data(data):
     if not os.path.isdir(month_path):
         os.makedirs(month_path)
     
-    new_file = open(file_path, "w")
-    new_file.write(json.dumps(data))
-    new_file.close()
+    createFile(file_path)
+    lastEntry = readEntry(file_path)
+    addEntry(file_path, lastEntry, data)
+    
+    
