@@ -140,7 +140,6 @@ function getGraph() {
         });
 
         //looks if it is first run when it is sets firstrun false
-        //starts to destroy all charts for each iteration
         !firstRun ? destroyAllCharts() : firstRun = false
         //draw the graphs
         drawGraph(transformedData);
@@ -256,7 +255,7 @@ function drawGraph(data) {
     }
   }
   const tempSets = [items.temp]
-  graphChartTemp.data.datasets = datasetBuilder(tempSets, data)
+  graphChartTemp.data.datasets = datasetBuilder(tempSets, data.temp)
   graphChartTemp.options = optionsBuilder(ctxTemp, graphChartTempSettings)
   /*  */
   const graphChartHumi = { ...default_config }
@@ -278,7 +277,7 @@ function drawGraph(data) {
     }
   }
   const humiSets = [items.humi]
-  graphChartHumi.data.datasets = datasetBuilder(humiSets, data)
+  graphChartHumi.data.datasets = datasetBuilder(humiSets, data.humi)
   graphChartHumi.options = optionsBuilder(ctxHumi, graphChartHumiSettings)
   /*  */
   const graphChartPres = { ...default_config }
@@ -300,7 +299,7 @@ function drawGraph(data) {
     }
   }
   const presSets = [items.pres]
-  graphChartPres.data.datasets = datasetBuilder(presSets, data)
+  graphChartPres.data.datasets = datasetBuilder(presSets, data.pres)
   graphChartPres.options = optionsBuilder(ctxPres, graphChartPresSettings)
   /*  */
   const graphChartLux = { ...default_config }
@@ -324,7 +323,7 @@ function drawGraph(data) {
     }
   }
   const luxSets = [items.lux]
-  graphChartLux.data.datasets = datasetBuilder(luxSets, data)
+  graphChartLux.data.datasets = datasetBuilder(luxSets, data.lux)
   graphChartLux.options = optionsBuilder(ctxLux, graphChartLuxSettings)
   /*  */
   const graphChartNoise = { ...default_config }
@@ -450,12 +449,12 @@ function drawGraph(data) {
 }
 
 // Call a function repetitively with 1 second interval
-/* setInterval(function () {
+setInterval(function () {
   getData();
   getGraph();
-}, 900); */ // ~1s update rate
+}, 900); // ~1s update rate
 
-/* window.addEventListener("resize", function () {
+window.addEventListener("resize", function () {
   destroyAllCharts();
   drawGraph(transformedData);
-}); */
+});

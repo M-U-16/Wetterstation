@@ -15,18 +15,19 @@ if __name__ == "__main__":
 
     conf = Config(SETTINGS)
     conf.activateFan()
-
-    ip = SETTINGS["ip_address"]
-    port = SETTINGS["server_port"]
-    data = read_data()
-    json_data = json.dumps(data)
+        
+    if SETTINGS["save_data"]:
+        save_data(data)
     
-    save_data(data)
-
     #trys to send weather data to the server
     #handles errors when there is no server
-    try:
-        send_data(ip, port, json_data)
-    except:
-        print("Can't connect to server!")
-    
+    if SETTINGS["send_data"]:
+        ip = SETTINGS["ip_address"]
+        port = SETTINGS["server_port"]
+        data = read_data()
+        json_data = json.dumps(data)
+        
+        try:
+            send_data(ip, port, json_data)
+        except:
+            print("Can't connect to server!")    

@@ -13,4 +13,10 @@ SETTINGS = {
     "ip_address": "localhost",
     #port number
     "server_port": "80"
+    #send data
+    "send_data": True,
+    #save data
+    "save_data": True,
+    #send pi settings
+    "send_pi_settings": True
 }

@@ -30,13 +30,13 @@ DB = db.Database("./wetter.db")
 
 @app.route('/')
 def index():
-    """ 
+    
     return render_template("index.html"
-    gas_sensor=gas_sensor,
-    particulate_sensor=particulate_sensor,
-    fan_gpio=fan_gpio)
-    """
-    return render_template('index.html')
+        gas_sensor=gas_sensor,
+        particulate_sensor=particulate_sensor,
+        fan_gpio=fan_gpio
+    )
+   
 
 @app.route('/wetterdaten', methods=["POST"])
 def wetterdaten():
@@ -46,7 +46,6 @@ def wetterdaten():
         DB.addData("wetterdaten", data)
         DB.printTable("wetterdaten")
         
-        
         #handling response
         print("received data")
         return { "message": "Added Entry" }
@@ -55,13 +54,13 @@ def wetterdaten():
 def readings():
     if fan_gpio:
         arg = request.args["fan"]
-        pwm.ChangeDutyCycle(int(arg))
+
     return record
 
 @app.route('/graph')
 def graph():
     arg = request.args["time"]
-    if arg == 'day':
+    """ if arg == 'day':
         last2 = []
         for day in days[-2:]:
             last2 += day
@@ -72,7 +71,7 @@ def graph():
         return compress_data(31, 120 * 60 // samples)
     if arg == 'year':
         return compress_data(365, samples_per_day)
-    return json.dumps(data)
+    return json.dumps(data) """
 
 if __name__ == '__main__':
     database_path = "/".join([SERVER_SETTINGS["db_path"], SERVER_SETTINGS["database"]])
