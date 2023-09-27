@@ -1,48 +1,13 @@
 import sqlite3
-def setUpTable():
-    con = sqlite3.connect("wetter.db")
-    cursor = con.cursor()
-    cursor.execute("CREATE TABLE wetterdaten (entry_id INT AUTOINCREMENT ,date TEXT, temp INT, humi INT, pres INT, lux INT)")
-
-def addData(data):
-    #create variables for data
-    #date
-    date = data["time"]
-    date_list = date.split(" ")
-    year = int(date_list[4])
-    month = date_list[1]
-    day = int(date_list[2])
-    time = date_list[3]
-    
-    #wetterdaten
-    temp = data["temp"]
-    humi = data["humi"]
-    pres = data["pres"]
-    lux = data["lux"]
-    
-    con = sqlite3.connect("wetter.db")
-    cursor = con.cursor()
-    cursor.execute(
-        "INSERT INTO wetterdaten(full_date, entry_year, entry_day, entry_month, entry_time, temp, humi, pres, lux) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        (date, year, day, month, time, temp, humi, pres, lux)
-    )
-    con.commit()
-
-def printTable():
-    con = sqlite3.connect("wetter.db")
-    cursor = con.cursor()
-    table = cursor.execute("SELECT * FROM wetterdaten").fetchall()
-    print(table)
     
 class Database:
     def __init__(self):
         self.con = 0
         self.path = ""
+        self.cursor = None
     
     def __init__(self, path):
         self.setPath(path)
-        self.setConnection()
-        self.setCursor()
     
     #set path for database
     def setPath(self, path):
@@ -58,8 +23,10 @@ class Database:
         self.cursor = self.con.cursor()
     
     def queryDatabase(self, query):
-        cursor = self.con.cursor()
-        return cursor.execute(query)
+        self.setConnection()
+        self.setCursor()
+        return self.cursor.execute(query)
+        self.con.close()
 
     def addData(self, table_name, data):
         date = data["time"]
@@ -67,7 +34,32 @@ class Database:
         humi = data["humi"]
         pres = data["pres"]
         lux = data["lux"]
-        self.cursor.execute("INSERT INTO ? VALUES (?, ?, ?, ?, ?)", (table_name ,date, temp, humi, pres, lux))
+        
+        #create variables for data dates
+        date_list = date.split(" ")
+        year = int(date_list[4])
+        month = date_list[1]
+        day = int(date_list[2])
+        time = date_list[3]
+        
+        """ insert_values = (day, time, lux, humi, temp)
+        data_placeholders = ()
+        for value in insert_values:
+            data_placeholders += ("?")
+        print(data_placeholders) """
+        self.setConnection()
+        self.setCursor()
+        self.cursor.execute(
+            "INSERT INTO wetterdaten(full_date, entry_year, entry_day, entry_month, entry_time, temp, humi, pres, lux) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            (date, year, day, month, time, temp, humi, pres, lux)
+        )
         self.con.commit()
+        self.con.close()
         
-        
+    def printTable(self, table_name):
+        self.setConnection()
+        self.setCursor()
+        table = self.cursor.execute(f"SELECT * FROM {table_name}").fetchall()
+        print(table)
+        self.con.close()
+        return table
