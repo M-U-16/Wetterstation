@@ -6,6 +6,3 @@ SERVER_SETTINGS = {
     "wetter_table": "wetterdaten",
     "reset_db": True
 }
-PI_SETTINGS = {
-    "rpm": 100
-}

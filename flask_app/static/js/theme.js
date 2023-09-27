@@ -49,7 +49,6 @@ function changeColorTheme() {
 // Load user theme-color
 removeIcons()
 const savedThemeColor = localStorage.getItem("theme-color");
-console.log(savedThemeColor)
 if (savedThemeColor) {
     document.body.className = savedThemeColor;
     loadIcons(savedThemeColor)

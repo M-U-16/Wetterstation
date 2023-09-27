@@ -19,4 +19,8 @@ SETTINGS = {
     "save_data": True,
     #send pi settings
     "send_pi_settings": True
+    #default settings for fan
+    "rpm": 100,
+    #server
+    "server": True
 }

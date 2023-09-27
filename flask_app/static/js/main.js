@@ -82,9 +82,9 @@ function getData() {
   };
   if (fan_gpio) {
     let fan = document.getElementById("fan").value;
-    xhttp.open("GET", "readings?fan=" + fan, true);
+    xhttp.open("POST", "settings?fan=" + fan, true);
   } else {
-    xhttp.open("GET", "readings", true);
+    xhttp.open("GET", "settings", true);
   }
   xhttp.send();
 }
@@ -449,7 +449,7 @@ function drawGraph(data) {
 }
 
 // Call a function repetitively with 1 second interval
-setInterval(function () {
+/* setInterval(function () {
   getData();
   getGraph();
 }, 900); // ~1s update rate
@@ -457,4 +457,4 @@ setInterval(function () {
 window.addEventListener("resize", function () {
   destroyAllCharts();
   drawGraph(transformedData);
-});
+}); */

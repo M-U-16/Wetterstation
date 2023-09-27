@@ -26,18 +26,25 @@ log = logging.getLogger("werkzeug")
 log.disabled = True
 run_flag = True
 
+settings = {
+    "pi_fan": 100
+}
+
+gas_sensor = None
+particulate_sensor = None
+fan_gpio = None
+
 DB = db.Database("./wetter.db")
 
 @app.route('/')
 def index():
     
-    return render_template("index.html"
+    return render_template("index.html",
         gas_sensor=gas_sensor,
         particulate_sensor=particulate_sensor,
         fan_gpio=fan_gpio
     )
    
-
 @app.route('/wetterdaten', methods=["POST"])
 def wetterdaten():
     if request.method == "POST":
@@ -49,29 +56,25 @@ def wetterdaten():
         #handling response
         print("received data")
         return { "message": "Added Entry" }
+
+@app.route("/settings")
+def settings():
+    args = request.args
+    arg_keys = args.keys()
     
-@app.route('/readings')
-def readings():
-    if fan_gpio:
-        arg = request.args["fan"]
-
-    return record
-
+    #send
+    if request.method == "GET":
+        return settings["fan"]
+        
+    if request.method == "POST":
+        if len(arg_keys) != 0:
+            request_data = json.loads(request.get_json())
+            settings["pi_settings"] = request_data
+    
 @app.route('/graph')
 def graph():
-    arg = request.args["time"]
-    """ if arg == 'day':
-        last2 = []
-        for day in days[-2:]:
-            last2 += day
-        return json.dumps(last2[-samples_per_day:])
-    if arg == 'week':
-        return compress_data(7, 30 * 60 // samples)
-    if arg == 'month':
-        return compress_data(31, 120 * 60 // samples)
-    if arg == 'year':
-        return compress_data(365, samples_per_day)
-    return json.dumps(data) """
+    """ arg = request.args["time"] """
+    pass
 
 if __name__ == '__main__':
     database_path = "/".join([SERVER_SETTINGS["db_path"], SERVER_SETTINGS["database"]])
@@ -85,7 +88,6 @@ if __name__ == '__main__':
     #reset db for testing
     """ if SERVER_SETTINGS["reset_db"] and database_exists:
         setup_db.resetTable("./wetter.db") """
-    
     
     app.run(debug = True, host = 'localhost', port = 80, use_reloader = False)
     run_flag = False
