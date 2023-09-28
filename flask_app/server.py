@@ -10,7 +10,7 @@
 #
 import math
 import threading
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, session
 import logging
 import json
 import os
@@ -22,13 +22,10 @@ from server_settings import SERVER_SETTINGS
 """ background_thread = threading.Thread(target = background) """
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
+app.secret_key = 'BAD_SECRET_KEY'
 log = logging.getLogger("werkzeug")
 log.disabled = True
 run_flag = True
-
-settings = {
-    "pi_fan": 100
-}
 
 gas_sensor = None
 particulate_sensor = None
@@ -57,19 +54,21 @@ def wetterdaten():
         print("received data")
         return { "message": "Added Entry" }
 
-@app.route("/settings")
+@app.route("/settings", methods=["POST", "GET"])
 def settings():
     args = request.args
     arg_keys = args.keys()
     
     #send
     if request.method == "GET":
-        return settings["fan"]
+        return session["pi_fan"]
         
     if request.method == "POST":
-        if len(arg_keys) != 0:
-            request_data = json.loads(request.get_json())
-            settings["pi_settings"] = request_data
+        if "fan" in arg_keys:
+            fan_settings = request.args.get("fan")
+            session["pi_fan"] = fan_settings
+            
+            return json.dumps({"message": "Received fan data!"})
     
 @app.route('/graph')
 def graph():

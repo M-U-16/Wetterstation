@@ -40,7 +40,7 @@ if __name__ == "__main__":
             "lcd_screen": SETTINGS["lcd_screen"],
             "fan_gpio": SETTINGS["fan_gpio"],
             "particulate_sensor": SETTINGS["particulate_sensor"],
-            "rpm": SETTINGS["rpm"],
+            "fan": SETTINGS["fan"],
         }
         json_settings = json.dumps(settings)
         endpoint = "settings"

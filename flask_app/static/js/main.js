@@ -83,8 +83,6 @@ function getData() {
   if (fan_gpio) {
     let fan = document.getElementById("fan").value;
     xhttp.open("POST", "settings?fan=" + fan, true);
-  } else {
-    xhttp.open("GET", "settings", true);
   }
   xhttp.send();
 }
@@ -439,22 +437,22 @@ function drawGraph(data) {
   /*  */
 
   // Push data for chartJS
-  graphChartTempInput = new Chart(ctxTemp, graphChartTempInput)
-  graphChartHumiInput = new Chart(ctxHumi, graphChartHumiInput)
-  graphChartPresInput = new Chart(ctxPres, graphChartPresInput)
-  graphChartLuxInput = new Chart(ctxLux, graphChartLuxInput)
-  graphChartNoiseInput = new Chart(ctxNoise, graphChartNoiseInput)
-  graphChartGasInput = new Chart(ctxGas, graphChartGasInput)
-  graphChartPmInput = new Chart(ctxPm, graphChartPmInput)
+  graphChartTempInput = new Chart(ctxTemp, graphChartTemp)
+  graphChartHumiInput = new Chart(ctxHumi, graphChartHumi)
+  graphChartPresInput = new Chart(ctxPres, graphChartPres)
+  graphChartLuxInput = new Chart(ctxLux, graphChartLux)
+  graphChartNoiseInput = new Chart(ctxNoise, graphChartNoise)
+  graphChartGasInput = new Chart(ctxGas, graphChartGas)
+  graphChartPmInput = new Chart(ctxPm, graphChartPm)
 }
 
 // Call a function repetitively with 1 second interval
-/* setInterval(function () {
+setInterval(function () {
   getData();
-  getGraph();
-}, 900); // ~1s update rate
+  /* getGraph(); */
+}, 5000); // ~1s update rate
 
 window.addEventListener("resize", function () {
   destroyAllCharts();
   drawGraph(transformedData);
-}); */
+});

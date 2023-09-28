@@ -20,7 +20,7 @@ SETTINGS = {
     #send pi settings
     "send_pi_settings": True
     #default settings for fan
-    "rpm": 100,
+    "fan": 100,
     #server
     "server": True
 }
