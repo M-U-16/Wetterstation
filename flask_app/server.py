@@ -48,10 +48,10 @@ def wetterdaten():
         #database
         data = json.loads(request.get_json())
         DB.addData("wetterdaten", data)
-        DB.printTable("wetterdaten")
+        """ DB.printTable("wetterdaten") """
         
         #handling response
-        print("received data")
+        print("wetterdaten erhalten!")
         return { "message": "Added Entry" }
 
 @app.route("/settings", methods=["POST", "GET"])
@@ -69,6 +69,10 @@ def settings():
             session["pi_fan"] = fan_settings
             
             return json.dumps({"message": "Received fan data!"})
+        else:
+            session["pi_settings"] = json.dumps(request.get_json())
+            print(json.loads(session["pi_settings"]))
+            return json.dumps({ "message": "Set Pi Settings!" })
     
 @app.route('/graph')
 def graph():

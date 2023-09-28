@@ -1,5 +1,5 @@
-""" import RPi.GPIO as IO """
 import sys
+""" import RPi.GPIO as IO """
 
 class Config:
     #constructor 1
@@ -34,6 +34,6 @@ class Config:
         if self.fan:
             print("Fan activated!")
         else:
-            print("Fan is turned off in settings.py")
+            print("Fan is turned off in settings.py!")
             
         

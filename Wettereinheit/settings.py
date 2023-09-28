@@ -12,13 +12,13 @@ SETTINGS = {
     #ip for sending data to flask server
     "ip_address": "localhost",
     #port number
-    "server_port": "80"
+    "server_port": "80",
     #send data
     "send_data": True,
     #save data
     "save_data": True,
     #send pi settings
-    "send_pi_settings": True
+    "send_pi_settings": True,
     #default settings for fan
     "fan": 100,
     #server

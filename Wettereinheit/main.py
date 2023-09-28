@@ -19,9 +19,6 @@ if __name__ == "__main__":
 
     conf = Config(SETTINGS)
     conf.activateFan()
-        
-    if SETTINGS["save_data"]:
-        save_data(data)
     
     #trys to send weather data to the server
     #handles errors when there is no server
@@ -30,22 +27,18 @@ if __name__ == "__main__":
         json_data = json.dumps(data)
         endpoint = "wetterdaten"
         
-        try:
-            send_to_server(ip, port, endpoint, json_data, "wetter", "post")
-        except:
-            print("Can't connect to server!")
+        send_to_server(ip, port, endpoint, json_data, "wetter", "post")
+            
             
     if SETTINGS["send_pi_settings"] and SETTINGS["server"]:
         settings = {
             "lcd_screen": SETTINGS["lcd_screen"],
             "fan_gpio": SETTINGS["fan_gpio"],
             "particulate_sensor": SETTINGS["particulate_sensor"],
-            "fan": SETTINGS["fan"],
         }
         json_settings = json.dumps(settings)
         endpoint = "settings"
         
-        try:
-            send_server(ip, port, endpoint, json_settings, "settings", "post")
-        except:
-            print("Can't connect to server!")
+        send_to_server(ip, port, endpoint, json_settings, "settings", "post")
+    
+    
