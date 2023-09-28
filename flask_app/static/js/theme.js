@@ -1,4 +1,4 @@
-const themeLightBtn = document.getElementById("theme-light");
+const themeBtn = document.getElementById("theme-btn");
 /* const themeDarkBtn = document.getElementById("theme-dark"); */
 let hasThemeLight = body.classList.contains("theme-light");
 
@@ -27,7 +27,6 @@ function removeIcons() {
 }
 function loadIcons(theme) {
     removeIcons()
-
     if (theme === "theme-light") {
         themeDark.style.display = "block"
         fanPowerDark.style.display = "block"
@@ -42,9 +41,13 @@ function loadIcons(theme) {
 
 // Manages theme color
 function changeColorTheme() {
-    body.className = this.id;
-    localStorage.setItem("theme-color", this.id);
-    hasThemeLight = !hasThemeLight;
+    currentTheme = this.getAttribute("data-theme")
+    if (currentTheme === "theme-light") this.setAttribute("data-theme", "theme-dark")
+    if (currentTheme === "theme-dark") this.setAttribute("data-theme", "theme-light")
+
+    body.className = this.getAttribute("data-theme");
+    localStorage.setItem("theme-color", this.getAttribute("data-theme"));
+    loadIcons(localStorage.getItem("theme-color"))
 }
 // Load user theme-color
 removeIcons()
@@ -60,5 +63,5 @@ if (savedThemeColor) {
     document.body.className = "theme-light"
     loadIcons("theme-light")
 }
-themeLightBtn.onclick = changeColorTheme;
+themeBtn.onclick = changeColorTheme;
 /* themeDarkBtn.onclick = changeColorTheme; */

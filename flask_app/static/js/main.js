@@ -452,7 +452,7 @@ setInterval(function () {
   /* getGraph(); */
 }, 5000); // ~1s update rate
 
-window.addEventListener("resize", function () {
+/* window.addEventListener("resize", function () {
   destroyAllCharts();
   drawGraph(transformedData);
-});
+}); */

@@ -54,6 +54,11 @@ def wetterdaten():
         print("wetterdaten erhalten!")
         return { "message": "Added Entry" }
 
+def setSensors(gas, particulate, fan):
+    gas_sensor = gas
+    particulate_sensor = particulate
+    fan_gpio = fan
+
 @app.route("/settings", methods=["POST", "GET"])
 def settings():
     args = request.args
@@ -71,7 +76,12 @@ def settings():
             return json.dumps({"message": "Received fan data!"})
         else:
             session["pi_settings"] = json.dumps(request.get_json())
-            print(json.loads(session["pi_settings"]))
+            pi_settings = json.loads(session["pi_settings"])
+            setSensors(
+                pi_settings["gas_sensor"],
+                pi_settings["particulate_sensor"],
+                pi_settings["fan_gpio"]
+            )
             return json.dumps({ "message": "Set Pi Settings!" })
     
 @app.route('/graph')

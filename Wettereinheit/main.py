@@ -32,7 +32,7 @@ if __name__ == "__main__":
             
     if SETTINGS["send_pi_settings"] and SETTINGS["server"]:
         settings = {
-            "lcd_screen": SETTINGS["lcd_screen"],
+            "gas_sensor": SETTINGS["gas_sensor"],
             "fan_gpio": SETTINGS["fan_gpio"],
             "particulate_sensor": SETTINGS["particulate_sensor"],
         }
