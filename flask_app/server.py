@@ -51,7 +51,8 @@ def wetterdaten():
         """ DB.printTable("wetterdaten") """
         
         #handling response
-        print("wetterdaten erhalten!")
+        if SERVER_SETTINGS["logging"]:
+            print("wetterdaten erhalten!")
         return { "message": "Added Entry" }
 
 def setSensors(gas, particulate, fan):

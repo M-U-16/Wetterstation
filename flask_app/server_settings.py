@@ -4,5 +4,6 @@ SERVER_SETTINGS = {
     "database": "wetter.db",
     "db_path": ".",
     "wetter_table": "wetterdaten",
-    "reset_db": True
+    "reset_db": True,
+    "logging": True
 }

@@ -6,16 +6,14 @@ def send_to_server(ip, port, endpoint, data, action, method):
     try:
         if action == "wetter":
             res = requests.post(f"http://{ip}:{port}/{endpoint}", json=data).json()
-            print(res["message"])
+            return res["message"]
     
         if action == "settings" and method == "post":
             res = requests.post(f"http://{ip}:{port}/{endpoint}", json=data).json()
-            print(res["message"])
+            return res["message"]
     
         if action == "settings" and method == "get":
             res = requests.get(f"http://{ip}:{port}/{endpoint}", json=data).json()
-            print(res["fan"])
+            return res["fan"]
     except:
         print("Can't connect to server!")
-        
-    

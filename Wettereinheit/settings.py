@@ -22,5 +22,7 @@ SETTINGS = {
     #default settings for fan
     "fan": 100,
     #server
-    "server": True
+    "server": True,
+    #logging
+    "logging": False
 }
