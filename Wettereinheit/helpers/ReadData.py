@@ -78,7 +78,7 @@ def read_data():
     return record 
     """
     return {
-        "time": asctime(localtime()),
+        "time": " ".join(list(filter(lambda x: x != "", asctime(localtime()).split(" ")))),
         "temp": random.randrange(0,34),
         "humi": random.randrange(0,100),
         "pres": random.randrange(1, 1000),
