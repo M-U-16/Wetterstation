@@ -24,5 +24,5 @@ SETTINGS = {
     #server
     "server": True,
     #logging
-    "logging": False
+    "logging": True
 }

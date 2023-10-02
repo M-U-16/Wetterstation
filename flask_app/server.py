@@ -78,11 +78,15 @@ def settings():
         else:
             session["pi_settings"] = json.dumps(request.get_json())
             pi_settings = json.loads(session["pi_settings"])
-            setSensors(
-                pi_settings["gas_sensor"],
-                pi_settings["particulate_sensor"],
-                pi_settings["fan_gpio"]
-            )
+            """ print(pi_settings) """
+            try:
+                setSensors(
+                    pi_settings["gas_sensor"],
+                    pi_settings["particulate_sensor"],
+                    pi_settings["fan_gpio"]
+                )
+            except(e):
+                pass
             return json.dumps({ "message": "Set Pi Settings!" })
     
 @app.route('/graph')
@@ -105,3 +109,4 @@ if __name__ == '__main__':
     
     app.run(debug = True, host = 'localhost', port = 80, use_reloader = False)
     run_flag = False
+ 

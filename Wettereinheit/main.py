@@ -44,6 +44,8 @@ def startMeasuring():
             print(res)
     #here is the data being saved in files
     #-------------------------------------
+    if SETTINGS["save_data"]:
+        save_data(data)
 
 if __name__ == "__main__":
     #create directory for data entrys if needed

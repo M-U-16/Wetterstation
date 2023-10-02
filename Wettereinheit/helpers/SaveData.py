@@ -42,7 +42,7 @@ def jsonFormater(data):
                 
         
 def addEntry(file_path, file_data, data):
-    print(file_data, data)
+    """ print(file_data, data) """
     file_data["samples"].append(data)
     
     f = open(file_path, "w")
@@ -56,7 +56,6 @@ def readEntry(file_path):
     return file_content
 
 def save_data(data):
-    
     date = data["time"]
     date_list = date.split(" ")
     time = "-".join(date_list[3].split(":"))
