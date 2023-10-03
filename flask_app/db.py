@@ -63,3 +63,24 @@ class Database:
         print(table)
         self.con.close()
         return table
+    
+    def getDay():
+        #set connection
+        self.setConnection()
+        self.setCursor()
+        #year month day
+        #qeury = SELECT * FROM wetterdaten WHERE year=? and month=? and day=?, (year, month, day)
+        
+        #close connection
+        self.con.close()
+        
+    def getYear():
+        #set connection
+        self.setConnection()
+        self.setCursor()
+        #year month day
+        #qeury = SELECT * FROM wetterdaten WHERE year=? and month=? and day=?, (year, month, day)
+        
+        #close connection
+        self.con.close()
+        
