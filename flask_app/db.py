@@ -69,18 +69,27 @@ class Database:
         self.setConnection()
         self.setCursor()
         #year month day
-        #qeury = SELECT * FROM wetterdaten WHERE year=? and month=? and day=?, (year, month, day)
+        #qeury = SELECT * FROM wetterdaten WHERE year=? and month=? and day_text=?, (year, month, day_text)
         
         #close connection
         self.con.close()
+    
+    def getMonth():
+        #set connection
+        self.setConnection()
+        self.setCursor()
+        #year month day
+        #qeury = SELECT * FROM wetterdaten WHERE year=? and month=?, (year, month)
         
+        #close connection
+        self.con.close()
+    
     def getYear():
         #set connection
         self.setConnection()
         self.setCursor()
         #year month day
-        #qeury = SELECT * FROM wetterdaten WHERE year=? and month=? and day=?, (year, month, day)
+        #qeury = SELECT * FROM wetterdaten WHERE year=?, (year)
         
         #close connection
         self.con.close()
-        
