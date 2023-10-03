@@ -74,13 +74,23 @@ class Database:
         #close connection
         self.con.close()
     
-    def getWeek():
+    def getWeek(day):
         #set connection
         self.setConnection()
         self.setCursor()
         #year month day
         #qeury = SELECT * FROM wetterdaten WHERE year=? and month=?, (year, month)
         
+        weak = ["MON", "THU", "WED", "THU", "FRI", "SAT", "SUN"]
+        start_index = weak.index(day, 0, len(weak))
+        new_week_list = []
+        while len(new_week_list) != 7:
+            index = start_index
+            new_week_list.append(weak[index])
+            if index > len(weak):
+                index = 0
+            else:
+                index += 1      
         #close connection
         self.con.close()
     
