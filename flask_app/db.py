@@ -42,11 +42,6 @@ class Database:
         day = int(date_list[2])
         time = date_list[3]
         
-        """ insert_values = (day, time, lux, humi, temp)
-        data_placeholders = ()
-        for value in insert_values:
-            data_placeholders += ("?")
-        print(data_placeholders) """
         self.setConnection()
         self.setCursor()
         self.cursor.execute(
@@ -70,9 +65,11 @@ class Database:
         self.setCursor()
         #year month day
         #qeury = SELECT * FROM wetterdaten WHERE year=? and month=? and day_text=?, (year, month, day_text)
-        
+        table_content = self.cursor.execute("SELECT * FROM wetterdaten WHERE year=? and month=? and day_text=?", (year, month, day_text))
+          
         #close connection
         self.con.close()
+        return table_content
     
     def getWeek(day):
         #set connection
@@ -80,36 +77,29 @@ class Database:
         self.setCursor()
         #year month day
         #qeury = SELECT * FROM wetterdaten WHERE year=? and month=?, (year, month)
-        
-        weak = ["MON", "THU", "WED", "THU", "FRI", "SAT", "SUN"]
-        start_index = weak.index(day, 0, len(weak))
-        new_week_list = []
-        while len(new_week_list) != 7:
-            index = start_index
-            new_week_list.append(weak[index])
-            if index > len(weak):
-                index = 0
-            else:
-                index += 1      
+        table_content = self.cursor.execute("SELECT * FROM wetterdaten WHERE year=? and month=?", (year, month))
+          
         #close connection
         self.con.close()
+        return table_content
     
     def getMonth():
         #set connection
         self.setConnection()
         self.setCursor()
-        #year month day
+        #year month
         #qeury = SELECT * FROM wetterdaten WHERE year=? and month=?, (year, month)
-        
+        table_content = self.cursor.execute("SELECT * FROM wetterdaten WHERE year=? and month=?", (year, month))
         #close connection
         self.con.close()
+        return table_content
     
-    def getYear():
+    def getYear(year):
         #set connection
         self.setConnection()
         self.setCursor()
         #year month day
-        #qeury = SELECT * FROM wetterdaten WHERE year=?, (year)
-        
+        table_content = self.cursor.execute("SELECT * FROM wetterdaten WHERE year=?", (year))
         #close connection
         self.con.close()
+        return table_content
