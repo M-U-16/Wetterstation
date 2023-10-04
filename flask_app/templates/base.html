@@ -68,14 +68,25 @@
                     </svg>
                 </button>
             </div>
-    
+            
+            <div class="container-info-time">
+                <span id="time"></span>
+            </div>
             <div id="container-menu-settings" class="container-menu-settings">
                 <!-- Local time -->
-                <div class="container-info-time">
-                    <span id="time"></span>
-                </div>
     
-                <div class="app__settings-container">
+                <div class="navbar__link-container">
+                    <a class="navbar__link" href="/" title="Zurück zur Startseite">
+                        <img src="{{url_for("static", filename="images/icons/home.svg")}}"/>
+                        <span>Startseite</span>
+                    </a>
+                    <a class="navbar__link" href="/wetter" title="Zu den Wetterdaten">
+                        <img src="{{url_for("static", filename="images/icons/cloud.svg")}}"/>
+                        <span>Wetter</span>
+                    </a>
+                </div>
+
+                <div class="app__settings-container">                    
                     <h1>Einstellungen</h1>
                     <!-- Time range dropdown -->
                     <div class="container-btn-timeRange">

@@ -31,12 +31,16 @@ gas_sensor = None
 particulate_sensor = None
 fan_gpio = None
 
+def setSensors(gas, particulate, fan):
+    gas_sensor = gas
+    particulate_sensor = particulate
+    fan_gpio = fan
+
 DB = db.Database("./wetter.db")
 
-@app.route('/')
+@app.route('/wetter')
 def index():
-    
-    return render_template("index.html",
+    return render_template("wetter.html",
         gas_sensor=gas_sensor,
         particulate_sensor=particulate_sensor,
         fan_gpio=fan_gpio
@@ -54,12 +58,7 @@ def wetterdaten():
         if SERVER_SETTINGS["logging"]:
             print("wetterdaten erhalten!")
         return { "message": "Added Entry" }
-
-def setSensors(gas, particulate, fan):
-    gas_sensor = gas
-    particulate_sensor = particulate
-    fan_gpio = fan
-
+    
 @app.route("/settings", methods=["POST", "GET"])
 def settings():
     args = request.args
@@ -88,11 +87,6 @@ def settings():
             except(e):
                 pass
             return json.dumps({ "message": "Set Pi Settings!" })
-    
-@app.route('/graph')
-def graph():
-    """ arg = request.args["time"] """
-    pass
 
 if __name__ == '__main__':
     database_path = "/".join([SERVER_SETTINGS["db_path"], SERVER_SETTINGS["database"]])
