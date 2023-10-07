@@ -84,7 +84,7 @@ def settings():
                     pi_settings["particulate_sensor"],
                     pi_settings["fan_gpio"]
                 )
-            except(e):
+            except:
                 pass
             return json.dumps({ "message": "Set Pi Settings!" })
 

@@ -16,8 +16,8 @@ class Database:
     def setConnection(self):
         try:
             self.con = sqlite3.connect(self.path)
-        except Error as e:
-            print(e)
+        except:
+            print("Ein fehler is beim Verbinden mit der Datebank aufgetreten!")
     #set cursor
     def setCursor(self):
         self.cursor = self.con.cursor()
@@ -59,7 +59,7 @@ class Database:
         self.con.close()
         return table
     
-    def getDay():
+    def getDay(self, year, month, day_text):
         #set connection
         self.setConnection()
         self.setCursor()
@@ -71,19 +71,19 @@ class Database:
         self.con.close()
         return table_content
     
-    def getWeek(day):
+    def getWeek(self, day, month):
         #set connection
         self.setConnection()
         self.setCursor()
         #year month day
         #qeury = SELECT * FROM wetterdaten WHERE year=? and month=?, (year, month)
-        table_content = self.cursor.execute("SELECT * FROM wetterdaten WHERE year=? and month=?", (year, month))
+        table_content = self.cursor.execute("SELECT * FROM wetterdaten WHERE year=? and month=?", (day, month))
           
         #close connection
         self.con.close()
         return table_content
     
-    def getMonth():
+    def getMonth(self, year, month):
         #set connection
         self.setConnection()
         self.setCursor()
@@ -94,7 +94,7 @@ class Database:
         self.con.close()
         return table_content
     
-    def getYear(year):
+    def getYear(self, year):
         #set connection
         self.setConnection()
         self.setCursor()
