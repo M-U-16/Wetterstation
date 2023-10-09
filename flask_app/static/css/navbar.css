@@ -170,19 +170,21 @@ body[data-hasFanGPIO="False"] .container-btn-fanGpio {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     width: auto;
     /* margin-top: var(--navbar-height); */
 }
 .navbar__link-container .navbar__link {
     display: flex;
     text-decoration: none;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
     align-items: center;
     padding-left: 0;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
     justify-content: flex-start;
     border-radius: 10px;
-    margin-bottom: 0.5rem;
+    width: 10rem;
+    margin-right: 1rem;
     /* width: 7rem; */
     box-shadow: inset 0px 0px 4px rgba(133, 133, 133, 0.651);
 }
@@ -295,6 +297,7 @@ body[data-hasFanGPIO="False"] .container-btn-fanGpio {
     }
     .navbar__link-container .navbar__link {
         width: 100%;
+        margin-bottom: 0.5rem;
     }
 }
   
