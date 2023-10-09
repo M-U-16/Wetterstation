@@ -67,3 +67,6 @@ body {
     height: 100vh;
     font-family: "Noto Sans", Arial, Helvetica, Sans-Serif;
 }
+#content {
+  margin-top: var(--navbar-height);
+}

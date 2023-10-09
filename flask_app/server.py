@@ -39,13 +39,17 @@ def setSensors(gas, particulate, fan):
 DB = db.Database("./wetter.db")
 
 @app.route('/wetter')
-def index():
+def wetter():
     return render_template("wetter.html",
         gas_sensor=gas_sensor,
         particulate_sensor=particulate_sensor,
         fan_gpio=fan_gpio
     )
-   
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
 @app.route('/wetterdaten', methods=["POST"])
 def wetterdaten():
     if request.method == "POST":
