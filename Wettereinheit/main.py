@@ -48,6 +48,7 @@ def startMeasuring():
         res = send_to_server(ip, port, endpoint, json_settings, "settings", "post")
         if SETTINGS["logging"]:
             print(res)
+            
     #here is the data being saved in files
     #-------------------------------------
     if SETTINGS["save_data"]:
