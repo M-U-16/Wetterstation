@@ -1,17 +1,44 @@
+from settings import SETTINGS
 from time import sleep, time, asctime, localtime, strftime, gmtime
-import random
-""" from bme280 import BME280 """
+from bme280 import BME280
+from enviroplus import gas
+from enviroplus.noise import Noise
+from pms5003 import PMS5003, ReadTimeoutError as pmsReadTimeoutError
+assert SETTINGS["gas_sensor"] or not particulate_sensor
 
+try:
+    # Transitional fix for breaking change in LTR559
+    from ltr559 import LTR559
+    ltr559 = LTR559()
+except ImportError:
+    import ltr559
+    
+try:
+    from smbus2 import SMBus
+except ImportError:
+    from smbus import SMBus
+
+bus = SMBus(1)
 # BME280 temperature, humidity and pressure sensor
-    #bme280 = BME280(i2c_dev=bus)
+bme280 = BME280(i2c_dev=bus)
 # PMS5003 particulate sensor
-    #pms5003 = PMS5003()
+pms5003 = PMS5003()
 # Noise sensor
-    #noise = Noise()
+noise = Noise()
+
+# Tuning factor for compensate the temperature and humidity
+factor_temp = 3.10
+factor_humi = 1.26
+
+def get_cpu_temperature():
+        with open("/sys/class/thermal/thermal_zone0/temp", "r") as f:
+            temp = f.read()
+            temp = int(temp) / 1000.0
+        return temp
 
 def read_data():
 
-    """ if temp_humi_compensation:
+    if SETTINGS["temp_humi_compensation"]:
         cpu_temps = [get_cpu_temperature()] * 5
         cpu_temp = get_cpu_temperature()
         # Smooth out with some averaging to decrease jitter
@@ -33,7 +60,7 @@ def read_data():
     high *= 128
     amp *= 64
 
-    if gas_sensor:
+    if SETTINGS["gas_sensor"]:
         gases = gas.read_all()
         oxi = round(gases.oxidising / 1000, 1)
         red = round(gases.reducing / 1000)
@@ -41,7 +68,7 @@ def read_data():
     else:
         oxi = red = nh3 = 0
 
-    if particulate_sensor:
+    if SETTINGS["particulate_sensor"]:
         while True:
             try:
                 particles = pms5003.read()
@@ -59,6 +86,7 @@ def read_data():
         pm100 = pm25 = pm10 = 0
 
     record = {
+        #"time": " ".join(list(filter(lambda x: x != "", asctime(localtime()).split(" ")))),
         'time' : asctime(localtime(time)),
         'temp' : round(temperature,1),
         'humi' : round(humidity,1),
@@ -74,23 +102,5 @@ def read_data():
         'pm10' : pm10,
         'pm25' : pm25,
         'pm100': pm100,
-        }
-    return record 
-    """
-    return {
-        "time": " ".join(list(filter(lambda x: x != "", asctime(localtime()).split(" ")))),
-        "temp": random.randrange(0,34),
-        "humi": random.randrange(0,100),
-        "pres": random.randrange(1, 1000),
-        "lux": random.randrange(1, 100),
-        "high": None,
-        "mid": None,
-        "low": None,
-        "amp": None,
-        "oxi": None,
-        "red": None,
-        "nh3": None,
-        "pm10": None,
-        "pm25": None,
-        "pm100": None,
     }
+    return record 

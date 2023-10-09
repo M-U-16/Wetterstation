@@ -11,6 +11,7 @@ from config import Config
 from helpers.ReadData import read_data
 from helpers.SendData import send_to_server
 from helpers.SaveData import save_data
+from helpers.ReadFakeData import read_fake_data
 
 if SETTINGS["server"]:
     ip = SETTINGS["ip_address"]
@@ -20,16 +21,21 @@ conf = Config(SETTINGS)
 conf.activateFan()
     
 def startMeasuring():
-    #gets the values from sensors
-    data = read_data()
-    #trys to send weather data to the server
-    #handles errors when there is no server
+    #gets the fake data for testing
+    data = read_fake_data()
+    
     if SETTINGS["send_data"] and SETTINGS["server"]:
         json_data = json.dumps(data)
-        endpoint = "wetterdaten"
-        res = send_to_server(ip, port, endpoint, json_data, "wetter", "post")
+        res = send_to_server(
+            ip, #ip of server
+            port, #port where server is running
+            "wetterdaten", #endpoint
+            json_data, #data for sending
+            "wetter", #action for sending data
+            "post" #string setting method
+        )
         if SETTINGS["logging"]:
-            print(res)
+            print(res) #prints the response from server
             
     if SETTINGS["send_pi_settings"] and SETTINGS["server"]:
         settings = {

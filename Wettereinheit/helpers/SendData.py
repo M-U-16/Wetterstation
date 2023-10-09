@@ -1,8 +1,9 @@
-import requests
+import requests #module for sending data
 
 def send_to_server(ip, port, endpoint, data, action, method):
     #send a post request to the given ip and port
     #containing the data
+    #handles errors when there is no server
     try:
         if action == "wetter":
             res = requests.post(f"http://{ip}:{port}/{endpoint}", json=data).json()
