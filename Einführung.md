@@ -11,35 +11,7 @@ Die Installation für die verschiedene Software kann man auf den jeweiligen Seit
 ### Erwartungen
 -------
 ### Projekt Struktur
-projekt_ordner
----------------
-|- flask_app
-|   |- static
-        |- css
-        |- fonts
-        |- js
-    |- templates
-        |- index.html
-|- __init__.py
-|- tests
-|- .gitignore
-|- db.py
-|- .env
+
 ### Projekt Struktur
 #### Hier erfährt man mehr darüber wie das Projekt aufgebaut ist
 ***
-<details>
-    <summary>Projekt Struktur</summary>
-    |- flask_app
-|   |- static
-        |- css
-        |- fonts
-        |- js
-    |- templates
-        |- index.html
-    |- __init__.py
-    |- tests
-    |- .gitignore
-    |- db.py
-    |- .env
-</details>

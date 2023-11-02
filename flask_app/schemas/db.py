@@ -26,7 +26,6 @@ class Database:
         self.setConnection()
         self.setCursor()
         return self.cursor.execute(query)
-        self.con.close()
 
     def addData(self, table_name, data):
         date = data["time"]

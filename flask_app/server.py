@@ -15,8 +15,8 @@ import logging
 import json
 import os
 
-import db
-import setup_db
+import flask_app.schemas.db as db
+import flask_app.schemas.setup_db as setup_db
 from server_settings import SERVER_SETTINGS
 
 """ background_thread = threading.Thread(target = background) """
