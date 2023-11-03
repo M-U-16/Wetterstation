@@ -1,5 +1,14 @@
 {% extends "base.html" %}
+{% from './components/navbar.html' import navbar %}
+{% from './components/footer.html' import footer %}
 
+{% block title %}Startseite{% endblock %}
 {% block content %}
-    <h1>Home</h1>
+    {{ navbar() }}
+
+    <header class="app__home-header">
+        <h1>Home</h1>
+    </header>
+
+    {{ footer() }}
 {% endblock %}

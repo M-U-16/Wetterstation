@@ -14,8 +14,6 @@ const themeDark = document.getElementById("theme-dark-img")
 const allIcons = [
     timeRangeDark,
     timeRangeLight,
-    fanPowerDark,
-    fanPowerLight,
     themeDark,
     themeLight
 ]
@@ -29,12 +27,10 @@ function loadIcons(theme) {
     removeIcons()
     if (theme === "theme-light") {
         themeDark.style.display = "block"
-        fanPowerDark.style.display = "block"
         timeRangeDark.style.display = "block"
     }
     if (theme === "theme-dark") {
         themeLight.style.display = "block"
-        fanPowerLight.style.display = "block"
         timeRangeLight.style.display = "block"
     }
 }
@@ -64,4 +60,3 @@ if (savedThemeColor) {
     loadIcons("theme-light")
 }
 themeBtn.onclick = changeColorTheme;
-/* themeDarkBtn.onclick = changeColorTheme; */

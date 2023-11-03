@@ -1,0 +1,17 @@
+{% macro graph_temp() %}
+    <!-- Temperature -->
+    <div class="graph-container graph-temp">
+        <div class="graph-header">
+          <h2 class="color-red">Temperatur:</h2>
+          <div class="graph-header-readings">
+            <div>
+              <span id="temp">-</span>&deg;C &nbsp;⸱&nbsp;
+              <span id="temp-f">-</span>&deg;F
+            </div>
+          </div>
+        </div>
+        <div class="graph-chart">
+          <canvas id="graphChartTempInput" class="loading-spinner"></canvas>
+        </div>
+    </div>
+{% endmacro %}

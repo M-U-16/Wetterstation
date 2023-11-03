@@ -27,6 +27,9 @@ window.onload = () => {
                 onComplete: function () {
                     ctxTemp.classList.remove("loading-spinner");
                 },
+            },
+            plugins: {
+                legend: false,
             }
         }
     })

@@ -1,0 +1,14 @@
+{% macro graph_pres() %}
+    <!-- Pressure -->
+    <div class="graph-container graph-pres">
+        <div class="graph-header">
+          <h2 class="color-green">Druck:</h2>
+          <div class="graph-header-readings">
+            <div><span id="pres">-</span>&nbsp;hPa</div>
+          </div>
+        </div>
+        <div class="graph-chart">
+          <canvas id="graphChartPresInput" class="loading-spinner"></canvas>
+        </div>
+    </div>
+{% endmacro %}

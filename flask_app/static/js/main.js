@@ -1,15 +1,36 @@
 /** EnviroPlusWeb **/
 /* https://gitlab.com/idotj/enviroplusweb */
+const gas_sensor = body.dataset.hasgassensor;
+const particulate_sensor = body.dataset.hasparticulatesensor;
+const fan_gpio = body.dataset.hasfangpio;
+const style = getComputedStyle(document.body);
+console.log(gas_sensor, particulate_sensor, fan_gpio)
+
+let graphChartTempInput, graphChartHumiInput, graphChartPresInput, graphChartLuxInput
+let graphChartNoiseInput, graphChartGasInput, graphChartPmInput
+
+const ctxTemp = document.getElementById("graphChartTempInput")
+const ctxHumi = document.getElementById("graphChartHumiInput")
+const ctxPres = document.getElementById("graphChartPresInput")
+const ctxLux = document.getElementById("graphChartLuxInput")
+const ctxNoise = document.getElementById("graphChartNoiseInput")
+const ctxGas = document.getElementById("graphChartGasInput")
+const ctxPm = document.getElementById("graphChartPmInput")
+
+let firstRun = true;
+let dataReadings;
+let transformedData;
+let frequency;
+let last_frequency = "";
+let last_graph = 0;
+let items;
+
 const frequencies = {
   day: { major: 3 * 3600, minor: 3600, poll: 60 },
   week: { major: 24 * 3600, minor: 6 * 3600, poll: 600 },
   month: { major: 7 * 24 * 3600, minor: 24 * 3600, poll: 1440 },
   year: { major: 31 * 24 * 3600, minor: 7 * 24 * 3600, poll: 17280 },
 };
-const gas_sensor = body.dataset.hasgassensor;
-const particulate_sensor = body.dataset.hasparticulatesensor;
-const fan_gpio = body.dataset.hasfangpio;
-const style = getComputedStyle(document.body);
 
 function itemBuilder(id, label, unit, color, min, max) {
   return {
@@ -41,7 +62,6 @@ const items_pm = {
   pm25: itemBuilder("pm25", "PM2.5", "μg/m3", style.getPropertyValue("--color-dust25"), 0, 800),
   pm100: itemBuilder("pm100", "PM100", "μg/m3", style.getPropertyValue("--color-dust100"), 0, 800)
 };
-let items;
 if (particulate_sensor) {
   items = { ...items_ngp, ...items_gas, ...items_pm };
 } else {
@@ -50,41 +70,6 @@ if (particulate_sensor) {
   } else {
     items = items_ngp;
   }
-}
-let firstRun = true;
-let dataReadings;
-let transformedData;
-let frequency;
-let last_frequency = "";
-let last_graph = 0;
-const ctxTemp = document.getElementById("graphChartTempInput");
-const ctxHumi = document.getElementById("graphChartHumiInput");
-const ctxPres = document.getElementById("graphChartPresInput");
-const ctxLux = document.getElementById("graphChartLuxInput");
-const ctxNoise = document.getElementById("graphChartNoiseInput");
-const ctxGas = document.getElementById("graphChartGasInput");
-const ctxPm = document.getElementById("graphChartPmInput");
-let graphChartTempInput;
-let graphChartHumiInput;
-let graphChartPresInput;
-let graphChartLuxInput;
-let graphChartNoiseInput;
-let graphChartGasInput;
-let graphChartPmInput;
-// Request to get readings data
-function getData() {
-  let xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function () {
-    if (this.readyState == 4 && this.status == 200) {
-      // console.log('getData(): ', JSON.parse(this.responseText));
-      listReadings(JSON.parse(this.responseText));
-    }
-  };
-  if (fan_gpio) {
-    let fan = document.getElementById("fan").value;
-    xhttp.open("POST", "settings?fan=" + fan, true);
-  }
-  xhttp.send();
 }
 // Show live readings in
 function listReadings(d) {
@@ -105,14 +90,15 @@ function listReadings(d) {
 // Request to get graph data
 function getGraph() {
   frequency = document.getElementById("graph-sel").value;
-  let t = Date.now() / 1000;
+  let currentTime = Date.now() / 1000;
   if (
     frequency != last_frequency ||
-    t - last_graph >= frequencies[frequency].poll
+    currentTime - last_graph >= frequencies[frequency].poll
   ) {
     last_frequency = frequency;
-    last_graph = t;
-    let xhttp = new XMLHttpRequest();
+    last_graph = currentTime;
+
+    const xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         console.log("getGraph(): ", JSON.parse(this.responseText));
@@ -167,6 +153,13 @@ function getFrequency(frequency) {
   if (frequency === "year") return "month"
   return frequency
 }
+
+const default_config = {
+  type: "line",
+  data: { datasets: [] },
+  options: {},
+}
+
 function datasetBuilder(items, data) {
   const datasets = []
   
@@ -214,26 +207,17 @@ function optionsBuilder(context, settings) {
     }
   }
   settings.scalesValues.y.forEach(element => {
-      const elementKeys = Object.keys(element)
-      elementKeys.forEach(key => { if (key !== "name") options.scales[element.name] = element } )
+    const elementKeys = Object.keys(element)
+    elementKeys.forEach(key => { if (key !== "name") options.scales[element.name] = element } )
   });
   return options
 }
 
 function drawGraph(data) {
   // console.log("drawGraph(): ", data);
-  // Change time range to read better the X axis
+  // Change time range to better read the X axis
   let graphfrequency = getFrequency(frequency)
-  const default_config = {
-    type: "line",
-    data: {
-        datasets: [
-
-        ]
-    },
-    options: {},
-  }
-  /*  */
+  
   const graphChartTemp = { ...default_config }
   const graphChartTempSettings = {
     tension: 0.9,
@@ -252,10 +236,7 @@ function drawGraph(data) {
       ]
     }
   }
-  const tempSets = [items.temp]
-  graphChartTemp.data.datasets = datasetBuilder(tempSets, data.temp)
-  graphChartTemp.options = optionsBuilder(ctxTemp, graphChartTempSettings)
-  /*  */
+
   const graphChartHumi = { ...default_config }
   const graphChartHumiSettings = {
     tension: 0.3,
@@ -274,10 +255,7 @@ function drawGraph(data) {
       ]
     }
   }
-  const humiSets = [items.humi]
-  graphChartHumi.data.datasets = datasetBuilder(humiSets, data.humi)
-  graphChartHumi.options = optionsBuilder(ctxHumi, graphChartHumiSettings)
-  /*  */
+
   const graphChartPres = { ...default_config }
   const graphChartPresSettings = {
     tension: 0.6,
@@ -296,10 +274,7 @@ function drawGraph(data) {
       ]
     }
   }
-  const presSets = [items.pres]
-  graphChartPres.data.datasets = datasetBuilder(presSets, data.pres)
-  graphChartPres.options = optionsBuilder(ctxPres, graphChartPresSettings)
-  /*  */
+  
   const graphChartLux = { ...default_config }
   const graphChartLuxSettings = {
     tension: 0.2,
@@ -320,10 +295,7 @@ function drawGraph(data) {
       ]
     }
   }
-  const luxSets = [items.lux]
-  graphChartLux.data.datasets = datasetBuilder(luxSets, data.lux)
-  graphChartLux.options = optionsBuilder(ctxLux, graphChartLuxSettings)
-  /*  */
+  
   const graphChartNoise = { ...default_config }
   const graphChartNoiseSettings = {
     tension: 0.1,
@@ -361,10 +333,7 @@ function drawGraph(data) {
       ]
     }
   }
-  const noiseSets = [items.low, items.amp, items.mid, items.high]
-  graphChartNoise.data.datasets = datasetBuilder(noiseSets, data)
-  graphChartNoise.options = optionsBuilder(ctxNoise, graphChartNoiseSettings)
-  /*  */
+  
   const graphChartGas = { ...default_config }
   const graphChartGasSettings = {
     tension: 0.2,
@@ -396,10 +365,7 @@ function drawGraph(data) {
       ]
     }
   }
-  const gasSets = [items.nh3, items.red, items.oxi]
-  graphChartGas.data.datasets = datasetBuilder(gasSets, data)
-  graphChartGas.options = optionsBuilder(ctxGas, graphChartGasSettings)
-  /*  */
+  
   const graphChartPm = { ...default_config }
   const graphChartPmSettings = {
     tension: 0.2,
@@ -431,12 +397,43 @@ function drawGraph(data) {
       ]
     }
   }
+
+  //graph temperature
+  const tempSets = [items.temp]
+  graphChartTemp.data.datasets = datasetBuilder(tempSets, data.temp)
+  graphChartTemp.options = optionsBuilder(ctxTemp, graphChartTempSettings)
+
+  //graph humidity
+  const humiSets = [items.humi]
+  graphChartHumi.data.datasets = datasetBuilder(humiSets, data.humi)
+  graphChartHumi.options = optionsBuilder(ctxHumi, graphChartHumiSettings)
+
+  //graph pressure
+  const presSets = [items.pres]
+  graphChartPres.data.datasets = datasetBuilder(presSets, data.pres)
+  graphChartPres.options = optionsBuilder(ctxPres, graphChartPresSettings)
+
+  //graph lux
+  const luxSets = [items.lux]
+  graphChartLux.data.datasets = datasetBuilder(luxSets, data.lux)
+  graphChartLux.options = optionsBuilder(ctxLux, graphChartLuxSettings)
+
+  //graph noise
+  const noiseSets = [items.low, items.amp, items.mid, items.high]
+  graphChartNoise.data.datasets = datasetBuilder(noiseSets, data)
+  graphChartNoise.options = optionsBuilder(ctxNoise, graphChartNoiseSettings)
+
+  //graph gas
+  const gasSets = [items.nh3, items.red, items.oxi]
+  graphChartGas.data.datasets = datasetBuilder(gasSets, data)
+  graphChartGas.options = optionsBuilder(ctxGas, graphChartGasSettings)
+
+  //pm graph
   const pmSets = [items.pm10, items.pm25, items.pm100]
   graphChartPm.data.datasets = datasetBuilder(pmSets, data)
   graphChartPm.options = optionsBuilder(ctxPm, graphChartPmSettings)
-  /*  */
 
-  // Push data for chartJS
+  // creating charts from chart.js
   graphChartTempInput = new Chart(ctxTemp, graphChartTemp)
   graphChartHumiInput = new Chart(ctxHumi, graphChartHumi)
   graphChartPresInput = new Chart(ctxPres, graphChartPres)
@@ -448,7 +445,7 @@ function drawGraph(data) {
 
 // Call a function repetitively with 1 second interval
 setInterval(function () {
-  getData();
+  /* getData(); */
   /* getGraph(); */
 }, 5000); // ~1s update rate
 

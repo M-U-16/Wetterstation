@@ -1,0 +1,14 @@
+{% macro graph_humi() %}
+    <!-- Humidity -->
+    <div class="graph-container graph-humi">
+        <div class="graph-header">
+          <h2 class="color-blue">Feuchtigkeit:</h2>
+          <div class="graph-header-readings">
+            <div><span id="humi">-</span>%</div>
+          </div>
+        </div>
+        <div class="graph-chart">
+          <canvas id="graphChartHumiInput" class="loading-spinner"></canvas>
+        </div>
+    </div>
+{% endmacro %}

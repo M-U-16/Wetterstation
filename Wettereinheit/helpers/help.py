@@ -22,7 +22,7 @@ def filename(t):
     return strftime("enviro-data/%Y_%j", localtime(t))
 
 def get_cpu_temperature(self, turnedOn):
-""" if self.temp_humi_compensation:
+    """ if self.temp_humi_compensation:
         # Tuning factor for compensate the temperature and humidity
         factor_temp = 3.10
         factor_humi = 1.26    
@@ -34,7 +34,7 @@ def get_cpu_temperature(self, turnedOn):
         return temp
     else:
         return None
-"""
+    """
     if turnedOn:
          print("current temperature")
     else:

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% from './components/navbar.html' import navbar %}
+{% block title %}Einstellungen{% endblock %}
+{% block content %}
+    {{ navbar() }}
+
+    <div class="app__settings-container">                    
+        <h1>Einstellungen</h1>
+
+        <!-- Fan speed -->
+        <div class="container-btn-fanGpio">
+            <span class="header-icon" title="Lüfterkraft">
+                <img id="fan-power-light" src="{{url_for("static", filename="images/icons/dark-theme/fan-power.svg")}}"/>
+                <img id="fan-power-dark" src="{{url_for("static", filename="images/icons/dark-theme/fan-power.svg")}}"/>
+            </span>
+            <label for="fan" class="visually-hidden"> Fan power </label>
+            <input id="fan" type="number" min="0" max="100" step="5" value="100" name="fan"/>
+        </div>
+    </div>
+{% endblock %}
