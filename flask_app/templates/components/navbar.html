@@ -1,3 +1,39 @@
+{% macro Select() %}
+    <div class="app__time-select-container">
+        <button id="time-select-button" class="app__time-select-btn">
+            <img
+                class="app__select-icon-time"
+                src={{url_for("static", filename="images/icons/light-theme/time-range.svg")}}
+            >
+            <span id="time-select-text">1 Tag</span>
+            <img
+                id="select-arrow-icon"
+                class="app__select-icon-arrow"
+                src={{ url_for("static", filename="images/icons/arrow-down.svg") }}
+            >
+        </button>
+        <div class="app__select-options-container">
+            <button
+                id="option-select-default"
+                class="app__select-option"
+                data-value="1t"
+            >1 Tag</button>
+            <button
+                class="app__select-option"
+                data-value="1w"
+            >1 Woche</button>
+            <button
+                class="app__select-option"
+                data-value="1m"
+            >1 Monat</button>
+            <button
+                class="app__select-option"
+                data-value="1j"
+            >1 Jahr</button>
+        </div>
+    </div>
+{% endmacro %}
+
 {% macro navbar() %}
     <nav class="navbar" id="app__navbar">
         <!-- Title / logo -->
@@ -46,19 +82,7 @@
 
             <div class="app__settings-container">                    
                 <!-- Time range dropdown -->
-                <div class="container-btn-timeRange">
-                    <span class="header-icon" title="Zeitraum">
-                        <img id="time-range-light" id="time-range-light" src="{{url_for("static", filename="images/icons/light-theme/time-range.svg")}}" />
-                        <img id="time-range-dark" id="time-range-dark" src="{{url_for("static", filename="images/icons/dark-theme/time-range.svg")}}" />
-                    </span>
-                    <label for="graph-sel" class="visually-hidden"> Time range </label>
-                    <select id="graph-sel">
-                        <option value="day" selected>1 day</option>
-                        <option value="week">1 week</option>
-                        <option value="month">1 month</option>
-                        <option value="year">1 year</option>
-                    </select>
-                </div>
+                {{ Select() }}
 
                 <!-- Color Theme -->
                 <div class="container-btn-theme">

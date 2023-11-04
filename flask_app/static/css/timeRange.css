@@ -1,0 +1,84 @@
+.app__time-select-container {
+    width: 10rem;
+    height: 3rem;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    /* margin: 1rem; */
+    background: transparent;
+}
+.app__select-icon-arrow,
+.app__select-icon-time {
+    width: 1.5rem;
+    aspect-ratio: 1;
+    pointer-events: none;
+}
+.app__select-icon-arrow {
+    right: 1rem;
+}
+.app__select-icon-time {
+    left: 1rem;
+}
+.app__time-select-btn {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    border-radius: 1rem;
+    border: none;
+    font-weight: 800;
+    cursor: pointer;
+    z-index: 1;
+    box-shadow: inset 0px 0px 3px grey;
+}
+.app__select-options-container {
+    position: absolute;
+    top: calc(100% - 2rem);
+    background: white;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+    border-radius: 1rem;
+    transition: 0.3s ease;
+    z-index: 0;
+    height: auto;
+    overflow: hidden;
+    box-shadow: inset 0px 0px 3px grey;
+    display: none;
+}
+.app__select-option {
+    border: none;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    transition: 0.3s ease;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+.app__select-option:nth-child(1) {
+    margin-top: 1.5rem;
+}
+.app__select-option:hover {
+    background: rgba(128, 128, 128, 0.162);
+}
+@media screen and (max-width: 1259px) {
+    .app__time-select-container {
+        margin: 0;
+    }
+}
+@keyframes slideIn {
+    from {
+        height: 0;
+    }
+    to {
+        height: auto;
+    }
+}

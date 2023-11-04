@@ -1,8 +1,16 @@
 {% extends "base.html" %}
 {% from './components/navbar.html' import navbar %}
 {% from './components/footer.html' import footer %}
+{% from './components/TimeSelect/TimeSelect.html' import Select %}
 
 {% block title %}Startseite{% endblock %}
+{% block styles %}
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/timeRange.css') }}"
+        media="all"
+    />
+{% endblock %}
 {% block content %}
     {{ navbar() }}
 

@@ -2,8 +2,8 @@ const themeBtn = document.getElementById("theme-btn");
 /* const themeDarkBtn = document.getElementById("theme-dark"); */
 let hasThemeLight = body.classList.contains("theme-light");
 
-const timeRangeLight = document.getElementById("time-range-light")
-const timeRangeDark = document.getElementById("time-range-dark")
+/* const timeRangeLight = document.getElementById("time-range-light")
+const timeRangeDark = document.getElementById("time-range-dark") */
 
 const fanPowerLight = document.getElementById("fan-power-light")
 const fanPowerDark = document.getElementById("fan-power-dark")
@@ -12,8 +12,8 @@ const themeLight = document.getElementById("theme-light-img")
 const themeDark = document.getElementById("theme-dark-img")
 
 const allIcons = [
-    timeRangeDark,
-    timeRangeLight,
+    /* timeRangeDark,
+    timeRangeLight, */
     themeDark,
     themeLight
 ]
@@ -27,11 +27,11 @@ function loadIcons(theme) {
     removeIcons()
     if (theme === "theme-light") {
         themeDark.style.display = "block"
-        timeRangeDark.style.display = "block"
+        /* timeRangeDark.style.display = "block" */
     }
     if (theme === "theme-dark") {
         themeLight.style.display = "block"
-        timeRangeLight.style.display = "block"
+        /* timeRangeLight.style.display = "block" */
     }
 }
 

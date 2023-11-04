@@ -1,0 +1,35 @@
+{% macro Select() %}
+    <div class="app__time-select-container">
+        <button id="time-select-button" class="app__time-select-btn">
+            <img
+                class="app__select-icon-time"
+                src={{url_for("static", filename="images/icons/light-theme/time-range.svg")}}
+            >
+            <span id="time-select-text">1 Tag</span>
+            <img
+                id="select-arrow-icon"
+                class="app__select-icon-arrow"
+                src={{ url_for("static", filename="images/icons/arrow-down.svg") }}
+            >
+        </button>
+        <div class="app__select-options-container">
+            <button
+                id="option-select-default"
+                class="app__select-option"
+                data-value="1t"
+            >1 Tag</button>
+            <button
+                class="app__select-option"
+                data-value="1w"
+            >1 Woche</button>
+            <button
+                class="app__select-option"
+                data-value="1m"
+            >1 Monat</button>
+            <button
+                class="app__select-option"
+                data-value="1j"
+            >1 Jahr</button>
+        </div>
+    </div>
+{% endmacro %}
