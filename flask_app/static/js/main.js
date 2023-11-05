@@ -89,7 +89,8 @@ function listReadings(d) {
 }
 // Request to get graph data
 function getGraph() {
-  frequency = document.getElementById("graph-sel").value;
+  frequency = document.getElementById("time-select-button").dataset.current
+  console.log(frequency)
   let currentTime = Date.now() / 1000;
   if (
     frequency != last_frequency ||
@@ -102,7 +103,7 @@ function getGraph() {
     xhttp.onreadystatechange = function () {
       if (this.readyState == 4 && this.status == 200) {
         console.log("getGraph(): ", JSON.parse(this.responseText));
-        transformedData = JSON.parse(this.responseText).map((element) => {
+        /* transformedData = JSON.parse(this.responseText).map((element) => {
           return {
             // Normalize data for the graph
             time: new Date(element.time).toISOString(),
@@ -121,16 +122,16 @@ function getGraph() {
             pm100: element.pm100,
             pm25: element.pm25,
           };
-        });
-
+        }); */
+        //console.log(transformedData)
         //looks if it is first run when it is sets firstrun false
-        !firstRun ? destroyAllCharts() : firstRun = false
+        /* !firstRun ? destroyAllCharts() : firstRun = false */
         //draw the graphs
-        drawGraph(transformedData);
+        /* drawGraph(transformedData); */
       }
     };
 
-    xhttp.open("GET", "graph?time=" + frequency, true);
+    xhttp.open("GET", "/api/graph?time=" + frequency, true);
     xhttp.send();
   }
 }
@@ -444,12 +445,13 @@ function drawGraph(data) {
 }
 
 // Call a function repetitively with 1 second interval
-setInterval(function () {
+setInterval(() => {
   /* getData(); */
   /* getGraph(); */
 }, 5000); // ~1s update rate
 
-/* window.addEventListener("resize", function () {
+getGraph()
+/* window.addEventListener("resize", () => {
   destroyAllCharts();
   drawGraph(transformedData);
 }); */

@@ -32,20 +32,6 @@ input {
 input[type="number"] {
   width: 3.25rem;
 }
-button,
-.button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 2rem;
-  min-height: 2rem;
-  padding: 0.15rem;
-  border: 2px solid var(--color-black);
-  border-radius: 0.25rem;
-  color: var(--color-black);
-  background-color: var(--color-white);
-  cursor: pointer;
-}
 .theme-dark button,
 .theme-dark .button {
   color: var(--color-gray-light);

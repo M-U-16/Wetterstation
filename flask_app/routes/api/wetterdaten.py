@@ -8,6 +8,9 @@ wetterdaten_route = Blueprint("wetterdaten_route", __name__)
 
 @wetterdaten_route.route('/wetterdaten', methods=["POST"])
 def wetterdaten():
+    if request.method == "GET":
+        return {"message": "Hello"}
+    
     if request.method == "POST":
         #database
         data = json.loads(request.get_json())
@@ -18,3 +21,4 @@ def wetterdaten():
         if SERVER_SETTINGS["logging"]:
             print("wetterdaten erhalten!")
         return { "message": "Added Entry" }
+    

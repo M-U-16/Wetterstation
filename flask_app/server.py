@@ -12,6 +12,8 @@ import math
 from flask import Flask, render_template, url_for, request, session
 from livereload import Server
 import logging
+import mimetypes
+mimetypes.add_type('application/javascript', '.mjs')
 
 import db
 from server_settings import SERVER_SETTINGS
