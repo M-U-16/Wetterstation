@@ -9,6 +9,8 @@ class Database:
     
     def __init__(self, path):
         self.setPath(path)
+        self.setConnection()
+        self.setCursor()
     
     #set path for database
     def setPath(self, path):
@@ -23,13 +25,10 @@ class Database:
     def setCursor(self):
         self.cursor = self.con.cursor()
     
-    def queryDb(self, query, args):
-        self.setConnection()
-        self.setCursor()
+    def queryDb(self, query, args=[]):
         
         result = self.cursor.execute(query, args)
         self.con.commit()
-        self.con.close()
         return result
 
     def addData(self, data):
@@ -39,12 +38,9 @@ class Database:
         pres = data["pres"]
         lux = data["lux"]
         
-        date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        day_text = "SUN"
-        
         self.queryDb(
-            "INSERT INTO wetterdaten(entry_date, entry_day_text, temp, humi, pres, lux) VALUES (?, ?, ?, ?, ?, ?)",
-            (date, day_text, temp, humi, pres, lux)
+            "INSERT INTO wetterdaten(entry_date, entry_time, temp, humi, pres, lux) VALUES (?, ?, ?, ?, ?, ?)",
+            (data["date"], data["time"], temp, humi, pres, lux)
         )
         
         
@@ -52,12 +48,18 @@ class Database:
         self.setConnection()
         self.setCursor()
         table = self.cursor.execute(f"SELECT * FROM {table_name}").fetchall()
-        print(table)
         self.con.close()
         return table
     
     def getDay(self):
-        return datetime.today().strftime('%Y-%m-%d')
+        currentDate = datetime.today().strftime('%Y-%m-%d')
+        
+        res = self.queryDb(
+            "select * from wetterdaten where entry_date=?",
+            [currentDate]
+        ).fetchall()
+        print(res)
+        return res
     def getWeek(self, day, month):
         pass
     

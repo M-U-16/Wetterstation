@@ -5,7 +5,8 @@ from datetime import datetime
 def read_fake_data():
     
     return {
-        "time": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        "date": datetime.now().strftime('%Y-%m-%d'),
+        "time": datetime.now().strftime('%H:%M:%S'),
         "temp": random.randrange(0,34),
         "humi": random.randrange(0,100),
         "pres": random.randrange(1, 1000),
