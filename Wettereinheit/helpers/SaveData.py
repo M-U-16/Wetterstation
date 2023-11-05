@@ -2,6 +2,7 @@ import os
 import pathlib
 import json
 import shutil
+from datetime import datetime
 
 SAVE_DIRECTORY = "enviro-data"
 
@@ -56,7 +57,9 @@ def readEntry(file_path):
     return file_content
 
 def save_data(data):
-    date = data["time"]
+    print(data)
+    
+    """ date = data["time"]
     date_list = date.split(" ")
     time = "-".join(date_list[3].split(":"))
     entry_year = date_list[4]
@@ -86,6 +89,6 @@ def save_data(data):
     
     createFile(file_path)
     lastEntry = readEntry(file_path)
-    addEntry(file_path, lastEntry, data)
+    addEntry(file_path, lastEntry, data) """
     
     

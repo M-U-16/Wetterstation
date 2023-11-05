@@ -8,7 +8,7 @@ import time
 
 from settings import SETTINGS
 from config import Config
-from helpers.ReadData import read_data
+""" from helpers.ReadData import read_data """
 from helpers.SendData import send_to_server
 from helpers.SaveData import save_data
 from helpers.ReadFakeData import read_fake_data
@@ -27,9 +27,9 @@ def startMeasuring():
     if SETTINGS["send_data"] and SETTINGS["server"]:
         json_data = json.dumps(data)
         res = send_to_server(
-            ip, #ip of server
-            port, #port where server is running
-            "wetterdaten", #endpoint
+            SETTINGS["ip_address"], #ip of server
+            SETTINGS["server_port"], #port where server is running
+            "/api/wetterdaten", #endpoint
             json_data, #data for sending
             "wetter", #action for sending data
             "post" #string setting method
@@ -44,7 +44,7 @@ def startMeasuring():
             "particulate_sensor": SETTINGS["particulate_sensor"],
         }
         json_settings = json.dumps(settings)
-        endpoint = "settings"
+        endpoint = "/api/settings"
         res = send_to_server(ip, port, endpoint, json_settings, "settings", "post")
         if SETTINGS["logging"]:
             print(res)
@@ -59,10 +59,11 @@ if __name__ == "__main__":
     if not os.path.isdir('enviro-data'):
         os.makedirs('enviro-data')
         
-    schedule.every(10).seconds.do(startMeasuring)
+    """ schedule.every(2).seconds.do(startMeasuring)
     
     while True:
         schedule.run_pending()
-        time.sleep(1)
+        time.sleep(1) """
+    startMeasuring()
     
     

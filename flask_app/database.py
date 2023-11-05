@@ -1,4 +1,5 @@
 import sqlite3
+from datetime import datetime
 
 class Database:
     def __init__(self):
@@ -22,33 +23,30 @@ class Database:
     def setCursor(self):
         self.cursor = self.con.cursor()
     
-    def queryDatabase(self, query):
+    def queryDb(self, query, args):
         self.setConnection()
         self.setCursor()
-        return self.cursor.execute(query)
+        
+        result = self.cursor.execute(query, args)
+        self.con.commit()
+        self.con.close()
+        return result
 
-    def addData(self, table_name, data):
-        date = data["time"]
+    def addData(self, data):
+        #date = data["time"]
         temp = data["temp"]
         humi = data["humi"]
         pres = data["pres"]
         lux = data["lux"]
         
-        #create variables for data dates
-        date_list = date.split(" ")
-        year = int(date_list[4])
-        month = date_list[1]
-        day = int(date_list[2])
-        time = date_list[3]
+        date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        day_text = "SUN"
         
-        self.setConnection()
-        self.setCursor()
-        self.cursor.execute(
-            "INSERT INTO wetterdaten(full_date, entry_year, entry_day, entry_month, entry_time, temp, humi, pres, lux) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            (date, year, day, month, time, temp, humi, pres, lux)
+        self.queryDb(
+            "INSERT INTO wetterdaten(entry_date, entry_day_text, temp, humi, pres, lux) VALUES (?, ?, ?, ?, ?, ?)",
+            (date, day_text, temp, humi, pres, lux)
         )
-        self.con.commit()
-        self.con.close()
+        
         
     def printTable(self, table_name):
         self.setConnection()
@@ -58,47 +56,14 @@ class Database:
         self.con.close()
         return table
     
-    def getDay(self, year, month, day_text):
-        #set connection
-        self.setConnection()
-        self.setCursor()
-        #year month day
-        #qeury = SELECT * FROM wetterdaten WHERE year=? and month=? and day_text=?, (year, month, day_text)
-        table_content = self.cursor.execute("SELECT * FROM wetterdaten WHERE year=? and month=? and day_text=?", (year, month, day_text))
-          
-        #close connection
-        self.con.close()
-        return table_content
-    
+    def getDay(self):
+        return datetime.today().strftime('%Y-%m-%d')
     def getWeek(self, day, month):
-        #set connection
-        self.setConnection()
-        self.setCursor()
-        #year month day
-        #qeury = SELECT * FROM wetterdaten WHERE year=? and month=?, (year, month)
-        table_content = self.cursor.execute("SELECT * FROM wetterdaten WHERE year=? and month=?", (day, month))
-          
-        #close connection
-        self.con.close()
-        return table_content
+        pass
     
     def getMonth(self, year, month):
-        #set connection
-        self.setConnection()
-        self.setCursor()
-        #year month
-        #qeury = SELECT * FROM wetterdaten WHERE year=? and month=?, (year, month)
-        table_content = self.cursor.execute("SELECT * FROM wetterdaten WHERE year=? and month=?", (year, month))
-        #close connection
-        self.con.close()
-        return table_content
+        pass
     
     def getYear(self, year):
-        #set connection
-        self.setConnection()
-        self.setCursor()
-        #year month day
-        table_content = self.cursor.execute("SELECT * FROM wetterdaten WHERE year=?", (year))
-        #close connection
-        self.con.close()
-        return table_content
+        pass
+    

@@ -1,5 +1,6 @@
 from settings import SETTINGS
-from time import sleep, time, asctime, localtime, strftime, gmtime
+from time import sleep
+from datetime import datetime
 from bme280 import BME280
 from enviroplus import gas
 from enviroplus.noise import Noise
@@ -87,7 +88,7 @@ def read_data():
 
     record = {
         #"time": " ".join(list(filter(lambda x: x != "", asctime(localtime()).split(" ")))),
-        'time' : asctime(localtime(time)),
+        "time": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
         'temp' : round(temperature,1),
         'humi' : round(humidity,1),
         'pres' : round(pressure,1),

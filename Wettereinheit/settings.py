@@ -18,7 +18,7 @@ SETTINGS = {
     #save data
     "save_data": True,
     #send pi settings
-    "send_pi_settings": True,
+    "send_pi_settings": False,
     #default settings for fan
     "fan": 100,
     #server

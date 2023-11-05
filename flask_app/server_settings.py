@@ -1,9 +1,8 @@
 SERVER_SETTINGS = {
-    "ip/host": "localhost",
-    "port": 80,
-    "database": "wetter.db",
-    "db_path": ".",
-    "wetter_table": "wetterdaten",
-    "reset_db": True,
-    "logging": True
+    "HOST": "localhost",
+    "PORT": 80,
+    "DATABASE": "wetter.db",
+    "WETTER_TABLE": "wetterdaten",
+    "RESET_DB": False,
+    "LOGGING": True
 }

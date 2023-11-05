@@ -16,5 +16,6 @@ def send_to_server(ip, port, endpoint, data, action, method):
         if action == "settings" and method == "get":
             res = requests.get(f"http://{ip}:{port}/{endpoint}", json=data).json()
             return res["fan"]
-    except:
+    except Exception as e:
         print("Can't connect to server!")
+        print("Error. ", e)

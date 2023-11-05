@@ -1,16 +1,12 @@
 import sqlite3
 from flask import g
 
-DATABASE = "./wetter.db"
+def get_connection():
+    if "db" not in g:
+        conn = sqlite3.connect("wetter.db")
+        conn.row_factory = sqlite3.Row
+        g.db = conn
+    return g.db
 
-def get_db():
-    db = getattr(g, "_database", None)
-    if db is None:
-        db = g._database = sqlite3.connect(DATABASE)
-    return db
-
-@app.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
+def query_db(query):
+    pass

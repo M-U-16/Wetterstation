@@ -13,11 +13,9 @@ import sqlite3
 from flask import Flask, g, render_template, url_for, request, session
 from livereload import Server
 import logging
-import mimetypes
-mimetypes.add_type('application/javascript', '.mjs')
-
-import db
 from server_settings import SERVER_SETTINGS
+
+from db import *
 
 #import routes
 from routes.app.wetter import wetter_route
@@ -35,6 +33,10 @@ run_flag = True
 gas_sensor = None
 particulate_sensor = None
 fan_gpio = None
+
+#load settings in conf
+for config in SERVER_SETTINGS:
+    app.config[config] = SERVER_SETTINGS[config]
 
 #config for database
 DATABASE = "./wetter.db"
