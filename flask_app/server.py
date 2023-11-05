@@ -9,7 +9,8 @@
 # See the GNU General Public License for more details.
 #
 import math
-from flask import Flask, render_template, url_for, request, session
+import sqlite3
+from flask import Flask, g, render_template, url_for, request, session
 from livereload import Server
 import logging
 import mimetypes
@@ -35,7 +36,25 @@ gas_sensor = None
 particulate_sensor = None
 fan_gpio = None
 
-DB = db.Database("./wetter.db")
+#config for database
+DATABASE = "./wetter.db"
+def get_db():
+    db = getattr(g, "_database", None)
+    if db is None:
+        db = g._database = sqlite3.connect(DATABASE)
+    return db
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
+        
+def query_db(query, args=(), one=False):
+    cur = get_db().execute(query, args)
+    rv = cur.fetchall()
+    cur.close()
+    return (rv[0] if rv else None) if one else rv
 
 #register app routes
 app.register_blueprint(wetter_route)

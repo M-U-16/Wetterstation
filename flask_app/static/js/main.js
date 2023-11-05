@@ -131,7 +131,7 @@ function getGraph() {
       }
     };
 
-    xhttp.open("GET", "/api/graph?time=" + frequency, true);
+    xhttp.open("GET", "/api/data?time=" + frequency, true);
     xhttp.send();
   }
 }
