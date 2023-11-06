@@ -12,7 +12,7 @@ def queryDb(query, args=[]):
     conn.commit()
     return result
 
-def addData(self, data):
+def addData(data):
     #date = data["time"]
     temp = data["temp"]
     humi = data["humi"]
@@ -32,3 +32,31 @@ def getDay():
         [currentDate]
     ).fetchall()
     return res
+
+def formatResponse(arr):
+    newArr = []
+    columns = [
+        "entry_id", "entry_date",
+        "entry_time", "temp",
+        "humi",
+        "pres",
+        "lux",
+        "high",
+        "mid",
+        "low",
+        "amp",
+        "oxi",
+        "red",
+        "nh3",
+        "pm10",
+        "pm25",
+        "pm100"
+    ]
+    
+    for entry in arr:
+        dictonary = {}
+        for index, value in enumerate(columns):
+            dictonary[value] = entry[index]
+        newArr.append(dictonary)
+        
+    return newArr

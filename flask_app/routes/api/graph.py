@@ -2,9 +2,8 @@ from flask import Blueprint, request, current_app, g
 from server_settings import *
 import os
 import json
-#from database import Database
 from helpers.getDbPath import getPath
-from db import getDay
+from db import getDay, formatResponse
 
 graph_route = Blueprint("graph_route", __name__)
 
@@ -20,10 +19,8 @@ def graph():
         return {"error": True}
     try:
         if request.args["time"] == "1d":
-            getDay()
-            return {
-                "data": getDay()
-            }
+            formatResponse(getDay())
+            return { "data": formatResponse(getDay()) }
         if request.args["time"] == "1w":
             return {"data": request.args["time"]}
         if request.args["time"] == "1m":
