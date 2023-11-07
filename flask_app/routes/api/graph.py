@@ -3,7 +3,7 @@ from server_settings import *
 import os
 import json
 from helpers.getDbPath import getPath
-from db import getDay, formatResponse
+from db import getDay, getWeek, formatResponse
 
 graph_route = Blueprint("graph_route", __name__)
 
@@ -19,9 +19,9 @@ def graph():
         return {"error": True}
     try:
         if request.args["time"] == "1d":
-            formatResponse(getDay())
             return { "data": formatResponse(getDay()) }
         if request.args["time"] == "1w":
+            getWeek()
             return {"data": request.args["time"]}
         if request.args["time"] == "1m":
             return {"data": request.args["time"]}

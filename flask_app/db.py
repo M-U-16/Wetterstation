@@ -1,6 +1,28 @@
 import sqlite3
 from datetime import datetime
 
+def formatResponse(arr):
+    newArr = []
+    columns = [
+        "entry_id", "entry_date",
+        "entry_time", "temp",
+        "humi", "pres",
+        "lux", "high",
+        "mid", "low",
+        "amp", "oxi",
+        "red", "nh3",
+        "pm10", "pm25",
+        "pm100"
+    ]
+    
+    for entry in arr:
+        dictonary = {}
+        for index, value in enumerate(columns):
+            dictonary[value] = entry[index]
+        newArr.append(dictonary)
+        
+    return newArr
+
 def get_connection():
     conn = sqlite3.connect("wetter.db")
     return conn
@@ -26,37 +48,33 @@ def addData(data):
     
 def getDay():
     currentDate = datetime.today().strftime('%Y-%m-%d')
-        
     res = queryDb(
         "select * from wetterdaten where entry_date=?",
         [currentDate]
     ).fetchall()
     return res
 
-def formatResponse(arr):
-    newArr = []
-    columns = [
-        "entry_id", "entry_date",
-        "entry_time", "temp",
-        "humi",
-        "pres",
-        "lux",
-        "high",
-        "mid",
-        "low",
-        "amp",
-        "oxi",
-        "red",
-        "nh3",
-        "pm10",
-        "pm25",
-        "pm100"
-    ]
-    
-    for entry in arr:
-        dictonary = {}
-        for index, value in enumerate(columns):
-            dictonary[value] = entry[index]
-        newArr.append(dictonary)
-        
-    return newArr
+def getTimeRange(firstDate, lastDate):
+    res = queryDb(
+        "select * from wetterdaten where entry_date between ? and ?",
+        [firstDate, lastDate]
+    ).fetchall()
+    return res
+
+def getWeek():
+    res = queryDb(
+        "select * from wetterdaten where entry_date between DATE('now', '-7 days') and DATE('now')"
+    ).fetchall()
+    return res
+
+def getMonth():
+    res = queryDb(
+        "select * from wetterdaten where entry_date between DATE('now', '-1 month') and DATE('now')"
+    ).fetchall()
+    return res
+
+def getYear():
+    res = queryDb(
+        "select * from wetterdaten where entry_date between DATE('now', '-1 year') and DATE('now')"
+    ).fetchall()
+    return res
