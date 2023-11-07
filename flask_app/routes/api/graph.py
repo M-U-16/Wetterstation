@@ -1,6 +1,5 @@
 from flask import Blueprint, request, current_app, g
 from db import getDay, getWeek, getMonth, getYear
-from server_settings import *
 import os
 
 graph_route = Blueprint("graph_route", __name__)
