@@ -52,29 +52,29 @@ def getDay():
         "select * from wetterdaten where entry_date=?",
         [currentDate]
     ).fetchall()
-    return res
+    return formatResponse(res)
 
 def getTimeRange(firstDate, lastDate):
     res = queryDb(
         "select * from wetterdaten where entry_date between ? and ?",
         [firstDate, lastDate]
     ).fetchall()
-    return res
+    return formatResponse(res)
 
 def getWeek():
     res = queryDb(
         "select * from wetterdaten where entry_date between DATE('now', '-7 days') and DATE('now')"
     ).fetchall()
-    return res
+    return formatResponse(res)
 
 def getMonth():
     res = queryDb(
         "select * from wetterdaten where entry_date between DATE('now', '-1 month') and DATE('now')"
     ).fetchall()
-    return res
+    return formatResponse(res)
 
 def getYear():
     res = queryDb(
         "select * from wetterdaten where entry_date between DATE('now', '-1 year') and DATE('now')"
     ).fetchall()
-    return res
+    return formatResponse(res)
