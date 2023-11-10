@@ -70,5 +70,9 @@ body {
   font-family: "Noto Sans", Arial, Helvetica, Sans-Serif;
 }
 #content {
-  margin-top: var(--navbar-height);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
 }

@@ -1,9 +1,6 @@
 {% macro Select() %}
     <div class="app__time-select-container">
-        <button
-            id="time-select-button"
-            class="app__time-select-btn"
-        >
+        <button id="time-select-button" class="app__time-select-btn">
             <img
                 class="app__select-icon-time"
                 src={{url_for("static", filename="images/icons/light-theme/time-range.svg")}}
@@ -15,7 +12,7 @@
                 src={{ url_for("static", filename="images/icons/arrow-down.svg") }}
             >
         </button>
-        <div class="app__select-options-container" id="select-container">
+        <div class="app__select-options-container">
             <button
                 id="option-select-default"
                 class="app__select-option"

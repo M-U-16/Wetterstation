@@ -1,0 +1,13 @@
+.app__dashboard-control-container {
+    position: sticky;
+    top: calc(var(--navbar-height) + 10px);
+    width: 100%;
+    background: rgba(255, 255, 255, 0.77);
+    box-shadow: 0px 0px 3px rgba(128, 128, 128, 0.472);
+    height: 4rem;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 5px;
+}

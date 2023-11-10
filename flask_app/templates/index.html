@@ -1,22 +1,23 @@
 {% extends "base.html" %}
 {% from './components/navbar.html' import navbar %}
 {% from './components/footer.html' import footer %}
-{% from './components/TimeSelect/TimeSelect.html' import Select %}
 
 {% block title %}Startseite{% endblock %}
 {% block styles %}
     <link
         rel="stylesheet"
-        href="{{ url_for('static', filename='css/timeRange.css') }}"
+        href="{{ url_for('static', filename='css/home/home.css') }}"
         media="all"
     />
 {% endblock %}
 {% block content %}
     {{ navbar() }}
 
-    <header class="app__home-header">
-        <h1>Home</h1>
-    </header>
+    <div class="main__container">
+        <header class="app__home-header">
+            <h1>Home</h1>
+        </header>
+    </div>
 
     {{ footer() }}
 {% endblock %}

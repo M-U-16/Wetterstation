@@ -1,0 +1,28 @@
+{% macro timeRange() %}
+    <form 
+        class="app__range-container"
+        id="range-form-element"
+    >
+        <label for="range-first-date">Vom:</label>
+        <input
+            class="range__input"
+            name="firstDate"
+            type="date"
+            id="range-first-date"
+        >
+        <label
+            for="range-second-date"
+            class="border-none"
+        >Zum:</label>
+        <input
+            class="range__input"
+            name="secondDate"
+            type="date"
+            id="range-second-date"
+        >
+        <button
+            type="submit"
+            class="range__submit"
+        >Los</button>
+    </form>
+{% endmacro %}

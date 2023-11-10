@@ -1,0 +1,28 @@
+.app__dashboard-container {
+    margin-top: calc(var(--navbar-height));
+    display: grid;
+    grid-template-rows: auto 1fr;
+    width: 100%;
+    padding: 1rem;
+    place-content: center;
+}
+.graphs-container {
+    margin: 1rem auto;
+    max-width: 75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.app__dashboard-first-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+    gap: 1rem;
+}
+.app__dashboard-last-container {
+    display: grid;
+    margin-top: 1rem;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 100%;
+    gap: 1rem;
+}

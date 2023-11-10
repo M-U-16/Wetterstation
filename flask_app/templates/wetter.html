@@ -8,33 +8,62 @@
 {% from './components/graphs/graph_pm.html' import graph_pm %}
 {% from './components/graphs/graph_pres.html' import graph_pres %}
 {% from './components/graphs/graph_temp.html' import graph_temp %}
+
+{% from './components/TimeSelect.html' import Select %}
+{% from './components/timeRange.html' import timeRange %}
+
 {% block title %}Daten{% endblock %}
 {% block styles %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/controls.css') }}" media="all"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" media="all"/>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/graph.css') }}" media="all"/>
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/select.css') }}"
+    media="all"
+  />
+  <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/timeRange.css') }}"
+    media="all"
+  />
 {% endblock %}
 {% block content %}
 
   {{ navbar() }}
 
   <!-- Main content -->
-  <main class="main" id="main">
+  <div class="app__dashboard-container">
+    <div class="app__dashboard-control-container">
+      {{ Select() }}
+      <div></div>
+      {{ timeRange() }}
+    </div>
     <div class="graphs-container">
       
-      {{ graph_gas() }}
-      {{ graph_humi() }}
-      {{ graph_lux() }}
-      {{ graph_noise() }}
-      {{ graph_pm() }}
-      {{ graph_pres() }}
-      {{ graph_temp() }}
+      <div class="app__dashboard-first-container">
+        {{ graph_temp() }}
+        {{ graph_humi() }}
+        {{ graph_lux() }}
+        {{ graph_noise() }}
+      </div>
+      
+      <div class="app__dashboard-last-container">
+        {{ graph_pm() }}
+        {{ graph_pres() }}
+        {{ graph_gas() }}
+      </div>
+
     </div>
-  </main>
+  </div>
 {% endblock %}  
 
 <!-- Javascript -->
 {% block code %}
-  <script src={{url_for('static', filename='js/chart-test.js')}}></script>
   <script src={{ url_for('static', filename='js/chart.min.js') }}></script>
   <script src={{ url_for('static', filename='js/chartjs-adapter-date-fns.bundle.min.js')}}></script>
-  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <script src={{url_for('static', filename='js/chart-test.js')}}></script>
+  <script src={{ url_for('static', filename='js/select.js') }}></script>
+  <script src={{ url_for('static', filename='js/timeRange.js') }}></script>
+  <script src={{ url_for('static', filename='js/main.js') }}></script>
 {% endblock %}

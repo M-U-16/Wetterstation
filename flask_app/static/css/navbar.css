@@ -7,9 +7,10 @@
     height: var(--navbar-height);
     position: fixed;
     top: 0;
+    left: 0;
     background-color: var(--color-white);
     border-bottom: 1px solid var(--color-gray-light);
-    z-index: 1;
+    z-index: 2;
 }
 .theme-dark .navbar {
     background-color: var(--color-black);
@@ -76,9 +77,6 @@
 }
 .active-header-icon {
     display: flex;
-}
-body[data-hasFanGPIO="False"] .container-btn-fanGpio {
-    display: none !important;
 }
 .button-icon-svg {
     max-width: 1.25rem;
@@ -183,6 +181,7 @@ body[data-hasFanGPIO="False"] .container-btn-fanGpio {
     justify-content: flex-start;
     border-radius: 5px;
     width: 10rem;
+    height: 3.5rem;
     /* transition: color 0.3s ease; */
     box-shadow: inset 0px 0px 4px rgba(133, 133, 133, 0.651);
 }
@@ -193,8 +192,8 @@ body[data-hasFanGPIO="False"] .container-btn-fanGpio {
 
 }
 .navbar__link-container .navbar__link img {
-    height: 2.5rem;
-    width: 2.5rem;
+    height: 2rem;
+    width: 2rem;
     margin-left: 0.5rem;
     padding: 0.5rem;
     transition: 0.3s;
@@ -273,15 +272,6 @@ body[data-hasFanGPIO="False"] .container-btn-fanGpio {
     }
     .app__settings-container h1 {
         display: block;
-    }
-    .app__settings-container > div {
-        border-left: none;
-        float: left;
-        align-items: flex-start;
-        justify-content: flex-start;
-        padding: 0;
-        margin: 0.75rem 0rem;
-        border-left: none !important;
     }
     .app__settings-container {
         flex-direction: column;
