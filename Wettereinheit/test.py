@@ -6,18 +6,18 @@ running = True
 def test():
     thread_start = datetime.now().strftime("%H:%M:%S")
     while running:
-        #print("GETTING DATA...")
         sleep(1000)
     thread_end = datetime.now().strftime("%H:%M:%S")
     
     print("Programm Start: " + thread_start)
     print("Programm Ende: " + thread_end)
     
-bg_thread = threading.Thread(target=test)
-bg_thread.start()
+if __name__ == "__main__":
+    bg_thread = threading.Thread(target=test)
+    bg_thread.start()
 
-print("---RUNNING NOW!!!---")
-while running:
-    user_input = input("Type 'STOP' to stop the programm: ")
-    if user_input == "STOP":
-        running = False
+    print("---RUNNING NOW!!!---")
+    while running:
+        user_input = input("Type 'STOP' to stop the programm: ")
+        if user_input == "STOP":
+            running = False
