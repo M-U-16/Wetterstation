@@ -1,0 +1,15 @@
+{
+    "lcd_screen": false,
+    "fan_gpio": true,
+    "temp_humi_compensation": true,
+    "gas_sensor": true,
+    "particulate_sensor": true,
+    "host": "localhost",
+    "server_port": "80",
+    "send_data": true,
+    "save_data": true,
+    "send_pi_settings": true,
+    "fan": 100,
+    "server": true,
+    "logging": true
+}

@@ -1,0 +1,8 @@
+{
+    "HOST": "localhost",
+    "PORT": 80,
+    "DATABASE": "wetter.db",
+    "WETTER_TABLE": "wetterdaten",
+    "RESET_DB": false,
+    "LOGGING": true
+}
