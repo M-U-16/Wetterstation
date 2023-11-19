@@ -17,3 +17,5 @@ build/
 enviro-data/
 db.sqlite
 wetter.db
+.vscode
+*.db

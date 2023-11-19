@@ -39,10 +39,6 @@
 .navbar__logo-img img {
     height: 100%;
 }
-/* ------------------- */
-/* .container-menu-hamburger {
-    translate: 0 -5px;
-} */
 .container-menu-settings {
     display: flex;
     flex-direction: row;
@@ -56,9 +52,6 @@
     display: flex;
     align-items: center;
     border-left: 1px solid var(--color-gray-light);
-}
-.theme-dark .app__settings-container > div {
-    border-left: 1px solid var(--color-gray-dark);
 }
 /* ----------------------------- */
 .app__settings-container {
@@ -90,12 +83,6 @@
     fill: var(--color-black);
     stroke: var(--color-black);
 }
-.theme-dark .button-icon-svg,
-.theme-dark .header-icon svg {
-    fill: var(--color-gray-light);
-    stroke: var(--color-gray-light);
-}
-  
 /* Navbar Mobile version */
 @media screen and (min-width: 1260px) {
     .container-menu-hamburger {
@@ -124,9 +111,6 @@
 }
 .menu-hamburger:hover .menu-line2 {
     transform: translateX(5px);
-}
-.theme-dark .menu-hamburger {
-    stroke: var(--color-gray-light);
 }
 .menu-hamburger.btn-active {
     transform: rotate(180deg);
@@ -202,36 +186,7 @@
     font-size: 1.2rem;
     transition: 0.3s ease;
 }
-/* DIFFERENT THEMES FOR LINKS AND IMAGES */
-.theme-light .navbar__link img {
-    filter: invert(5%);
-}
-.theme-dark .navbar__link img {
-    filter: invert(90%);
-}
-.theme-light .navbar__link span {
-    color: rgb(0, 0, 0);
-}
-.theme-dark .navbar__link span {
-    color: white;
-}
-.theme-light .navbar__link:hover img {
-    filter: invert(100%);
-}
-.theme-dark .navbar__link-container .navbar__link:hover span {
-    color: #ffffff;
-}
-.theme-light .navbar__link-container .navbar__link:hover span {
-    color: #fff;
-}
-.theme-light .navbar__link:hover {
-    background: #009dff;
-}
 /* LINK ACTIONS */
-/* ICONS ZOOM */
-.theme-dark .navbar__link:hover {
-    background: #009DFF;
-}
 @media screen and (max-width: 1259px) {
     h1 {
       font-size: 1.5rem;
@@ -260,9 +215,6 @@
         transition: opacity 0.5s ease-in-out,
         width 1s ease;
         border-left: 1px solid var(--color-gray-light);
-    }
-    .theme-dark .container-menu-settings.menu-settings-open {
-        background: var(--color-black);
     }
     .container-info-time {
         margin-top: -1.1rem;

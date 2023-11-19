@@ -23,20 +23,8 @@ input {
     padding-right: 0.5rem;
   }
 }
-.theme-dark select,
-.theme-dark input {
-  color: var(--color-gray-light);
-  background-color: var(--color-black);
-  border: 2px solid var(--color-gray-dark);
-}
 input[type="number"] {
   width: 3.25rem;
-}
-.theme-dark button,
-.theme-dark .button {
-  color: var(--color-gray-light);
-  background-color: var(--color-black);
-  border: 2px solid var(--color-gray-dark);
 }
 /* a11y */
 .visually-hidden:not(:focus):not(:active) {
