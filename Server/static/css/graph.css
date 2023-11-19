@@ -43,15 +43,6 @@ body[data-hasParticulateSensor="False"] .graph-pm {
     gap: 1rem;
     display: none;
 }
-.theme-dark .graph-container {
-    background-color: var(--color-gray-darker);
-}
-.theme-dark .graph-header {
-    border-bottom: 2px solid var(--color-black);
-}
-.graph-chart {
-    padding: 0 0.75rem 1.25rem 0.75rem;
-}
 .graph-chart > canvas {
     width: 100%;
     display: block;
