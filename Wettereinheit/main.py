@@ -1,14 +1,8 @@
-import requests
 import json
 import os
-#imports for timing
-#python schedule package
-import schedule
-import time
 
 from settings import SETTINGS
 from config import Config
-""" from helpers.ReadData import read_data """
 from helpers.SendData import send_to_server
 from helpers.SaveData import save_data
 from helpers.ReadFakeData import read_fake_data
@@ -59,11 +53,6 @@ if __name__ == "__main__":
     if not os.path.isdir('enviro-data'):
         os.makedirs('enviro-data')
         
-    """ schedule.every(2).seconds.do(startMeasuring)
-    
-    while True:
-        schedule.run_pending()
-        time.sleep(1) """
     startMeasuring()
     
     
