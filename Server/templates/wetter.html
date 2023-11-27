@@ -9,8 +9,8 @@
 {% from './components/graphs/graph_pres.html' import graph_pres %}
 {% from './components/graphs/graph_temp.html' import graph_temp %}
 
-{% from './components/TimeSelect.html' import Select %}
-{% from './components/timeRange.html' import timeRange %}
+{% from './components/inputs/TimeSelect.html' import Select %}
+{% from './components/inputs/timeRange.html' import timeRange %}
 
 {% block title %}Daten{% endblock %}
 {% block styles %}
@@ -36,7 +36,6 @@
   <div class="app__dashboard-container">
     <div class="app__dashboard-control-container">
       {{ Select() }}
-      <div></div>
       {{ timeRange() }}
     </div>
     <div class="graphs-container">
@@ -47,12 +46,6 @@
         {{ graph_lux() }}
         {{ graph_noise() }}
       </div>
-      
-      <div class="app__dashboard-last-container">
-        {{ graph_pm() }}
-        {{ graph_pres() }}
-        {{ graph_gas() }}
-      </div>
 
     </div>
   </div>
@@ -60,10 +53,10 @@
 
 <!-- Javascript -->
 {% block code %}
-  <script src={{ url_for('static', filename='js/chart.min.js') }}></script>
-  <script src={{ url_for('static', filename='js/chartjs-adapter-date-fns.bundle.min.js')}}></script>
+  <script src={{ url_for('static', filename='js/chartjs/chart.min.js') }}></script>
+  <script src={{ url_for('static', filename='js/chartjs/chartjs-adapter-date-fns.bundle.min.js')}}></script>
+  <script src={{ url_for('static', filename='js/components/select.js') }}></script>
+  <script src={{ url_for('static', filename='js/components/timeRange.js') }}></script>
   <script src={{url_for('static', filename='js/chart-test.js')}}></script>
-  <script src={{ url_for('static', filename='js/select.js') }}></script>
-  <script src={{ url_for('static', filename='js/timeRange.js') }}></script>
   <script src={{ url_for('static', filename='js/main.js') }}></script>
 {% endblock %}

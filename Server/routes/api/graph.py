@@ -1,12 +1,7 @@
-from flask import Blueprint, request, current_app, g
-from db import getDay, getWeek, getMonth, getYear
-import os
+from flask import Blueprint, request
+from models.db import getDay, getWeek, getMonth, getYear
 
 graph_route = Blueprint("graph_route", __name__)
-
-path = os.getcwd().split("\\")
-path.pop()
-path = "/".join(path)
 
 @graph_route.route("/data")
 def graph():

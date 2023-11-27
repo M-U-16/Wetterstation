@@ -1,24 +1,26 @@
 .app__settings-container {
     margin-top: var(--navbar-height);
     padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
-.container-fanGpio {
+.app__container-fanGpio {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
     background: white;
     height: 7rem;
     max-width: 25rem;
-    border-radius: 10px;
-    border: none;
+    padding: 0rem 1.5rem;
+    border: none !important;
+    align-items: center;
+    justify-content: center;
 }
-.container-fanGpio h3 {
+.app__container-fanGpio h3 {
     font-size: 1.2rem;
     font-weight: 400;
-    text-align: start;
-    width: 100%;
     margin: 0.5rem 0;
+    width: 100%;
 }
 .fan__slider {
     -webkit-appearance: none;  /* Override default CSS styles */

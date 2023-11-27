@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from db import addData
+from models.db import addData
 import json
 
 wetterdaten_route = Blueprint("wetterdaten_route", __name__)

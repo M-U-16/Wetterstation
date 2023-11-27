@@ -9,32 +9,32 @@
     <meta name="theme-color" content="#b0b0b0" />
     <link
         rel="stylesheet"
-        href="{{ url_for('static', filename='css/index.css') }}"
+        href={{ url_for('static', filename='css/index.css') }}
         media="all"
     />
     <link
         rel="stylesheet"
-        href="{{ url_for('static', filename='css/navbar.css') }}"
+        href={{ url_for('static', filename='css/navbar.css') }}
         media="all"
     />
     <link
         rel="stylesheet"
-        href="{{ url_for('static', filename='css/classColors.css') }}"
+        href={{ url_for('static', filename='css/classColors.css') }}
         media="all"
     />
     <link
         rel="stylesheet"
-        href="{{ url_for('static', filename='css/normalize.css') }}"
+        href={{ url_for('static', filename='css/normalize.css') }}
         media="all"
     />
     <link
         rel="stylesheet"
-        href="{{ url_for('static', filename='css/main.css') }}"
+        href={{ url_for('static', filename='css/main.css') }}
         media="all"
     />
     <link
         rel="stylesheet"
-        href="{{ url_for('static', filename='css/timeRange.css') }}"
+        href={{ url_for('static', filename='css/timeRange.css') }}
         media="all"
     />
 
@@ -52,8 +52,8 @@
         {% block content %}{% endblock %}
     </div>
 
-    <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/temp-theme.js') }}"></script>
+    <script src={{ url_for('static', filename='js/components/menu.js') }}></script>
+    <script src={{ url_for('static', filename='js/theme/temp-theme.js') }}></script>
     
     {% block code %}{% endblock %}
 </body>

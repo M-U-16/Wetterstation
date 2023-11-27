@@ -4,7 +4,7 @@
 {% block styles %}
     <link
         rel="stylesheet"
-        href="{{ url_for('static', filename='css/settings/settings.css') }}"
+        href={{ url_for('static', filename='css/settings/settings.css') }}
         media="all"
     />
 {% endblock %}
@@ -15,7 +15,7 @@
         <h1>Einstellungen</h1>
 
         <!-- Fan speed -->
-        <div class="container-fanGpio">
+        <div class="app__container-fanGpio">
             <h3>Lüftergeschwindigkeit:</h3>
             <input
                 id="fan"
@@ -26,6 +26,7 @@
                 name="fan"
                 class="fan__slider"
             />
+            </div>
         </div>
     </div>
 {% endblock %}

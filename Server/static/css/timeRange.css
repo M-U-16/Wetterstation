@@ -1,15 +1,17 @@
 .app__range-container {
     height: 100%;
-    display: flex;
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto 1fr auto 1fr auto;
 }
 .app__range-container label {
-    width: 4rem;
+    width: 5rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 5px 0px 0px 5px;
+    border-radius: 0px;
     background: rgb(232, 232, 232);
-    box-shadow: inset 0px 0px 3px grey;
+    box-shadow: inset 0px 0px 3px rgb(176, 176, 176);
     font-size: 1.2rem;
     cursor: pointer;
 }
