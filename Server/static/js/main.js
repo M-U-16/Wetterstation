@@ -1,5 +1,3 @@
-/** EnviroPlusWeb **/
-/* https://gitlab.com/idotj/enviroplusweb */
 const gas_sensor = body.dataset.hasgassensor;
 const particulate_sensor = body.dataset.hasparticulatesensor;
 const fan_gpio = body.dataset.hasfangpio;
@@ -150,7 +148,6 @@ function destroyAllCharts() {
   if (gas_sensor) graphChartGasInput.destroy();
   if (particulate_sensor) graphChartPmInput.destroy();
 }
-// Draw graph with data
 //get the current frequency depending on time period
 function getFrequency(frequency) {
   if (frequency === "day") return "hour"
