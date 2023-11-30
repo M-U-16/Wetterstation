@@ -77,3 +77,9 @@ body {
   width: 100%;
   min-height: 100vh;
 }
+.disable-select {
+  -webkit-user-select: none;  
+  -moz-user-select: none;    
+  -ms-user-select: none;      
+  user-select: none;
+}

@@ -5,6 +5,7 @@
     cursor: pointer;
     display: flex;
     align-items: center;
+    z-index: 2;
 
     --initial-transition:
         rotate 0.3s ease 0.1s,
@@ -18,6 +19,7 @@
     font-weight: 800;
 }
 .hamburger {
+    overflow: hidden;
     width: 35px;
     height: 35px;
 }
@@ -29,11 +31,13 @@
     transform-origin: center;
 }
 .app__navbar-menu {
-    display: none;
+    height: 0;
+    transition: height 1s ease;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+    border: none !important;
 }
 /* INITIAL POSITIONS */
 /* ACTIVE STATES */
@@ -82,7 +86,7 @@
     width: 100%;
     height: 3.5rem;
     
-    padding: 0.5rem 0.5rem;
+    padding: 0.5rem 0 0.5rem 1rem;
     margin: 0 1rem;
     border-radius: 5px;
     
@@ -110,47 +114,37 @@
     transition: 0.3s ease;
 }
 /* -----------------------------MEDIAQUERIES------------------------- */
-@media screen and (min-width: 1260px) {
-    .container-menu-hamburger {
-      display: none;
-    }
-}
 /* LINK ACTIONS */
 @media screen and (max-width: 1259px) {
     .app__navbar-menu {
-       width: 0;
-       height: 100%;
-
-       position: fixed;
-       top: 0;
-       right: 0;
-
-       visibility: hidden;
-       opacity: 0;
-       padding: 2rem;
-       flex-direction: column;
-       justify-content: flex-start;
-       flex-wrap: nowrap;
-       overflow: hidden;
+        /*  height: 100%; */
+        
+        position: absolute;
+        top: 0;
+        right: 0;
+        
+        visibility: hidden;
+        opacity: 0;
+        padding: 2rem;
+        flex-direction: column;
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        overflow: hidden;
     }
-    .app__navbar-menu.menu-settings-open {
-        width: 70%;
-        max-width: 14rem;
+    .app-open-menu {
+        position: absolute;
+        top: 100%;
+        height: auto;
         visibility: visible;
         opacity: 1;
         overflow-y: auto;
         background: var(--color-white);
-        transition: width 1s ease;
         border-left: 1px solid var(--color-gray-light);
-    }
-    .app__navbar-menu > div:last-child {
-        margin-bottom: 4rem;
     }
     /* NAVBAR LINKS */
     .navbar__link-container {
         flex-direction: column;
         width: 100%;
-        margin-top: var(--navbar-height);
     }
     .navbar__link {
         margin: 0rem;
