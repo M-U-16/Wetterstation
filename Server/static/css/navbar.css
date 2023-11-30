@@ -26,9 +26,8 @@
 .navbar__right-wrapper {
     display: flex;
     align-items: center;
-    justify-content: center;
     height: 100%;
-    width: 4rem;
+    padding: 0 1rem 0 0;
 }
 .navbar__logo-img {
     padding: 1rem;

@@ -1,11 +1,12 @@
 // Control main menu (mobile)
 const menuMainBtn = document.getElementById("menu-hamburger");
-const menuMainContainer = document.getElementById("container-menu-settings");
+const menuMainContainer = document.getElementById("app-container-menu");
+const menuHamburger = document.getElementById("hamburger")
+console.log(menuHamburger)
 // Toggle menu by icon click
 menuMainBtn.addEventListener("click", function () {
-  this.classList.toggle("btn-active");
-  this.setAttribute("aria-expanded", this.classList.contains("btn-active"));
-  menuMainContainer.classList.toggle("menu-settings-open");
+  menuHamburger.classList.toggle("active-hamburger");
+  menuMainContainer.classList.toggle("app-menu-open");
   // Detect outside click
   document.addEventListener("click", function clickOutsideMenu(event) {
     let clickMenuContainer = menuMainContainer.contains(event.target);
@@ -13,7 +14,7 @@ menuMainBtn.addEventListener("click", function () {
     if (
       !clickMenuContainer &&
       !clickMenuBtn &&
-      menuMainContainer.classList.contains("menu-settings-open")
+      menuMainContainer.classList.contains("app-menu-open")
     ) {
       // Close menu
       menuMainBtn.classList.toggle("btn-active");

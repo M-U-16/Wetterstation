@@ -1,6 +1,6 @@
 import logging
 from flask import Flask, render_template
-from server_settings import SERVER_SETTINGS
+import json
 
 #importing routes
 from routes.app.einstellungen import einstellungen_route
@@ -18,11 +18,10 @@ particulate_sensor = None
 fan_gpio = None
 
 #load settings in conf
-for config in SERVER_SETTINGS:
-    app.config[config] = SERVER_SETTINGS[config]
-
-#config for database
-DATABASE = "./wetter.db"
+settings_string = open("./server_settings.json", "r").read()
+settings_json = json.loads(settings_string)
+for config in settings_json:
+    app.config[config] = settings_json[config]
 
 #register app routes
 app.register_blueprint(wetter_route)

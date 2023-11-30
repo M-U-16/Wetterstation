@@ -1,5 +1,5 @@
 {% macro menu() %}
-    <div class="app__navbar-menu" id="app-menu">
+    <div class="app__navbar-menu" id="app-container-menu">
         <div class="navbar__link-container">
             <a class="navbar__link" href="/" title="Zurück zur Startseite">
                 <img src="{{url_for("static", filename="images/icons/home.svg")}}"/>
@@ -17,10 +17,10 @@
 {% endmacro %}
 
 {% macro menuButtonSvg() %}
-    <svg class="hamburger" viewBox="0 0 100 80">
-        <rect class="navbar__hamburger-layer" y="0%"></rect>
-        <rect class="navbar__hamburger-layer" y="50%"></rect>
-        <rect class="navbar__hamburger-layer" y="100%"></rect>
+    <svg class="hamburger" id="hamburger" viewBox="0 0 100 80">
+        <rect class="navbar__hamburger-layer" y="0%" rx="5"></rect>
+        <rect class="navbar__hamburger-layer" y="50%" rx="5"></rect>
+        <rect class="navbar__hamburger-layer" y="100%" rx="5"></rect>
     </svg>
 {% endmacro %}
 
@@ -41,7 +41,8 @@
                 id="menu-hamburger"
                 class="navbar__menu-hamburger"
                 aria-label="Main menu"
-            >
+            >   
+                <span>Menü</span>
                 {{ menuButtonSvg() }}
             </button>
 
