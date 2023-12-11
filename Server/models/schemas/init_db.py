@@ -31,7 +31,7 @@ def main():
         path = os.getcwd().split("\\")
         server_path = getServerPath(path)
     elif os_type == "Linux":
-        path = pathlib.Path().resolve().split("/")
+        path = str(pathlib.Path().resolve()).split("/")
         server_path = getServerPath(path)
     else:
         print("Type of operating system is not supported!")
