@@ -3,7 +3,7 @@
     background: transparent;
     border: none;
     cursor: pointer;
-    display: flex;
+    display: none;
     align-items: center;
     z-index: 2;
 
@@ -38,6 +38,8 @@
     align-items: center;
     justify-content: center;
     border: none !important;
+    width: 15rem;
+    box-shadow: -2px 2px 5px rgba(128, 128, 128, 0.324);
 }
 /* INITIAL POSITIONS */
 /* ACTIVE STATES */
@@ -72,8 +74,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
-
-    width: auto;
 }
 .navbar__link {
     display: flex;
@@ -116,6 +116,9 @@
 /* -----------------------------MEDIAQUERIES------------------------- */
 /* LINK ACTIONS */
 @media screen and (max-width: 1259px) {
+    .navbar__menu-hamburger {
+        display: flex;
+    }
     .app__navbar-menu {
         /*  height: 100%; */
         
@@ -130,11 +133,11 @@
         justify-content: flex-start;
         flex-wrap: nowrap;
         overflow: hidden;
+        height: calc(100vh - var(--navbar-height));
     }
     .app-open-menu {
         position: absolute;
         top: 100%;
-        height: auto;
         visibility: visible;
         opacity: 1;
         overflow-y: auto;

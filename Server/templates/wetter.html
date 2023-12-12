@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% from './components/navbar.html' import navbar %}
+{% from './components/sidebar.html' import graph_temp %}
 
 {% from './components/graphs/graph_gas.html' import graph_gas %}
 {% from './components/graphs/graph_humi.html' import graph_humi %}
@@ -14,19 +15,12 @@
 
 {% block title %}Daten{% endblock %}
 {% block styles %}
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/controls.css') }}" media="all"/>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" media="all"/>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/graph.css') }}" media="all"/>
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/select.css') }}"
-    media="all"
-  />
-  <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/timeRange.css') }}"
-    media="all"
-  />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/select.css') }}" media="all"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/controls.css') }}" media="all"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/timeRange.css') }}" media="all"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/components/sidebar.css') }}" media="all"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" media="all"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/graph.css') }}" media="all"/>
 {% endblock %}
 {% block content %}
 
@@ -34,17 +28,15 @@
 
   <!-- Main content -->
   <div class="app__dashboard-container">
-    <div class="app__dashboard-control-container">
+    <!--<div class="app__dashboard-control-container">
       {{ Select() }}
-      {{ timeRange() }}
-    </div>
+    </div> -->
+    {{ sidebar() }}
     <div class="graphs-container">
       
       <div class="app__dashboard-first-container">
         {{ graph_temp() }}
         {{ graph_humi() }}
-        {{ graph_lux() }}
-        {{ graph_noise() }}
       </div>
 
     </div>

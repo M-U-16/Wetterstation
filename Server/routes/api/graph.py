@@ -6,7 +6,7 @@ graph_route = Blueprint("graph_route", __name__)
 @graph_route.route("/data")
 def graph():
     if len(request.args) == 0:
-        return {"error": True}
+        return {"error": True, "message": "NO_TIME_PARAM"}
     try:
         if request.args["time"] == "1d":
             return { "data": getDay() }
@@ -20,4 +20,4 @@ def graph():
         print("Graph: ", e)
         return {"error": True}
     
-    return {"error": True}
+    return {"error": True, "message": "COULD_NOT_GET_DATA"}

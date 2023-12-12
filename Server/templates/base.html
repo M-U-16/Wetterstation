@@ -7,41 +7,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#b0b0b0" />
-    <link
-        rel="stylesheet"
-        href={{ url_for('static', filename='css/index.css') }}
-        media="all"
-    />
-    <link
-        rel="stylesheet"
-        href={{ url_for('static', filename='css/navbar.css') }}
-        media="all"
-    />
-    <link
-        rel="stylesheet"
-        href={{ url_for('static', filename='css/classColors.css') }}
-        media="all"
-    />
-    <link
-        rel="stylesheet"
-        href={{ url_for('static', filename='css/normalize.css') }}
-        media="all"
-    />
-    <link
-        rel="stylesheet"
-        href={{ url_for('static', filename='css/main.css') }}
-        media="all"
-    />
-    <link
-        rel="stylesheet"
-        href={{ url_for('static', filename='css/timeRange.css') }}
-        media="all"
-    />
-    <link
-        rel="stylesheet"
-        href={{ url_for('static', filename='css/menu.css') }}
-        media="all"
-    />
+    <link rel="stylesheet" href={{ url_for('static', filename='css/components/timeRange.css') }} media="all" />
+    <link rel="stylesheet" href={{ url_for('static', filename='css/components/menu.css') }} media="all" />
+    <link rel="stylesheet" href={{ url_for('static', filename='css/components/navbar.css') }} media="all" />
+    <link rel="stylesheet" href={{ url_for('static', filename='css/index.css') }} media="all" />
+    <link rel="stylesheet" href={{ url_for('static', filename='css/classColors.css') }} media="all" />
+    <link rel="stylesheet" href={{ url_for('static', filename='css/normalize.css') }} media="all" />
+    <link rel="stylesheet" href={{ url_for('static', filename='css/main.css') }} media="all" />
 
     {% block styles %}{% endblock %}
     <title>Wetterstation | {% block title %}{% endblock %}</title>

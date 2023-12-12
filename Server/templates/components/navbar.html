@@ -1,16 +1,16 @@
 {% macro menu() %}
     <div class="app__navbar-menu" id="app-container-menu">
         <div class="navbar__link-container">
-            <a class="navbar__link" href="/" title="Zurück zur Startseite">
-                <img src="{{url_for("static", filename="images/icons/home.svg")}}"/>
-                <span>Startseite</span>
-            </a>
             <a class="navbar__link" href="/wetter" title="Zu den Wetterdaten">
                 <img src="{{url_for("static", filename="images/icons/cloud.svg")}}"/>
                 <span>Wetter</span>
             </a>
             <a class="navbar__link settings__link" href="/einstellungen" title="Zu den Einstellungen">
                 <span>Einstellungen</span>
+            </a>
+            <a class="navbar__link" href="/" title="Zurück zur Startseite">
+                <img src="{{url_for("static", filename="images/icons/home.svg")}}"/>
+                <span>Startseite</span>
             </a>
         </div>
     </div>
@@ -42,7 +42,6 @@
                 class="navbar__menu-hamburger"
                 aria-label="Main menu"
             >   
-                <span class="disable-select ">Menü</span>
                 {{ menuButtonSvg() }}
             </button>
 
