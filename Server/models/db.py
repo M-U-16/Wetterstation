@@ -1,3 +1,4 @@
+import json
 import sqlite3
 from datetime import datetime
 
@@ -24,10 +25,10 @@ def formatResponse(arr):
     return newArr
 
 def get_connection():
-    conn = sqlite3.connect("wetter.db")
+    conn = sqlite3.connect("./mess-daten/wetter.db")
     return conn
 
-def queryDb(query, args=[]):    
+def queryDb(query, args=[]):
     conn = get_connection()
     cursor = conn.cursor()
     result = cursor.execute(query, args)

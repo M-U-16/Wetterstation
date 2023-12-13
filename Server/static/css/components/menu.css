@@ -30,17 +30,6 @@
     border-radius: 5px;
     transform-origin: center;
 }
-.app__navbar-menu {
-    height: 0;
-    transition: height 1s ease;
-    flex-direction: row;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    border: none !important;
-    width: 15rem;
-    box-shadow: -2px 2px 5px rgba(128, 128, 128, 0.324);
-}
 /* INITIAL POSITIONS */
 /* ACTIVE STATES */
 .hamburger rect:nth-child(1) {
@@ -67,7 +56,17 @@
     rotate: -45deg;
     transition: var(--initial-transition);
 }
-
+/* -------------------NAVBAR MENU--------------- */
+.app__navbar-menu {
+    display: none;
+    height: calc(100vh - var(--navbar-height));
+    transition: 0.5s ease;
+    align-items: center;
+    justify-content: center;
+    border: none !important;
+    width: 15rem;
+    box-shadow: -2px 2px 5px rgba(128, 128, 128, 0.324);
+}
 /* -------------------------NAVBAR LINKS--------------------------------------- */
 .navbar__link-container {
     display: flex;
@@ -113,36 +112,34 @@
     font-size: 1.2rem;
     transition: 0.3s ease;
 }
-/* -----------------------------MEDIAQUERIES------------------------- */
-/* LINK ACTIONS */
+/* -----------------------------MEDIAQUERIE------------------------- */
 @media screen and (max-width: 1259px) {
     .navbar__menu-hamburger {
         display: flex;
     }
     .app__navbar-menu {
         /*  height: 100%; */
-        
+        pointer-events: none;
         position: absolute;
-        top: 0;
-        right: 0;
+        top: 100%;
+        right: -1rem;
         
         visibility: hidden;
         opacity: 0;
         padding: 2rem;
         flex-direction: column;
         justify-content: flex-start;
-        flex-wrap: nowrap;
         overflow: hidden;
-        height: calc(100vh - var(--navbar-height));
+        border-left: 1px solid var(--color-gray-light);
+        background: var(--color-white);
     }
     .app-open-menu {
+        display: flex;
+        pointer-events: all;
         position: absolute;
-        top: 100%;
         visibility: visible;
         opacity: 1;
-        overflow-y: auto;
-        background: var(--color-white);
-        border-left: 1px solid var(--color-gray-light);
+        right: 0;
     }
     /* NAVBAR LINKS */
     .navbar__link-container {

@@ -1,6 +1,5 @@
 import json
 import os
-
 from settings import SETTINGS
 from config import Config
 from helpers.SendData import send_to_server
@@ -43,8 +42,8 @@ def startMeasuring():
         if SETTINGS["logging"]:
             print(res)
             
-    #here is the data being saved in files
     #-------------------------------------
+    #here is the data being saved in files
     if SETTINGS["save_data"]:
         save_data(data)
 

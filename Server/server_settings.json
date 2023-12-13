@@ -1,8 +1,1 @@
-{
-    "HOST": "localhost",
-    "PORT": 80,
-    "DATABASE": "wetter.db",
-    "WETTER_TABLE": "wetterdaten",
-    "RESET_DB": false,
-    "LOGGING": true
-}
+{"HOST": "localhost", "PORT": 80, "data_dir": "C:/Users/Maurice/Documents/Projekte/Webseiten/Wetterstation/Server/data"}
