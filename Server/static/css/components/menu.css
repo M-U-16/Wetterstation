@@ -58,14 +58,10 @@
 }
 /* -------------------NAVBAR MENU--------------- */
 .app__navbar-menu {
-    display: none;
-    height: calc(100vh - var(--navbar-height));
-    transition: 0.5s ease;
+    display: flex;
     align-items: center;
     justify-content: center;
     border: none !important;
-    width: 15rem;
-    box-shadow: -2px 2px 5px rgba(128, 128, 128, 0.324);
 }
 /* -------------------------NAVBAR LINKS--------------------------------------- */
 .navbar__link-container {
@@ -93,7 +89,7 @@
     transition: 1s ease;
 }
 .navbar__link:hover {
-    background-color: rgba(146, 146, 146, 0.2)
+    background-color: rgba(146, 146, 146, 0.12)
 }
 .settings__link {
     height: 3.5rem;
@@ -118,28 +114,30 @@
         display: flex;
     }
     .app__navbar-menu {
-        /*  height: 100%; */
-        pointer-events: none;
-        position: absolute;
-        top: 100%;
-        right: -1rem;
-        
-        visibility: hidden;
-        opacity: 0;
-        padding: 2rem;
+        height: calc(100vh - var(--navbar-height));
         flex-direction: column;
         justify-content: flex-start;
+        position: absolute;
+        top: 100%;
+        box-shadow: -2px 2px 5px rgba(128, 128, 128, 0.324);
+        width: 15rem;
+        right: 0;
         overflow: hidden;
+        z-index: 1;
+        
+        transform-origin: top right;
+        transition: 
+            transform 0.5s ease,
+            opacity 0.5s ease;
+        transform: scaleX(0);
+        opacity: 0;
+        padding: 2rem;
         border-left: 1px solid var(--color-gray-light);
         background: var(--color-white);
     }
     .app-open-menu {
-        display: flex;
-        pointer-events: all;
-        position: absolute;
-        visibility: visible;
+        transform: scaleX(1);
         opacity: 1;
-        right: 0;
     }
     /* NAVBAR LINKS */
     .navbar__link-container {

@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% from './components/navbar.html' import navbar %}
 {% from './components/sidebar.html' import sidebar %}
 
 {% from './components/graphs/graph_gas.html' import graph_gas %}
@@ -23,8 +22,6 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/graph.css') }}" media="all"/>
 {% endblock %}
 {% block content %}
-
-  {{ navbar() }}
 
   <!-- Main content -->
   <div class="app__dashboard-container">

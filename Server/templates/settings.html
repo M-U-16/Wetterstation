@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% from './components/navbar.html' import navbar %}
 {% block title %}Einstellungen{% endblock %}
 {% block styles %}
     <link
@@ -9,7 +8,6 @@
     />
 {% endblock %}
 {% block content %}
-    {{ navbar() }}
 
     <div class="app__settings-container">                    
         <h1>Einstellungen</h1>

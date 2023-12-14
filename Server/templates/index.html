@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% from './components/navbar.html' import navbar %}
 {% from './components/footer.html' import footer %}
 
 {% block title %}Startseite{% endblock %}
@@ -11,8 +10,6 @@
     />
 {% endblock %}
 {% block content %}
-    {{ navbar() }}
-
     <div class="main__container">
         <header class="app__home-header">
             <h1>Home</h1>

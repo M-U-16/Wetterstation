@@ -1,10 +1,5 @@
 from flask import Blueprint, render_template
-wetter_route = Blueprint(
-    "wetter_route",
-    __name__,
-    static_folder="static",
-    template_folder="templates"
-)
+wetter_route = Blueprint("wetter_route", __name__, static_folder="static", template_folder="templates" )
 
 @wetter_route.route('/wetter')
 def wetter():

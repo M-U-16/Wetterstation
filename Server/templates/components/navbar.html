@@ -5,13 +5,6 @@
                 <img src="{{url_for("static", filename="images/icons/cloud.svg")}}"/>
                 <span>Wetter</span>
             </a>
-            <a class="navbar__link settings__link" href="/einstellungen" title="Zu den Einstellungen">
-                <span>Einstellungen</span>
-            </a>
-            <a class="navbar__link" href="/" title="Zurück zur Startseite">
-                <img src="{{url_for("static", filename="images/icons/home.svg")}}"/>
-                <span>Startseite</span>
-            </a>
         </div>
     </div>
 {% endmacro %}
@@ -23,30 +16,27 @@
         <rect class="navbar__hamburger-layer" y="100%" rx="5"></rect>
     </svg>
 {% endmacro %}
-
-{% macro navbar() %}
-    <nav class="navbar" id="app-navbar">
-        <!-- Title / logo -->
-        <div class="navbar__left-wrapper">
-            <div class="navbar__logo-img">
-                <img src="{{url_for("static", filename="images/logo-wriezen-edited.png")}}"/>
-            </div>
-            <h1>Wetterstation</h1>
+<nav class="navbar" id="app-navbar">
+    <!-- Title / logo -->
+    <a class="navbar__left-wrapper" href="/">
+        <div class="navbar__logo-img">
+            <img src="{{url_for("static", filename="images/logo-wriezen-edited.png")}}"/>
         </div>
+        <h1>Wetterstation</h1>
+    </a>
         
-        <div class="navbar__right-wrapper">
-            <!-- Mobile menu -->
-            <button
-                type="button"
-                id="menu-hamburger"
-                class="navbar__menu-hamburger"
-                aria-label="Main menu"
-            >   
-                {{ menuButtonSvg() }}
-            </button>
+    <div class="navbar__right-wrapper">
+        <!-- Mobile menu -->
+        <button
+            type="button"
+            id="menu-hamburger"
+            class="navbar__menu-hamburger"
+            aria-label="Main menu"
+        >   
+            {{ menuButtonSvg() }}
+        </button>
 
-            {{ menu() }}
+        {{ menu() }}
 
-        </div>
-    </nav>
-{% endmacro %}
+    </div>
+</nav>

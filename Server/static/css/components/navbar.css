@@ -15,6 +15,7 @@
 .navbar__left-wrapper {
     display: flex;
     align-items: center;
+    text-decoration: none;
 }
 .navbar__left-wrapper h1 {
     font-size: 1.2rem;
@@ -22,6 +23,8 @@
     color: rgb(0, 157, 255);
     border-left: 2px solid rgb(0, 157, 255);
     margin: 0.5rem;
+    animation: logoSlide 1.5s ease;
+    z-index: 1;
 }
 .navbar__right-wrapper {
     display: flex;
@@ -37,5 +40,17 @@
 }
 .navbar__logo-img img {
     height: 100%;
+    z-index: 2;
+}
+
+@keyframes logoSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
   
