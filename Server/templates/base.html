@@ -7,7 +7,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#b0b0b0" />
-    <link rel="stylesheet" href={{ url_for('static', filename='css/components/timeRange.css') }} media="all" />
     <link rel="stylesheet" href={{ url_for('static', filename='css/components/menu.css') }} media="all" />
     <link rel="stylesheet" href={{ url_for('static', filename='css/components/navbar.css') }} media="all" />
     <link rel="stylesheet" href={{ url_for('static', filename='css/index.css') }} media="all" />
@@ -25,14 +24,12 @@
     data-hasFanGPIO="{{ fan_gpio }}"
 >   
 
+    {% include "./components/navbar.html" %}
     <div id="content">
-        {% include "./components/navbar.html" %}
         {% block content %}{% endblock %}
     </div>
 
     <script src={{ url_for('static', filename='js/components/menu.js') }}></script>
-    <script src={{ url_for('static', filename='js/theme/temp-theme.js') }}></script>
-    
     {% block code %}{% endblock %}
 </body>
 </html>

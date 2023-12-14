@@ -1,5 +1,4 @@
 .app__dashboard-container {
-    margin-top: calc(var(--navbar-height));
     display: grid;
     grid-template-rows: auto 1fr;
     grid-template-columns: 1fr;

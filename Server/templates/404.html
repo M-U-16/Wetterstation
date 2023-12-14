@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block styles %}
+    <link rel="stylesheet" href={{ url_for('static', filename='css/pages/404.css') }} media="all" />
+{% endblock styles %}
+{% block content %}
+    <div class="app__404-container">
+        <div>
+            <h2>404</h2>
+            <p>
+                Seite konnte nicht gefunden werden
+            </p>
+            <a href="/">
+                <img
+                    class="app__404-back-arrow"
+                    src="{{ url_for('static', filename='images/icons/arrow-down.svg') }}"
+                >
+                </img>
+                Zurück zur Startseite
+            </a>
+        </div>
+    </div>
+{% endblock content %}
