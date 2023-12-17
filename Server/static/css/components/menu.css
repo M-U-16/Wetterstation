@@ -61,7 +61,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border: none !important;
+    /* border: none !important; */
 }
 /* -------------------------NAVBAR LINKS--------------------------------------- */
 .navbar__link-container {
@@ -119,7 +119,8 @@
         justify-content: flex-start;
         position: absolute;
         top: 100%;
-        box-shadow: -2px 2px 5px rgba(128, 128, 128, 0.324);
+        box-shadow: -2px 5px 5px rgba(128, 128, 128, 0.324);
+        border-top: 1px solid rgba(177, 177, 177, 0.813);
         width: 15rem;
         right: 0;
         overflow: hidden;

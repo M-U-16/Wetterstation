@@ -21,3 +21,4 @@ wetter.db
 *.db
 venv
 .env
+data

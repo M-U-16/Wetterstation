@@ -5,9 +5,8 @@ name = "pypi"
 
 [packages]
 flask = "*"
-flask-sqlalchemy = "*"
-flask-migrate = "*"
-sqlalchemy = "*"
+python-dotenv = "*"
+peewee = "*"
 
 [dev-packages]
 

@@ -20,6 +20,7 @@
     font-weight: 700;
     padding: 0 1rem 1rem 1rem;
     text-align: center;
+    color: rgb(144, 144, 144);
 }
 .app__404-container a {
     text-decoration: none;

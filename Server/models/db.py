@@ -1,6 +1,4 @@
-import json
 import sqlite3
-from datetime import datetime
 
 querys = {
     "add-data": "INSERT INTO wetterdaten(entry_date, entry_time, temp, humi, pres, lux) VALUES (?, ?, ?, ?, ?, ?)",
@@ -21,7 +19,10 @@ def formatResponse(arr):
         newArr.append(dictonary)
     return newArr
 
-def get_connection(): return sqlite3.connect("./mess-daten/wetter.db")
+def get_connection():
+    conn = sqlite3.connect("./data/wetter.sqlite3")
+    conn.row_factory = sqlite3.Row
+    return conn
 
 def queryDb(query, args=[]):
     conn = get_connection()
