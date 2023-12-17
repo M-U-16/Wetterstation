@@ -1,5 +1,8 @@
+{% from "./components/inputs/TimeSelect.html" import select %}
+
+
 {% macro sidebar() %}
     <div class="app__sidebar">
-        
+        {{ select() }}
     </div>
 {% endmacro %}

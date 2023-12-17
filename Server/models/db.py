@@ -20,7 +20,7 @@ def formatResponse(arr):
     return newArr
 
 def get_connection():
-    conn = sqlite3.connect("./data/wetter.sqlite3")
+    conn = sqlite3.connect("../data/wetter.sqlite3")
     conn.row_factory = sqlite3.Row
     return conn
 

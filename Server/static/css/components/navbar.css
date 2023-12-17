@@ -53,4 +53,8 @@
         transform: translateY(0);
     }
 }
-  
+@media screen and (max-width: 500px) {
+    .navbar__left-wrapper h1 {
+        display: none;
+    }
+}

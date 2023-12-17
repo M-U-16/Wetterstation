@@ -1,32 +1,34 @@
 import peewee as pw
-from __main__ import app
+from helpers.getFakeEntrys import getManyRandomDataEntrys
+try:
+    from __main__ import app
+except Exception as e:    
+    print(e)
 from datetime import datetime
-from playhouse.flask_utils import FlaskDB
-from playhouse.sqlite_ext import SqliteExtDatabase
 from peewee import (
     PrimaryKeyField,
     IntegerField,
     TextField,
     DateTimeField
 )
-peewee_db = SqliteExtDatabase(
-    "../data/wetter.sqlite3",
-    pragmas={"journal_mode": "wal"}
+#print(app.config[""])
+peewee_db = pw.SqliteDatabase(
+    app.config["DATABASE_PATH"],
 )
-db_wrapper = FlaskDB(app, peewee_db)
-class BaseModel(db_wrapper.Model):
+
+class BaseModel(pw.Model):
     class Meta:
-        database = db_wrapper
+        database = peewee_db
 
 class Wetterdaten(BaseModel):
     table_name = "wetterdaten"
     entry_id = PrimaryKeyField()
     entry_date = DateTimeField(default=datetime.now())
-    #entry_time = DateTimeField(default=datetime.date.today)
-    temperature = IntegerField()
-    humidity = IntegerField()
-    pressure = IntegerField(null=True)
-    lux_level = IntegerField(null=True)
+    temp = IntegerField()
+    humi = IntegerField()
+    pres = IntegerField(null=True)
+    lux = IntegerField(null=True)
+    noise = TextField(null=True)
     oxi = TextField(null=True)
     red = TextField(null=True)
     nh3 = TextField(null=True)
@@ -34,22 +36,15 @@ class Wetterdaten(BaseModel):
     pm25 = TextField(null=True)
     pm100 = TextField(null=True)
 
+def create_tables():
+    with peewee_db as db:
+        db.create_tables([Wetterdaten])
+
 def populateDb():
     res = None
-    entry_data = {
-        "temperature": 20,
-        "humidity": 20
-    }
+    entry_data = getManyRandomDataEntrys()
     try:
-        res = (
-            Wetterdaten
-                .insert(**entry_data)
-                .execute()
-        )
+        res = Wetterdaten.insert_many(entry_data).execute()
         print(res)
     except Exception as e:
         print(e)
-
-if __name__ == "__main__":
-    Wetterdaten.create_table(safe=True)
-    #populateDb()

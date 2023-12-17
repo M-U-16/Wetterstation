@@ -1,9 +1,9 @@
 .app__dashboard-container {
     display: grid;
-    grid-template-rows: auto 1fr;
-    grid-template-columns: 1fr;
     width: 100%;
-    padding: 1rem;
+    grid-template-columns: auto 1fr;
+    height: calc(100vh - var(--navbar-height));
+    overflow: hidden;
 }
 .app__dashboard-first-container {
     display: grid;

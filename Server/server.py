@@ -8,10 +8,7 @@ from routes import app_router
 app = Flask(__name__)
 app.config.from_object(Config)
 
-from models.model import db_wrapper
-pw_db = db_wrapper.database
-
-#print(pw_db)
+from models.model import peewee_db
 
 #register app routes
 app.register_blueprint(app_router.app_bp)
@@ -27,5 +24,5 @@ if __name__ == '__main__':
     app.run(
         host=app.config["HOST"],
         port=app.config["PORT"],
-        use_reloader=True
+        use_reloader=app.config["TEMPLATES_AUTO_RELOAD"]
     )

@@ -10,12 +10,9 @@ body[data-hasParticulateSensor="False"] .graph-pm {
     background-size: min(2.5rem, calc(100% - 0.5rem));
 }
 .graphs-container {
-    width: 100%;
-    max-width: 70rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 1rem 0 0 0;
 }
 .graph-container {
     background-color: var(--color-white);
