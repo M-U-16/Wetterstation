@@ -15,6 +15,8 @@ app.register_blueprint(app_router.app_bp)
 #register api routes
 app.register_blueprint(api_router.api_bp)
 
+print(app.config["DATABASE_PATH"])
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html")

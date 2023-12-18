@@ -1,7 +1,6 @@
 import platform
 import pathlib
 import sqlite3
-import json
 import sys
 import os
 
@@ -35,7 +34,7 @@ def createInitialDatabase(path):
     #creating the database file
     conn = sqlite3.connect(path)
     conn.close()
-        
+
 #get the path to the Server project directory
 def getServerPath():
     #get path to server directory
@@ -64,6 +63,7 @@ def main():
         checkPaths(new_paths)
         createDatabaseDirectory(new_paths["server_path"])
         createInitialDatabase(new_paths["db_path"])
+    
     except Exception as e:
         print("error: ", e)
     
