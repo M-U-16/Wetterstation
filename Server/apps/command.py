@@ -1,12 +1,11 @@
 from helpers.server_path import getServerPath
-from models import model
+from models.model import create_tables, random_populate_db
 from pathlib import Path
 import sqlite3
 import dotenv
 import click
 import sys
 import os
-
 
 dotenv_file = dotenv.find_dotenv()
 dotenv.load_dotenv(dotenv_file)
@@ -68,4 +67,12 @@ def register_commands(app):
         """ 
             CREATES A ALL TABLES IN THE DATABASE
         """
-        print(model.peewee_db)
+        create_tables()
+        
+    @app.cli.command("populate-db")
+    def populate_db():
+        """ 
+            COMMAND FOR INSERTING RANDOM VALUES IN
+            THE DATABASE FOR TESTING PURPOSES
+        """
+        random_populate_db()

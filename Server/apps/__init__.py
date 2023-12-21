@@ -13,9 +13,6 @@ from api.events import socketio
 load_dotenv()
 db = FlaskDB()
 
-db_path = os.getenv("DATABASE_PATH")
-peewee_db = pw.SqliteDatabase(db_path)
-
 def register_extensions(app):
     socketio.init_app(app)
 
@@ -28,6 +25,10 @@ def configure_database(app):
     def init():
         pass
         #db.init_app(app)
+        
+    @app.teardown_request
+    def shutdown_session(exception=None):
+        db.session.remove()
 
 def setup_app(app):
     @app.errorhandler(404)

@@ -1,24 +1,7 @@
 """ 
-    FUNCTION FOR GETTING A LOT OF RANDOM FAKE DATA FOR
+    FUNCTIONS FOR GETTING A LOT OF RANDOM FAKE DATA FOR
     DATABASE AND WEBPAGE TESTING
     -----------------------------------------------
-    FORMAT OF ONE OBJECT:
-    {
-        "entry_date": some value,
-        "temp": some value,
-        "humi": some value,
-        "pres": some value,
-        "lux": some value,
-        "high": some value,
-        "mid": some value,
-        "low": some value,
-        "oxi": some value,
-        "red": some value,
-        "nh3": some value,
-        "pm10": some value,
-        "pm25": some value,
-        "pm100": some value
-    }
 """
 from datetime import datetime, timedelta
 import random
@@ -39,12 +22,12 @@ def getEntry(date):
         "pm100": random.randint(1, 10)
     }
 #generates entrys for one year with date
-def EntryGenerator():
-    for i in range(0, 10):
+def EntryGenerator(amount):
+    for i in range(0, amount):
         date = str(datetime.now() + timedelta(days=i))
         yield getEntry(date)  
 #returns a 2 dimensional array with many entrys
-def getManyRandomDataEntrys():
-    entrys = [ i for i in EntryGenerator()]
+def getManyRandomDataEntrys(amount):
+    entrys = [ i for i in EntryGenerator(amount)]
     return entrys
     

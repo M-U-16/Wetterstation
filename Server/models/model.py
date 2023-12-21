@@ -2,7 +2,7 @@ import os
 import dotenv
 import peewee as pw
 from datetime import datetime
-from apps import peewee_db
+from helpers.getFakeEntrys import getManyRandomDataEntrys
 from peewee import (
     PrimaryKeyField,
     IntegerField,
@@ -11,10 +11,11 @@ from peewee import (
 )
 
 dotenv.load_dotenv()
+db = pw.SqliteDatabase(os.getenv("DATABASE_PATH"))
 
 class BaseModel(pw.Model):
     class Meta:
-        database = peewee_db
+        database = db
 
 class Wetterdaten(BaseModel):
     table_name = "wetterdaten"
@@ -31,3 +32,17 @@ class Wetterdaten(BaseModel):
     pm10 = TextField(null=True)
     pm25 = TextField(null=True)
     pm100 = TextField(null=True)
+    
+def create_tables():
+    print("Creating Tables!")
+    db.create_tables([Wetterdaten])
+    print("Created Tables")
+
+def random_populate_db():
+    chunk_size = 50
+    data = getManyRandomDataEntrys(100)
+    with db.atomic():
+        for i in range(0, len(data), chunk_size):
+            Wetterdaten.insert_many(
+                data[i:i+chunk_size]
+            ).execute()
