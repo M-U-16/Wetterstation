@@ -1,0 +1,60 @@
+.app__settings-container {
+    margin-top: var(--navbar-height);
+    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.app__container-fanGpio {
+    display: flex;
+    flex-direction: column;
+    background: white;
+    height: 7rem;
+    max-width: 25rem;
+    padding: 0rem 1.5rem;
+    border: none !important;
+    align-items: center;
+    justify-content: center;
+}
+.app__container-fanGpio h3 {
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin: 0.5rem 0;
+    width: 100%;
+}
+.fan__slider {
+    -webkit-appearance: none;  /* Override default CSS styles */
+    appearance: none;
+    width: 100%; /* Full-width */
+    height: 25px; /* Specified height */
+    background: #d3d3d3; /* Grey background */
+    outline: none; /* Remove outline */
+    opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+    -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+    transition: opacity .2s;
+    margin: 0.2rem 0;
+    border-radius: 16px;
+    border: none;
+    box-shadow: inset 0px 0px 3px grey;
+}
+.fan__slider {
+    opacity: 1;
+}
+.fan__slider::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 27px;
+    height: 27px;
+    background: rgb(0, 145, 255);
+    border-radius: 16px;
+    cursor: pointer;
+    scale: 1.1;
+    transition: 0.3s ease;
+    border: none;
+}
+.fan__slider::-moz-range-thumb {
+    width: 27px; /* Set a specific slider handle width */
+    height: 27px; /* Slider handle height */
+    background: #04AA6D; /* Green background */
+    cursor: pointer; /* Cursor on hover */
+}

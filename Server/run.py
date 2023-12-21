@@ -1,6 +1,6 @@
-from apps import socketio
+from app import socketio
 from config import Config
-from apps import create_app
+from app import create_app
 
 app = create_app(Config)
 

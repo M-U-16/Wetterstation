@@ -1,13 +1,18 @@
 import os
+#database
 import peewee as pw
-from apps.command import register_commands
+#commands
+from command import register_commands
+#flask and flask utils
 from flask import Flask, render_template
-from apps.home import blueprint as home_bp
-from apps.admin import blueprint as admin_bp
-from apps.dashboard import blueprint as dasboard_bp
-
-from dotenv import load_dotenv
 from playhouse.flask_utils import FlaskDB
+#views
+from views.home import blueprint as home_bp
+from views.admin import blueprint as admin_bp
+from views.dashboard import blueprint as dasboard_bp
+#dotenv
+from dotenv import load_dotenv
+#socketio
 from api.events import socketio
 
 load_dotenv()

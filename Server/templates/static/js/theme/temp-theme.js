@@ -1,0 +1,1 @@
+document.body.className = "theme-light"

@@ -12,7 +12,9 @@
     <link rel="stylesheet" href={{ url_for('static', filename='css/index.css') }} media="all" />
     <link rel="stylesheet" href={{ url_for('static', filename='css/classColors.css') }} media="all" />
     <link rel="stylesheet" href={{ url_for('static', filename='css/normalize.css') }} media="all" />
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
     {% block styles %}{% endblock %}
     <title>Wetterstation | {% block title %}{% endblock %}</title>
 </head>
