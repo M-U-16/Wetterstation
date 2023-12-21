@@ -29,8 +29,9 @@
     <div id="content">
         {% block content %}{% endblock %}
     </div>
-
+    <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src={{ url_for('static', filename='js/components/menu.js') }}></script>
-    {% block code %}{% endblock %}
+{% block code %}
+{% endblock %}
 </body>
 </html>

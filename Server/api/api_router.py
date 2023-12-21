@@ -1,7 +1,7 @@
 from flask import Blueprint
-from api.settings import settings_route
-from api.graph import graph_route
-from api.wetterdaten import wetterdaten_route
+from api.endpoints.settings import settings_route
+from api.endpoints.graph import graph_route
+from api.endpoints.wetterdaten import wetterdaten_route
 
 api_bp = Blueprint("api_route", __name__, url_prefix="/api")
 

@@ -13,7 +13,7 @@ from views.dashboard import blueprint as dasboard_bp
 #dotenv
 from dotenv import load_dotenv
 #socketio
-from api.events import socketio
+from Server.api.events import socketio
 
 load_dotenv()
 db = FlaskDB()
