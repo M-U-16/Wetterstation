@@ -1,16 +1,17 @@
-import os
-import dotenv
-import peewee as pw
 from datetime import datetime
-from apps import peewee_db
+import peewee as pw
+from sys import exit
 from peewee import (
     PrimaryKeyField,
     IntegerField,
     TextField,
     DateTimeField
 )
+from __main__ import app
+exit(0)
+print(app.config[""])
+peewee_db = pw.SqliteDatabase(app.config["DATABASE_PATH"])
 
-dotenv.load_dotenv()
 
 class BaseModel(pw.Model):
     class Meta:
