@@ -7,7 +7,7 @@ from peewee import (
     PrimaryKeyField,
     IntegerField,
     TextField,
-    DateTimeField
+    DateField
 )
 
 dotenv.load_dotenv()
@@ -20,7 +20,8 @@ class BaseModel(pw.Model):
 class Wetterdaten(BaseModel):
     table_name = "wetterdaten"
     entry_id = PrimaryKeyField()
-    entry_date = DateTimeField(default=datetime.now())
+    entry_date = DateField()
+    #entry_time = TimeField(default=datetime.now().strftime("%H:%M:%S"))
     temp = IntegerField()
     humi = IntegerField()
     pres = IntegerField(null=True)

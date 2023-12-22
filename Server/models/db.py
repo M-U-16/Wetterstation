@@ -8,7 +8,7 @@ DB_PATH = os.getenv("DATABASE_PATH")
 
 querys = {
     "add-data": "INSERT INTO wetterdaten(entry_date, entry_time, temp, humi, pres, lux) VALUES (?, ?, ?, ?, ?, ?)",
-    "current-day": "select * from wetterdaten where entry_date=Date('now', 'YYYY-MM-DD')",
+    "current-day": "select * from wetterdaten where entry_date=Date('now')",
     "time-range": "select * from wetterdaten where entry_date between ? and ?",
     "get-week": "select * from wetterdaten where entry_date between DATE('now', '-7 days') and DATE('now')",
     "get-month":  "select * from wetterdaten where entry_date between DATE('now', '-1 month') and DATE('now')",
@@ -27,7 +27,7 @@ def formatResponse(arr):
 
 def get_connection():
     conn = sqlite3.connect(DB_PATH)
-    conn.row_factory = sqlite3.Row
+    #conn.row_factory = sqlite3.Row
     return conn
 
 #connection decorator
@@ -43,6 +43,7 @@ def queryDb(query, args=[]):
     conn = get_connection()
     cursor = conn.cursor()
     result = cursor.execute(query, args).fetchall()
+    print(result)
     conn.commit()
     conn.close()
     return result
@@ -61,8 +62,7 @@ def addData(data):
 def getDay():
     #currentDate = datetime.today().strftime('%Y-%m-%d')
     res = queryDb(querys["current-day"])
-    print("days: ", res)
-    #return formatResponse(res)
+    return formatResponse(res)
 
 def getTimeRange(firstDate, lastDate):
     res = queryDb(querys["time-range"], [firstDate, lastDate])
@@ -79,3 +79,6 @@ def getMonth():
 def getYear():
     res = queryDb(querys["get-year"])
     return formatResponse(res)
+
+def printAll():
+    print(queryDb("select * from wetterdaten"))
