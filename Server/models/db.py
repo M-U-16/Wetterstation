@@ -14,7 +14,7 @@ querys = {
     "get-month":  "select * from wetterdaten where entry_date between DATE('now', '-1 month') and DATE('now')",
     "get-year": "select * from wetterdaten where entry_date between DATE('now', '-1 year') and DATE('now')",
 }
-columns = ["entry_id", "entry_date","entry_time", "temp","humi", "pres","lux", "high","mid", "low","amp", "oxi","red", "nh3","pm10", "pm25","pm100"]
+columns = ["entry_id", "entry_date", "temp","humi", "pres","lux","noise", "oxi","red", "nh3","pm10", "pm25","pm100"]
 
 def formatResponse(arr):
     newArr = []
@@ -33,17 +33,23 @@ def get_connection():
 #connection decorator
 def connection(func):
     def func_wrapper(*args, **kwargs):
-        conn = sqlite3.connect(DB_PATH)
-        conn.row_factory = sqlite3.Row
-        with conn:
-            func(*args, **kwargs)
+        connection = sqlite3.connect(DB_PATH)
+        connection.row_factory = sqlite3.Row
+        cursor = connection.cursor()
+        with connection:
+            func(connection, cursor, *args, **kwargs)
     return func_wrapper
+
+@connection
+def test_query(conn, cur):
+    cur.execute("select * from wetterdaten")
+    rows = cur.fetchall()
+    print(type(rows[0]))
 
 def queryDb(query, args=[]):
     conn = get_connection()
     cursor = conn.cursor()
     result = cursor.execute(query, args).fetchall()
-    print(result)
     conn.commit()
     conn.close()
     return result
@@ -78,7 +84,9 @@ def getMonth():
 
 def getYear():
     res = queryDb(querys["get-year"])
+    print(res)
     return formatResponse(res)
 
 def printAll():
     print(queryDb("select * from wetterdaten"))
+    

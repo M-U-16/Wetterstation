@@ -38,6 +38,11 @@ def checkPath(path, name):
 FLASK CLI FOR CREATING DIRECTORY FOR DATA
 AND DATABASE
 """
+DEFAULT_SETTINGS = {
+    "data-dir": "data",
+    "database_name": "wetter.sqlite3"
+}
+
 def register_commands(app):
     @app.cli.command("create-data-dir")
     @click.argument("name")

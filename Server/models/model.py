@@ -2,7 +2,7 @@ import os
 import dotenv
 import peewee as pw
 from datetime import datetime
-from helpers.getFakeEntrys import getManyRandomDataEntrys
+from helpers.fakeEntrys import getManyRandomDataEntrys
 from peewee import (
     PrimaryKeyField,
     IntegerField,

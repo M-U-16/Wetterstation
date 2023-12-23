@@ -1,3 +1,6 @@
+""" 
+FUNCTION FOR GETTING THE RELATIVE SERVER PATH
+"""
 import sys
 import os
 import platform
