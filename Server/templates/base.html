@@ -1,37 +1,30 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='images/logo-wriezen.png') }}"/>
-    <meta name="keywords" content="Enviro+, EnviroPlus, RaspberryPi" />
-    <meta name="description" content="Web interface for Enviro+ sensor board plugged into a Raspberry Pi"/>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#b0b0b0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href={{ url_for('static', filename='assets/images/logo-wriezen.png') }}/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
     <link rel="stylesheet" href={{ url_for('static', filename='css/components/menu.css') }} media="all" />
     <link rel="stylesheet" href={{ url_for('static', filename='css/components/navbar.css') }} media="all" />
     <link rel="stylesheet" href={{ url_for('static', filename='css/index.css') }} media="all" />
     <link rel="stylesheet" href={{ url_for('static', filename='css/classColors.css') }} media="all" />
-    <link rel="stylesheet" href={{ url_for('static', filename='css/normalize.css') }} media="all" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
-    {% block styles %}{% endblock %}
-    <title>Wetterstation | {% block title %}{% endblock %}</title>
+    
+    {% block styles %}{% endblock styles %}
+    <title>Wetterstation | {% block title %}{% endblock title%}</title>
 </head>
-<body
-    id="body"
-    data-hasGasSensor="{{ gas_sensor }}"
-    data-hasParticulateSensor="{{ particulate_sensor }}"
-    data-hasFanGPIO="{{ fan_gpio }}"
->   
-
+<body id="body">   
     {% include "./components/navbar.html" %}
+    
     <div id="content">
-        {% block content %}{% endblock %}
+        {% block content %}{% endblock content %}
     </div>
+
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src={{ url_for('static', filename='js/components/menu.js') }}></script>
-{% block code %}
-{% endblock %}
+    {% block code %}{% endblock code %}
 </body>
 </html>
