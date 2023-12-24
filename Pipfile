@@ -8,6 +8,7 @@ flask = "*"
 python-dotenv = "*"
 peewee = "*"
 flask-socketio = "*"
+flask-cors = "*"
 
 [dev-packages]
 

@@ -33,7 +33,7 @@
 }
 body {
   height: auto;
-  font-family: "Noto Sans", Arial, Helvetica, Sans-Serif;
+  font-family: Verdana, Arial, Helvetica, Sans-Serif;
   color: var(--color-black);
   background: var(--color-gray-lighter);
 }

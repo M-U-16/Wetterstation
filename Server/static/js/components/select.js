@@ -3,23 +3,24 @@ const selectOptions = document.querySelectorAll(".app__select-option")
 const selectContainer = document.querySelector(".app__select-options-container")
 const indicatorArrow = document.querySelector("#select-arrow-icon")
 const timeRangeDisplay = document.querySelector("#time-select-text")
+const activeContainerClass = "active-select-container"
 let selectedState = false
 let currentFrequency
-const activeContainerClass = "active-select-container"
 
 timeRangeBtn.dataset.current = "1d"
 
 const closeContainer = () => {
     selectContainer.classList.remove(activeContainerClass)
-    indicatorArrow.style.rotate = "0deg"
+    indicatorArrow.style.transform = `rotate(${0}deg)`
     selectedState = false
 }
 
 timeRangeBtn.addEventListener("click", () => {
-    selectContainer.classList.toggle(activeContainerClass)
     selectedState = !selectedState
-    if (!selectedState) indicatorArrow.style.rotate = "0deg"
-    if (selectedState) indicatorArrow.style.rotate = "180deg"
+    
+    selectContainer.classList.toggle(activeContainerClass)
+    if (!selectedState) indicatorArrow.style.transform = `rotate(${0}deg)`
+    if (selectedState) indicatorArrow.style.transform = `rotate(${180}deg)`
 })
 
 selectOptions.forEach(option => {

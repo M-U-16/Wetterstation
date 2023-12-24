@@ -4,6 +4,7 @@ import peewee as pw
 #commands
 from command import register_commands
 #flask and flask utils
+from flask_cors import CORS
 from flask import Flask, render_template
 from playhouse.flask_utils import FlaskDB
 #views
@@ -51,9 +52,13 @@ def setup_app(app):
 def create_app(config):
     app = Flask(__name__)
     app.config.from_object(config)
+    #configuring cors
+    app.config["CORS_HEADERS"] = "Content-Type"
+    CORS(app)
+    
+    setup_app(app)
     register_blueprints(app)
     register_extensions(app)
     register_commands(app)
-    setup_app(app)
     
     return app
