@@ -2,19 +2,10 @@
     display: grid;
     width: 100%;
     grid-template-columns: auto 1fr;
-    height: calc(100vh - var(--navbar-height));
+    min-height: 100vh;
     overflow: hidden;
+    background: var(--primary-clr);
 }
-.app__dashboard-first-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    width: 100%;
-    gap: 1rem;
-}
-.app__dashboard-last-container {
-    display: grid;
-    margin-top: 1rem;
-    grid-template-columns: 1fr 1fr 1fr;
-    width: 100%;
-    gap: 1rem;
+.app__dashboard-content {
+    padding: 1rem;
 }

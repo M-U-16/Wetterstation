@@ -6,6 +6,6 @@ blueprint = Blueprint(
     url_prefix=""
 )
 
-@blueprint.route("/wetter")
+@blueprint.route("/dashboard")
 def dashboard():
-    return render_template("wetter.html")
+    return render_template("dashboard.html")

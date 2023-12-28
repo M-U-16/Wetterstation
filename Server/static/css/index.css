@@ -1,5 +1,13 @@
 /* CSS variables */
 :root {
+  /* DARK THEME */
+  --primary-clr: #040404;
+  --secondary-clr: #171717;
+  --primary-text-clr: white;
+  --secondary-text-clr: #999999;
+
+  --accent-clr: rgba(128, 128, 128, 0.137);
+
   /* COLORS */
   --color-white: #fff;
   --color-black: #14161b;

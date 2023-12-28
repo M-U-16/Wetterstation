@@ -1,6 +1,3 @@
-import os
-#database
-import peewee as pw
 #commands
 from command import register_commands
 #flask and flask utils
@@ -45,16 +42,16 @@ def configure_database(app):
         db.session.remove()
 
 def setup_app(app):
-    @app.errorhandler(404)
+    """ @app.errorhandler(404)
     def page_not_found(e):
-        return render_template("404.html"), 404
+        return render_template("404.html"), 404 """
 
 def create_app(config):
-    app = Flask(__name__)
+    app = Flask(__name__, template_folder="temps")
     app.config.from_object(config)
     #configuring cors
     app.config["CORS_HEADERS"] = "Content-Type"
-    CORS(app)
+    cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
     
     setup_app(app)
     register_blueprints(app)
