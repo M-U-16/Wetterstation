@@ -1,3 +1,15 @@
+{% macro sidebarLink(content, link, icon_src) %}
+    <a
+        class="dashboard__sidebar-link disable-select"
+        href={{ '/dashboard?view=' + link }}
+    >
+        <div class="sidebar__img-container">
+            <img src="{{ url_for('static', filename='assets/icons/%s' % icon_src) }}">
+        </div>
+        <p>{{ content }}</p>
+    </a>
+{% endmacro %}
+
 {% macro sidebar() %}
     <div class="app__dashboard-sidebar">
         <div class="app__dashboard-top">
@@ -5,9 +17,15 @@
                 <img src={{ url_for('static', filename='assets/icons/arrow-back.svg') }}>
             </a>
             <p class="app__dashboard-heading">
-                Wetter
+                Wetterstation
             </p>
             <div class="dashboard__top-divider"></div>
+        </div>
+
+        <div class="app__dashboard-bottom">
+            {{ sidebarLink("Durchstöbern", "durchstöbern", "search.svg") }}
+            {{ sidebarLink("Live Daten", "live-daten", "live.svg") }}
+            {{ sidebarLink("Diagramme", "diagramme", "chart.svg") }}
         </div>
     </div>
 {% endmacro %}

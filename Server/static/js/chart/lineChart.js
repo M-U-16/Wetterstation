@@ -57,7 +57,6 @@ function tickFormat (date) {
 
 
 const LineChart = (initial_config) => {
-    console.log(initial_config)
 
     const calcWidth = () => conf.width - conf.margin.left - conf.margin.right
     const calcHeight = () => conf.height - conf.margin.bottom - conf.margin.top
@@ -209,14 +208,9 @@ const LineChart = (initial_config) => {
         conf.height = container.offsetHeight
         width = calcWidth()
         height = calcHeight()
-        /* d3.select(conf.id)
-            .attr("width", conf.width)
-            .attr("height", conf.height) */
         update()
     }
-    const init = () => {
-        addSvg()
-    }
+    const init = () => { addSvg() }
     return {
         clearChart,
         drawChart,

@@ -2,7 +2,7 @@ const default_conf = {
     margin: {
         top: 40,
         right: 60,
-        bottom: 50,
+        bottom: 40,
         left: 30
     },
     axis: {
@@ -16,7 +16,7 @@ const styles_conf = {
     default: {
         fontSize: "14px",
         line: { strokeWidth: "3px" },
-        area: { opacity: 0.1 },
+        area: { opacity: 0.5 },
     },
     temp: { 
         color: "#ff8080",
@@ -33,38 +33,38 @@ const styles_conf = {
         },
     }
 }
-const timeRange_conf = {
-    "1m": {
-        x: {
-            ticks: d3.timeWeek.every(1),
-            timeFormat: d3.timeFormat("%d-%b-%Y")
-        },
-        y: {
-            ticks: 5,
-            tickFormat: d => isNaN(d) ? "" : `${d}`
-        }
-    },
-    "1y": {
-        x: {
-            ticks: d3.timeMonth.every(1),
-            timeFormat: d3.timeFormat("%b")
-        },
-        y: {
-            ticks: 5,
-            tickFormat: d => isNaN(d) ? "" : `${d}`
-        }
-    },
-    "1w": {
-        x: {
-            ticks: d3.timeDay.every(1),
-            timeFormat: d3.timeFormat("%a")
-        },
-        y: {
-            ticks: 5,
-            tickFormat: d => isNaN(d) ? "" : `${d}`
-        }
+const getTimeRange = (time, unit) => {
+    console.log(unit)
+    const range = { x: {}, y:{}}
+
+
+    if (time === "1m") {
+        range.x.ticks = d3.timeWeek.every(1)
+        range.x.timeFormat = d3.timeFormat("%d %b %Y")
+        range.y.tickFormat =  d => isNaN(d) ? "" : `${d}` + unit
+        range.y.ticks = 6
+        return range
+    }
+    if (time === "1y") {
+        range.x.ticks = d3.timeMonth.every(1)
+        range.x.timeFormat = d3.timeFormat("%b")
+        range.y.tickFormat = d => isNaN(d) ? "" : `${d}` + unit
+        range.y.ticks = 6
+        return range
+    }
+    if (time === "1w") {
+        range.x.ticks = d3.timeDay.every(1)
+        range.x.timeFormat = d3.timeFormat("%a")
+        range.y.tickFormat = d => isNaN(d) ? "" : `${d}` + unit
+        range.y.ticks = 6
+        return range
     }
 }
+const y_units_conf = {
+    temp: "°C",
+    humi: "%"
+}
+
 function getConfig (
     container_id,
     data,
@@ -74,7 +74,9 @@ function getConfig (
 ) {
     const container = document
         .querySelector(container_id)
+
     const config = { ...default_conf }
+
     config.y = y
     config.x = x
     config.id = id
@@ -82,10 +84,12 @@ function getConfig (
     config.container = container_id
     config.width = container.offsetWidth
     config.height = container.offsetHeight
-    config.axisFormat = timeRange_conf[timePeriod]
+    config.axisFormat = getTimeRange(timePeriod, y_units_conf[y])
     config.styles = {
         ...styles_conf.default,
         ...styles_conf[y]
     }
+
+    console.log(config)
     return config
 }

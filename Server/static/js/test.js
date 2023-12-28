@@ -1,6 +1,6 @@
 let graph
 let temp_graph, humi_graph
-let time = "1m"
+let time = "1y"
 
 function generateGraphs(data) {
     const temp_config = getConfig(
@@ -19,9 +19,6 @@ function generateGraphs(data) {
         time,
         "humi-graph-svg"
     )
-
-    console.log(temp_config)
-    console.log(humi_config)
 
     temp_graph = LineChart(temp_config)
     temp_graph.init()

@@ -8,4 +8,5 @@
 }
 .app__dashboard-content {
     padding: 1rem;
+    overflow-y: scroll;
 }

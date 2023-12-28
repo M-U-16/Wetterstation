@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 
 blueprint = Blueprint(
     "dashboard_bp",
@@ -8,4 +8,5 @@ blueprint = Blueprint(
 
 @blueprint.route("/dashboard")
 def dashboard():
+    print("view param: ", request.args["view"])
     return render_template("dashboard.html")

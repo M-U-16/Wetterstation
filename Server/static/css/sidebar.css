@@ -2,6 +2,7 @@
     width: 20rem;
     background: var(--secondary-clr);
     border-radius: 0 1rem 1rem 0;
+    overflow: hidden;
 }
 .app__dashboard-top {
     display: flex;
@@ -13,7 +14,6 @@
     width: 100%;
     height: 5rem;
     padding: 1rem;
-    /* border-bottom: 2px solid var(--accent-clr); */
 }
 .app__dashboard-link {
     height: 100%;
@@ -47,4 +47,71 @@
     left: 1rem;
     right: 1rem;
     background: var(--accent-clr);
+}
+.app__dashboard-bottom {
+    height: 100%;
+    padding: 1rem;
+}
+/* 
+-------------------------------------------
+###########################################
+-------------------------------------------
+*/
+.dashboard__sidebar-link {
+    display: flex;
+    align-items: center;
+    position: relative;
+    
+    padding: 0.8rem;
+    margin: 1rem 0 1rem 0;
+    width: 100%;
+
+    text-decoration: none;
+    background: var(--accent-clr);
+    color: white;
+    border-radius: 0.5rem;
+}
+.dashboard__sidebar-link:nth-child(1) {
+    margin-top: 0;
+}
+.dashboard__sidebar-link::after {
+    content: url("http://localhost:8080/static/assets/icons/arrow-back.svg");
+    width: 1.5rem;
+    height: 1.5rem;
+    opacity: 0;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform:
+        translateY(-50%)
+        rotate(180deg)
+        scale(0);
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+}
+.dashboard__sidebar-link:hover::after {
+    opacity: 1;
+    transform:
+        translateY(-50%)
+        rotate(180deg)
+        scale(1);
+}
+.dashboard__sidebar-link p {
+    margin: 0 0 0 0.5rem
+}
+.sidebar__img-container {
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.sidebar__img-container img {
+    width: 1.5rem;
+    aspect-ratio: 1;
+}
+
+@media screen and (max-width: 800px) {
+    
 }
