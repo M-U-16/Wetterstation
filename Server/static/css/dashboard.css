@@ -2,11 +2,33 @@
     display: grid;
     width: 100%;
     grid-template-columns: auto 1fr;
-    min-height: 100vh;
+    height: 100vh;
     overflow: hidden;
     background: var(--primary-clr);
 }
 .app__dashboard-content {
     padding: 1rem;
-    overflow-y: scroll;
+    overflow-y: auto;
+}
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #171717;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-radius: 1rem;
+    background: #009dff;
+    transition: background 0.3s ease;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #008ce2;
+    cursor: pointer;
 }

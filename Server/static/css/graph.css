@@ -6,6 +6,7 @@
 }
 svg {
     width: 100%;
+    background: var(--secondary-clr);
     background: white;
     border-radius: 0.5rem;
 }

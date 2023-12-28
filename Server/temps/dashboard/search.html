@@ -1,0 +1,11 @@
+{% extends "base/dashboard_base.html" %}
+{% from "components/sidebar.html" import sidebar %}
+{% block content %}
+<div class="app__dashboard-container">
+    {{ sidebar(active_content) }}
+    <div class="app__dashboard-content">
+        <h1 style="color: white;">Suchen</h1>
+    </div>
+</div>
+{% endblock content %}
+{% block code %}{% endblock code %}

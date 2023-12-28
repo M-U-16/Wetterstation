@@ -1,0 +1,9 @@
+{% extends "base/dashboard_base.html" %}
+{% from "components/sidebar.html" import sidebar %}
+{% block title %}Dashboard{% endblock title %}
+{% block content %}
+<div class="app__dashboard-container">
+    {{ sidebar(active_content) }}
+    
+</div>
+{% endblock content %}

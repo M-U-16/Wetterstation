@@ -8,4 +8,4 @@ blueprint = Blueprint(
 
 @blueprint.route("/")
 def index_route():
-    return render_template("index.html")
+    return render_template("pages/index.html")

@@ -22,7 +22,7 @@ const styles_conf = {
         color: "#ff8080",
         dots: "#ff0000",
         axis: {
-            color: "grey",
+            color: "white",
         },
     },
     humi: {

@@ -1,16 +1,20 @@
-{% macro sidebarLink(content, link, icon_src) %}
+{% macro sidebarLink(content, link, icon_src, active_link) %}
     <a
         class="dashboard__sidebar-link disable-select"
-        href={{ '/dashboard?view=' + link }}
+        href={{ '/dashboard?ansicht=' + link }}
     >
         <div class="sidebar__img-container">
             <img src="{{ url_for('static', filename='assets/icons/%s' % icon_src) }}">
         </div>
         <p>{{ content }}</p>
+
+        {% if active_link == link %}
+            <div id="active-sidebar-indicator"></div>
+        {% endif %}
     </a>
 {% endmacro %}
 
-{% macro sidebar() %}
+{% macro sidebar(active_link) %}
     <div class="app__dashboard-sidebar">
         <div class="app__dashboard-top">
             <a class="app__dashboard-link" href="/">
@@ -23,9 +27,10 @@
         </div>
 
         <div class="app__dashboard-bottom">
-            {{ sidebarLink("Durchstöbern", "durchstöbern", "search.svg") }}
-            {{ sidebarLink("Live Daten", "live-daten", "live.svg") }}
-            {{ sidebarLink("Diagramme", "diagramme", "chart.svg") }}
+            {{ sidebarLink("Durchstöbern", "durchstöbern", "search.svg", active_link) }}
+            {{ sidebarLink("Live Daten", "live-daten", "live.svg", active_link) }}
+            {{ sidebarLink("Diagramme", "diagramme", "chart.svg", active_link) }}
+        
         </div>
     </div>
 {% endmacro %}

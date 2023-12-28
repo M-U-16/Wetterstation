@@ -107,8 +107,8 @@ const LineChart = (initial_config) => {
     const addAxis = () => {
         /* X AXIS */
         x_axis = svg.append("g")
-            .attr("class", "x-axis")
-            .style("font-size", "12px")
+            .attr("class", "linechart__x-axis")
+            .style("font-size", "13px")
             .attr("transform", `translate(0, ${height})`)
             .call(d3.axisBottom(x)
                 .tickValues(x.ticks(conf.axisFormat.x.ticks))
@@ -119,8 +119,8 @@ const LineChart = (initial_config) => {
 
         /* Y AXIS */
         y_axis = svg.append("g")
-            .attr("class", "y-axis")
-            .style("font-size", "12px")
+            .attr("class", "linechart__y-axis")
+            .style("font-size", "13px")
             .attr("transform", `translate(${width}, 0)`)
             .call(d3.axisRight(y)
                 .ticks(conf.axisFormat.y.ticks)

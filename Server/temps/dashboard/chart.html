@@ -3,17 +3,13 @@
 {% block styles %}
     <link
         rel="stylesheet"
-        href={{ url_for('static', filename='css/sidebar.css')}}
-    />
-    <link
-        rel="stylesheet"
         href={{ url_for('static', filename='css/graph.css')}}
     />
 {% endblock styles %}
-{% block title %}Dashboard{% endblock title %}
 {% block content %}
 <div class="app__dashboard-container">
-    {{ sidebar() }}
+    {{ sidebar(active_content) }}
+    
     <div class="app__dashboard-content">
         <div class="dashboard__graph-container" id="temp-container"></div>
         <div class="dashboard__graph-container" id="humi-container"></div>
