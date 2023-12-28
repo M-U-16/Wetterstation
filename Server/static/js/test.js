@@ -1,6 +1,6 @@
 let graph
 let temp_graph, humi_graph
-let time = "1y"
+let time = "1m"
 
 function generateGraphs(data) {
     const temp_config = getConfig(
