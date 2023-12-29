@@ -11,13 +11,14 @@ from views.dashboard import blueprint as dasboard_bp
 #api endpoints
 from api.api_router import api_bp
 
+from models.model import db
+
 #dotenv
 from dotenv import load_dotenv
 #socketio
 from api.events import socketio
 
 load_dotenv()
-db = FlaskDB()
 
 def register_extensions(app):
     socketio.init_app(app)
@@ -32,10 +33,14 @@ def register_blueprints(app):
         app.register_blueprint(module)
 
 def configure_database(app):
-    @app.before_first_request
-    def init():
-        pass
-        #db.init_app(app)
+    @app.before_request
+    def before_request():
+        db.connect()
+        
+    @app.after_request
+    def after_request(response):
+        db.close()
+        return response 
         
     @app.teardown_request
     def shutdown_session(exception=None):

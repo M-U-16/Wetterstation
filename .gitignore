@@ -22,3 +22,4 @@ wetter.db
 venv
 .env
 data
+*.rdb

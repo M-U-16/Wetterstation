@@ -4,7 +4,9 @@
         href={{ '/dashboard?ansicht=' + link }}
     >
         <div class="sidebar__img-container">
-            <img src="{{ url_for('static', filename='assets/icons/%s' % icon_src) }}">
+            {% if icon_src %}
+                <img src="{{ url_for('static', filename='assets/icons/%s' % icon_src) }}">
+            {% endif %}
         </div>
         <p>{{ content }}</p>
 
@@ -23,11 +25,12 @@
             <p class="app__dashboard-heading">
                 Wetterstation
             </p>
+            
             <div class="dashboard__top-divider"></div>
         </div>
 
         <div class="app__dashboard-bottom">
-            {{ sidebarLink("Durchstöbern", "durchstöbern", "search.svg", active_link) }}
+            {{ sidebarLink("Suchen", "suchen", "search.svg", active_link) }}
             {{ sidebarLink("Live Daten", "live-daten", "live.svg", active_link) }}
             {{ sidebarLink("Diagramme", "diagramme", "chart.svg", active_link) }}
         

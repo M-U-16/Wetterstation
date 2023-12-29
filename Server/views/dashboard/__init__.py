@@ -9,7 +9,7 @@ blueprint = Blueprint(
 views = {
     "diagramme": "dashboard/chart.html",
     "live-daten": "dashboard/live.html",
-    "durchstöbern": "dashboard/search.html"
+    "suchen": "dashboard/search.html"
 }
 
 @blueprint.route("/dashboard")
@@ -29,7 +29,7 @@ def dashboard():
             views[view],
             active_content=view
         )
-    if view == "durchstöbern":
+    if view == "suchen":
         return render_template(
             views[view],
             active_content=view

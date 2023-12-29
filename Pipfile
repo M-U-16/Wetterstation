@@ -9,10 +9,8 @@ python-dotenv = "*"
 peewee = "*"
 flask-socketio = "*"
 flask-cors = "*"
-rq = "*"
-redis = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.6"
+python_version = "3.8"

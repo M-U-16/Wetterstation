@@ -113,11 +113,11 @@
 }
 #active-sidebar-indicator {
     position: absolute;
-    right: calc(100% + 5px);
+    right: calc(100% + 1rem - 4px);
     width: 5px;
     height: 90%;
     background-color: rgb(0, 170, 255);
-    border-radius: 1rem;
+    border-radius: 0 1rem 1rem 0;
 }
 /* MEDIA QUERIES AND MOBILE LAYOUT */
 @media screen and (max-width: 800px) {
@@ -147,5 +147,11 @@
     }
     .app__dashboard-bottom {
         padding: 0.5rem;
+    }
+    #active-sidebar-indicator {
+        right: calc(100% + 0.5rem - 4px);
+        height: 70%;
+        top: 50%;
+        transform: translateY(-50%);
     }
 }

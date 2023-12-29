@@ -9,7 +9,7 @@ import random
 def getEntry(date):
     return {
         "entry_date": date,
-        "temp": random.randint(20, 50),
+        "temp": random.randint(-5, 30),
         "humi": random.randint(1, 100),
         "pres": 1000,
         "lux": random.randint(1000, 20000),
