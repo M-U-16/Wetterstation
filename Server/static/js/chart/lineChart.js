@@ -69,9 +69,9 @@ const LineChart = (initial_config) => {
     const margin = conf.margin
 
     console.log(conf.entrys)
-    const data = formatData(conf.entrys, conf)
-    console.log(data)
+    let data = formatData(conf.entrys, conf)
     const addData = (obj) => data.unshift(obj)
+    const setData = (arr) => data = formatData(arr)
     
     let svg
     let width = calcWidth()
@@ -260,7 +260,7 @@ const LineChart = (initial_config) => {
                 .style("display", "block")
                 .style("left", `${width + margin.left}px`)
                 .style("top", `${yPos + margin.top - 15}px`)
-                .html(`${d[conf.y] !== undefined ? d[conf.y] : "N/A"}`)
+                .html(`${d[conf.y] !== undefined ? d[conf.y] + conf.y_unit : "N/A"}`)
             
             tooltipRawDate
                 .style("display", "block")

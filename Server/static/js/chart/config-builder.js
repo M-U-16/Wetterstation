@@ -34,9 +34,7 @@ const styles_conf = {
     }
 }
 const getTimeRange = (time, unit) => {
-    console.log(unit)
     const range = { x: {}, y:{}}
-
 
     if (time === "1m") {
         range.x.ticks = d3.timeWeek.every(1)
@@ -85,6 +83,7 @@ function getConfig (
     config.width = container.offsetWidth
     config.height = container.offsetHeight
     config.axisFormat = getTimeRange(timePeriod, y_units_conf[y])
+    config.y_unit = y_units_conf[y]
     config.styles = {
         ...styles_conf.default,
         ...styles_conf[y]
