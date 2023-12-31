@@ -40,7 +40,7 @@ const getTimeRange = (time, unit) => {
 
     if (time === "1m") {
         range.x.ticks = d3.timeWeek.every(1)
-        range.x.timeFormat = d3.timeFormat("%d %b %Y")
+        range.x.timeFormat = d3.timeFormat("%e.%m.%Y")
         range.y.tickFormat =  d => isNaN(d) ? "" : `${d}` + unit
         range.y.ticks = 6
         return range
@@ -89,7 +89,5 @@ function getConfig (
         ...styles_conf.default,
         ...styles_conf[y]
     }
-
-    console.log(config)
     return config
 }

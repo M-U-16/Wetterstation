@@ -1,11 +1,7 @@
 from flask import Blueprint, render_template, request
+from models.db import getLastEntrys
 
-blueprint = Blueprint(
-    "dashboard_bp",
-    __name__,
-    url_prefix=""
-)
-
+blueprint = Blueprint("dashboard_bp",__name__,url_prefix="")
 views = {
     "diagramme": "dashboard/chart.html",
     "live-daten": "dashboard/live.html",
@@ -14,28 +10,17 @@ views = {
 
 @blueprint.route("/dashboard")
 def dashboard():
-    try:
-        view = request.args["ansicht"]
+    try: 
+        view_param = request.args["ansicht"]
+        view = views[view_param]
     except:
-        view = ""
+        result =  getLastEntrys()
+        entrys = result[0]
+        last_id = result[1]
+        return render_template(
+            "pages/dashboard.html",
+            last_entrys=entrys,
+            last_id=last_id
+        )
+    return render_template(view, active_content=view_param)
     
-    if view == "diagramme":
-        return render_template(
-            views[view],
-            active_content=view
-        )
-    if view == "live-daten":
-        return render_template(
-            views[view],
-            active_content=view
-        )
-    if view == "suchen":
-        return render_template(
-            views[view],
-            active_content=view
-        )
-    
-    return render_template(
-        "pages/dashboard.html",
-        active_content=view
-    )

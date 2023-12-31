@@ -21,4 +21,13 @@ def getWeek(): return queryDb(querys["get-week"])
 def getMonth(): return queryDb(querys["get-month"])
 def getYear(): return queryDb(querys["get-year"])
 def printAll(): print(queryDb("select * from wetterdaten"))
+
+def getLastEntrys(last=None):
+    get_last = lambda dict_list: min(dict_list, key=lambda x: x["entry_id"])["entry_id"]
+    if last:
+        result = queryDb("select * from wetterdaten where entry_id < ? order by entry_id desc limit 5", [last])
+        current_last = get_last(result)
+        return result, current_last
     
+    result = queryDb("select * from wetterdaten order by entry_id desc limit 5")
+    return result, get_last(result)

@@ -36,4 +36,4 @@ window.onresize = () => {
 
 fetch(`/api/data?time=${time}`)
     .then(res => res.json())
-    .then(res => generateGraphs(res.data))
+    .then(res => generateGraphs(res.data.reverse()))

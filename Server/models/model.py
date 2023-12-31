@@ -6,7 +6,7 @@ from peewee import (
     PrimaryKeyField,
     IntegerField,
     TextField,
-    DateField
+    DateTimeField
 )
 dotenv.load_dotenv()
 db = pw.SqliteDatabase(os.getenv("DATABASE_PATH"))
@@ -19,7 +19,7 @@ class BaseModel(pw.Model):
 class Wetterdaten(BaseModel):
     table_name = "wetterdaten"
     entry_id = PrimaryKeyField()
-    entry_date = DateField()
+    entry_date = DateTimeField()
     temp = IntegerField()
     humi = IntegerField()
     pres = IntegerField(null=True)

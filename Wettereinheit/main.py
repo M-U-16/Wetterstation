@@ -9,9 +9,6 @@ from helpers.ReadFakeData import read_fake_data
 if SETTINGS["server"]:
     ip = SETTINGS["ip_address"]
     port = SETTINGS["server_port"]
-
-conf = Config(SETTINGS)
-conf.activateFan()
     
 def startMeasuring():
     #gets the fake data for testing

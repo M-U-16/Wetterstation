@@ -1,9 +1,30 @@
 {% extends "base/dashboard_base.html" %}
 {% from "components/sidebar.html" import sidebar %}
 {% block title %}Dashboard{% endblock title %}
+{% block styles %}
+    <link rel="stylesheet" href={{ url_for('static', filename='css/dashboard/entrys.css') }}>
+{% endblock styles %}
 {% block content %}
 <div class="app__dashboard-container">
     {{ sidebar(active_content) }}
     
+    <div class="app__dashboard-content">
+        <div
+            id="recent-entrys-container"
+            data-id={{ last_id }}
+            class="dashboard_recent-entrys"
+        >
+            {% for entry in last_entrys %}
+                <div
+                    class="recent_entry-container entry"
+                >
+                    <p>{{entry.entry_date}}</p>
+                    <p>{{entry.temp}}°C</p>
+
+                    {{ entry }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
 {% endblock content %}

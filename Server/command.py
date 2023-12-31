@@ -35,8 +35,8 @@ def checkPath(path, name):
         sys.exit(f"'{name}' already exists")
 
 """ 
-FLASK CLI FOR CREATING DIRECTORY FOR DATA
-AND DATABASE
+FLASK CLI FOR CREATING BASE FILE STRUCTURE
+FOR DATA STORAGE
 """
 DEFAULT_SETTINGS = {
     "data-dir": "data",
@@ -68,7 +68,7 @@ def register_commands(app):
         setEnv("DATABASE_PATH", forward_slash(path))
         
     @app.cli.command("create-tables")
-    def createDb():
+    def createTables():
         """ 
             CREATES A ALL TABLES IN THE DATABASE
         """

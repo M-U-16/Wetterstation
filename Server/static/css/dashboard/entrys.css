@@ -1,0 +1,9 @@
+.dashboard_recent-entrys {
+    background: var(--secondary-clr);
+    padding: 1rem;
+    border-radius: 1rem;
+}
+.recent_entry-container {
+    color: white;
+    margin: 1rem 0 1rem 0;
+}

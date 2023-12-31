@@ -1,9 +1,10 @@
 const formatData = (entrys, config) => {
-    const parseDate = d3.timeParse("%Y-%m-%d")
+    const parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S")
     return entrys.map(entry => {
         const formatedObj = {}
         formatedObj[config.x] = parseDate(entry[config.x])
         formatedObj[config.y] = entry[config.y]
+        
         return formatedObj
     });
 }
@@ -67,7 +68,9 @@ const LineChart = (initial_config) => {
     const conf = initial_config
     const margin = conf.margin
 
+    console.log(conf.entrys)
     const data = formatData(conf.entrys, conf)
+    console.log(data)
     const addData = (obj) => data.unshift(obj)
     
     let svg
@@ -187,6 +190,99 @@ const LineChart = (initial_config) => {
             .attr("stroke-width", 0.5)
             
     }
+    /* INTERACTIVE ELEMENTS */
+    const addTooltips = () => {
+        /* TOOLTIPS */
+        const tooltip = d3.select(conf.container)
+            .append("div")
+            .attr("class", "tooltip")
+        
+        const tooltipRawDate = d3.select(conf.container)
+            .append("div")
+            .attr("class", "tooltip")
+        
+        /* ADD CIRCLE ELEMENT */
+        const circle = svg.append("circle")
+            .attr("r", 0)
+            .attr("fill", "red")
+            .style("stroke", "transparent")
+            .attr("opacity", 1)
+            .style("pointer-events", "none")
+        
+        const tooltipLineX = svg.append("line")
+            .attr("class", "tooltip-line")
+            .attr("id", `tooltip-line-x-${conf.y}`)
+            .attr("stroke", "red")
+            .attr("stroke-width", 1)
+            .attr("stroke-dasharray", "2,2")
+            
+        const tooltipLineY = svg.append("line")
+            .attr("class", "tooltip-line")
+            .attr("id", `tooltip-line-y-${conf.y}`)
+            .attr("stroke", "red")
+            .attr("stroke-width", 1)
+            .attr("stroke-dasharray", "2,2")
+
+        const listeningRect = svg.append("rect")
+            .attr("width", width)
+            .attr("height", height)
+
+        listeningRect.on("mousemove", function (e) {
+            const [xCoord] = d3.pointer(e, this)
+            const bisectDate = d3.bisector(d => d[conf.x]).left
+            const x0 = x.invert(xCoord)
+            const i = bisectDate(data, x0, 1)
+            const d0 = data[i - 1]
+            const d1 = data[i]
+            const d = x0 - d0[conf.x] > d1[conf.x] - x0 ? d1 : d0
+            const xPos = x(d[conf.x])
+            const yPos = y(d[conf.y])
+
+            const date = d[conf.x].toLocaleString("de-DE").split(",")[0]
+
+            circle.attr("cx", xPos).attr("cy", yPos)
+            circle.transition()
+                .duration(50)
+                .attr("r", 5)
+
+            tooltipLineX.style("display", "block")
+                .attr("x1", xPos)
+                .attr("x2", xPos)
+                .attr("y1", 0)
+                .attr("y2", height)
+            tooltipLineY.style("display", "block")
+                .attr("y1", yPos)
+                .attr("y2", yPos)
+                .attr("x1", 0)
+                .attr("x2", width)
+            
+            tooltip
+                .style("display", "block")
+                .style("left", `${width + margin.left}px`)
+                .style("top", `${yPos + margin.top - 15}px`)
+                .html(`${d[conf.y] !== undefined ? d[conf.y] : "N/A"}`)
+            
+            tooltipRawDate
+                .style("display", "block")
+                .style("left", `${xPos}px`)
+                .style("top", `${height + margin.top}px`)
+                .html(`${d[conf.x] !== undefined ? date: "N/A"}`)
+        })
+        listeningRect.on("mouseleave", () => {
+            circle.transition().duration(50).attr("r", 0)
+            tooltipRawDate.style("display", "none")
+            tooltip.style("display", "none")
+            tooltipLineX.style("display", "none")
+            tooltipLineY.style("display", "none")
+            tooltipLineX.attr("x1", 0).attr("x2", 0);
+            tooltipLineY.attr("y1", 0).attr("y2", 0);
+        })
+    }
+    /* 
+    ########################
+    ------------------------
+    ########################
+    */
     const drawChart = () => {
         y =  set_y_scale()
         x = set_x_scale()
@@ -196,6 +292,8 @@ const LineChart = (initial_config) => {
         addLine() // draws graph
         addArea() // draws area under the graph
         addDots() // adds dots to every data entry
+
+        addTooltips()
     }
     const update = () => {
         clearChart()
