@@ -51,7 +51,7 @@ def setup_app(app):
         return render_template("404.html"), 404 """
 
 def create_app(config):
-    app = Flask(__name__, template_folder="temps")
+    app = Flask(__name__)
     app.config.from_object(config)
     #configuring cors
     app.config["CORS_HEADERS"] = "Content-Type"
