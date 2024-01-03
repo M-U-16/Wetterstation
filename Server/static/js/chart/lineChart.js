@@ -15,48 +15,6 @@ const formatEntry = (entry, config) => {
         temp: entry.temp
     }
 }
-// set default locale
-d3.formatDefaultLocale({
-    "decimal": ",",
-    "thousands": ".",
-    "grouping": [3],
-    "currency": ["", "\u00a0€"]
-})
-// set default time locale
-d3.timeFormatDefaultLocale({
-    "dateTime": "%A, der %e. %B %Y, %X",
-    "date": "%d.%m.%Y",
-    "time": "%H:%M:%S",
-    "periods": ["AM", "PM"],
-    "days": ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"],
-    "shortDays": ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"],
-    "months": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
-    "shortMonths": ["Jan", "Feb", "Mrz", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
-})
-let formatMillisecond = d3.timeFormat(".%L")
-let formatSecond = d3.timeFormat(":%S")
-let formatMinute = d3.timeFormat("%I:%M")
-let formatHour = d3.timeFormat("%I %p")
-let formatDay = d3.timeFormat("%a %d")
-let formatWeek = d3.timeFormat("%b %d")
-let formatMonth = d3.timeFormat("%B")
-let formatYear = d3.timeFormat("%Y")
-function tickFormat (date) {
-    function multiFormat (date) {
-        return (
-            d3.timeSecond(date) < date ? formatMillisecond
-            : d3.timeMinute(date) < date ? formatSecond
-            : d3.timeHour(date) < date ? formatMinute
-            : d3.timeDay(date) < date ? formatHour
-            : d3.timeMonth(date) < date ? (timeWeek(date) < date ? formatDay : formatWeek)
-            : d3.timeYear(date) < date ? formatMonth
-            : formatYear
-        )(date);
-    }
-    return multiFormat(date);
-}
-
-
 const LineChart = (initial_config) => {
 
     const calcWidth = () => conf.width - conf.margin.left - conf.margin.right
@@ -68,10 +26,9 @@ const LineChart = (initial_config) => {
     const conf = initial_config
     const margin = conf.margin
 
-    console.log(conf.entrys)
     let data = formatData(conf.entrys, conf)
     const addData = (obj) => data.unshift(obj)
-    const setData = (arr) => data = formatData(arr)
+    const setData = (arr) => { data = formatData(arr, conf) }
     
     let svg
     let width = calcWidth()
@@ -89,7 +46,7 @@ const LineChart = (initial_config) => {
         .attr("class", ".dashboard__graph")
         .attr("width", conf.width) 
         .attr("height", conf.height)
-        .attr("id", "d3-svg-graph")
+        .attr("id", conf.id)
             .append("g")
             .attr("transform", `translate(${margin.left}, ${margin.top})`)
     }
@@ -117,8 +74,8 @@ const LineChart = (initial_config) => {
                 .tickValues(x.ticks(conf.axisFormat.x.ticks))
                 .tickFormat(conf.axisFormat.x.timeFormat)
             )
-            .selectAll(".tick line")
-            .style("stroke-opacity", 1)
+            .selectAll(".tick text")
+                .style("fill", "#777")
 
         /* Y AXIS */
         y_axis = svg.append("g")
@@ -130,7 +87,7 @@ const LineChart = (initial_config) => {
                 .tickFormat(conf.axisFormat.y.tickFormat)
             )
             .selectAll(".tick text")
-            .style("fill", "#777")
+                .style("fill", "#777")
     }
     /* FUNCTION FOR ADDING LINE PATH */
     const addLine = () => {
@@ -213,14 +170,14 @@ const LineChart = (initial_config) => {
             .attr("class", "tooltip-line")
             .attr("id", `tooltip-line-x-${conf.y}`)
             .attr("stroke", "red")
-            .attr("stroke-width", 1)
+            .attr("stroke-width", 3)
             .attr("stroke-dasharray", "2,2")
             
         const tooltipLineY = svg.append("line")
             .attr("class", "tooltip-line")
             .attr("id", `tooltip-line-y-${conf.y}`)
             .attr("stroke", "red")
-            .attr("stroke-width", 1)
+            .attr("stroke-width", 2)
             .attr("stroke-dasharray", "2,2")
 
         const listeningRect = svg.append("rect")
@@ -237,8 +194,8 @@ const LineChart = (initial_config) => {
             const d = x0 - d0[conf.x] > d1[conf.x] - x0 ? d1 : d0
             const xPos = x(d[conf.x])
             const yPos = y(d[conf.y])
-
-            const date = d[conf.x].toLocaleString("de-DE").split(",")[0]
+            
+            const date = d[conf.x].toLocaleString("de-DE")//.split(",")[0]
 
             circle.attr("cx", xPos).attr("cy", yPos)
             circle.transition()
@@ -312,9 +269,11 @@ const LineChart = (initial_config) => {
     return {
         clearChart,
         drawChart,
+        setData,
         addDots,
         update,
         resize,
+        conf,
         init,
         svg,
     }

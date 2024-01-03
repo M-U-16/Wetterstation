@@ -16,6 +16,7 @@
     </a>
 {% endmacro %}
 
+{% from "components/sidebar-menu.html" import sidebarMenu %}
 {% macro sidebar(active_link) %}
     <div class="app__dashboard-sidebar">
         <div class="app__dashboard-top">
@@ -25,15 +26,12 @@
             <p class="app__dashboard-heading">
                 Wetterstation
             </p>
-            
             <div class="dashboard__top-divider"></div>
         </div>
-
         <div class="app__dashboard-bottom">
             {{ sidebarLink("Suchen", "suchen", "search.svg", active_link) }}
             {{ sidebarLink("Live Daten", "live-daten", "live.svg", active_link) }}
             {{ sidebarLink("Diagramme", "diagramme", "chart.svg", active_link) }}
-        
         </div>
     </div>
 {% endmacro %}

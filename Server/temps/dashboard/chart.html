@@ -17,17 +17,19 @@
     
     <div class="app__dashboard-content">
         {{ select() }}
+        
         <div class="dashboard__graph-container" id="temp-container"></div>
         <div class="dashboard__graph-container" id="humi-container"></div>
     </div>
 </div>
 {% endblock content %}
 {% block code %}
-    <script src={{ url_for('static', filename='js/chart/chart-settings.js') }}></script>
+
+    <script src={{ url_for('static', filename='js/select.js') }}></script>
+
     <script src={{ url_for('static', filename='js/chart/lineChart.js') }}></script>
     <script src={{ url_for('static', filename='js/chart/config-builder.js') }}></script>
-    <script src={{ url_for('static', filename='js/chart/initCharts.js') }}></script>
-    <script src={{ url_for('static', filename='js/chart/fetch-data.js') }}></script>
+    <script src={{ url_for('static', filename='js/chart/chart-controller.js') }}></script>
+    <script src={{ url_for('static', filename='js/chart/chart-main.js') }}></script>
     <!--  -->
-    <script src={{ url_for('static', filename='js/select.js') }}></script>
 {% endblock code %}

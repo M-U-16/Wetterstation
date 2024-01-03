@@ -1,0 +1,23 @@
+{% from "svgs/humidity.html" import humidityIcon %}
+{% from "svgs/temperature.html" import temperatureIcon %}
+
+{% macro entrys() %}
+    <div
+        class="dashboard__recent-entrys"
+    >   
+        {{ humidityIcon() }}
+        {{ temperatureIcon() }}
+        <div
+            class="recent__entrys-container"
+            id="recent-entrys-container"
+        ></div>
+        <div class="recent__entrys-bottom">
+            <button
+                class="dashboard__entrys-button"
+                id="load-more-entrys-button"
+            >
+                Mehr Ansehen
+            </button>
+        </div>
+    </div>
+{% endmacro %}

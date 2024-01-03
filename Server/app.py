@@ -10,7 +10,6 @@ from views.admin import blueprint as admin_bp
 from views.dashboard import blueprint as dasboard_bp
 #api endpoints
 from api.api_router import api_bp
-
 from models.model import db
 
 #dotenv

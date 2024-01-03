@@ -1,0 +1,12 @@
+.sidebar__menu-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 3rem;
+    border-radius: 5px;
+    padding: 0.8rem;
+    background-color: var(--accent-clr);
+    border: none;
+    cursor: pointer;
+}

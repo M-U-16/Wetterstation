@@ -18,7 +18,7 @@ def dashboard():
         entrys = result[0]
         last_id = result[1]
         return render_template(
-            "pages/dashboard.html",
+            "dashboard/dashboard.html",
             last_entrys=entrys,
             last_id=last_id
         )

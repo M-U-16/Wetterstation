@@ -1,4 +1,4 @@
-const Select = (start_time) => {
+const Select = (start_range) => {
 
     const timeRangeBtn = document.getElementById("time-select-button")
     const selectOptions = document.querySelectorAll(".app__select-option")
@@ -6,10 +6,14 @@ const Select = (start_time) => {
     const indicatorArrow = document.querySelector("#select-arrow-icon")
     const timeRangeDisplay = document.querySelector("#time-select-text")
     const activeContainerClass = "active-select-container"
+    const activeButtonClass = "active-select-button"
     
     let selectedState = false
 
-    const closeContainer = () => {
+    const closeAll = () => {
+
+        timeRangeBtn.classList.toggle(activeButtonClass)
+
         selectContainer.classList.remove(activeContainerClass)
         indicatorArrow.style.transform = `rotate(${0}deg)`
         selectedState = false
@@ -21,6 +25,8 @@ const Select = (start_time) => {
             selectedState = !selectedState
             
             selectContainer.classList.toggle(activeContainerClass)
+            timeRangeBtn.classList.toggle(activeButtonClass)
+
             if (!selectedState) indicatorArrow.style.transform = `rotate(${0}deg)`
             if (selectedState) indicatorArrow.style.transform = `rotate(${180}deg)`
         })
@@ -31,15 +37,16 @@ const Select = (start_time) => {
                 timeRangeDisplay.innerHTML = option.innerHTML
                 timeRangeBtn.dataset.current = option.dataset.value
                 optionAction(option.dataset.value)
-                closeContainer()
+                closeAll()
             })
         })
     }
 
     const init = () => {
+        timeRangeBtn.dataset.current = start_range
+        console.log(start_range)
         selectOptions.forEach(option => {
-            timeRangeBtn.dataset.current = start_time
-            if (option.dataset.value == start_time) {
+            if (option.dataset.value == start_range) {
                 timeRangeDisplay.innerHTML = option.innerHTML
             }
         })

@@ -1,0 +1,20 @@
+{% extends "base/dashboard_base.html" %}
+{% from "components/sidebar.html" import sidebar %}
+{% from "components/entrys.html" import entrys %}
+
+{% block title %}Dashboard{% endblock title %}
+{% block styles %}
+    <link rel="stylesheet" href={{ url_for('static', filename='css/dashboard/entrys.css') }}>
+{% endblock styles %}
+{% block content %}
+    <div class="app__dashboard-container">
+        {{ sidebar(active_content) }}
+        
+        <div class="app__dashboard-content">
+            {{ entrys() }}
+        </div>
+    </div>
+{% endblock content %}
+{% block code %}
+    <script src={{ url_for('static', filename='js/entrys.js') }}></script>
+{% endblock code %}

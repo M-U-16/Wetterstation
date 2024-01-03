@@ -10,6 +10,8 @@
     <link rel="stylesheet" href={{ url_for('static', filename='css/index.css') }} media="all" />
     <link rel="stylesheet" href={{ url_for('static', filename='css/dashboard.css') }} media="all">
     <link rel="stylesheet" href={{ url_for('static', filename='css/sidebar.css')}} />
+    <link rel="stylesheet" href={{ url_for('static', filename='css/dashboard/menu.css')}} />
+    
     {% block styles %}{% endblock styles %}
     <title>Wetterstation | Dashboard</title>
 </head>
@@ -17,6 +19,7 @@
     {% block content %}{% endblock content %}
 
     <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src={{ url_for('static', filename='js/chart/local-d3.js') }}></script>
     {% block code %}{% endblock code %}
 </body>
 </html>

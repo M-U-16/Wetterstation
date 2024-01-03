@@ -5,7 +5,7 @@
 """
 from datetime import datetime, timedelta
 import random
-#just returns new object with random values
+#just returns new object with random sensor values
 def getEntry(date):
     return {
         "entry_date": date,
@@ -23,7 +23,7 @@ def getEntry(date):
     }
 #generates entrys for one year with date
 def EntryGenerator(amount):
-    for i in range(0, amount):
+    for i in range(amount, 0, -1):
         date = str(datetime.now() - timedelta(days=i)).split(".")[0]
         yield getEntry(date)
 #returns a 2 dimensional array with many entrys

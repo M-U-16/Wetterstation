@@ -21,5 +21,4 @@ class Config(object):
     
     DEBUG = isInDevelopment
     TEMPLATES_AUTO_RELOAD = isInDevelopment
-    #FLASKDB_EXCLUDED_ROUTES = ("/")
     

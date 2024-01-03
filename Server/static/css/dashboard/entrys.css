@@ -1,9 +1,63 @@
-.dashboard_recent-entrys {
+.dashboard__recent-entrys {
     background: var(--secondary-clr);
     padding: 1rem;
     border-radius: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 }
-.recent_entry-container {
+.recent__entrys-container {
+    height: 12rem;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    padding: 0.5rem;
+}
+.recent__entrys-container::-webkit-scrollbar {
+    width: 0;
+}
+.recent__entry-container {
     color: white;
-    margin: 1rem 0 1rem 0;
+    padding: 0.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center;
+    width: 100%;
+}
+.recent__entry-container p {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    width: 5rem;
+}
+.recent__entrys-bottom {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0.2rem;
+}
+.dashboard__entrys-button {
+    padding: 0.5rem 0.8rem;
+    margin-top: 0.5rem;
+    border-radius: 1rem;
+    border: none;
+    background-color: rgba(0, 166, 255, 0.604);
+    color: white;
+    cursor: pointer;
+}
+/* 
+--------------
+##############
+--------------
+*/
+.app__icon-temperature,
+.app__icon-humidity {
+    margin-right: 0.2rem;
+}
+
+.app__icon-temperature path {
+    fill: rgb(255, 59, 59);
+}
+.app__icon-humidity path {
+    fill: rgb(36, 160, 255);
 }

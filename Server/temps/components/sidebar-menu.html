@@ -1,0 +1,14 @@
+{% from "svgs/three-dots.html" import threeDots %}
+{% macro sidebarMenu() %}
+    <div class="sidebar__menu-container">
+        <button
+            id="sidebar-menu-button"
+            class="sidebar__menu-button"
+        >
+            {{ threeDots() }}
+        </button>
+        <div class="sidebar__menu">
+                
+        </div>
+    </div>
+{% endmacro %}

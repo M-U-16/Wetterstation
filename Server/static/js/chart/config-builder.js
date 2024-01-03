@@ -80,6 +80,7 @@ function getConfig (
     config.id = id
     config.entrys = data
     config.container = container_id
+    config.timeRange = timePeriod
     config.width = container.offsetWidth
     config.height = container.offsetHeight
     config.axisFormat = getTimeRange(timePeriod, y_units_conf[y])

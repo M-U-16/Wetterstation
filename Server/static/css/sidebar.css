@@ -1,15 +1,16 @@
 .app__dashboard-sidebar {
     width: 20rem;
     background: var(--secondary-clr);
-    border-radius: 0 1rem 1rem 0;
     overflow-y: hidden;
 
     --border-radius: 5px;
 }
 .app__dashboard-top {
-    display: flex;
+    /* display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-between; */
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     gap: 0.5rem;
 
     position: relative;
@@ -19,10 +20,10 @@
 }
 .app__dashboard-link {
     height: 100%;
-    aspect-ratio: 1;
+    width: 3rem;
     padding: 0.8rem;
     border-radius: var(--border-radius);
-    background: var(--accent-clr);
+    background-color: var(--accent-clr);
     outline: none;
 }
 .app__dashboard-link img {
@@ -69,7 +70,7 @@
     width: 100%;
 
     text-decoration: none;
-    background: var(--accent-clr);
+    /* background: var(--accent-clr); */
     /* border: 2px solid var(--accent-clr); */
     color: white;
     outline: none;
