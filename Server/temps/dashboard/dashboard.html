@@ -1,16 +1,18 @@
 {% extends "base/dashboard_base.html" %}
 {% from "components/sidebar.html" import sidebar %}
 {% from "components/entrys.html" import entrys %}
+{% from "components/current-readings.html" import currentReadings %}
 
 {% block title %}Dashboard{% endblock title %}
 {% block styles %}
+    <link rel="stylesheet" href={{ url_for('static', filename='css/dashboard/current-readings.css') }}>
     <link rel="stylesheet" href={{ url_for('static', filename='css/dashboard/entrys.css') }}>
 {% endblock styles %}
 {% block content %}
     <div class="app__dashboard-container">
         {{ sidebar(active_content) }}
-        
         <div class="app__dashboard-content">
+            {{ currentReadings() }}
             {{ entrys() }}
         </div>
     </div>

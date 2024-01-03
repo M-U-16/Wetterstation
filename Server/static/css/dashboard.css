@@ -5,6 +5,7 @@
     height: 100vh;
     overflow: hidden;
     background: var(--primary-clr);
+    font-family: "Roboto Mono";
 }
 .app__dashboard-content {
     padding: 1rem;

@@ -1,0 +1,42 @@
+{% macro currentReadings() %}
+    <div class="app__current-readings">
+        <div class="app__current-reading-date">
+            <p>
+                Letzte Messung: 
+                <span id="current-date-value">20.2.2023 10:20:12</span>
+            </p>
+        </div>
+        <div class="app__current-readings-container">
+            <div class="current__reading">
+                <div class="current__img-container"></div>
+                <div class="current__value-container">
+                    <h1 class="current__value-heading">
+                        Temperatur:
+                    </h1>
+                    <p><span id="current-temp-value">12</span>°C</p>
+                </div>
+            </div>
+            <div class="current__reading">
+                <div class="current__img-container"></div>
+                <div class="current__value-container">
+                    <h1 class="current__value-heading">
+                        Luftfeuchtigkeit:
+                    </h1>
+                    <p><span id="current-humi-value">50</span>%</p>
+                </div>
+            </div>
+            <div class="current__reading">
+                <div class="current__img-container"></div>
+                <div class="current__value-container">
+                    <h1 class="current__value-heading">
+                        Helligkeit:
+                    </h1>
+                    <p>
+                        <span id="current-humi-lux-value">2000</span>
+                        <span id="current-humi-value">HOCH</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}

@@ -1,7 +1,7 @@
 .dashboard__recent-entrys {
     background: var(--secondary-clr);
     padding: 1rem;
-    border-radius: 1rem;
+    border-radius: 5px;
     width: 100%;
     display: flex;
     justify-content: center;

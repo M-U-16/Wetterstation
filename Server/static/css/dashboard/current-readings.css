@@ -1,0 +1,31 @@
+.app__current-readings-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin: 0rem 0 0.5rem 0;
+    gap: 0.5rem;
+    
+}
+.app__current-reading-date {
+    border-radius: 5px;
+    background-color: var(--accent-clr);
+    margin-bottom: 0.5rem;
+}
+.app__current-reading-date p {
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    color: white;
+}
+.current__value-container {
+    color: white;
+    background-color: var(--accent-clr);
+    padding: 1rem;
+    border-radius: 5px;
+}
+.current__value-container h1 {
+    font-size: 1rem;
+}
+
+@media screen and (max-width: 900px) {
+    .app__current-readings-container {
+        grid-template-columns: 1fr;
+    }
+}
