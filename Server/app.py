@@ -31,20 +31,6 @@ def register_blueprints(app):
     ):
         app.register_blueprint(module)
 
-def configure_database(app):
-    @app.before_request
-    def before_request():
-        db.connect()
-        
-    @app.after_request
-    def after_request(response):
-        db.close()
-        return response 
-        
-    @app.teardown_request
-    def shutdown_session(exception=None):
-        db.session.remove()
-
 def setup_app(app):
     """ @app.errorhandler(404)
     def page_not_found(e):

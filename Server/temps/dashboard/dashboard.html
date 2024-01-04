@@ -12,11 +12,12 @@
     <div class="app__dashboard-container">
         {{ sidebar(active_content) }}
         <div class="app__dashboard-content">
-            {{ currentReadings() }}
+            {{ currentReadings(last_entry) }}
             {{ entrys() }}
         </div>
     </div>
 {% endblock content %}
 {% block code %}
+    <script src={{ url_for('static', filename='js/socket.js') }}></script>
     <script src={{ url_for('static', filename='js/entrys.js') }}></script>
 {% endblock code %}

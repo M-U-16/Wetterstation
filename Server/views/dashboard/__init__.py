@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request
-from models.db import getLastEntrys
+from models.db import getLastEntry
+from datetime import date, datetime
 
 blueprint = Blueprint("dashboard_bp",__name__,url_prefix="")
 views = {
@@ -14,13 +15,14 @@ def dashboard():
         view_param = request.args["ansicht"]
         view = views[view_param]
     except:
-        result =  getLastEntrys()
-        entrys = result[0]
-        last_id = result[1]
+        result =  getLastEntry()[0]
+        result["entry_date"] = (datetime
+            .strptime(result["entry_date"], '%Y-%m-%d %H:%M:%S')
+            .strftime("%d.%m.%Y %H:%M:%S")
+        )
         return render_template(
             "dashboard/dashboard.html",
-            last_entrys=entrys,
-            last_id=last_id
+            last_entry=result
         )
     return render_template(view, active_content=view_param)
     
