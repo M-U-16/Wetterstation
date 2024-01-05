@@ -5,8 +5,7 @@ from datetime import datetime
 def read_fake_data():
     
     return {
-        "date": datetime.now().strftime('%Y-%m-%d'),
-        "time": datetime.now().strftime('%H:%M:%S'),
+        "entry_date": datetime.now().strftime('%d.%m.%Y %H:%M:%S'),
         "temp": random.randrange(0,34),
         "humi": random.randrange(0,100),
         "pres": random.randrange(1, 1000),
@@ -22,4 +21,3 @@ def read_fake_data():
         "pm25": None,
         "pm100": None,
     }
-    """ "time": " ".join(list(filter(lambda x: x != "", asctime(localtime()).split(" ")))) """

@@ -17,9 +17,10 @@
 .app__dashboard-link {
     height: 100%;
     width: 3rem;
+    font-weight: 600;
     padding: 0.8rem;
     border-radius: var(--border-radius);
-    background: #000000;
+    background: var(--highlight-clr);
     outline: none;
 }
 .app__dashboard-link img {

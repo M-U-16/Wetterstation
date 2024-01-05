@@ -6,8 +6,11 @@
   --primary-text-clr: white;
   --secondary-text-clr: #999999;
   --shadow-clr: rgba(61, 75, 79, 0);
-
   --accent-clr: rgba(128, 128, 128, 0.137);
+  --highlight-clr: rgb(0, 128, 255);
+
+  /* --primary-clr: #02010a;
+  --secondary-clr: #010D60; */
 
   /* COLORS */
   --color-white: #fff;

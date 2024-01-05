@@ -10,6 +10,7 @@ peewee = "*"
 flask-socketio = "*"
 flask-cors = "*"
 socketio-client = "*"
+python-socketio = {extras = ["client"], version = "*"}
 
 [dev-packages]
 
