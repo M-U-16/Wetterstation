@@ -17,6 +17,7 @@
 {% endmacro %}
 
 {% from "components/sidebar-menu.html" import sidebarMenu %}
+{% from "components/inputs/themeToggle.html" import themeToggle %}
 {% macro sidebar(active_link) %}
     <div class="app__dashboard-sidebar">
         <div class="app__dashboard-top">
@@ -33,5 +34,6 @@
             {{ sidebarLink("Live Daten", "live-daten", "live.svg", active_link) }}
             {{ sidebarLink("Diagramme", "diagramme", "chart.svg", active_link) }}
         </div>
+        {{ themeToggle() }}
     </div>
 {% endmacro %}

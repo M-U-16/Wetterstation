@@ -1,5 +1,14 @@
+{% from "svgs/darkThemeIcon.html" import darkThemeIcon %}
+{% from "svgs/lightThemeIcon.html" import lightThemeIcon %}
+
 {% macro themeToggle() %}
-    <div class="app__theme-toggle">
-        
-    </div>
+    <button
+        class="app__theme-toggle"
+        id="theme-switch-button"
+    >
+        <div class="theme__icons-cotainer">
+            {{ darkThemeIcon() }}
+            {{ lightThemeIcon() }}
+        </div>
+    </button>
 {% endmacro %}

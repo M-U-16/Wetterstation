@@ -1,23 +1,25 @@
+.app__current-readings {
+    background: var(--secondary-clr);
+    border-radius: 5px;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
 .app__current-readings-container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     margin: 0rem 0 0.5rem 0;
     gap: 0.5rem;
 }
-.app__current-reading-date {
-    margin-bottom: 0.5rem;
-}
+.app__current-reading-date {}
 .app__current-reading-date p {
-    padding: 0.5rem 1rem;
-    background-color: var(--accent-clr);
-    color: white;
+    padding: 0.5rem 0.2rem;
     border-radius: 5px;
+    font-size: 1.2rem;
 }
 .current__value-container {
-    color: white;
-    background-color: var(--accent-clr);
     padding: 0.5rem 1rem;
     border-radius: 5px;
+    box-shadow: inset 0px 0px 5px rgb(0, 119, 255);
 }
 .current__value-container h1 {
     font-size: 1rem;

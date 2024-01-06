@@ -9,9 +9,6 @@
   --accent-clr: rgba(128, 128, 128, 0.137);
   --highlight-clr: rgb(0, 128, 255);
 
-  /* --primary-clr: #02010a;
-  --secondary-clr: #010D60; */
-
   /* COLORS */
   --color-white: #fff;
   --color-black: #14161b;
@@ -38,6 +35,33 @@
   /* variables */
   --navbar-height: 5rem;
 }
+.light-theme {
+  /* LIGHT THEME */
+  --primary-clr: rgb(236, 236, 236);
+  --secondary-clr: #ffffff;
+  --primary-text-clr: rgb(0, 0, 0);
+  --secondary-text-clr: #999999;
+  --shadow-clr: rgba(61, 75, 79, 0);
+  --accent-clr: rgba(128, 128, 128, 0.137);
+  --highlight-clr: rgb(0, 128, 255);
+  
+  --theme-icon-clr: rgb(28, 36, 61);
+}
+.dark-theme {
+  /* DARK THEME */
+  --primary-clr: #040404;
+  --secondary-clr: #171717;
+  --primary-text-clr: white;
+  --secondary-text-clr: #999999;
+  --shadow-clr: rgba(61, 75, 79, 0);
+  --accent-clr: rgba(128, 128, 128, 0.137);
+  --highlight-clr: rgb(0, 128, 255);
+  
+  --theme-icon-clr: rgb(234, 255, 0);
+  
+  --primary-clr: #05121B;
+  --secondary-clr: #1B2831;
+}
 * {
   box-sizing: border-box;
   padding: 0;
@@ -46,7 +70,7 @@
 body {
   height: auto;
   font-family: Verdana, Arial, Helvetica, Sans-Serif;
-  color: var(--color-black);
+  color: var(--primary-text-clr);
   background: var(--color-gray-lighter);
 }
 #content {

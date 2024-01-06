@@ -1,0 +1,22 @@
+.app__theme-toggle {
+    width: 2rem;
+    height: 2rem;
+    position: absolute;
+    bottom: 1rem;
+    left: 2rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+#theme-dark-icon {
+    fill: var(--theme-icon-clr);
+}
+#theme-light-icon {
+    fill: var(--theme-icon-clr);
+}
+@media screen and (max-width: 800px) {
+    .app__theme-toggle {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}

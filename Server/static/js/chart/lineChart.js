@@ -55,6 +55,7 @@ const LineChart = (initial_config) => {
         return d3.line()
             .x(d => x(d[conf.x]))
             .y(d => y(d[conf.y]))
+            .curve(d3.curveCatmullRom.alpha(0.5));
     }
     /* AREA */
     const getArea = () => {
@@ -62,6 +63,7 @@ const LineChart = (initial_config) => {
             .x(d => x(d[conf.x]))
             .y0(height)
             .y1(d => y(d[conf.y]))
+            .curve(d3.curveCatmullRom.alpha(0.5));
     }
     /* FUNCTION FOR ADDING AXIS */
     const addAxis = () => {
@@ -195,7 +197,7 @@ const LineChart = (initial_config) => {
             const xPos = x(d[conf.x])
             const yPos = y(d[conf.y])
             
-            const date = d[conf.x].toLocaleString("de-DE")//.split(",")[0]
+            const date = d[conf.x].toLocaleString("de-DE").split(",")[0]
 
             circle.attr("cx", xPos).attr("cy", yPos)
             circle.transition()

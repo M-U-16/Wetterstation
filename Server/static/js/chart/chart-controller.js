@@ -16,9 +16,11 @@ const chartController = () => {
     const getData = async(time) => await fetchChartData(time, res=>res.data)
     const resizeAll = () => allCharts.forEach(chart => chart.resize())
     const drawCharts = (data) => {
-        console.log(data)
         if (!data) return
-        
+        if (current_time_range === "1y") {
+            data = compress_one_year(data)
+        }
+
         temp_graph = LineChart(
             getConfig(
                 "#temp-container", data,
@@ -39,11 +41,13 @@ const chartController = () => {
         allCharts.forEach(chart => chart.drawChart())
     }
     const updateChart = async(data) => {
+        
         if (data.length == 0) {
-            allCharts.forEach(chart => {
-
-            })
             return
+        }
+
+        if (current_time_range === "1y") {
+            data = compress_one_year(data)
         }
 
         allCharts.forEach(chart => {

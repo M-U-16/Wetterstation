@@ -44,7 +44,6 @@ const Select = (start_range) => {
 
     const init = () => {
         timeRangeBtn.dataset.current = start_range
-        console.log(start_range)
         selectOptions.forEach(option => {
             if (option.dataset.value == start_range) {
                 timeRangeDisplay.innerHTML = option.innerHTML
