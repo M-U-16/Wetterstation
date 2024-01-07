@@ -46,7 +46,7 @@
   --highlight-clr: rgb(0, 128, 255);
   
   --theme-icon-clr: rgb(28, 36, 61);
-  --gradient: linear-gradient(90deg, #ffa68556, #ffeea046);
+  --gradient: linear-gradient(90deg, #ff77452a, #ffd8282c);
 }
 .dark-theme {
   /* DARK THEME */

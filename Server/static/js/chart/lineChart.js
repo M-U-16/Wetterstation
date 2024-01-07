@@ -10,6 +10,7 @@ const LineChart = (initial_config) => {
     const margin = conf.margin
 
     let data = formatData(conf.entrys, conf)
+    console.log(data)
     const addData = (obj) => data.unshift(obj)
     const setData = (arr) => { data = formatData(arr, conf) }
     
@@ -55,9 +56,11 @@ const LineChart = (initial_config) => {
             .attr("class", "linechart__x-axis")
             .style("font-size", "13px")
             .attr("transform", `translate(0, ${height})`)
-            .call(d3.axisBottom(x)
-                .tickValues(x.ticks(conf.axisFormat.x.ticks))
-                .tickFormat(conf.axisFormat.x.timeFormat)
+            .call(
+                d3.axisBottom(x)
+                    .tickValues(x.ticks(conf.axisFormat.x.ticks))
+                    .tickFormat(conf.axisFormat.x.timeFormat)
+                
             )
             .selectAll(".tick text")
                 .style("fill", "#777")

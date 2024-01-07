@@ -7,6 +7,7 @@
 {% block styles %}
     <link rel="stylesheet" href={{ url_for('static', filename='css/dashboard/current-readings.css') }}>
     <link rel="stylesheet" href={{ url_for('static', filename='css/dashboard/entrys.css') }}>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/dashboard/main-graph.css') }}>
 {% endblock styles %}
 {% block content %}
     <div class="app__dashboard-container">
@@ -20,6 +21,7 @@
 {% block code %}
     <script src={{ url_for('static', filename='js/socket.js') }}></script>
     <script src={{ url_for('static', filename='js/chart/compress.js') }}></script>
+    <script src={{ url_for('static', filename='js/chart/config-builder.js') }}></script>
     <script src={{ url_for('static', filename='js/dashboard/weather-diagramm.js') }}></script>
     <script src={{ url_for('static', filename='js/dashboard/main.js') }}></script>
     <script src={{ url_for('static', filename='js/dashboard/entrys.js') }}></script>
