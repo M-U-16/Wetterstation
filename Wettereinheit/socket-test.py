@@ -33,7 +33,7 @@ def main():
         # to ctrl + c 
         while True:
             data = read_fake_data()
-            print(data)
+            #print(data)
             send_readings(data)
             
             time.sleep(5)

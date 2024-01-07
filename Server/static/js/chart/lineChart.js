@@ -1,20 +1,3 @@
-const formatData = (entrys, config) => {
-    const parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S")
-    return entrys.map(entry => {
-        const formatedObj = {}
-        formatedObj[config.x] = parseDate(entry[config.x])
-        formatedObj[config.y] = entry[config.y]
-        
-        return formatedObj
-    });
-}
-const formatEntry = (entry, config) => {
-    const parseDate = d3.timeParse("%Y-%m-%d")
-    return {
-        entry_date: parseDate(entry[config.x]),
-        temp: entry.temp
-    }
-}
 const LineChart = (initial_config) => {
 
     const calcWidth = () => conf.width - conf.margin.left - conf.margin.right
@@ -43,7 +26,7 @@ const LineChart = (initial_config) => {
     const addSvg = () => {
         svg = d3.select(conf.container)
         .append("svg")
-        .attr("class", ".dashboard__graph")
+        .attr("class", "dashboard__graph")
         .attr("width", conf.width) 
         .attr("height", conf.height)
         .attr("id", conf.id)
@@ -55,7 +38,7 @@ const LineChart = (initial_config) => {
         return d3.line()
             .x(d => x(d[conf.x]))
             .y(d => y(d[conf.y]))
-            .curve(d3.curveCatmullRom.alpha(0.5));
+            .curve(d3.curveCatmullRom.alpha(0));
     }
     /* AREA */
     const getArea = () => {
@@ -63,7 +46,7 @@ const LineChart = (initial_config) => {
             .x(d => x(d[conf.x]))
             .y0(height)
             .y1(d => y(d[conf.y]))
-            .curve(d3.curveCatmullRom.alpha(0.5));
+            .curve(d3.curveCatmullRom.alpha(0));
     }
     /* FUNCTION FOR ADDING AXIS */
     const addAxis = () => {
@@ -183,6 +166,7 @@ const LineChart = (initial_config) => {
             .attr("stroke-dasharray", "2,2")
 
         const listeningRect = svg.append("rect")
+            .attr("class", "svg-rect")
             .attr("width", width)
             .attr("height", height)
 
@@ -196,13 +180,10 @@ const LineChart = (initial_config) => {
             const d = x0 - d0[conf.x] > d1[conf.x] - x0 ? d1 : d0
             const xPos = x(d[conf.x])
             const yPos = y(d[conf.y])
-            
             const date = d[conf.x].toLocaleString("de-DE").split(",")[0]
 
             circle.attr("cx", xPos).attr("cy", yPos)
-            circle.transition()
-                .duration(50)
-                .attr("r", 5)
+            circle.transition().duration(50).attr("r", 5)
 
             tooltipLineX.style("display", "block")
                 .attr("x1", xPos)
@@ -210,10 +191,10 @@ const LineChart = (initial_config) => {
                 .attr("y1", 0)
                 .attr("y2", height)
             tooltipLineY.style("display", "block")
-                .attr("y1", yPos)
-                .attr("y2", yPos)
                 .attr("x1", 0)
                 .attr("x2", width)
+                .attr("y1", yPos)
+                .attr("y2", yPos)
             
             tooltip
                 .style("display", "block")

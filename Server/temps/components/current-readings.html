@@ -1,3 +1,5 @@
+{% from "components/main-graph.html" import mainGraph %}
+
 {% macro currentReadings(entry) %}
     <div class="app__current-readings">
         <div class="app__current-reading-date">
@@ -40,5 +42,6 @@
                 </div>
             </div>
         </div>
+        {{ mainGraph() }}
     </div>
 {% endmacro %}

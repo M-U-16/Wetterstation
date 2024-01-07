@@ -1,7 +1,7 @@
 .app__current-readings {
     background: var(--secondary-clr);
     border-radius: 5px;
-    padding: 0.5rem;
+    padding: 1rem;
     margin-bottom: 0.5rem;
 }
 .app__current-readings-container {
@@ -10,16 +10,15 @@
     margin: 0rem 0 0.5rem 0;
     gap: 0.5rem;
 }
-.app__current-reading-date {}
 .app__current-reading-date p {
     padding: 0.5rem 0.2rem;
     border-radius: 5px;
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 .current__value-container {
     padding: 0.5rem 1rem;
     border-radius: 5px;
-    box-shadow: inset 0px 0px 5px rgb(0, 119, 255);
+    background: var(--gradient);
 }
 .current__value-container h1 {
     font-size: 1rem;

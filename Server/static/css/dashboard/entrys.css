@@ -39,10 +39,10 @@
     padding: 0.5rem 0.8rem;
     margin-top: 0.5rem;
     border-radius: 1rem;
-    border: none;
-    background-color: rgba(0, 166, 255, 0.604);
-    color: white;
+    border: 2px solid rgba(0, 166, 255, 0.604);
+    background-color: transparent;
     cursor: pointer;
+    color: var(--primary-text-clr);
 }
 /* 
 --------------

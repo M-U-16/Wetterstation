@@ -1,3 +1,21 @@
+const formatData = (entrys, config) => {
+    const parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S")
+    return entrys.map(entry => {
+        const formatedObj = {}
+        formatedObj[config.x] = parseDate(entry[config.x])
+        formatedObj[config.y] = entry[config.y]
+        
+        return formatedObj
+    });
+}
+const formatEntry = (entry, config) => {
+    const parseDate = d3.timeParse("%Y-%m-%d")
+    return {
+        entry_date: parseDate(entry[config.x]),
+        temp: entry.temp
+    }
+}
+
 // calculates the average temp, humi and lux level
 // of the given month
 function average_one_month(data) {

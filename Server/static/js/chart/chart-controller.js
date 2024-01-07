@@ -42,9 +42,7 @@ const chartController = () => {
     }
     const updateChart = async(data) => {
         
-        if (data.length == 0) {
-            return
-        }
+        if (data.length == 0) return
 
         if (current_time_range === "1y") {
             data = compress_one_year(data)
