@@ -9,7 +9,7 @@
         margin: {
             top: 30,
             right: 60,
-            bottom: 40,
+            bottom: 30,
             left: 60
         },
         width: el.offsetWidth,
@@ -35,8 +35,15 @@
         },
         container: "main-graph-svg" 
     })
-    diagramm.init(container, "main-graph-svg", compress_one_year(entrys.data))
-    diagramm.addLine("entry_date", "humi", "lightblue", 4)
-    diagramm.addArea("entry_date", "humi", "lightblue", 0.2)
+    diagramm.init(
+        container, "main-graph-svg",
+        compress_one_year(entrys.data),
+        "temp", "humi"
+    )
+    diagramm.addBarRect("entry_date", "humi")
+    //diagramm.addLine("entry_date", "humi", "rgb(0, 119, 255)", 4)
     diagramm.addLine("entry_date", "temp", "red", 4)
+    //diagramm.addArea("entry_date", "temp", "rgb(222, 0, 0)", 0.1)
+
+    diagramm.addAxis()
 })()

@@ -43,56 +43,64 @@ const TooltipController = () => {
         calculatePosition
     }
 }
-
-const Formater = () => {
-    const formatEntrys = (entrys, config) => {
-        console.log(entrys)
+const Formatter = () => {
+    const formatEntrys = (entrys, args) => {
         const parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S")
         return entrys.map(entry => {
             const formatedObj = {}
             formatedObj["entry_date"] = parseDate(entry["entry_date"])
-            formatedObj["temp"] = entry["temp"]
-            formatedObj["humi"] = entry["humi"]
-
+            args.forEach(arg => formatedObj[arg] = entry[arg])
             return formatedObj
         })
     }
-    const formatEntry = (entry) => {
+    const formatEntry = (entry, ...args) => {
         const parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S")
-        return {
-            entry_date: parseDate(entry.entry_date),
-            temp: entry.temp,
-            humi: entry.humi
-        }
+        const formatedEntry = {}
+        formatedObj.entry_date = parseDate(entry.entry_date)
+        args.forEach(arg => formatedEntry[arg] = entry[arg])
+        return formatedEntry
+    }
+    return {
+        formatEntrys,
+        formatEntry
     }
 }
 const WeatherDiagramm = (initial_config) => {
+    const {formatEntrys, formatEntry} = Formatter()
     const config = { ...initial_config}
     const { margin } = { ...initial_config}
-    let svg
     
+    const clearChart = (chart) => chart.selectAll("*").remove()
+    const addData = (obj) => config.entrys.unshift(formatEntry(obj))
+    const setData = (arr, args) => config.entrys = formatEntrys(arr, args)
     const calcWidth = (width, margin) => width - margin.left - margin.right
     const calcHeight = (height, margin) => height - margin.bottom - margin.top
+    const minDate = () => d3.min(config.entrys, d => d.entry_date.getTime())
+    const maxDate = () => d3.max(config.entrys, d => d.entry_date.getTime())
+    const getPadding = () => (maxDate - minDate) * 0.1
+
+    let svg
     let width = calcWidth(config.width, margin)
     let height = calcHeight(config.height, margin)
-
-    const addData = (obj) => config.entrys.unshift(config.formatEntry(obj))
-    const setData = (arr) => config.entrys = config.formatEntrys(arr)
     
-    const get_x_scale = (x, width, entrys) => {
-        return d3.scaleTime()
+    const get_padded_x_scale = () => {
+        return d3.scaleOrdinal()
+            .domain(config.entrys, d => d.entry_date)
             .range([0, width])
-            .domain(d3.extent(entrys, d => d[x]))
     }
-    const get_y_scale = (y, height, entrys) => {
+    const get_x_scale = (x) => {
+        return d3.scaleTime()
+            .rangeRound([0, width])
+            .domain(d3.extent(config.entrys, d => d[x]))
+    }
+    const get_y_scale = (y) => {
         return d3.scaleLinear()
             .range([height, 0])
             .domain([
-                d3.min(entrys, d => d[y]),
-                d3.max(entrys, d => d[y])
+                d3.min(config.entrys, d => d[y]),
+                d3.max(config.entrys, d => d[y])
             ])
     }
-
     /* SVG ELEMENT */
     const addSvg = (container, id) => {
         svg = d3.select(container)
@@ -106,8 +114,8 @@ const WeatherDiagramm = (initial_config) => {
     }
     /* LINE */
     const getLine = (entry_x, entry_y) => {
-        x = get_x_scale(entry_x, width, config.entrys)
-        y = get_y_scale(entry_y, height, config.entrys)
+        x = get_x_scale(entry_x)
+        y = get_y_scale(entry_y)
         return d3.line()
             .x(d => x(d[entry_x]))
             .y(d => y(d[entry_y]))
@@ -122,17 +130,54 @@ const WeatherDiagramm = (initial_config) => {
             .curve(d3.curveCatmullRom.alpha(0.5));
     }
     /* FUNCTION FOR ADDING AXIS */
-    const addAxis = (transform, call) => {
+    const addAxis = () => {
+        const x = get_padded_x_scale()
+        const y1 = get_y_scale("temp")
+        const y2 = get_y_scale("humi")
+
+        const unit_y1 = "°C", unit_y2 = "%";
+
         svg.append("g")
-            .attr("class", "linechart__x-axis")
+            .attr("class", "dashboard__main-graph-x")
             .style("font-size", "13px")
-            .attr("transform", transform)
-            .call(call)
+            .attr("transform", `translate(0, ${height})`)
+            .call(d3.axisBottom(x)
+                //.tickValues(x.ticks(d3.timeMonth.every(1)))
+                .tickFormat(d3.timeFormat("%b"))
+            )
             .selectAll(".tick text")
                 .style("fill", "#777")
+                
+        svg.append("g")
+            .attr("class", "dashboard__main-graph-y1")
+            .style("font-size", "13px")
+            .attr("transform", `translate(0, 0)`)
+            .call(d3.axisLeft(y1)
+                .ticks(7)
+                .tickFormat(d => d + unit_y1)
+            )
+            .selectAll(".tick text")
+                .style("fill", "#777")
+
+        svg.append("g")
+            .attr("class", "dashboard__main-graph-y2")
+            .style("font-size", "13px")
+            .attr("transform", `translate(${width}, 0)`)
+            .call(d3.axisRight(y2)
+                .ticks(7)
+                .tickFormat(d => d + unit_y2)
+            )
+            .selectAll(".tick text")
+                .style("fill", "#777")
+        
     }
     /* FUNCTION FOR ADDING LINE PATH */
-    const addLine = (entry_x, entry_y, strokeColor, strokeWidth) => {
+    const addLine = (
+        entry_x,
+        entry_y,
+        strokeColor,
+        strokeWidth
+    ) => {
         svg.append("path")
             .datum(config.entrys)
             .attr("class", "line")
@@ -151,6 +196,29 @@ const WeatherDiagramm = (initial_config) => {
             .style("opacity", opacity)
             .attr("d", getArea(x, y))
     }
+    const addBarRect = (entry_x, entry_y) => {
+        const x = get_x_scale(entry_x)
+        const y = get_y_scale(entry_y)
+
+        console.log()
+
+        // Add a rect for each bar.
+        svg.append("g")
+            .attr("fill", "lightblue")
+            .selectAll()
+            .data(config.entrys)
+                .join("rect")
+                .attr("x", d => x(d[entry_x]))
+                .attr("y", d => y(d[entry_y]))
+                .attr("class", d => d["entry_date"])
+                .attr("height", d => {
+                    console.log(d, height, y(d[entry_y]))
+
+                    return height - y(d[entry_y])
+                })
+                .attr("width", (width) / (config.entrys.length))
+                //.attr("width", width / config.entrys.length);
+    }
     const update = () => clearChart()
     const resize = () => {
         const container = document.querySelector(config.container)
@@ -160,13 +228,20 @@ const WeatherDiagramm = (initial_config) => {
         height = calcHeight()
         update()
     }
-    const init = (container, id, entrys) => {
+    const init = (
+        container,
+        id, entrys, ...args
+    ) => {
         addSvg(container, id)
-        setData(entrys)
+        setData(entrys, args)
     }
-    const clearChart = (chart) => chart.selectAll("*").remove()
     return {
         clearChart,
+        addBarRect,
+        get_x_scale,
+        get_y_scale,
+        height,
+        width,
         addArea,
         addLine,
         setData,
