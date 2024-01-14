@@ -9,8 +9,6 @@ const default_conf = {
         x: { class: "x-axis" },
         y: { class: "y-axis" }
     },
-    line: {},
-    area: {},
 }
 const styles_conf = {
     default: {
@@ -33,8 +31,26 @@ const styles_conf = {
         },
     }
 }
-const getTimeRange = (time, unit) => {
+const y_units_conf = {
+    temp: "°C",
+    humi: "%"
+}
+const value_config = {
+    temp: {
+        domain: (data, y) => {
+            return [
+                d3.min(data, d => d[y]),
+                d3.max(data, d => d[y])
+            ]
+        }
+    },
+    humi: {
+        domain: (...args) => [0, 100]
+    }
+}
+function getAxisFormat(time, unit, y) {
     const range = { x: {}, y:{}}
+    range.y.domain = value_config[y].domain
 
     if (time === "1m") {
         range.x.ticks = d3.timeWeek.every(1)
@@ -49,6 +65,7 @@ const getTimeRange = (time, unit) => {
         range.y.tickFormat = d => isNaN(d) ? "" : `${d}` + unit
         range.y.ticks = 6
         return range
+
     }
     if (time === "1w") {
         range.x.ticks = d3.timeDay.every(1)
@@ -57,10 +74,6 @@ const getTimeRange = (time, unit) => {
         range.y.ticks = 6
         return range
     }
-}
-const y_units_conf = {
-    temp: "°C",
-    humi: "%"
 }
 
 function getConfig (
@@ -73,21 +86,23 @@ function getConfig (
     const container = document
         .querySelector(container_id)
 
-    const config = { ...default_conf }
-
-    config.y = y
-    config.x = x
-    config.id = id
-    config.entrys = data
-    config.container = container_id
-    config.timeRange = timePeriod
-    config.width = container.offsetWidth
-    config.height = container.offsetHeight
-    config.axisFormat = getTimeRange(timePeriod, y_units_conf[y])
-    config.y_unit = y_units_conf[y]
-    config.styles = {
-        ...styles_conf.default,
-        ...styles_conf[y]
+    return {
+        ...default_conf,
+        y: y,
+        x: x,
+        id: id,
+        entrys: data,
+        container: container_id,
+        timeRange: timePeriod,
+        width: container.offsetWidth,
+        height: container.offsetHeight,
+        axisFormat: {
+            ...getAxisFormat(timePeriod, y_units_conf[y], y),
+        },
+        y_unit: y_units_conf[y],
+        styles: {
+            ...styles_conf.default,
+            ...styles_conf[y]
+        } 
     }
-    return config
 }

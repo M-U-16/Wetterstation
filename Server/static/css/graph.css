@@ -34,6 +34,14 @@
     stroke-opacity: 0.5;
     transition: 0.3s ease;
 }
-.domain {
+/* .domain {
     stroke: none;
+} */
+.dark-theme .graph__grid-line {
+    stroke: white;
+    stroke-width: 0.2;
+}
+.light-theme .graph__grid-line {
+    stroke: black;
+    stroke-width: 0.2;
 }

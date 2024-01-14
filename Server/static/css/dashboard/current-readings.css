@@ -18,6 +18,7 @@
 .current__value-container {
     padding: 0.5rem 1rem;
     border-radius: 5px;
+    min-width: 0;
     background: var(--gradient);
 }
 .current__value-container h1 {

@@ -13,9 +13,13 @@ const chartController = () => {
     let temp_graph, humi_graph
     let allCharts = []
 
-    const getData = async(time) => await fetchChartData(time, res=>res.data)
-    const resizeAll = () => allCharts.forEach(chart => chart.resize())
-    const drawCharts = (data) => {
+    async function getData(time) {
+        return await fetchChartData(time, res=>res.data)
+    }
+    function resizeAll() {
+        allCharts.forEach(chart => chart.resize())
+    }
+    function drawCharts(data) {
         if (!data) return
         if (current_time_range === "1y") {
             data = compress_one_year(data)
@@ -35,23 +39,29 @@ const chartController = () => {
                 current_time_range, "humi-graph-svg"
             )
         )
+        console.log(getConfig(
+            "#temp-container", data,
+            "entry_date", "temp",
+            current_time_range, "temp-graph-svg"
+        ))
+
         temp_graph.init()
         humi_graph.init()
         allCharts = [temp_graph, humi_graph]
         allCharts.forEach(chart => chart.drawChart())
     }
-    const updateChart = async(data) => {
+    async function updateChart(data) {
         
         if (data.length == 0) return
-
         if (current_time_range === "1y") {
             data = compress_one_year(data)
         }
 
         allCharts.forEach(chart => {
-            chart.conf.axisFormat = getTimeRange(
+            chart.conf.axisFormat = getAxisFormat(
                 current_time_range,
-                chart.conf.y_unit
+                chart.conf.y_unit,
+                chart.conf.y
             )
             chart.setData(data)
             chart.update()
@@ -69,7 +79,7 @@ const chartController = () => {
             updateChart(await getData(current_time_range))
         }
     )
-    const drawFirstCharts = async() => {
+    async function drawFirstCharts() {
         drawCharts(await getData(current_time_range))
     }
     return {

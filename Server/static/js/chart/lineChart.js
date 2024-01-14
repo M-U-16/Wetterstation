@@ -1,30 +1,34 @@
 const LineChart = (initial_config) => {
-
-    const calcWidth = () => conf.width - conf.margin.left - conf.margin.right
-    const calcHeight = () => conf.height - conf.margin.bottom - conf.margin.top
-    const clearChart = () => svg.selectAll("*").remove()
-    const set_x_scale = () => d3.scaleTime().range([0, width]).domain(d3.extent(data, d => d[conf.x]))
-    const set_y_scale = () => d3.scaleLinear().range([height, 0]).domain([d3.min(data, d => d[conf.y]), d3.max(data, d => d[conf.y])])
     
     const conf = initial_config
     const margin = conf.margin
-
     let data = formatData(conf.entrys, conf)
-    console.log(data)
-    const addData = (obj) => data.unshift(obj)
-    const setData = (arr) => { data = formatData(arr, conf) }
-    
-    let svg
     let width = calcWidth()
     let height = calcHeight()
-    let x_axis, y_axis
-    let line, area
-
+    
     let x = set_x_scale()
     let y = set_y_scale()
-
+    let svg
+    
+    function calcWidth() { return conf.width - conf.margin.left - conf.margin.right }
+    function calcHeight() { return conf.height - conf.margin.bottom - conf.margin.top }
+    function clearChart() { svg.selectAll("*").remove() }
+    function set_x_scale() {
+        return d3.scaleTime()
+            .range([0, width])
+            .domain(d3.extent(data, d => d[conf.x]))
+    }
+    function set_y_scale() {
+        return d3.scaleLinear()
+            .range([height, 0])
+            //.domain([d3.min(data, d => d[conf.y]), d3.max(data, d => d[conf.y])])
+            .domain(conf.axisFormat.y.domain(data, conf.y))
+    }
+    function addData(obj) { data.unshift(obj) }
+    function setData(arr) { data = formatData(arr, conf) }
+    
     /* SVG ELEMENT */
-    const addSvg = () => {
+    function addSvg() {
         svg = d3.select(conf.container)
         .append("svg")
         .attr("class", "dashboard__graph")
@@ -35,24 +39,24 @@ const LineChart = (initial_config) => {
             .attr("transform", `translate(${margin.left}, ${margin.top})`)
     }
     /* LINE */
-    const getLine = () => {
+    function getLine() {
         return d3.line()
             .x(d => x(d[conf.x]))
             .y(d => y(d[conf.y]))
-            .curve(d3.curveCatmullRom.alpha(0));
+            /* .curve(d3.curveCatmullRom.alpha(0)); */
     }
     /* AREA */
-    const getArea = () => {
+    function getArea() {
         return d3.area()
             .x(d => x(d[conf.x]))
             .y0(height)
             .y1(d => y(d[conf.y]))
-            .curve(d3.curveCatmullRom.alpha(0));
+            /* .curve(d3.curveCatmullRom.alpha(0)); */
     }
     /* FUNCTION FOR ADDING AXIS */
-    const addAxis = () => {
+    function addAxis() {
         /* X AXIS */
-        x_axis = svg.append("g")
+        svg.append("g")
             .attr("class", "linechart__x-axis")
             .style("font-size", "13px")
             .attr("transform", `translate(0, ${height})`)
@@ -62,11 +66,9 @@ const LineChart = (initial_config) => {
                     .tickFormat(conf.axisFormat.x.timeFormat)
                 
             )
-            .selectAll(".tick text")
-                .style("fill", "#777")
 
         /* Y AXIS */
-        y_axis = svg.append("g")
+        svg.append("g")
             .attr("class", "linechart__y-axis")
             .style("font-size", "13px")
             .attr("transform", `translate(${width}, 0)`)
@@ -74,11 +76,9 @@ const LineChart = (initial_config) => {
                 .ticks(conf.axisFormat.y.ticks)
                 .tickFormat(conf.axisFormat.y.tickFormat)
             )
-            .selectAll(".tick text")
-                .style("fill", "#777")
     }
     /* FUNCTION FOR ADDING LINE PATH */
-    const addLine = () => {
+    function addLine() {
         svg.append("path")
             .datum(data)
             .attr("class", "line")
@@ -88,7 +88,7 @@ const LineChart = (initial_config) => {
             .attr("d", getLine())
     }
     /* FUNCTION FOR ADDING AREA PATH */
-    const addArea = () => {
+    function addArea() {
         svg.append("path")
             .datum(data)
             .style("fill", conf.styles.color)
@@ -96,7 +96,7 @@ const LineChart = (initial_config) => {
             .attr("d", getArea())
     }
     /* FUNCTION FOR ADDING DOTS */
-    const addDots = () => {
+    function addDots() {
         svg.selectAll("allCircles")
             .data(data)
             .join(
@@ -113,30 +113,32 @@ const LineChart = (initial_config) => {
             .attr("cy", (d) => y(d[conf.y]))
             .attr("r", 3)
     }
-    const addGrid = (selection) => {
+    function addGrid(selection) {
         selection.selectAll("x-grid")
             .data(x.ticks().slice(1))
             .join("line")
+            .attr("class", "graph__grid-line")
             .attr("x1", d => x(d))
             .attr("x2", d => x(d))
             .attr("y1", 0)
             .attr("y2", height)
-            .attr("stroke", "#e0e0e0")
-            .attr("stroke-width", 0.5)
+            /* .attr("stroke", "#fff")
+            .attr("stroke-width", 1) */
             
         selection.selectAll("y-grid")
             .data(y.ticks().slice(1))
             .join("line")
+            .attr("class", "graph__grid-line")
             .attr("x1", 0)
             .attr("x2", width)
             .attr("y1", d => y(d))
             .attr("y2", d => y(d))
-            .attr("stroke", "#e0e0e0")
-            .attr("stroke-width", 0.5)
+            /* .attr("stroke", "#fff")
+            .attr("stroke-width", 0.5) */
             
     }
     /* INTERACTIVE ELEMENTS */
-    const addTooltips = () => {
+    function addTooltips() {
         /* TOOLTIPS */
         const tooltip = d3.select(conf.container)
             .append("div")
@@ -226,7 +228,7 @@ const LineChart = (initial_config) => {
     ------------------------
     ########################
     */
-    const drawChart = () => {
+    function drawChart() {
         y =  set_y_scale()
         x = set_x_scale()
 
@@ -238,11 +240,11 @@ const LineChart = (initial_config) => {
 
         addTooltips()
     }
-    const update = () => {
+    function update() {
         clearChart()
         drawChart()
     }
-    const resize = () => {
+    function resize() {
         const container = document
             .querySelector(conf.container)
         conf.width = container.offsetWidth
@@ -251,7 +253,7 @@ const LineChart = (initial_config) => {
         height = calcHeight()
         update()
     }
-    const init = () => { addSvg() }
+    function init() { addSvg() }
     return {
         clearChart,
         drawChart,
