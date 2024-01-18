@@ -111,7 +111,7 @@ const LineChart = (initial_config) => {
             .attr("fill", conf.styles.dots)
             .attr("cx", (d) => x(d[conf.x]))
             .attr("cy", (d) => y(d[conf.y]))
-            .attr("r", 3)
+            .attr("r", 5)
     }
     function addGrid(selection) {
         selection.selectAll("x-grid")
@@ -174,54 +174,55 @@ const LineChart = (initial_config) => {
             .attr("class", "svg-rect")
             .attr("width", width)
             .attr("height", height)
+        	.on("mousemove", function (e) {
+                console.log(this)
+                const [xCoord] = d3.pointer(e, this)
+                console.log(xCoord)
+                const bisectDate = d3.bisector(d => d[conf.x]).left
+                const x0 = x.invert(xCoord)
+                const i = bisectDate(data, x0, 1)
+                const d0 = data[i - 1]
+                const d1 = data[i]
+                const d = x0 - d0[conf.x] > d1[conf.x] - x0 ? d1 : d0
+                const xPos = x(d[conf.x])
+                const yPos = y(d[conf.y])
+                const date = d[conf.x].toLocaleString("de-DE").split(",")[0]
 
-        listeningRect.on("mousemove", function (e) {
-            const [xCoord] = d3.pointer(e, this)
-            const bisectDate = d3.bisector(d => d[conf.x]).left
-            const x0 = x.invert(xCoord)
-            const i = bisectDate(data, x0, 1)
-            const d0 = data[i - 1]
-            const d1 = data[i]
-            const d = x0 - d0[conf.x] > d1[conf.x] - x0 ? d1 : d0
-            const xPos = x(d[conf.x])
-            const yPos = y(d[conf.y])
-            const date = d[conf.x].toLocaleString("de-DE").split(",")[0]
+                circle.attr("cx", xPos).attr("cy", yPos)
+                circle.transition().duration(50).attr("r", 5)
 
-            circle.attr("cx", xPos).attr("cy", yPos)
-            circle.transition().duration(50).attr("r", 5)
-
-            tooltipLineX.style("display", "block")
-                .attr("x1", xPos)
-                .attr("x2", xPos)
-                .attr("y1", 0)
-                .attr("y2", height)
-            tooltipLineY.style("display", "block")
-                .attr("x1", 0)
-                .attr("x2", width)
-                .attr("y1", yPos)
-                .attr("y2", yPos)
-            
-            tooltip
-                .style("display", "block")
-                .style("left", `${width + margin.left}px`)
-                .style("top", `${yPos + margin.top - 15}px`)
-                .html(`${d[conf.y] !== undefined ? d[conf.y] + conf.y_unit : "N/A"}`)
-            
-            tooltipRawDate
-                .style("display", "block")
-                .style("left", `${xPos}px`)
-                .style("top", `${height + margin.top}px`)
-                .html(`${d[conf.x] !== undefined ? date: "N/A"}`)
-        })
-        listeningRect.on("mouseleave", () => {
-            circle.transition().duration(50).attr("r", 0)
-            tooltipRawDate.style("display", "none")
-            tooltip.style("display", "none")
-            tooltipLineX.style("display", "none")
-            tooltipLineY.style("display", "none")
-            tooltipLineX.attr("x1", 0).attr("x2", 0);
-            tooltipLineY.attr("y1", 0).attr("y2", 0);
-        })
+                tooltipLineX.style("display", "block")
+                    .attr("x1", xPos)
+                    .attr("x2", xPos)
+                    .attr("y1", 0)
+                    .attr("y2", height)
+                tooltipLineY.style("display", "block")
+                    .attr("x1", 0)
+                    .attr("x2", width)
+                    .attr("y1", yPos)
+                    .attr("y2", yPos)
+                
+                tooltip
+                    .style("display", "block")
+                    .style("left", `${width + margin.left}px`)
+                    .style("top", `${yPos + margin.top - 15}px`)
+                    .html(`${d[conf.y] !== undefined ? d[conf.y] + conf.y_unit : "N/A"}`)
+                
+                tooltipRawDate
+                    .style("display", "block")
+                    .style("left", `${xPos}px`)
+                    .style("top", `${height + margin.top}px`)
+                    .html(`${d[conf.x] !== undefined ? date: "N/A"}`)
+            })
+            .on("mouseleave", () => {
+                circle.transition().duration(50).attr("r", 0)
+                tooltipRawDate.style("display", "none")
+                tooltip.style("display", "none")
+                tooltipLineX.style("display", "none")
+                tooltipLineY.style("display", "none")
+                tooltipLineX.attr("x1", 0).attr("x2", 0);
+                tooltipLineY.attr("y1", 0).attr("y2", 0);
+            })
     }
     /* 
     ########################

@@ -1,3 +1,6 @@
+#mimetypes for modules
+import mimetypes
+mimetypes.add_type('application/javascript', '.js')
 #commands
 from command import register_commands
 #flask and flask utils
@@ -31,11 +34,6 @@ def register_blueprints(app):
     ):
         app.register_blueprint(module)
 
-def setup_app(app):
-    """ @app.errorhandler(404)
-    def page_not_found(e):
-        return render_template("404.html"), 404 """
-
 def create_app(config):
     app = Flask(__name__, template_folder="temps")
     app.config.from_object(config)
@@ -43,7 +41,6 @@ def create_app(config):
     app.config["CORS_HEADERS"] = "Content-Type"
     cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
     
-    setup_app(app)
     register_blueprints(app)
     register_extensions(app)
     register_commands(app)

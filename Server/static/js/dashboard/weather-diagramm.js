@@ -67,13 +67,20 @@ const Formatter = () => {
 }
 const WeatherDiagramm = (initial_config) => {
     const {formatEntrys, formatEntry} = Formatter()
-    const config = { ...initial_config}
     const { margin } = { ...initial_config}
+    const config = { ...initial_config}
 
     let svg
     let width = calcWidth(config.width, margin)
     let height = calcHeight(config.height, margin)
-    
+
+    const domains = {
+        humi: () => [0, 100],
+        temp: () => [
+            d3.min(config.entrys, d => d["temp"]),
+            d3.max(config.entrys, d => d["temp"])
+        ],
+    }
     function clearChart(chart) {
         chart.selectAll("*").remove()
     }
@@ -89,32 +96,24 @@ const WeatherDiagramm = (initial_config) => {
     function calcHeight(height, margin) {
         return height - margin.bottom - margin.top
     }
-    function minDate() {
-        return d3.min(config.entrys, d => d.entry_date.getTime())
-    }
-    function maxDate() {
-        return d3.max(config.entrys, d => d.entry_date.getTime())
-    }
-    /* function getPadding() {
-        return (maxDate - minDate) * 0.1
-    } */
-    function get_padded_x_scale() {
+    function x_scale() {
+        const month = d3.timeFormat("%b")
         return d3.scaleOrdinal()
-            .domain(config.entrys, d => d.entry_date)
-            .range([0, width])
+        .domain(config.entrys.map(entry => {
+            return month(entry.entry_date)
+        }))
+        .range([0, width])
     }
     function get_x_scale(x) {
         return d3.scaleTime()
             .rangeRound([0, width])
             .domain(d3.extent(config.entrys, d => d[x]))
+            .nice()
     }
-    function get_y_scale(y) {
+    function get_y_scale(domain) {
         return d3.scaleLinear()
             .range([height, 0])
-            .domain([
-                d3.min(config.entrys, d => d[y]),
-                d3.max(config.entrys, d => d[y])
-            ])
+            .domain(domain)
     }
     /* SVG ELEMENT */
     function addSvg(container, id) {
@@ -130,11 +129,10 @@ const WeatherDiagramm = (initial_config) => {
     /* LINE */
     function getLine(entry_x, entry_y) {
         x = get_x_scale(entry_x)
-        y = get_y_scale(entry_y)
+        y = get_y_scale(domains[entry_y]())
         return d3.line()
             .x(d => x(d[entry_x]))
             .y(d => y(d[entry_y]))
-            .curve(d3.curveCatmullRom.alpha(0.5));
     }
     /* AREA */
     function getArea(entry_x, entry_y) {
@@ -142,24 +140,20 @@ const WeatherDiagramm = (initial_config) => {
             .x(d => x(d[entry_x]))
             .y0(height)
             .y1(d => y(d[entry_y]))
-            .curve(d3.curveCatmullRom.alpha(0.5));
     }
     /* FUNCTION FOR ADDING AXIS */
     function addAxis() {
-        const x = get_padded_x_scale()
-        const y1 = get_y_scale("temp")
-        const y2 = get_y_scale("humi")
-
+        const x = x_scale()
+        console.log(x)
+        const y_temp = get_y_scale(domains.temp())
+        const y_humi = get_y_scale(domains.humi())
         const unit_y1 = "°C", unit_y2 = "%";
 
         svg.append("g")
             .attr("class", "dashboard__main-graph-x")
             .style("font-size", "13px")
             .attr("transform", `translate(0, ${height})`)
-            .call(d3.axisBottom(x)
-                //.tickValues(x.ticks(d3.timeMonth.every(1)))
-                .tickFormat(d3.timeFormat("%b"))
-            )
+            .call(d3.axisBottom(x))
             .selectAll(".tick text")
                 .style("fill", "#777")
                 
@@ -167,7 +161,7 @@ const WeatherDiagramm = (initial_config) => {
             .attr("class", "dashboard__main-graph-y1")
             .style("font-size", "13px")
             .attr("transform", `translate(0, 0)`)
-            .call(d3.axisLeft(y1)
+            .call(d3.axisLeft(y_temp)
                 .ticks(7)
                 .tickFormat(d => d + unit_y1)
             )
@@ -178,7 +172,7 @@ const WeatherDiagramm = (initial_config) => {
             .attr("class", "dashboard__main-graph-y2")
             .style("font-size", "13px")
             .attr("transform", `translate(${width}, 0)`)
-            .call(d3.axisRight(y2)
+            .call(d3.axisRight(y_humi)
                 .ticks(7)
                 .tickFormat(d => d + unit_y2)
             )
@@ -215,8 +209,6 @@ const WeatherDiagramm = (initial_config) => {
         const x = get_x_scale(entry_x)
         const y = get_y_scale(entry_y)
 
-        console.log()
-
         // Add a rect for each bar.
         svg.append("g")
             .attr("fill", "lightblue")
@@ -227,12 +219,9 @@ const WeatherDiagramm = (initial_config) => {
                 .attr("y", d => y(d[entry_y]))
                 .attr("class", d => d["entry_date"])
                 .attr("height", d => {
-                    console.log(d, height, y(d[entry_y]))
-
                     return height - y(d[entry_y])
                 })
                 .attr("width", (width) / (config.entrys.length))
-                //.attr("width", width / config.entrys.length);
     }
     function update() { clearChart() }
     function resize() {

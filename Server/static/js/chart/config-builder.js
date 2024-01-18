@@ -13,19 +13,19 @@ const default_conf = {
 const styles_conf = {
     default: {
         fontSize: "14px",
-        line: { strokeWidth: "3px" },
+        line: { strokeWidth: "5px" },
         area: { opacity: 0.5 },
     },
     temp: { 
         color: "#ff8080",
-        dots: "#ff0000",
+        dots: "#f00", //#ff0000
         axis: {
             color: "white",
         },
     },
     humi: {
         color: "#09bff7",
-        dots: "#09a4f7",
+        dots: "#00f", //#09a4f7
         axis: {
             color: "grey",
         },
@@ -38,14 +38,16 @@ const y_units_conf = {
 const value_config = {
     temp: {
         domain: (data, y) => {
-            return [
-                d3.min(data, d => d[y]),
-                d3.max(data, d => d[y])
-            ]
+            let min = d3.min(data, d => d[y])
+            let max = d3.max(data, d => d[y])
+            
+            let start = min >= 0 ? 0 : min -10
+            let end = (Math.round(max / 10) * 10) + 10
+            return [start, end]
         }
     },
     humi: {
-        domain: (...args) => [0, 100]
+        domain: () => [0, 100]
     }
 }
 function getAxisFormat(time, unit, y) {
@@ -54,7 +56,7 @@ function getAxisFormat(time, unit, y) {
 
     if (time === "1m") {
         range.x.ticks = d3.timeWeek.every(1)
-        range.x.timeFormat = d3.timeFormat("%e.%m.%Y")
+        range.x.timeFormat = d3.timeFormat("%e %b")
         range.y.tickFormat =  d => isNaN(d) ? "" : `${d}` + unit
         range.y.ticks = 6
         return range
