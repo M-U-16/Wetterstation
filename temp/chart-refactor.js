@@ -210,7 +210,7 @@ function LineChart(initial_config) {
     let svg = d3.select(config.container)
     .append("svg")
     .attr("class", "dashboard__graph")
-    .attr("width", config.width) 
+    .attr("width", config.width)
     .attr("height", config.height)
     .attr("id", config.id)
     .append("g")

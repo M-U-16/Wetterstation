@@ -6,7 +6,11 @@
     position: relative;
     background: transparent;
     z-index: 1;
-
+}
+.dark-theme .app__time-select-container {
+    --box-shadow: inset 0px 0px 3px grey;
+}
+.light-theme .app__time-select-container {
     --box-shadow: inset 0px 0px 4px grey;
 }
 .app__select-icon-arrow,

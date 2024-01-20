@@ -84,6 +84,5 @@ function compress_one_year(data) {
     const compressed_year = allMonths.map(month => {
         return average_one_month(sorted_months[month])
     })
-    console.log(compressed_year)
     return compressed_year
 }

@@ -26,11 +26,11 @@
 {% block code %}
 
     <script src={{ url_for('static', filename='js/dashboard/select.js') }}></script>
-
-    <script src={{ url_for('static', filename='js/chart/lineChart.js') }}></script>
+    <script src={{ url_for('static', filename='js/chart/tooltip.js') }}></script>
+    <script src={{ url_for('static', filename='js/utils/formatter.js') }}></script>
+    <script src={{ url_for('static', filename='js/chart/lineChartV2.js') }}></script>
     <script src={{ url_for('static', filename='js/chart/config-builder.js') }}></script>
     <script src={{ url_for('static', filename='js/utils/compress.js') }}></script>
     <script src={{ url_for('static', filename='js/chart/chart-controller.js') }}></script>
     <script src={{ url_for('static', filename='js/chart/chart-main.js') }}></script>
-    <!--  -->
 {% endblock code %}

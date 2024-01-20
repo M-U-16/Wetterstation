@@ -1,56 +1,32 @@
-const fetchChartData = async(
-    time,
-    func
-) => {
-    return fetch(`/api/data?time=${time}`)
-        .then(res => res.json())
-        .then(func)
-}
-
-const chartController = () => {
+function chartController() {
     
-    let current_time_range = "1m"
-    let temp_graph, humi_graph
-    let allCharts = []
-
-    async function getData(time) {
-        return await fetchChartData(time, res=>res.data)
-    }
-    function resizeAll() {
+    let current_time_range = "1y"
+    
+    /* function resizeAll() {
         allCharts.forEach(chart => chart.resize())
-    }
+    } */
     function drawCharts(data) {
         if (!data) return
         if (current_time_range === "1y") {
             data = compress_one_year(data)
         }
 
-        temp_graph = LineChart(
+        let temp_graph = LineChart(
             getConfig(
                 "#temp-container", data,
                 "entry_date", "temp",
                 current_time_range, "temp-graph-svg"
             )
         )
-        humi_graph = LineChart(
+        let humi_graph = LineChart(
             getConfig(
                 "#humi-container", data,
                 "entry_date", "humi",
                 current_time_range, "humi-graph-svg"
             )
         )
-        console.log(getConfig(
-            "#temp-container", data,
-            "entry_date", "temp",
-            current_time_range, "temp-graph-svg"
-        ))
-
-        temp_graph.init()
-        humi_graph.init()
-        allCharts = [temp_graph, humi_graph]
-        allCharts.forEach(chart => chart.drawChart())
     }
-    async function updateChart(data) {
+    /* async function updateChart(data) {
         
         if (data.length == 0) return
         if (current_time_range === "1y") {
@@ -66,10 +42,10 @@ const chartController = () => {
             chart.setData(data)
             chart.update()
         })
-    }
+    } */
     
     /* SELECT ELEMENT */
-    const select = Select(current_time_range)
+    /* const select = Select(current_time_range)
     select.init()
     select.addListeners(
         //callback function for updating
@@ -81,12 +57,9 @@ const chartController = () => {
     )
     async function drawFirstCharts() {
         drawCharts(await getData(current_time_range))
-    }
+    } */
     return {
-        drawFirstCharts,
         drawCharts,
         drawCharts,
-        resizeAll,
-        getData,
     }
 }
