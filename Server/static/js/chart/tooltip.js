@@ -4,12 +4,11 @@ function TooltipController(
     config,
     data, x, y
 ) {
+    const MARGIN_LEFT = config.margin.left
     /* ADDING TOOLTIP */
-    console.log(container)
     const tooltip = d3.select(container)
         .append("div")
         .style("opacity", 0)
-        .style("border-radius", "5px")
         .attr("class", "graph-tooltip")
 
     const circle = svg.append("circle")
@@ -25,6 +24,14 @@ function TooltipController(
     .attr("height", height)
     .on("mousemove", function(e) {
         const {xPos,yPos,d} = calculatePosition(data, e, this)
+        //console.log(this.getBoundingClientRect())
+        const tooltipWidth = tooltip.node().offsetWidth
+        const tooltipHeight = tooltip.node().offsetHeight
+        //console.log(tooltipWidth,tooltipHeight)
+        const rectWidth = this.width.animVal.value
+        let tool_pos_x = xPos+tooltipWidth <= rectWidth
+        const offset_x = tool_pos_x?MARGIN_LEFT+5:MARGIN_LEFT-tooltipWidth-5
+
         circle
             .attr("cx", xPos)
             .attr("cy", yPos)
@@ -32,7 +39,7 @@ function TooltipController(
             .style("transform", "scale(1)")
         tooltip
             .style("top", `${yPos - 16}px`)
-            .style("left", `${xPos + config.margin.left}px`)
+            .style("left", `${xPos + offset_x}px`)
             .html(
                 `
                 <p>${d.entry_date.toLocaleString("de-DE").split(",")[0]}</p>
