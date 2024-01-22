@@ -40,6 +40,27 @@ function LineChart(initial_config) {
     .attr("y1", d => y(d))
     .attr("y2", d => y(d))
 
+    /* GRADIENT */
+    const gradient_id = `gradient-graph-${config.y}`
+    const gradient = svg.append("defs")
+    .append("linearGradient")
+        .attr("id", gradient_id)
+        .attr("x1", "0%")
+        .attr("x2", "0%")
+        .attr("y1", "0%")
+        .attr("y2", "100%")
+        .attr("spreadMethod", "pad")
+
+    gradient.append("stop")
+    .attr("offset", "0%")
+    .attr("stop-color", config.styles.color)
+    .attr("stop-opacity", 1)
+
+    gradient.append("stop")
+    .attr("offset", "100%")
+    .attr("stop-color", config.styles.color)
+    .attr("stop-opacity", 0)
+
     /*  ADDING AXIS */
         /* X AXIS */
         svg.append("g")
@@ -61,29 +82,6 @@ function LineChart(initial_config) {
             .ticks(config.axisFormat.y.ticks)
             .tickFormat(config.axisFormat.y.tickFormat)
         )
-    
-    
-    /* GRADIENT */
-    const gradient_id = `gradient-graph-${config.y}`
-    const gradient = svg.append("defs")
-    .append("linearGradient")
-        .attr("id", gradient_id)
-        .attr("x1", "0%")
-        .attr("x2", "0%")
-        .attr("y1", "0%")
-        .attr("y2", "100%")
-        .attr("spreadMethod", "pad")
-
-    gradient.append("stop")
-    .attr("offset", "0%")
-    .attr("stop-color", config.styles.color)
-    .attr("stop-opacity", 1)
-
-    gradient.append("stop")
-    .attr("offset", "100%")
-    .attr("stop-color", config.styles.color)
-    .attr("stop-opacity", 0)
-    
     /*  ADDING LINE PATH */
     svg.append("path")
     .datum(data)
@@ -107,6 +105,45 @@ function LineChart(initial_config) {
         data, x, y
     )
     
+    function update(data) {
+        /*  ADDING AXIS */
+        /* X AXIS */
+        svg.append("g")
+        .attr("class", "linechart__x-axis")
+        .style("font-size", "13px")
+        .attr("transform", `translate(0, ${height})`)
+        .call(
+            d3.axisBottom(x)
+            .tickValues(x.ticks(config.axisFormat.x.ticks))
+            .tickFormat(config.axisFormat.x.timeFormat)
+        )
+        /* Y AXIS */
+        svg.append("g")
+        .attr("class", "linechart__y-axis")
+        .style("font-size", "13px")
+        .attr("transform", `translate(${width}, 0)`)
+        .call(d3.axisRight(y)
+            .ticks(config.axisFormat.y.ticks)
+            .tickFormat(config.axisFormat.y.tickFormat)
+        )
+        /*  ADDING LINE PATH */
+        svg.append("path")
+        .datum(data)
+        .attr("class", "line")
+        .attr("fill", "none")
+        .attr("stroke", config.styles.color)
+        .attr("stroke-width", config.styles.line.strokeWidth)
+        .attr("d", getLine())
+
+        /* ADDING AREA PATH */
+        svg.append("path")
+        .datum(data)
+        .style("pointer-events", "none")
+        .style("fill", `url(#${gradient_id})`)
+        .style("opacity", 1)
+        .attr("d", getArea())
+    }
+
     /* LINE */
     function getLine() {
         return d3.line()
@@ -136,6 +173,7 @@ function LineChart(initial_config) {
     function calcHeight() { return config.height - config.margin.bottom - config.margin.top }
     function addData(obj) { data.unshift(obj) }
     function setData(arr) { data = formatData(arr, config) }
+    
 
     return {
         addData,

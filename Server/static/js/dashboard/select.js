@@ -42,7 +42,8 @@ const Select = (start_range) => {
         })
     }
 
-    const init = () => {
+    const init = (func) => {
+        addListeners(func)
         timeRangeBtn.dataset.current = start_range
         selectOptions.forEach(option => {
             if (option.dataset.value == start_range) {

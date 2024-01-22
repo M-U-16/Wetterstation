@@ -5,6 +5,10 @@
             .then(res => res.data)
     }
     
+    /* SELECT ELEMENT */
+    const select = Select("1y")
+    select.init((value) => {console.log(value)})
+
     const controller = chartController()
     controller.drawCharts(await fetchChartData("1y"))
     //window.onresize = () => controller.resizeAll()
