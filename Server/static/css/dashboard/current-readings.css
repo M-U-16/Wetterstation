@@ -1,5 +1,7 @@
 .app__current-readings {
     background: var(--secondary-clr);
+    box-shadow: var(--default-box-shadow);
+    border: var(--default-border);
     border-radius: 5px;
     padding: 1rem;
     margin-bottom: 0.5rem;

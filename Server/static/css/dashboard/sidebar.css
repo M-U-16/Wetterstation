@@ -1,16 +1,12 @@
 .app__dashboard-sidebar {
     width: 20rem;
+    border-right: var(--default-border);
+    box-shadow: var(--default-box-shadow);
     background: var(--secondary-clr);
     overflow-y: hidden;
     position: relative;
 
     --border-radius: 5px;
-}
-.dark-theme .app__dashboard-sidebar {
-    border-right: 1px solid rgba(128, 128, 128, 0.337);
-}
-.light-theme .app__dashboard-sidebar {
-    box-shadow: inset 0px 0px 4px grey;
 }
 .app__dashboard-top {
     display: grid;
@@ -19,7 +15,7 @@
 
     position: relative;
     width: 100%;
-    padding: 1rem 1rem;
+    padding: 1rem;
 }
 .app__dashboard-link {
     height: 3rem;
@@ -137,6 +133,7 @@
     .app__dashboard-top {
         gap: 0;
         justify-content: center;
+        padding: 0.5rem 1rem;
     }
     .app__dashboard-sidebar {
         width: 4rem;

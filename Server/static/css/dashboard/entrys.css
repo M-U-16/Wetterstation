@@ -1,5 +1,7 @@
 .dashboard__recent-entrys {
     background: var(--secondary-clr);
+    border: var(--default-border);
+    box-shadow: var(--default-box-shadow);
     padding: 1rem;
     border-radius: 5px;
     width: 100%;
