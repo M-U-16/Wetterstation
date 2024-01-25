@@ -1,16 +1,17 @@
-const Select = (start_range) => {
+function Select(start_range) {
 
     const timeRangeBtn = document.getElementById("time-select-button")
     const selectOptions = document.querySelectorAll(".app__select-option")
     const selectContainer = document.querySelector(".app__select-options-container")
     const indicatorArrow = document.querySelector("#select-arrow-icon")
     const timeRangeDisplay = document.querySelector("#time-select-text")
+    
     const activeContainerClass = "active-select-container"
     const activeButtonClass = "active-select-button"
     
     let selectedState = false
 
-    const closeAll = () => {
+    function closeAll() {
 
         timeRangeBtn.classList.toggle(activeButtonClass)
 
@@ -19,7 +20,7 @@ const Select = (start_range) => {
         selectedState = false
     }
 
-    const addListeners = (optionAction) => {
+    function addListeners(optionAction) {
         /* ADDS EVENTLISTENER TO SELECT BUTTON */
         timeRangeBtn.addEventListener("click", () => {
             selectedState = !selectedState
@@ -42,7 +43,7 @@ const Select = (start_range) => {
         })
     }
 
-    const init = (func) => {
+    function init(func) {
         addListeners(func)
         timeRangeBtn.dataset.current = start_range
         selectOptions.forEach(option => {

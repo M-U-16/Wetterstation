@@ -88,6 +88,7 @@
     height: 100%;
     border-radius: 5px;
     display: flex;
+    align-items: center;
     cursor: pointer;
     justify-content: flex-start;
     background-color: transparent;

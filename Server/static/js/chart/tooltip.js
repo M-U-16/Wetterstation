@@ -1,12 +1,12 @@
 function TooltipController(
-    svg, container,
+    svg,
     width, height,
     config,
     data, x, y
 ) {
     const MARGIN_LEFT = config.margin.left
     /* ADDING TOOLTIP */
-    const tooltip = d3.select(container)
+    const tooltip = d3.select(config.container)
         .append("div")
         .style("opacity", 0)
         .attr("class", "graph-tooltip")
@@ -18,19 +18,21 @@ function TooltipController(
         .style("opacity", 0)
         .style("pointer-events", "none")
 
-    svg.append("rect")
+    const rect = svg.append("rect")
     .attr("class", "svg-listener-rect")
     .attr("width", width)
     .attr("height", height)
     .on("mousemove", function(e) {
         const {xPos,yPos,d} = calculatePosition(data, e, this)
-        //console.log(this.getBoundingClientRect())
         const tooltipWidth = tooltip.node().offsetWidth
         const tooltipHeight = tooltip.node().offsetHeight
-        //console.log(tooltipWidth,tooltipHeight)
         const rectWidth = this.width.animVal.value
+
         let tool_pos_x = xPos+tooltipWidth <= rectWidth
+        let tool_pos_y = yPos-tooltipHeight >= 0
+
         const offset_x = tool_pos_x?MARGIN_LEFT+5:MARGIN_LEFT-tooltipWidth-5
+        const offset_y = tool_pos_y?yPos-16:yPos+tooltipHeight
 
         circle
             .attr("cx", xPos)
@@ -38,7 +40,7 @@ function TooltipController(
             .style("opacity", 1)
             .style("transform", "scale(1)")
         tooltip
-            .style("top", `${yPos - 16}px`)
+            .style("top", `${offset_y}px`)
             .style("left", `${xPos + offset_x}px`)
             .html(
                 `
@@ -57,7 +59,6 @@ function TooltipController(
             .duration(100)
             .style("opacity", 0)
             .style("transform", "scale(0)")
-            
         circle
             .style("opacity", 0)
             .style("transform", "scale(0)")
@@ -74,5 +75,13 @@ function TooltipController(
         const xPos = x(d[config.x])
         const yPos = y(d[config.y])
         return {xPos, yPos, d}
+    }
+    function remove() {
+        rect.remove()
+        tooltip.remove()
+        circle.remove()
+    }
+    return {
+        remove
     }
 }

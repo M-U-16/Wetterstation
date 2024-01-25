@@ -6,6 +6,12 @@
 
     --border-radius: 5px;
 }
+.dark-theme .app__dashboard-sidebar {
+    border-right: 1px solid rgba(128, 128, 128, 0.337);
+}
+.light-theme .app__dashboard-sidebar {
+    box-shadow: inset 0px 0px 4px grey;
+}
 .app__dashboard-top {
     display: grid;
     grid-template-columns: auto 1fr auto;
