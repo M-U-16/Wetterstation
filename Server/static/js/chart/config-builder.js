@@ -13,7 +13,7 @@ const default_conf = {
 const styles_conf = {
     default: {
         fontSize: "14px",
-        line: { strokeWidth: "5px" },
+        line: { strokeWidth: "3px" },
         area: { opacity: 0.5 },
     },
     temp: { 

@@ -12,6 +12,7 @@
     }
 
     const setIcon = (theme) => {
+        console.log(theme)
         if (theme === "dark-theme") {
             
             lightThemeIcon.style.display = "none"
@@ -37,6 +38,7 @@
     setIcon(theme)
 
     button.addEventListener("click", () => {
+        console.log("click")
         const newTheme = getTheme(button.dataset.theme)
         setButtonData(newTheme)
         switchTheme(newTheme)

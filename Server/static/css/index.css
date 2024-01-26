@@ -1,12 +1,5 @@
 /* CSS variables */
 :root {
-  /* --primary-clr: #040404;
-  --secondary-clr: #171717;
-  --primary-text-clr: white;
-  --secondary-text-clr: #999999;
-  --shadow-clr: rgba(61, 75, 79, 0);
-  --accent-clr: rgba(128, 128, 128, 0.137);
-  --highlight-clr: rgb(0, 128, 255); */
 
   /* variables */
   --navbar-height: 5rem;
@@ -28,8 +21,8 @@
 }
 .dark-theme {
   /* DARK THEME */
-  --primary-clr: #040404;
-  --secondary-clr: #171717;
+  --primary-clr: #000000;
+  --secondary-clr: #080808;
   --primary-text-clr: white;
   --secondary-text-clr: #999999;
   --shadow-clr: rgba(61, 75, 79, 0);
@@ -38,11 +31,14 @@
   
   --theme-icon-clr: rgb(234, 255, 0);
   --gradient: linear-gradient(90deg, #456fe8, #19b0ec);
-  --default-border: 2px solid rgba(128, 128, 128, 0.385);
+  --default-border: 1px solid rgba(128, 128, 128, 0.385);
   --default-box-shadow: none;
   
-  --primary-clr: #05121B;
-  --secondary-clr: #1B2831;
+ /*  --primary-clr: #05121B;
+  --secondary-clr: #1B2831; */
+}
+.blue-theme {
+
 }
 * {
   box-sizing: border-box;

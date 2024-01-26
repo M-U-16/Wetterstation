@@ -1,5 +1,6 @@
 function LineChart(initial_config) {
 
+    windowManager.addFunction(resize)
     const config = initial_config
     const margin = config.margin
 
@@ -77,28 +78,25 @@ function LineChart(initial_config) {
         )
 
         /* GRID LINES */
-        let grid_x_class = "grid-line-x-"+config.y
-        let grid_y_class = "grid-line-y-"+config.y
         // remove all grid lines
-        d3.selectAll(grid_x_class).remove()
-        d3.selectAll(grid_y_class).remove()
+        d3.selectAll(config.container + " .graph__grid-line" ).remove()
         // append all x grid lines
-        let grid_x = svg.selectAll(grid_x_class)
+        svg.selectAll("graph__grid-x")
         .data(x.ticks())
         .enter()
             .append("line")
-            .attr("class", `${grid_x_class} graph__grid-line`)
+            .attr("class", `graph__grid-x graph__grid-line`)
             .attr("x1", d => x(d))
             .attr("y1", 0)
             .attr("x2", d => x(d))
             .attr("y2", height)
         
         // append all y grid lines
-        let grid_y = svg.selectAll(grid_y_class)
+        svg.selectAll("graph__grid-y")
         .data(y.ticks())
         .enter()
             .append("line")
-            .attr("class", `${grid_y_class} graph__grid-line`)
+            .attr("class", `graph__grid-y graph__grid-line`)
             .attr("x1", 0)
             .attr("y1", d => y(d))
             .attr("x2", width)
@@ -171,12 +169,29 @@ function LineChart(initial_config) {
             .range([0, width])
             .domain(d3.extent(data, d => d[config.x]))
     }
+    function resize() {
+        const container = document.querySelector(config.container)
+        config.width = container.offsetWidth
+        config.height = container.offsetHeight
+
+        width = calcWidth()
+        height = calcHeight()
+
+        x = get_x_scale(data)
+        y = get_y_scale(data)
+
+        x_axis.attr("transform", `translate(0, ${height})`)
+        y_axis.attr("transform", `translate(${width}, 0)`)
+
+        updateGraph()
+    }
     function calcWidth() { return config.width - config.margin.left - config.margin.right }
     function calcHeight() { return config.height - config.margin.bottom - config.margin.top }
     function addData(obj) { data.push(formatEntry(obj, "temp")) }
     function setData(arr) { data = formatData(arr, config) }
 
     return {
+        resize,
         addData,
         setData,
         updateGraph
