@@ -38,7 +38,6 @@
     setIcon(theme)
 
     button.addEventListener("click", () => {
-        console.log("click")
         const newTheme = getTheme(button.dataset.theme)
         setButtonData(newTheme)
         switchTheme(newTheme)

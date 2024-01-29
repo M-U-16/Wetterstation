@@ -1,7 +1,7 @@
 import json
 import os
 from settings import SETTINGS
-from config import Config
+from Server.env_config import Config
 from helpers.SendData import send_to_server
 from helpers.SaveData import save_data
 from helpers.ReadFakeData import read_fake_data

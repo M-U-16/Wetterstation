@@ -24,6 +24,5 @@ function chartController() {
     }
     return {
         drawCharts,
-        drawCharts,
     }
 }
