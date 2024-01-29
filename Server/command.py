@@ -1,5 +1,5 @@
-from helpers.server_path import getServerPath
 from models.model import create_tables, random_populate_db
+from helpers.server_path import getServerPath
 from pathlib import Path
 import sqlite3
 import dotenv
@@ -9,20 +9,19 @@ import os
 
 dotenv_file = None
 
+# checks for the current using env
+# if none it uses .env.dev if promted so
 if not os.getenv("env-name"):
     print(">> INFO | Could not find name of env file 'env-name'")
     if input(">> Use '.env.dev' instead? (J/N):") == "J":
         dotenv_file = dotenv.find_dotenv(".env.dev")
+        os.environ["env-name"] = ".env.dev"
     else: sys.exit(">> INFO | Programm stopped!")
-else:
-    dotenv_file = dotenv.find_dotenv(os.getenv("env-name"))
+else: dotenv_file = dotenv.find_dotenv(os.getenv("env-name"))
 
+# loading .env file needs verbose and override
+# if not set variables changed after loading are not available
 dotenv.load_dotenv(dotenv_path=dotenv_file, verbose=True, override=True)
-        
-DEFAULT_SETTINGS = {
-    "data-dir": "data",
-    "database_name": "wetter.sqlite3"
-}
 
 def checkPaths(obj):
     for key in obj.keys():

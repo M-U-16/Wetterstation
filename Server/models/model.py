@@ -8,7 +8,9 @@ from peewee import (
     TextField,
     DateTimeField
 )
-dotenv.load_dotenv()
+dotenv_file = dotenv.find_dotenv(os.getenv("env-name"))
+dotenv.load_dotenv(dotenv_file)
+
 db = pw.SqliteDatabase(os.getenv("DATABASE_PATH"))
 
 class BaseModel(pw.Model):
