@@ -1,16 +1,18 @@
 import os
 import sqlite3
 from dotenv import load_dotenv
+from settings import ENV_FILE
 
 #loading .env variables
-load_dotenv()
+load_dotenv(ENV_FILE)
 DB_PATH = os.getenv("DATABASE_PATH")
 
 #function for converting
 #tuple into dict
 def formatResponse(arr):
-    newArr = []
+    if not arr: return []
     if len(arr) == 0: return []
+    newArr = []
     keys = arr[0].keys()
     for entry in arr:
         dictonary = {}

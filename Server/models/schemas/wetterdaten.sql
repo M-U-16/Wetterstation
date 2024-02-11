@@ -1,4 +1,4 @@
-CREATE TABLE wetterdaten (
+CREATE TABLE IF NOT EXISTS wetterdaten (
     entry_id INTEGER PRIMARY KEY AUTOINCREMENT,
     entry_date DATE,
     temp INTEGER,
