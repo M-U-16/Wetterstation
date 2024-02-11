@@ -15,4 +15,4 @@ function WindowResizeManager() {
         addFunction
     }
 }
-const windowManager = WindowResizeManager()
+export const windowManager = WindowResizeManager()

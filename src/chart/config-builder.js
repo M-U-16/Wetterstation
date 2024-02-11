@@ -78,7 +78,7 @@ function getAxisFormat(time, unit, y) {
     }
 }
 
-function getConfig (
+export function getConfig (
     container_id,
     data,
     x, y,

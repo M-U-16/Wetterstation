@@ -1,26 +1,15 @@
-from models.model import create_tables, random_populate_db
-from helpers.server_path import getServerPath
-from pathlib import Path
-import sqlite3
-import dotenv
-import click
-import sys
 import os
-
-dotenv_file = None
-
-# checks for the current using env
-# if none it uses .env.dev if promted so
-if not os.getenv("env-name"):
-    print(">> INFO | Could not find name of env file 'env-name'")
-    if input(">> Use '.env.dev' instead? (J/N):") == "J":
-        dotenv_file = dotenv.find_dotenv(".env.dev")
-        os.environ["env-name"] = ".env.dev"
-    else: sys.exit(">> INFO | Programm stopped!")
-else: dotenv_file = dotenv.find_dotenv(os.getenv("env-name"))
+import sys
+import click
+import dotenv
+import sqlite3
+from pathlib import Path
+from helpers.server_path import getServerPath
+from models.model import create_tables, random_populate_db
 
 # loading .env file needs verbose and override
 # if not set variables changed after loading are not available
+dotenv_file = dotenv.find_dotenv(os.environ["ENV_FILE"])
 dotenv.load_dotenv(dotenv_path=dotenv_file, verbose=True, override=True)
 
 def checkPaths(obj):
@@ -32,14 +21,6 @@ def handleExistingPath(path_type, name):
     message = f">> {path_type} '{name}' already exists!\n Create next? (J/N):"
     if input(message) == "J": return True
     sys.exit(">> Programm stopped!")
-        
-
-def getAllPaths(dir_name, db_name):
-    all_paths = {}
-    all_paths["server_path"] = getServerPath()
-    all_paths["data_directory"] = f"{all_paths['server_path']}/{dir_name}"
-    all_paths["db_path"] = f"{all_paths['data_directory']}/{db_name}"
-    return all_paths
 
 def createInitialDatabase(path):
     #creating the database file
@@ -73,8 +54,8 @@ def createDb(name="wetter.sqlite3"):
     
 def createTables():
     create_tables()
-def populateDb():
-    random_populate_db()
+def populateDb(amount):
+    random_populate_db(amount)
     
 def create_default():
     createDir()
@@ -110,15 +91,17 @@ def register_commands(app):
         create_tables()
         
     @app.cli.command("populate-db")
-    def cli_populate_db():
+    @click.option("-a", "--amount", type=click.INT, default=365)
+    def cli_populate_db(amount):
         """ 
             COMMAND FOR INSERTING RANDOM VALUES IN
             THE DATABASE FOR TESTING PURPOSES
         """
-        populateDb()
+        populateDb(amount)
     
     @app.cli.command("create-default")
     def cli_create_default():
+        
         """ 
             COMMAND FOR CREATING DEFAULT DATA DIRECTORY,
             DATABASE AND TABLES

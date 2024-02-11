@@ -1,4 +1,4 @@
-function TooltipController(
+export function TooltipController(
     svg,
     width, height,
     config,

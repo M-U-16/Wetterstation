@@ -1,0 +1,1 @@
+ENV_FILE = "C:/Users/Maurice/Documents/Projekte/Webseiten/Wetterstation/.env.dev"

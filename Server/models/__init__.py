@@ -1,5 +1,5 @@
-import sqlite3
 import os
+import sqlite3
 from dotenv import load_dotenv
 
 #loading .env variables
@@ -37,11 +37,7 @@ def connection(func):
 
 @connection
 def test_query(conn, cur):
-    return (
-        cur
-        .execute("select * from wetterdaten")
-        .fetchall()
-    )
+    return cur.execute("select * from wetterdaten").fetchall()
 
 @connection
 def queryDb(con, cur, query, values=[]):

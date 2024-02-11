@@ -14,9 +14,8 @@ dist/
 build/
 *.egg-info/
 ignore
-enviro-data/
-db.sqlite
-wetter.db
+*.sqlite
+*.db
 .vscode
 *.db
 venv
@@ -24,3 +23,6 @@ venv
 data
 *.rdb
 *.prod
+
+node_modules/
+temp/

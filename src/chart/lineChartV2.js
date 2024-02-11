@@ -1,15 +1,19 @@
-function LineChart(initial_config) {
+import Formatter from "../utils/formatter"
+import { TooltipController } from "./tooltip"
+import { windowManager } from "../utils/WindowManager"
 
+export function LineChart(initial_config) {
+    
     windowManager.addFunction(resize)
     const config = initial_config
     const margin = config.margin
-
     const { formatEntrys, formatEntry } = Formatter()
     
     let tooltip, x, y
     let data = formatEntrys(config.entrys, config.y)
     let width = calcWidth()
     let height = calcHeight()
+
 
     /* SVG ELEMENT */
     let svg = d3.select(config.container)
@@ -24,36 +28,38 @@ function LineChart(initial_config) {
     /* GRADIENT */
     const gradient_id = `gradient-graph-${config.y}`
     const gradient = svg.append("defs")
-    .append("linearGradient")
-    .attr("id", gradient_id)
-    .attr("x1", "0%")
-    .attr("x2", "0%")
-    .attr("y1", "0%")
-    .attr("y2", "100%")
-    .attr("spreadMethod", "pad")
+        .append("linearGradient")
+        .attr("id", gradient_id)
+        .attr("x1", "0%")
+        .attr("x2", "0%")
+        .attr("y1", "0%")
+        .attr("y2", "100%")
+        .attr("spreadMethod", "pad")
 
     gradient.append("stop")
-    .attr("offset", "0%")
-    .attr("stop-color", config.styles.color)
-    .attr("stop-opacity", 1)
+        .attr("offset", "0%")
+        .attr("stop-color", config.styles.color)
+        .attr("stop-opacity", 1)
 
     gradient.append("stop")
-    .attr("offset", "100%")
-    .attr("stop-color", config.styles.color)
-    .attr("stop-opacity", 0)
+        .attr("offset", "100%")
+        .attr("stop-color", config.styles.color)
+        .attr("stop-opacity", 0)
 
     /*  ADDING AXIS */
     /* X AXIS */
     const x_axis = svg.append("g")
-    .attr("class", "linechart__x-axis")
-    .style("font-size", "13px")
-    .attr("transform", `translate(0, ${height})`)
+        .attr("class", "linechart__x-axis")
+        .style("font-size", "13px")
+        .attr("transform", `translate(0, ${height})`)
 
     /* Y AXIS */
     const y_axis = svg.append("g")
-    .attr("class", "linechart__y-axis")
-    .style("font-size", "13px")
-    .attr("transform", `translate(${width}, 0)`)
+        .attr("class", "linechart__y-axis")
+        .style("font-size", "13px")
+        .attr("transform", `translate(${width}, 0)`)
+        
+    updateGraph()
 
     function updateGraph() {
         x = get_x_scale(data)
@@ -81,26 +87,26 @@ function LineChart(initial_config) {
         // remove all grid lines
         d3.selectAll(config.container + " .graph__grid-line" ).remove()
         // append all x grid lines
-        svg.selectAll("graph__grid-x")
+        let grid_x = svg.selectAll("graph__grid-line-x")
         .data(x.ticks())
         .enter()
-            .append("line")
-            .attr("class", `graph__grid-x graph__grid-line`)
-            .attr("x1", d => x(d))
-            .attr("y1", 0)
-            .attr("x2", d => x(d))
-            .attr("y2", height)
+        .append("line")
+        .attr("class", "graph__grid-line-x graph__grid-line")
+        .attr("x1", d => x(d))
+        .attr("y1", 0)
+        .attr("x2", d => x(d))
+        .attr("y2", height)
         
         // append all y grid lines
-        svg.selectAll("graph__grid-y")
+        let grid_y = svg.selectAll("graph__grid-line-y")
         .data(y.ticks())
         .enter()
-            .append("line")
-            .attr("class", `graph__grid-y graph__grid-line`)
-            .attr("x1", 0)
-            .attr("y1", d => y(d))
-            .attr("x2", width)
-            .attr("y2", d => y(d))
+        .append("line")
+        .attr("class", "graph__grid-line-y graph__grid-line")
+        .attr("x1", 0)
+        .attr("y1", d => y(d))
+        .attr("x2", width)
+        .attr("y2", d => y(d))
 
         let line = svg.selectAll(".graph__line")
         .data([data], (d) => d.entry_date)
@@ -122,12 +128,13 @@ function LineChart(initial_config) {
         .append("path")
         .attr("class", "graph__area")
         .merge(area)
+        .style("fill", `url(#${gradient_id})`)
+        .style("pointer-events", "none")
+        .style("opacity", 0)
         .transition()
         .duration(500)
         .attr("d", getArea())
-        .style("fill", `url(#${gradient_id})`)
         .style("opacity", 1)
-        .style("pointer-events", "none")
 
         /* 
             UPDATE TOOLTIP
@@ -145,7 +152,6 @@ function LineChart(initial_config) {
             )
         }
     }
-    updateGraph()
     /* LINE */
     function getLine() {
         return d3.line()
@@ -191,9 +197,9 @@ function LineChart(initial_config) {
     function setData(arr) { data = formatData(arr, config) }
 
     return {
-        resize,
         addData,
         setData,
+        resize,
         updateGraph
     }
 }

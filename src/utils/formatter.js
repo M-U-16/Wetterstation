@@ -1,4 +1,4 @@
-function Formatter() {
+export default function() {
     function formatEntrys(entrys, ...args) {
         const parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S")
         return entrys.map(entry => {
@@ -11,7 +11,7 @@ function Formatter() {
     function formatEntry(entry, ...args) {
         const parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S")
         const formatedEntry = {}
-        formatedObj.entry_date = parseDate(entry.entry_date)
+        formatedEntry.entry_date = parseDate(entry.entry_date)
         args.forEach(arg => formatedEntry[arg] = entry[arg])
         return formatedEntry
     }

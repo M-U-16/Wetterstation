@@ -36,6 +36,7 @@ def main():
             #print(data)
             send_readings(data)
             
+            # wait 5 seconds
             time.sleep(5)
             
     # exception handler for ctrl+c

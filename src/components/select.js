@@ -1,4 +1,4 @@
-function Select(start_range) {
+export function Select(start_range) {
 
     const timeRangeBtn = document.getElementById("time-select-button")
     const selectOptions = document.querySelectorAll(".app__select-option")

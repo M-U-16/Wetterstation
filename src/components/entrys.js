@@ -1,4 +1,4 @@
-(async() => {
+export const lastEntrys = async() => {
 
     const tempIcon = document.getElementById("temperature-icon")
     const humiIcon = document.getElementById("humidity-icon")
@@ -19,8 +19,8 @@
         return formatter(date)
     }
     async function getData(last_id) {
-        args = last_id ? `?last=${last_id}` : ""
-        return await fetch("/api/entrys"+args)
+        let args = last_id ? `?last=${last_id}` : ""
+        return await fetch("/api/entrys"+ args)
             .then(res => res.json())
     }
     function createEntry(entry) {
@@ -73,4 +73,4 @@
     })
     getAddEntrys()
 
-})()
+}

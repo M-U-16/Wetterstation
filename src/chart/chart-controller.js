@@ -1,4 +1,4 @@
-function chartController() {
+export function chartController() {
     
     let current_time_range = "1y"
     function drawCharts(data) {

@@ -8,7 +8,7 @@ from peewee import (
     TextField,
     DateTimeField
 )
-dotenv_file = dotenv.find_dotenv(os.getenv("env-name"))
+dotenv_file = dotenv.find_dotenv(".env.dev")
 dotenv.load_dotenv(dotenv_file)
 
 db = pw.SqliteDatabase(os.getenv("DATABASE_PATH"))
@@ -40,9 +40,9 @@ def create_tables():
         db.create_tables([Wetterdaten])
     print("Created Tables")
 
-def random_populate_db():
+def random_populate_db(amount):
     chunk_size = 50
-    data = getManyRandomDataEntrys(365)
+    data = getManyRandomDataEntrys(amount)
     with db.atomic():
         for i in range(0, len(data), chunk_size):
             Wetterdaten.insert_many(

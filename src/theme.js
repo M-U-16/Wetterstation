@@ -1,4 +1,4 @@
-(() => {
+export const themeSwitcher = function() {
     document.querySelectorAll(".app__theme-icon")
         .forEach(icon => icon.style.display = "none")
 
@@ -12,7 +12,6 @@
     }
 
     const setIcon = (theme) => {
-        console.log(theme)
         if (theme === "dark-theme") {
             
             lightThemeIcon.style.display = "none"
@@ -44,4 +43,4 @@
         storeTheme(newTheme)
         setIcon(newTheme)
     }) 
-})()
+}

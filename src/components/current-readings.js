@@ -1,4 +1,6 @@
-(() => {
+import socket from "../socket"
+
+export const currentEntrys = (() => {
     const date = document.querySelector("#current-date-value")
     const temp = document.querySelector("#current-temp-value")
     const humi = document.querySelector("#current-humi-value")

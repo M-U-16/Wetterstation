@@ -1,21 +1,3 @@
-const formatData = (entrys, config) => {
-    const parseDate = d3.timeParse("%Y-%m-%d %H:%M:%S")
-    return entrys.map(entry => {
-        const formatedObj = {}
-        formatedObj[config.x] = parseDate(entry[config.x])
-        formatedObj[config.y] = entry[config.y]
-        
-        return formatedObj
-    });
-}
-const formatEntry = (entry, config) => {
-    const parseDate = d3.timeParse("%Y-%m-%d")
-    return {
-        entry_date: parseDate(entry[config.x]),
-        temp: entry.temp
-    }
-}
-
 // calculates the average temp, humi and lux level
 // of the given month
 function average_one_month(data) {
@@ -41,7 +23,7 @@ function average_one_month(data) {
         - temperature
         - light level
 */
-function compress_one_year(data) {
+export function compress_one_year(data) {
     data = data.map(entry => {
         return {
             entry_date: entry.entry_date,
@@ -83,6 +65,11 @@ function compress_one_year(data) {
     })
     const compressed_year = allMonths.map(month => {
         return average_one_month(sorted_months[month])
-    })
+    }).sort((prev, now) => {
+        if (prev.entry_date < now.entry_date) return -1
+        if (prev.entry_date > now.entry_date) return 1
+        return 0
+    }) // sorts in ascending order
+    // if now sorted there problems
     return compressed_year
 }
