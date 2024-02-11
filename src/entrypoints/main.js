@@ -1,5 +1,5 @@
 import { themeSwitcher } from "../theme";
-import { lastEntrys } from "../components/entrys";
+import { setD3DE } from "../utils/local-d3"
 
+setD3DE()
 themeSwitcher()
-lastEntrys()

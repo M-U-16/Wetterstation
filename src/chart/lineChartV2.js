@@ -5,7 +5,8 @@ import { windowManager } from "../utils/WindowManager"
 export function LineChart(initial_config) {
     
     windowManager.addFunction(resize)
-    const config = initial_config
+
+    let config = initial_config
     const margin = config.margin
     const { formatEntrys, formatEntry } = Formatter()
     
@@ -13,7 +14,6 @@ export function LineChart(initial_config) {
     let data = formatEntrys(config.entrys, config.y)
     let width = calcWidth()
     let height = calcHeight()
-
 
     /* SVG ELEMENT */
     let svg = d3.select(config.container)
@@ -59,15 +59,16 @@ export function LineChart(initial_config) {
         .style("font-size", "13px")
         .attr("transform", `translate(${width}, 0)`)
         
-    updateGraph()
+    updateGraph() // first load
 
-    function updateGraph() {
+    function updateGraph(duration) {
+
         x = get_x_scale(data)
         y = get_y_scale(data)
 
         // create the x axis:
         x_axis.transition()
-        .duration(500)
+        .duration(duration)
         .call(
             d3.axisBottom(x)
             .tickValues(x.ticks(config.axisFormat.x.ticks))
@@ -76,7 +77,7 @@ export function LineChart(initial_config) {
             
         // create the y axis:
         y_axis.transition()
-        .duration(500)
+        .duration(duration)
         .call(
             d3.axisRight(y)
             .ticks(config.axisFormat.y.ticks)
@@ -115,7 +116,7 @@ export function LineChart(initial_config) {
         .attr("class", "graph__line")
         .merge(line)
         .transition()
-        .duration(500)
+        .duration(duration)
         .attr("d", getLine())
         .attr("fill", "none")
         .attr("stroke", config.styles.color)
@@ -132,7 +133,7 @@ export function LineChart(initial_config) {
         .style("pointer-events", "none")
         .style("opacity", 0)
         .transition()
-        .duration(500)
+        .duration(duration)
         .attr("d", getArea())
         .style("opacity", 1)
 
@@ -177,29 +178,43 @@ export function LineChart(initial_config) {
     }
     function resize() {
         const container = document.querySelector(config.container)
+        // get new dimensions from container
         config.width = container.offsetWidth
         config.height = container.offsetHeight
 
+        // resize svg with margin
         width = calcWidth()
         height = calcHeight()
 
+        // calculate new scale
         x = get_x_scale(data)
         y = get_y_scale(data)
 
+        // transform axis
         x_axis.attr("transform", `translate(0, ${height})`)
         y_axis.attr("transform", `translate(${width}, 0)`)
 
-        updateGraph()
+        updateGraph(500)
     }
     function calcWidth() { return config.width - config.margin.left - config.margin.right }
     function calcHeight() { return config.height - config.margin.bottom - config.margin.top }
-    function addData(obj) { data.push(formatEntry(obj, "temp")) }
-    function setData(arr) { data = formatData(arr, config) }
+    function addData(obj) { data.push(formatEntry(obj, config.y)) }
+    function updateAxisFormat(newFormat) {
+        config.axisFormat = {
+            ...newFormat
+        }
+    }
+    function setData(arr) {
+        data = formatEntrys(arr, config.y)
+        console.log(data)
+    }
 
     return {
+        config,
         addData,
         setData,
         resize,
-        updateGraph
+        updateGraph,
+        updateAxisFormat
     }
 }

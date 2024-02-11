@@ -1,10 +1,7 @@
 import { LineChart } from "../chart/lineChartV2"
 import { Select } from "../components/select"
 import { compress_one_year } from "../utils/compress"
-import { getConfig } from "../chart/config-builder"
-import { setD3DE } from "../utils/local-d3"
-
-setD3DE()
+import { getConfig, getAxisFormat } from "../chart/config-builder"
 
 const fetchChartData = async(time) => {
     return fetch(`/api/data?time=${time}`)
@@ -15,12 +12,13 @@ const fetchChartData = async(time) => {
 /* SELECT ELEMENT */
 let current_time = "1y"
 const select = Select(current_time)
-select.init((value) => current_time = value)
 
-drawCharts() // draw all charts
+drawCharts().then(graphs => {
+    select.init((value) => updateGraphs(graphs, value))
+})
 
 async function drawCharts() {
-    const data = await fetchChartData("1y")
+    let data = await fetchChartData("1y")
 
     const graph_temp = LineChart(
         getConfig(
@@ -42,4 +40,20 @@ async function drawCharts() {
             "svg-graph-humi"
         )
     )
+    return [graph_temp, graph_humi]
+}
+
+async function updateGraphs(graphs, value) {
+    let data = await fetchChartData(value)
+    if (value === "1y") {
+        data = compress_one_year(data)
+    }
+
+    graphs.forEach(graph => {
+        graph.setData(data)
+        graph.updateAxisFormat(
+            getAxisFormat(value, graph.config.y_unit, graph.config.y)
+        )
+        graph.updateGraph(0)
+    })
 }

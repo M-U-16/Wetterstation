@@ -50,7 +50,7 @@ const value_config = {
         domain: () => [0, 100]
     }
 }
-function getAxisFormat(time, unit, y) {
+export function getAxisFormat(time, unit, y) {
     const range = { x: {}, y:{}}
     range.y.domain = value_config[y].domain
 
