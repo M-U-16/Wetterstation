@@ -14,10 +14,25 @@ def create_tables(con, cur):
         cur.execute(file.read())
         file.close()
 
-def random_populate_db(amount):
+def genrateSql(sql_format, keys, values):
+    columns_string = ""
+    values_string = ""
+    length = len(keys)
+    for idx, i in enumerate(keys):
+        columns_string += i+","
+        values_string += "?," if idx+1 != length else "?"
+    return sql_format.format(columns_string, values_string)
+
+@connection
+def random_populate_db(conn, cur, amount):
+    print(amount)
     data = getManyRandomDataEntrys(amount)
+    sql = genrateSql(
+        "insert into wetterdaten({}) values ({})",
+        data[0].keys(),
+        data[0].values()
+    )
     data_tuples = [tuple(entry.values()) for entry in data]
-    print(data_tuples)
     chunk_size = 50
     for i in range(0, len(data), chunk_size):
-        pass
+        cur.executemany(sql, data_tuples[i:])

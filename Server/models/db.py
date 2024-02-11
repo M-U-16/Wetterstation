@@ -1,7 +1,7 @@
 from models import queryDb
 
 querys = {
-    "add-data": "INSERT INTO wetterdaten(entry_date, entry_time, temp, humi, pres, lux) VALUES (?, ?, ?, ?, ?, ?)",
+    "add-data": "INSERT INTO wetterdaten(entry_date, temp, humi, pres, lux) VALUES (?, ?, ?, ?, ?)",
     "current-day": "select * from wetterdaten where entry_date=Date('now')",
     "time-range": "select * from wetterdaten where entry_date between ? and ?",
     "get-week": "select * from wetterdaten where entry_date between DATE('now', '-7 days') and DATE('now')",
