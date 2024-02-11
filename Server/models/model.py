@@ -15,5 +15,9 @@ def create_tables(con, cur):
         file.close()
 
 def random_populate_db(amount):
+    data = getManyRandomDataEntrys(amount)
+    data_tuples = [tuple(entry.values()) for entry in data]
+    print(data_tuples)
     chunk_size = 50
-    
+    for i in range(0, len(data), chunk_size):
+        pass
