@@ -31,6 +31,7 @@ def random_populate_db(conn, cur, amount):
         data[0].keys(),
         data[0].values()
     )
+    print(sql)
     data_tuples = [tuple(entry.values()) for entry in data]
     chunk_size = 50
     for i in range(0, len(data), chunk_size):
