@@ -1,12 +1,12 @@
 .app__dashboard-sidebar {
+    --border-radius: 5px;
+    
     width: 20rem;
     border-right: var(--default-border);
     box-shadow: var(--default-box-shadow);
     background: var(--secondary-clr);
     overflow-y: hidden;
     position: relative;
-
-    --border-radius: 5px;
 }
 .app__dashboard-top {
     display: grid;
@@ -42,7 +42,16 @@
     height: 100%;
     border-radius: var(--border-radius);
     color: rgb(0, 187, 255);
-    /* background: #262626; */
+}
+.sidebar__collapse-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0.3rem;
+    border-radius: var(--border-radius);
+    border: none;
+    color: white;
+    background-color: rgb(33, 33, 33);
+    cursor: pointer;
 }
 .dashboard__top-divider {
     position: absolute;
@@ -53,11 +62,11 @@
     right: 1rem;
     background: var(--accent-clr);
 }
-/* 
--------------------------------------------
-###########################################
--------------------------------------------
+
+/*
+------------------------------------------------
 */
+
 .app__dashboard-bottom {
     padding: 1rem;
 }
@@ -82,23 +91,6 @@
 }
 .dashboard__sidebar-link:nth-child(1) {
     margin-top: 0;
-}
-.dashboard__sidebar-link::after {
-    content: url("http://localhost:8080/static/assets/icons/arrow-back.svg");
-    width: 1rem;
-    height: 1rem;
-    opacity: 0;
-    position: absolute;
-    display: none;
-    right: 1rem;
-    top: 50%;
-    transform:
-        translateY(-50%)
-        rotate(180deg)
-        scale(0);
-    transition:
-        opacity 0.3s ease,
-        transform 0.3s ease;
 }
 .dashboard__sidebar-link:hover::after {
     opacity: 1;
@@ -153,7 +145,6 @@
     .dashboard__sidebar-link {
         justify-content: center;
         padding: 0;
-        aspect-ratio: 1;
     }
     .app__dashboard-bottom {
         padding: 0.5rem;

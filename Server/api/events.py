@@ -1,9 +1,6 @@
-from flask import request
-from flask_socketio import SocketIO, emit
-import dotenv
 import os
+from flask_socketio import SocketIO, emit
 
-dotenv.load_dotenv()
 socketio = SocketIO(cors_allowed_origins="*", logger=False)
 
 # CLIENT NAMESPACE
@@ -20,12 +17,6 @@ def connect_event():
 def handle_message(data):
     print("message: ", data)
     return {"message": "got data"}
-
-""" 
--------------
-#############
--------------
-"""
 
 # READINGS NAMESPACE
     

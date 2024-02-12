@@ -7,10 +7,10 @@ from pathlib import Path
 from helpers.server_path import getServerPath
 from models.model import create_tables, random_populate_db
 
-# loading .env file needs verbose and override
-# if not set variables changed after loading are not available
-dotenv_file = dotenv.find_dotenv(os.environ["ENV_FILE"])
-dotenv.load_dotenv(dotenv_path=dotenv_file, verbose=True, override=True)
+# loading .env file needs override
+# if not set variables changed after loading are not overridden
+dotenv_file = dotenv.find_dotenv(".env.dev")
+dotenv.load_dotenv(dotenv_path=dotenv_file, override=True)
 
 def checkPaths(obj):
     for key in obj.keys():
@@ -61,6 +61,7 @@ def create_default():
     createDir()
     createDb()
     create_tables()
+    
 """ 
 FLASK CLI FOR CREATING BASE FILE STRUCTURE
 FOR DATA STORAGE

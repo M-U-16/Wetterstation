@@ -1,3 +1,6 @@
+# config import
+import settings.env_config as config
+
 # flask and flask utils
 from flask import Flask
 from flask_cors import CORS
@@ -5,8 +8,6 @@ from flask_cors import CORS
 from api.events import socketio
 # api endpoints
 from api.api_router import api_bp
-# config import
-import settings.env_config as config
 # commands
 from command import register_commands
 # views

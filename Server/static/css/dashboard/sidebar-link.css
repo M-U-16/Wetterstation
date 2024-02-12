@@ -1,9 +1,13 @@
 .dashboard__sidebar-link {
     padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    font-size: 1.2rem;
 }
 .dashboard__sidebar-link svg {
-    width: 1.7rem;
-    height: 1.7rem;
+    width: 1.3rem;
+    height: 1.3rem;
+    /* display: none; */
 }
 
 .dark-theme #chart-icon  {

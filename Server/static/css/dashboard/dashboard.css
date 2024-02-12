@@ -5,18 +5,15 @@
     height: 100vh;
     overflow: hidden;
     background: var(--primary-clr);
-    font-family: "Roboto Mono";
 }
 .app__dashboard-content {
     padding: 1rem;
-    /* min-width: 0; */
     overflow-y: auto;
 }
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
 }
-
 /* Track */
 ::-webkit-scrollbar-track {
     background: #171717;

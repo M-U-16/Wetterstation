@@ -1,11 +1,14 @@
 import os
+import sys
 import sqlite3
-from dotenv import load_dotenv
-from settings import ENV_FILE
 
-#loading .env variables
-load_dotenv(ENV_FILE)
 DB_PATH = os.getenv("DATABASE_PATH")
+if not DB_PATH: sys.exit(
+    """
+    Path to database is not defined
+    --> models/__init__.py <--
+    """
+)
 
 #function for converting
 #tuple into dict

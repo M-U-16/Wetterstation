@@ -33,11 +33,6 @@
   --gradient: linear-gradient(90deg, #456fe8, #19b0ec);
   --default-border: 1px solid rgba(128, 128, 128, 0.385);
   --default-box-shadow: none;
-  
- /*  --primary-clr: #05121B;
-  --secondary-clr: #1B2831; */
-}
-.blue-theme {
 
 }
 * {
@@ -47,7 +42,7 @@
 }
 body {
   height: auto;
-  font-family: Verdana, Arial, Helvetica, Sans-Serif;
+  font-family: Arial, Helvetica, Sans-Serif;
   color: var(--primary-text-clr);
   background: var(--color-gray-lighter);
 }
@@ -66,7 +61,7 @@ body {
   -ms-user-select: none;      
   user-select: none;
 }
-/* a11y */
+
 .visually-hidden:not(:focus):not(:active) {
   clip: rect(0 0 0 0);
   clip-path: inset(100%);

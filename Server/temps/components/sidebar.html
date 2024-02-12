@@ -1,12 +1,9 @@
 {% macro sidebarLink(content, link, icon, active_link) %}
     <a
         class="dashboard__sidebar-link disable-select"
-        href={{ '/dashboard?ansicht=' + link }}
+        href={{ "/dashboard/" + link }}
     >
         <div class="sidebar__img-container">
-            <!-- {% if icon_src %}
-                <img src="{{ url_for('static', filename='assets/icons/%s' % icon_src) }}">
-            {% endif %} -->
             {{ icon }}
         </div>
         <p>{{ content }}</p>
@@ -17,12 +14,12 @@
     </a>
 {% endmacro %}
 
-{% from "components/sidebar-menu.html" import sidebarMenu %}
 {% from "components/inputs/themeToggle.html" import themeToggle %}
 
 {% from "svgs/live.html" import liveIcon %}
 {% from "svgs/diagramme.html" import diagrammIcon %}
 {% from "svgs/search.html" import searchIcon %}
+{% from "svgs/arrowLeft.html" import arrowLeft %}
 
 {% macro sidebar(active_link) %}
     <div class="app__dashboard-sidebar">
@@ -37,7 +34,7 @@
         </div>
         <div class="app__dashboard-bottom">
             {{ sidebarLink("Suchen", "suchen", searchIcon(), active_link) }}
-            {{ sidebarLink("Live Daten", "live-daten", liveIcon(), active_link) }}
+            {{ sidebarLink("Live Daten", "live", liveIcon(), active_link) }}
             {{ sidebarLink("Diagramme", "diagramme", diagrammIcon(), active_link) }}
         </div>
         {{ themeToggle() }}

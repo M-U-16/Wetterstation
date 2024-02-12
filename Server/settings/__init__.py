@@ -1,1 +1,3 @@
-ENV_FILE = "C:/Users/Maurice/Documents/Projekte/Webseiten/Wetterstation/.env.dev"
+import dotenv
+dotenv_file = dotenv.find_dotenv(".env.dev")
+dotenv.load_dotenv(dotenv_file)

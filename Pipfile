@@ -6,12 +6,10 @@ name = "pypi"
 [packages]
 flask = "*"
 python-dotenv = "*"
-peewee = "*"
 flask-socketio = "*"
 flask-cors = "*"
 socketio-client = "*"
 python-socketio = {extras = ["client"], version = "*"}
-gunicorn = "*"
 environs = "*"
 
 [dev-packages]
