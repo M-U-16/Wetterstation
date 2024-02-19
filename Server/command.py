@@ -1,5 +1,6 @@
 import os
 import sys
+import time
 import click
 import dotenv
 import sqlite3
@@ -7,10 +8,12 @@ from pathlib import Path
 from helpers.server_path import getServerPath
 from models.model import create_tables, random_populate_db
 
-# loading .env file needs override
-# if not set variables changed after loading are not overridden
-dotenv_file = dotenv.find_dotenv(".env.dev")
-dotenv.load_dotenv(dotenv_path=dotenv_file, override=True)
+def updateEnv(func):
+    def func_wrapper(*args, **kwargs):
+        path = os.getenv("ENV_PATH")
+        dotenv.load_dotenv(dotenv_path=path, override=True)
+        func(*args, **kwargs)
+    return func_wrapper
 
 def checkPaths(obj):
     for key in obj.keys():
@@ -28,7 +31,7 @@ def createInitialDatabase(path):
     conn.close()
 
 forward_slash = lambda path: "/".join(path.split("\\"))
-def setEnv(key, value): dotenv.set_key(dotenv_file, key, value)
+def setEnv(key, value): dotenv.set_key(os.getenv("ENV_PATH"), key, value)
 def generatePath(path, name): return str(Path(path, name))
 def checkPath(path, name):
     if os.path.exists(path):
@@ -43,17 +46,16 @@ def createDir(name="data"):
         os.mkdir(path)
         setEnv("DATA_DIR", forward_slash(path))
     else: handleExistingPath("Directory", name)
-    
 
+@updateEnv
 def createDb(name="wetter.sqlite3"):
     path = generatePath(os.getenv("DATA_DIR"), name)
     if checkPath(path, name):
         sqlite3.connect(path).close()
         setEnv("DATABASE_PATH", forward_slash(path))
+        os.environ["DATABASE_PATH"] = dotenv.get_key(os.getenv("ENV_PATH"), "DATABASE_PATH")
     else: handleExistingPath("Database file", name)
-    
-def createTables():
-    create_tables()
+
 def populateDb(amount):
     random_populate_db(amount)
     

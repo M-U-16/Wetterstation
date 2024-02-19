@@ -1,14 +1,11 @@
 import os
-import sys
+import dotenv
 import sqlite3
 
-DB_PATH = os.getenv("DATABASE_PATH")
-if not DB_PATH: sys.exit(
-    """
-    Path to database is not defined
-    --> models/__init__.py <--
-    """
-)
+dotenv.load_dotenv(dotenv_path=os.getenv("ENV_PATH"), override=True)
+print(os.getenv("DATABASE_PATH"))
+
+DATABASE_PATH = os.getenv("DATABASE_PATH")
 
 #function for converting
 #tuple into dict
@@ -29,7 +26,7 @@ def formatResponse(arr):
 def connection(func):
     def func_wrapper(*args, **kwargs):
         #create a connection to the sqlite db
-        connection = sqlite3.connect(DB_PATH)
+        connection = sqlite3.connect(DATABASE_PATH)
         connection.row_factory = sqlite3.Row
         cursor = connection.cursor()
         #execute the func parameter
