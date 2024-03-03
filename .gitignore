@@ -23,6 +23,7 @@ venv
 data
 *.rdb
 *.prod
+*.dev
 
 node_modules/
 temp/

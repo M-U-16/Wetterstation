@@ -22,7 +22,6 @@ def settings():
         else:
             session["pi_settings"] = json.dumps(request.get_json())
             pi_settings = json.loads(session["pi_settings"])
-            """ print(pi_settings) """
             try:
                 """ setSensors(
                     pi_settings["gas_sensor"],

@@ -9,7 +9,6 @@ def wetterdaten():
     
     #database
     data = json.loads(request.get_json())
-    print(data)
     addData(data)
         
     #handling response
