@@ -33,7 +33,7 @@ export function TooltipController(
             let tool_pos_y = yPos-tooltipHeight >= 0
 
             const offset_x = tool_pos_x?MARGIN_LEFT+5:MARGIN_LEFT-tooltipWidth-5
-            const offset_y = tool_pos_y?yPos-16:yPos+tooltipHeight
+            const offset_y = tool_pos_y?yPos-10:yPos+tooltipHeight
 
             circle
                 .attr("cx", xPos)

@@ -48,6 +48,7 @@ async function updateGraphs(graphs, value) {
         graph.updateAxisFormat(
             getAxisFormat(value, graph.config.y_unit, graph.config.y)
         )
+        graph.updateConfig(value)
         graph.updateGraph(0)
     })
 }
