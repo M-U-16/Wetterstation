@@ -16,7 +16,7 @@ export function Select(start_range) {
         timeRangeBtn.classList.toggle(activeButtonClass)
 
         selectContainer.classList.remove(activeContainerClass)
-        indicatorArrow.style.transform = `rotate(${0}deg)`
+        indicatorArrow.style.transform = `translate(0, -50%) rotate(0deg)`
         selectedState = false
     }
 
@@ -28,8 +28,8 @@ export function Select(start_range) {
             selectContainer.classList.toggle(activeContainerClass)
             timeRangeBtn.classList.toggle(activeButtonClass)
 
-            if (!selectedState) indicatorArrow.style.transform = `rotate(${0}deg)`
-            if (selectedState) indicatorArrow.style.transform = `rotate(${180}deg)`
+            if (!selectedState) indicatorArrow.style.transform = `translate(0, -50%) rotate(0deg)`
+            if (selectedState) indicatorArrow.style.transform = `translate(0, -50%) rotate(180deg)`
         })
         /* ADDS CLICK EVENTLISTENER TO EVERY OPTION BUTTON */
         selectOptions.forEach(option => {

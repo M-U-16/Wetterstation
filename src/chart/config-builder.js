@@ -2,7 +2,7 @@ const default_conf = {
     margin: {
         top: 40,
         right: 60,
-        bottom: 40,
+        bottom: 50,
         left: 30
     },
     axis: {

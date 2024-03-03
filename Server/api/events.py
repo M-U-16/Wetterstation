@@ -4,7 +4,6 @@ from flask_socketio import SocketIO, emit
 socketio = SocketIO(cors_allowed_origins="*", logger=False)
 
 # CLIENT NAMESPACE
-
 @socketio.on("connect")
 def connect_event():
     print("Client connected!")
@@ -12,14 +11,8 @@ def connect_event():
 @socketio.on("disconnect")
 def connect_event():
     print("Client Disconnected!")
-    
-@socketio.on("message")
-def handle_message(data):
-    print("message: ", data)
-    return {"message": "got data"}
 
 # READINGS NAMESPACE
-    
 @socketio.on("new-readings", namespace="/readings")
 def send_new_readings(data):
     emit(

@@ -68,21 +68,21 @@ export function LineChart(initial_config) {
 
         // create the x axis:
         x_axis.transition()
-            .duration(duration)
-            .call(
-                d3.axisBottom(x)
-                .tickValues(x.ticks(config.axisFormat.x.ticks))
-                .tickFormat(config.axisFormat.x.timeFormat)
-            )
+        .duration(duration)
+        .call(
+            d3.axisBottom(x)
+            .tickValues(x.ticks(config.axisFormat.x.ticks))
+            .tickFormat(config.axisFormat.x.timeFormat)
+        )
             
         // create the y axis:
         y_axis.transition()
-            .duration(duration)
-            .call(
-                d3.axisRight(y)
-                .ticks(config.axisFormat.y.ticks)
-                .tickFormat(config.axisFormat.y.tickFormat)
-            )
+        .duration(duration)
+        .call(
+            d3.axisRight(y)
+            .ticks(config.axisFormat.y.ticks)
+            .tickFormat(config.axisFormat.y.tickFormat)
+        )
 
         /* GRID LINES */
         // remove all grid lines
@@ -195,6 +195,15 @@ export function LineChart(initial_config) {
         y_axis.attr("transform", `translate(${width}, 0)`)
 
         updateGraph(500)
+
+        // rotate labels when to narrow
+        if (width < 500) {
+            d3.selectAll(`.linechart__x-axis .tick text`)
+            .style("transform", "translateY(10px) translateX(-20px) rotate(-60deg)")
+        } else {
+            d3.selectAll(`.linechart__x-axis .tick text`)
+            .style("transform", "none")
+        }
     }
     function calcWidth() { return config.width - config.margin.left - config.margin.right }
     function calcHeight() { return config.height - config.margin.bottom - config.margin.top }
