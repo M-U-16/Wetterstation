@@ -17,7 +17,7 @@ const styles_conf = {
         area: { opacity: 0.5 },
     },
     temp: { 
-        color: "#ff8080",
+        color: "#ff8080", // #df2f34
         dots: "#f00", //#ff0000
         axis: {
             color: "white",

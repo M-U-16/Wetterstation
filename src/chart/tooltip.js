@@ -27,6 +27,7 @@ export function TooltipController(
             const tooltipWidth = tooltip.node().offsetWidth
             const tooltipHeight = tooltip.node().offsetHeight
             const rectWidth = this.width.animVal.value
+            
 
             let tool_pos_x = xPos+tooltipWidth <= rectWidth
             let tool_pos_y = yPos-tooltipHeight >= 0

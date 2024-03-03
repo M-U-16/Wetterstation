@@ -3,7 +3,6 @@ import dotenv
 # config import
 import settings.env_config as config
 
-
 ENV_PATH = dotenv.find_dotenv(".env.dev")
 os.environ["ENV_PATH"] = ENV_PATH
 dotenv.load_dotenv(dotenv_path=ENV_PATH, override=True, verbose=True)

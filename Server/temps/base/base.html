@@ -11,7 +11,7 @@
     <link rel="stylesheet" href={{ url_for('static', filename='css/index.css') }} media="all" />
     
     {% block styles %}{% endblock styles %}
-    <title>Wetterstation | {% block title %}{% endblock title%}</title>
+    <title>Wetterstation{% block title %}{% endblock title%}</title>
 </head>
 <body id="body">   
     {% block content %}{% endblock content %}
