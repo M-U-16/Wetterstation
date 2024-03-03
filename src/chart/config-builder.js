@@ -31,7 +31,7 @@ const styles_conf = {
         },
     }
 }
-const y_units_conf = {
+const units_conf = {
     temp: "°C",
     humi: "%"
 }
@@ -46,36 +46,36 @@ const value_config = {
             return [start, end]
         }
     },
-    humi: {
-        domain: () => [0, 100]
+    humi: { domain: () => [0, 100] }
+}
+const X_AXIS_FORMATS = {
+    "1m": {
+        x: {
+            ticks: d3.timeWeek.every(1),
+            timeFormat: d3.timeFormat("%e %b")
+        }
+    },
+    "1y": {
+        x: {
+            ticks: d3.timeMonth.every(1),
+            timeFormat: d3.timeFormat("%b")
+        }
+    },
+    "1w": {
+        x: {
+            ticks: d3.timeDay.every(1),
+            timeFormat: d3.timeFormat("%a")
+        }
     }
 }
 export function getAxisFormat(time, unit, y) {
-    const range = { x: {}, y:{}}
-    range.y.domain = value_config[y].domain
+    
+    const format = { ...X_AXIS_FORMATS[time] }
+    format.y = {  ...value_config[y] }
+    format.y.tickFormat = d => isNaN(d)?"":`${d}`+unit
+    format.y.ticks = 6
 
-    if (time === "1m") {
-        range.x.ticks = d3.timeWeek.every(1)
-        range.x.timeFormat = d3.timeFormat("%e %b")
-        range.y.tickFormat =  d => isNaN(d) ? "" : `${d}` + unit
-        range.y.ticks = 6
-        return range
-    }
-    if (time === "1y") {
-        range.x.ticks = d3.timeMonth.every(1)
-        range.x.timeFormat = d3.timeFormat("%b")
-        range.y.tickFormat = d => isNaN(d) ? "" : `${d}` + unit
-        range.y.ticks = 6
-        return range
-
-    }
-    if (time === "1w") {
-        range.x.ticks = d3.timeDay.every(1)
-        range.x.timeFormat = d3.timeFormat("%a")
-        range.y.tickFormat = d => isNaN(d) ? "" : `${d}` + unit
-        range.y.ticks = 6
-        return range
-    }
+    return format
 }
 
 export function getConfig (
@@ -98,10 +98,8 @@ export function getConfig (
         timeRange: timePeriod,
         width: container.offsetWidth,
         height: container.offsetHeight,
-        axisFormat: {
-            ...getAxisFormat(timePeriod, y_units_conf[y], y),
-        },
-        y_unit: y_units_conf[y],
+        axisFormat: getAxisFormat(timePeriod, units_conf[y], y),
+        y_unit: units_conf[y],
         styles: {
             ...styles_conf.default,
             ...styles_conf[y]

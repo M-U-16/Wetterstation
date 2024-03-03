@@ -13,7 +13,6 @@
 }
 .dark-theme .dashboard__graph {
     box-shadow: inset 0px 0px 3px grey;
-    /* background: transparent; */
 }
 .light-theme .dashboard__graph {
     box-shadow: inset 0px 0px 4px grey;

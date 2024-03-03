@@ -3,14 +3,8 @@ import { Select } from "../components/select"
 import { compress_one_year } from "../utils/compress"
 import { getConfig, getAxisFormat } from "../chart/config-builder"
 
-const fetchChartData = async(time) => {
-    return fetch(`/api/data?time=${time}`)
-        .then(res => res.json())
-        .then(res => res.data)
-}
-    
-/* SELECT ELEMENT */
 let current_time = "1y"
+/* SELECT ELEMENT */
 const select = Select(current_time)
 
 drawCharts().then(graphs => {
@@ -56,4 +50,10 @@ async function updateGraphs(graphs, value) {
         )
         graph.updateGraph(0)
     })
+}
+
+async function fetchChartData(time) {
+    return fetch(`/api/data?time=${time}`)
+        .then(res => res.json())
+        .then(res => res.data)
 }

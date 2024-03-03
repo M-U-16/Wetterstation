@@ -19,50 +19,50 @@ export function TooltipController(
         .style("pointer-events", "none")
 
     const rect = svg.append("rect")
-    .attr("class", "svg-listener-rect")
-    .attr("width", width)
-    .attr("height", height)
-    .on("mousemove", function(e) {
-        const {xPos,yPos,d} = calculatePosition(data, e, this)
-        const tooltipWidth = tooltip.node().offsetWidth
-        const tooltipHeight = tooltip.node().offsetHeight
-        const rectWidth = this.width.animVal.value
+        .attr("class", "svg-listener-rect")
+        .attr("width", width)
+        .attr("height", height)
+        .on("mousemove", function(e) {
+            const {xPos,yPos,d} = calculatePosition(data, e, this)
+            const tooltipWidth = tooltip.node().offsetWidth
+            const tooltipHeight = tooltip.node().offsetHeight
+            const rectWidth = this.width.animVal.value
 
-        let tool_pos_x = xPos+tooltipWidth <= rectWidth
-        let tool_pos_y = yPos-tooltipHeight >= 0
+            let tool_pos_x = xPos+tooltipWidth <= rectWidth
+            let tool_pos_y = yPos-tooltipHeight >= 0
 
-        const offset_x = tool_pos_x?MARGIN_LEFT+5:MARGIN_LEFT-tooltipWidth-5
-        const offset_y = tool_pos_y?yPos-16:yPos+tooltipHeight
+            const offset_x = tool_pos_x?MARGIN_LEFT+5:MARGIN_LEFT-tooltipWidth-5
+            const offset_y = tool_pos_y?yPos-16:yPos+tooltipHeight
 
-        circle
-            .attr("cx", xPos)
-            .attr("cy", yPos)
-            .style("opacity", 1)
-            .style("transform", "scale(1)")
-        tooltip
-            .style("top", `${offset_y}px`)
-            .style("left", `${xPos + offset_x}px`)
-            .html(
-                `
-                <p>${d.entry_date.toLocaleString("de-DE").split(",")[0]}</p>
-                <p>${d[config.y]+config.y_unit}</p>
-                `
-            )
-            .transition()
-            .duration(100)
-            .style("opacity", 1)
-            .style("transform", "scale(1)")
-    })
-    .on("mouseleave", () => {
-        tooltip
-            .transition()
-            .duration(100)
-            .style("opacity", 0)
-            .style("transform", "scale(0)")
-        circle
-            .style("opacity", 0)
-            .style("transform", "scale(0)")
-    })
+            circle
+                .attr("cx", xPos)
+                .attr("cy", yPos)
+                .style("opacity", 1)
+                .style("transform", "scale(1)")
+            tooltip
+                .style("top", `${offset_y}px`)
+                .style("left", `${xPos + offset_x}px`)
+                .html(
+                    `
+                    <p>${d.entry_date.toLocaleString("de-DE").split(",")[0]}</p>
+                    <p>${d[config.y]+config.y_unit}</p>
+                    `
+                )
+                .transition()
+                .duration(100)
+                .style("opacity", 1)
+                .style("transform", "scale(1)")
+        })
+        .on("mouseleave", () => {
+            tooltip
+                .transition()
+                .duration(100)
+                .style("opacity", 0)
+                .style("transform", "scale(0)")
+            circle
+                .style("opacity", 0)
+                .style("transform", "scale(0)")
+        })
 
     function calculatePosition(data, e, rect) {
         const [xCoord] = d3.pointer(e, rect)

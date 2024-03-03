@@ -17,13 +17,13 @@ export function LineChart(initial_config) {
 
     /* SVG ELEMENT */
     let svg = d3.select(config.container)
-    .append("svg")
-    .attr("class", "dashboard__graph")
-    .attr("width", config.width) 
-    .attr("height", config.height)
-    .attr("id", config.id)
-    .append("g")
-    .attr("transform", `translate(${margin.left}, ${margin.top})`)
+        .append("svg")
+        .attr("class", "dashboard__graph")
+        .attr("width", config.width) 
+        .attr("height", config.height)
+        .attr("id", config.id)
+        .append("g")
+        .attr("transform", `translate(${margin.left}, ${margin.top})`)
 
     /* GRADIENT */
     const gradient_id = `gradient-graph-${config.y}`
@@ -68,74 +68,74 @@ export function LineChart(initial_config) {
 
         // create the x axis:
         x_axis.transition()
-        .duration(duration)
-        .call(
-            d3.axisBottom(x)
-            .tickValues(x.ticks(config.axisFormat.x.ticks))
-            .tickFormat(config.axisFormat.x.timeFormat)
-        )
+            .duration(duration)
+            .call(
+                d3.axisBottom(x)
+                .tickValues(x.ticks(config.axisFormat.x.ticks))
+                .tickFormat(config.axisFormat.x.timeFormat)
+            )
             
         // create the y axis:
         y_axis.transition()
-        .duration(duration)
-        .call(
-            d3.axisRight(y)
-            .ticks(config.axisFormat.y.ticks)
-            .tickFormat(config.axisFormat.y.tickFormat)
-        )
+            .duration(duration)
+            .call(
+                d3.axisRight(y)
+                .ticks(config.axisFormat.y.ticks)
+                .tickFormat(config.axisFormat.y.tickFormat)
+            )
 
         /* GRID LINES */
         // remove all grid lines
         d3.selectAll(config.container + " .graph__grid-line" ).remove()
         // append all x grid lines
-        let grid_x = svg.selectAll("graph__grid-line-x")
-        .data(x.ticks())
-        .enter()
-        .append("line")
-        .attr("class", "graph__grid-line-x graph__grid-line")
-        .attr("x1", d => x(d))
-        .attr("y1", 0)
-        .attr("x2", d => x(d))
-        .attr("y2", height)
+        svg.selectAll("graph__grid-line-x")
+            .data(x.ticks())
+            .enter()
+            .append("line")
+            .attr("class", "graph__grid-line-x graph__grid-line")
+            .attr("x1", d => x(d))
+            .attr("y1", 0)
+            .attr("x2", d => x(d))
+            .attr("y2", height)
         
         // append all y grid lines
-        let grid_y = svg.selectAll("graph__grid-line-y")
-        .data(y.ticks())
-        .enter()
-        .append("line")
-        .attr("class", "graph__grid-line-y graph__grid-line")
-        .attr("x1", 0)
-        .attr("y1", d => y(d))
-        .attr("x2", width)
-        .attr("y2", d => y(d))
+        svg.selectAll("graph__grid-line-y")
+            .data(y.ticks())
+            .enter()
+            .append("line")
+            .attr("class", "graph__grid-line-y graph__grid-line")
+            .attr("x1", 0)
+            .attr("y1", d => y(d))
+            .attr("x2", width)
+            .attr("y2", d => y(d))
 
         let line = svg.selectAll(".graph__line")
-        .data([data], (d) => d.entry_date)
+            .data([data], (d) => d.entry_date)
         line.enter()
-        .append("path")
-        .attr("class", "graph__line")
-        .merge(line)
-        .transition()
-        .duration(duration)
-        .attr("d", getLine())
-        .attr("fill", "none")
-        .attr("stroke", config.styles.color)
-        .attr("stroke-width", config.styles.line.strokeWidth)
+            .append("path")
+            .attr("class", "graph__line")
+            .merge(line)
+            .transition()
+            .duration(duration)
+            .attr("d", getLine())
+            .attr("fill", "none")
+            .attr("stroke", config.styles.color)
+            .attr("stroke-width", config.styles.line.strokeWidth)
         
         /* ADDING AREA PATH */
         let area = svg.selectAll(".graph__area")
-        .data([data], d => d.entry_date)
+            .data([data], d => d.entry_date)
         area.enter()
-        .append("path")
-        .attr("class", "graph__area")
-        .merge(area)
-        .style("fill", `url(#${gradient_id})`)
-        .style("pointer-events", "none")
-        .style("opacity", 0)
-        .transition()
-        .duration(duration)
-        .attr("d", getArea())
-        .style("opacity", 1)
+            .append("path")
+            .attr("class", "graph__area")
+            .merge(area)
+            .style("fill", `url(#${gradient_id})`)
+            .style("pointer-events", "none")
+            .style("opacity", 0)
+            .transition()
+            .duration(duration)
+            .attr("d", getArea())
+            .style("opacity", 1)
 
         /* 
             UPDATE TOOLTIP
@@ -199,14 +199,11 @@ export function LineChart(initial_config) {
     function calcWidth() { return config.width - config.margin.left - config.margin.right }
     function calcHeight() { return config.height - config.margin.bottom - config.margin.top }
     function addData(obj) { data.push(formatEntry(obj, config.y)) }
+    function setData(arr) { data = formatEntrys(arr, config.y) }
     function updateAxisFormat(newFormat) {
         config.axisFormat = {
             ...newFormat
         }
-    }
-    function setData(arr) {
-        data = formatEntrys(arr, config.y)
-        console.log(data)
     }
 
     return {

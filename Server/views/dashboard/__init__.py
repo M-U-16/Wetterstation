@@ -8,7 +8,7 @@ blueprint = Blueprint("dashboard_bp", __name__, url_prefix="/dashboard")
 def dashboard_live():
     return render_template(
         "dashboard/live.html",
-        active_content="live-daten"
+        active_content="live"
     )
 
 @blueprint.get("/diagramme")
