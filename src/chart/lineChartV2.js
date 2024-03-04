@@ -205,6 +205,7 @@ export function LineChart(initial_config) {
             d3.selectAll(`.linechart__x-axis .tick text`)
             .style("transform", "none")
         }
+        
     }
     function calcWidth() { return config.width - config.margin.left - config.margin.right }
     function calcHeight() { return config.height - config.margin.bottom - config.margin.top }
