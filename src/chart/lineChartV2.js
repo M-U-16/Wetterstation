@@ -197,7 +197,6 @@ export function LineChart(initial_config) {
         updateGraph(500)
 
         // rotate labels when to narrow
-        console.log(config.timeRange)
         if (width < 500 && config.timeRange != "1m") {
             d3.selectAll(`.linechart__x-axis .tick text`)
             .style("transform", "translateY(10px) translateX(-20px) rotate(-60deg)")
