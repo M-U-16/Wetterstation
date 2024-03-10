@@ -1,6 +1,5 @@
 import os
 import sys
-import time
 import click
 import dotenv
 import sqlite3

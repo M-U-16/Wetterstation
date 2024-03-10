@@ -37,14 +37,14 @@ def Record(options, pipe):
             while time.time() < end:
                 file.write(queue.get())
 
-""" options = {
+options = {
     "filename": "test.wav",
     "samplerate": 44100,
     "subtype": "PCM_16",
     "channels": 2,
     "device": 1,
     "duration": 5
-} """
+}
 
 recordProcPipe, recordMainPipe = Pipe(duplex=True)
 recordProc = Process(target=Record, args=(options, recordProcPipe,))

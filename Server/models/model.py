@@ -2,8 +2,6 @@ import os
 import sqlite3
 from pathlib import Path
 from os.path import join
-
-import dotenv
 from helpers.fakeEntrys import getManyRandomDataEntrys
 
 def getConnection():
@@ -21,8 +19,9 @@ def create_tables():
     files = [f for f in os.listdir(schemas)]
     file_paths = list(map(lambda f: join(schemas, f), files))
     for path in file_paths:
+        con.executescript()
         file = open(path, "r")
-        con.execute(file.read())
+        con.executescript(file.read())
         file.close()
         
     con.commit()
