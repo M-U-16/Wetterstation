@@ -7,14 +7,17 @@
 {% block styles %}
     <link rel="stylesheet" href={{ url_for('static', filename='css/dashboard/current-readings.css') }}>
     <link rel="stylesheet" href={{ url_for('static', filename='css/dashboard/entrys.css') }}>
-    <link rel="stylesheet" href={{ url_for('static', filename='css/dashboard/main-graph.css') }}>
 {% endblock styles %}
 {% block content %}
     <div class="app__dashboard-container">
         {{ sidebar(active_content) }}
         <div class="app__dashboard-content">
-            {{ currentReadings(last_entry) }}
-            {{ entrys() }}
+            <div class="dashboard__content-top">
+                {{ currentReadings(last_entry) }}
+            </div>
+            <div class="dashboard__content-bottom">
+                {{ entrys() }}
+            </div>
         </div>
     </div>
 {% endblock content %}

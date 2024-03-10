@@ -1,0 +1,62 @@
+info-popup {
+    position: absolute;
+    top: 0;
+    right: -100%;
+    width: 22rem;
+    height: 3.5rem;
+    opacity: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+
+    animation: slideIn 1s ease;
+    animation-fill-mode: forwards;
+    color: white;
+}
+
+info-popup[data-type="error"] {
+    background-color: rgb(255, 96, 96);
+}
+info-popup[data-type="success"] {
+    background-color: rgb(77, 254, 77);
+}
+
+.info__popup-btn {
+    background-color: transparent;
+    font-size: 1.5rem;
+    border: none;
+    cursor: pointer;
+    font-weight: 800;
+    transform: translateY(-4px);
+    padding: 0.5rem;
+}
+
+.info__popup-slider {
+    width: 100%;
+    height: 3px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: white;
+    transition: width 5s ease;
+}
+
+@keyframes slideOut {
+    0% {
+        right: 0;
+        opacity: 1;
+    }
+    100% {
+        right: -100%;
+        opacity: .5;
+    }
+}
+
+@keyframes slideIn {
+    100% {
+        right: 0;
+        opacity: 1;
+    }
+}

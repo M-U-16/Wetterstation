@@ -10,17 +10,23 @@
     /* display: none; */
 }
 
+.dark-theme #live-icon,
+.dark-theme #search-icon,
 .dark-theme #chart-icon  {
-    fill: lightblue;
+    fill: lightgrey;
+    stroke: lightgrey;
+    
 }
+.light-theme #live-icon,
+.light-theme #search-icon,
 .light-theme #chart-icon  {
-    fill: rgb(0, 191, 255);
-}
-.dark-theme #search-icon {
-    fill: white;
-}
-.light-theme #search-icon {
     fill: black;
+    stroke: black;
+    
+}
+.dashboard__sidebar-link:has(#active-sidebar-indicator) svg {
+    fill: #00AAFF;
+    stroke: #00AAFF;
 }
 
 @media screen and (max-width: 800px) {

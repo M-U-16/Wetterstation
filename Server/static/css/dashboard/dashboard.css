@@ -7,6 +7,23 @@
     background: var(--primary-clr);
 }
 .app__dashboard-content {
-    padding: 1rem;
+    display: grid;
+    grid-template-rows: var(--top-height) 1fr;
+    overflow-y: hidden;
+}
+.dashboard__content-top {
+    background-color: var(--secondary-clr);
+    box-shadow: var(--default-box-shadow);
+    border-bottom: var(--default-border);
+    padding: var(--default-padding);
+
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+.dashboard__content-bottom {
     overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0.5rem;
+    position: relative;
 }

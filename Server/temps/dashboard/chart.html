@@ -10,16 +10,23 @@
         rel="stylesheet"
         href={{ url_for('static', filename='css/graph.css')}}
     />
+    <link
+        rel="stylesheet"
+        href={{ url_for('static', filename='css/info-popup.css')}}
+    />
 {% endblock styles %}
 {% block content %}
 <div class="app__dashboard-container">
     {{ sidebar(active_content) }}
     
     <div class="app__dashboard-content">
-        {{ select() }}
-        
-        <div class="dashboard__graph-container" id="temp-container"></div>
-        <div class="dashboard__graph-container" id="humi-container"></div>
+        <div class="dashboard__content-top">
+            {{ select() }}
+        </div>
+        <div class="dashboard__content-bottom" id="dashboard-right-bottom">
+            <div class="dashboard__graph-container" id="temp-container"></div>
+            <div class="dashboard__graph-container" id="humi-container"></div>
+        </div>
     </div>
 </div>
 {% endblock content %}

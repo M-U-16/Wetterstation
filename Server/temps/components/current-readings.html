@@ -2,40 +2,29 @@
     <div class="app__current-readings">
         <div class="app__current-reading-date">
             <p>
-                Letzte Messung: 
                 <span id="current-date-value">{{ entry.entry_date }}</span>
             </p>
         </div>
         <div class="app__current-readings-container">
-            <div class="current__reading">
-                <div class="current__img-container"></div>
+            <div class="current__reading" data-type="temperature">
+                <div class="current__icon"></div>
                 <div class="current__value-container">
-                    <h1 class="current__value-heading">
-                        Temperatur:
-                    </h1>
                     <p>
                         <span id="current-temp-value">{{ entry.temp }}</span>°C
                     </p>
                 </div>
             </div>
-            <div class="current__reading">
-                <div class="current__img-container"></div>
+            <div class="current__reading" data-type="humidity">
+                <div class="current"></div>
                 <div class="current__value-container">
-                    <h1 class="current__value-heading">
-                        Luftfeuchtigkeit:
-                    </h1>
                     <p><span id="current-humi-value">{{ entry.humi }}</span>%</p>
                 </div>
             </div>
-            <div class="current__reading">
-                <div class="current__img-container"></div>
-                <div class="current__value-container">
-                    <h1 class="current__value-heading">
-                        Helligkeit:
-                    </h1>
+            <div class="current__reading" data-type="lux">
+                <div class="current__icon"></div>
+                <div class="current__value">
                     <p>
-                        <span id="current-lux-value">{{ entry.lux }}</span>lux
-                        <!-- <span id="current-lux-text">HOCH</span> -->
+                        <span id="current-lux-value">{{ entry.lux }}</span>
                     </p>
                 </div>
             </div>
