@@ -24,15 +24,15 @@
 {% macro sidebar(active_link) %}
     <div class="app__dashboard-sidebar">
         <div class="app__dashboard-top">
-            <a class="app__dashboard-link" href="/dashboard">
+            <a class="dashboard__link" href="/dashboard">
                 {{ homeIcon() }}
             </a>
             <div class="dashboard__top-divider"></div>
         </div>
-        <div class="app__dashboard-bottom">
+        <div class="dashboard__bottom">
             {{ sidebarLink("Suchen", "suchen", searchIcon(), active_link) }}
             {{ sidebarLink("Live Daten", "live", liveIcon(), active_link) }}
-            {{ sidebarLink("Diagramme", "diagramme", diagrammIcon(), active_link) }}
+            {{ sidebarLink("Messungen", "messungen", diagrammIcon(), active_link) }}
         </div>
         {{ themeToggle() }}
     </div>

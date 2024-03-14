@@ -15,7 +15,7 @@
     border-bottom: var(--default-border);
     padding: 1rem;
 }
-.app__dashboard-link {
+.dashboard__link {
     width: 2rem;
     height: 2rem;
     font-weight: 600;
@@ -26,7 +26,7 @@
     outline: none;
 }
 
-.app__dashboard-link svg {
+.dashboard__link svg {
     fill: var(--icon-color);
     stroke: var(--icon-color);
 }
@@ -66,7 +66,7 @@
 ------------------------------------------------
 */
 
-.app__dashboard-bottom {
+.dashboard__bottom {
     padding: 1rem;
 }
 .dashboard__sidebar-link {
@@ -146,7 +146,7 @@
         justify-content: center;
         padding: 0;
     }
-    .app__dashboard-bottom {
+    .dashboard__bottom {
         padding: 0.5rem;
     }
     #active-sidebar-indicator {

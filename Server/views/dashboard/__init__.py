@@ -11,11 +11,11 @@ def dashboard_live():
         active_content="live"
     )
 
-@blueprint.get("/diagramme")
+@blueprint.get("/messungen")
 def dashboard_diagramme():
     return render_template(
         "dashboard/chart.html",
-        active_content="diagramme"
+        active_content="messungen"
     )
 
 @blueprint.get("/suchen")
