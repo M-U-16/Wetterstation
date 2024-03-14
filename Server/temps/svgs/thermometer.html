@@ -1,4 +1,4 @@
-{% macro thermometer() %}
+{% macro thermometerIcon() %}
     <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 512 512"
@@ -11,6 +11,12 @@
             stroke-miterlimit="10"
             stroke-width="32"
         />
-        <circle cx="256" cy="384" r="48"/>
+        <circle
+            fill="none"
+            stroke="currentColor"
+            cx="256"
+            cy="384"
+            r="48"
+        />
     </svg>
 {% endmacro %}

@@ -38,6 +38,8 @@
   --default-border: 1px solid rgba(128, 128, 128, 0.385);
   --default-box-shadow: none;
 
+  --icon-color: rgb(240, 240, 240);
+
   color-scheme: dark;
 }
 * {

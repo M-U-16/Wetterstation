@@ -1,7 +1,8 @@
 export const lastEntrys = async() => {
 
-    const tempIcon = document.getElementById("temperature-icon")
-    const humiIcon = document.getElementById("humidity-icon")
+    const tempIcon = document.querySelector(".dashboard__recent-entrys #temperature-icon")
+    const humiIcon = document.querySelector(".dashboard__recent-entrys #humidity-icon-svg")
+    
     const button = document.getElementById("load-more-entrys-button")
     const container = document.querySelector("#recent-entrys-container")
     

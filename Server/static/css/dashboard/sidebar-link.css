@@ -13,8 +13,8 @@
 .dark-theme #live-icon,
 .dark-theme #search-icon,
 .dark-theme #chart-icon  {
-    fill: lightgrey;
-    stroke: lightgrey;
+    fill: var(--icon-color);
+    stroke: var(--icon-color);
     
 }
 .light-theme #live-icon,

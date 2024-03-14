@@ -17,7 +17,6 @@ def graph():
         if request.args["time"] == "1y":
             return jsonify({"data": getYear() })
     except Exception as e:
-        print("Graph: ", e)
-        return {"error": True}
+        return jsonify({"error": True})
     
-    return {"error": True, "message": "COULD_NOT_GET_DATA"}
+    return jsonify({"error": True, "message": "COULD_NOT_GET_DATA"})

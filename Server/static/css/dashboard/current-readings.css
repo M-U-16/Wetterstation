@@ -1,25 +1,28 @@
 .app__current-readings-container {
     display: flex;
+    align-items: center;
 }
+.current__reading {
+    display: flex;
+    align-items: center;
+    margin: 0 0.2rem;
+}
+
 .app__current-reading-date p {
-    padding: 0.5rem 0.2rem;
+    padding: 0.2rem 0.2rem;
     border-radius: 5px;
     font-size: 0.8rem;
 }
 
-.current__value-container h1 {
-    font-size: 1rem;
+.current__reading svg {
+    width: 1.2rem;
+    height: 1.2rem;
 }
+
 .app__current-readings-container {
     grid-template-columns: 1fr;
 }
-.current__value-container {
-    display: flex;
-}
-.current__value-container p {
-    margin-left: 0.5rem;
-}
 
-.current__reading {
-    
+.current__value-container p {
+    margin-left: 0rem;
 }

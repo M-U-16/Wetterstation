@@ -22,18 +22,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    /* padding: 0.5rem; */
     border-radius: var(--border-radius);
     outline: none;
 }
-.light-theme .app__dashboard-link {
-    filter: invert(360);
+
+.app__dashboard-link svg {
+    fill: var(--icon-color);
+    stroke: var(--icon-color);
 }
 
-.app__dashboard-link img {
-    height: 100%;
-    width: 100%;
-}
 .app__dashboard-heading {
     display: flex;
     justify-content: center;

@@ -1,7 +1,10 @@
 info-popup {
     position: absolute;
     top: 0;
-    right: -100%;
+    /* right: -100%; */
+    right: 0;
+    transform: translateX(100%);
+
     width: 22rem;
     height: 3.5rem;
     opacity: 0;
@@ -45,18 +48,18 @@ info-popup[data-type="success"] {
 
 @keyframes slideOut {
     0% {
-        right: 0;
+        transform: none;
         opacity: 1;
     }
     100% {
-        right: -100%;
+        transform: translateX(100%);
         opacity: .5;
     }
 }
 
 @keyframes slideIn {
     100% {
-        right: 0;
+        transform: none;
         opacity: 1;
     }
 }

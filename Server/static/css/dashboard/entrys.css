@@ -51,14 +51,14 @@
 ##############
 --------------
 */
-.app__icon-temperature,
-.app__icon-humidity {
+.dashboard__recent-entrys .icon-temperature,
+.dashboard__recent-entrys .icon-humidity {
     margin-right: 0.2rem;
 }
 
-.app__icon-temperature path {
+.dashboard__recent-entrys .icon-temperature path {
     fill: rgb(255, 59, 59);
 }
-.app__icon-humidity path {
+.dashboard__recent-entrys .icon-humidity path {
     fill: rgb(36, 160, 255);
 }
