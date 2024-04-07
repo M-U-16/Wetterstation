@@ -8,6 +8,7 @@ querys = {
     "get-month":  "select * from wetterdaten where entry_date between DATE('now', '-1 month') and DATE('now')",
     "get-year": "select * from wetterdaten where entry_date between DATE('now', '-1 year') and DATE('now')",
     "last-entry": "select * from wetterdaten order by entry_id desc limit 1",
+    "last-by-amount": "select * from wetterdaten desc limit ?",
     "last-5-with-value": "select * from wetterdaten where entry_id < ? order by entry_id desc limit 5", 
     "last-5": "select * from wetterdaten order by entry_id desc limit 5"
 }
@@ -15,9 +16,11 @@ querys = {
 def addData(data):
     data_list = list(data.values())
     queryDb(querys["add-data"], data_list)
-    
 def getTimeRange(firstDate, lastDate):
     return queryDb(querys["time-range"], [firstDate, lastDate])
+def getLastByAmount(amount):
+    return queryDb(querys["last-by-amount"], [amount])
+    
 def getDay(): return queryDb(querys["current-day"])
 def getWeek(): return queryDb(querys["get-week"])
 def getMonth(): return queryDb(querys["get-month"])

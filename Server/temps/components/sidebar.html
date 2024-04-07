@@ -1,39 +1,51 @@
-{% macro sidebarLink(content, link, icon, active_link) %}
+{% macro sidebarLink(content, link, icon) %}
     <a
-        class="dashboard__sidebar-link disable-select"
-        href={{ "/dashboard/" + link }}
+        class="sidebar__link disable-select"
+        href={{ link }}
     >
         <div class="sidebar__img-container">
-            {{ icon }}
+            {% if icon %}
+                {{ icon() }}
+            {% endif %}
         </div>
         <p>{{ content }}</p>
 
-        {% if active_link == link %}
-            <div id="active-sidebar-indicator"></div>
-        {% endif %}
     </a>
 {% endmacro %}
-{% from "components/inputs/themeToggle.html" import themeToggle %}
 
 {% from "svgs/live.html" import liveIcon %}
 {% from "svgs/diagramme.html" import diagrammIcon %}
 {% from "svgs/search.html" import searchIcon %}
 {% from "svgs/arrowLeft.html" import arrowLeft %}
 {% from "svgs/home.html" import homeIcon %}
+{% from "components/inputs/themeToggle.html" import themeToggle %}
 
 {% macro sidebar(active_link) %}
-    <div class="app__dashboard-sidebar">
-        <div class="app__dashboard-top">
-            <a class="dashboard__link" href="/dashboard">
-                {{ homeIcon() }}
-            </a>
-            <div class="dashboard__top-divider"></div>
-        </div>
-        <div class="dashboard__bottom">
-            {{ sidebarLink("Suchen", "suchen", searchIcon(), active_link) }}
-            {{ sidebarLink("Live Daten", "live", liveIcon(), active_link) }}
-            {{ sidebarLink("Messungen", "messungen", diagrammIcon(), active_link) }}
-        </div>
-        {{ themeToggle() }}
-    </div>
+    <aside
+        class="sidebar"
+        x-data="{ open: false }"
+        x-bind:class="open ? 'active' : ''"
+    >
+        <button
+            class="toggle"
+            x-on:click="open=!open"
+        >
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                height="24"
+                viewBox="0 -960 960 960"
+                width="24"
+            >
+                <path
+                    d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"
+                />
+            </svg>
+        </button>
+        <nav>
+            {{ sidebarLink("Dashboard", "/dashboard") }}
+            {{ sidebarLink("Suchen", "/suchen", searchIcon) }}
+            {{ sidebarLink("Live Daten", "/live", liveIcon) }}
+            {{ sidebarLink("Messungen", "/messungen", diagrammIcon) }}
+        </nav>
+    </aside>
 {% endmacro %}

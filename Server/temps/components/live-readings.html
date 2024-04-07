@@ -1,0 +1,33 @@
+{% from "svgs/sun.html" import sunIcon %}
+{% from "svgs/thermometer.html" import thermometerIcon %}
+{% from "svgs/water-drop-outline.html" import waterDropIcon %}
+
+{% macro reading(icon, targetId, type, value, unit) %}
+    <div class="current__reading" data-type="{{ type }}">
+        <div class="current__icon">
+            {{ icon() }}
+        </div>
+        <div class="current__value">
+            <p>
+                <span id="current-{{ targetId }}-value">
+                    {{ value }}
+                </span>{{ unit }}
+            </p>
+        </div>
+    </div>
+{% endmacro %}
+
+{% macro liveReadings(entry) %}
+    <div class="current__readings">
+        <div class="app__current-reading-date">
+            <p>
+                <span id="current-date-value">{{ entry.entry_date }}</span>
+            </p>
+        </div>
+        <div class="readings__container">
+            {{ reading(thermometerIcon, "temp", "temperature", entry.temp, "°C") }}
+            {{ reading(waterDropIcon, "humi", "humidity", entry.humi, "%") }}
+            {{ reading(sunIcon, "lux", "lux", entry.lux, "") }}
+        </div>
+    </div>
+{% endmacro %}

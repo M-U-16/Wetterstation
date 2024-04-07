@@ -1,4 +1,4 @@
-{% extends "base/dashboard_base.html" %}
+{% extends "base/dashboard.base.html" %}
 {% from "components/sidebar.html" import sidebar %}
 {% from "components/inputs/TimeSelect.html" import select %}
 {% block styles %}
@@ -16,21 +16,19 @@
     />
 {% endblock styles %}
 {% block content %}
-<div class="app__dashboard-container">
+<div class="dashboard__container">
     {{ sidebar(active_content) }}
-    
-    <div class="app__dashboard-content">
+    <div class="dashboard__content">
         <div class="dashboard__content-top">
             {{ select() }}
         </div>
         <div class="dashboard__content-bottom" id="dashboard-right-bottom">
-            <div class="dashboard__graph-container" id="temp-container"></div>
-            <div class="dashboard__graph-container" id="humi-container"></div>
+            <div class="graph__container" id="temp-container"></div>
+            <div class="graph__container" id="humi-container"></div>
         </div>
     </div>
 </div>
 {% endblock content %}
 {% block code %}
-
     <script src={{ url_for('static', filename='js/build/dashboard.chart.js') }}></script>
 {% endblock code %}

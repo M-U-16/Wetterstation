@@ -1,8 +1,9 @@
 export function Select(start_range) {
 
+    const selectContainer = document.querySelector("#select-container")
     const timeRangeBtn = document.getElementById("time-select-button")
     const selectOptions = document.querySelectorAll(".app__select-option")
-    const selectContainer = document.querySelector(".app__select-options-container")
+    const optionsContainer = document.querySelector(".app__select-options-container")
     const indicatorArrow = document.querySelector("#select-arrow-icon")
     const timeRangeDisplay = document.querySelector("#time-select-text")
     
@@ -14,19 +15,18 @@ export function Select(start_range) {
     function closeAll() {
 
         timeRangeBtn.classList.toggle(activeButtonClass)
+        optionsContainer.classList.remove(activeContainerClass)
 
-        selectContainer.classList.remove(activeContainerClass)
         indicatorArrow.style.transform = `translate(0, -50%) rotate(0deg)`
         selectedState = false
     }
 
-    function addListeners(optionAction) {
+    function addListeners() {
         /* ADDS EVENTLISTENER TO SELECT BUTTON */
         timeRangeBtn.addEventListener("click", () => {
             selectedState = !selectedState
-            
-            selectContainer.classList.toggle(activeContainerClass)
             timeRangeBtn.classList.toggle(activeButtonClass)
+            optionsContainer.classList.toggle(activeContainerClass)
 
             if (!selectedState) indicatorArrow.style.transform = `translate(0, -50%) rotate(0deg)`
             if (selectedState) indicatorArrow.style.transform = `translate(0, -50%) rotate(180deg)`
@@ -34,17 +34,20 @@ export function Select(start_range) {
         /* ADDS CLICK EVENTLISTENER TO EVERY OPTION BUTTON */
         selectOptions.forEach(option => {
             option.addEventListener("click", () => {
-                //if (option.innerHTML != timeRangeDisplay.innerHTML) {
                 timeRangeDisplay.innerHTML = option.innerHTML
                 timeRangeBtn.dataset.current = option.dataset.value
-                optionAction(option.dataset.value)
+                const clickEvent = new CustomEvent("select:click", {
+                    bubbles: true,
+                    detail: {value: option.dataset.value}
+                })
+                selectContainer.dispatchEvent(clickEvent)
                 closeAll()
             })
         })
     }
 
-    function init(func) {
-        addListeners(func)
+    function init() {
+        addListeners()
         timeRangeBtn.dataset.current = start_range
         selectOptions.forEach(option => {
             if (option.dataset.value == start_range) {

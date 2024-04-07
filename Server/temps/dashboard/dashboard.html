@@ -1,25 +1,28 @@
-{% extends "base/dashboard_base.html" %}
+{% extends "base/dashboard.base.html" %}
 {% from "components/sidebar.html" import sidebar %}
 {% from "components/entrys.html" import entrys %}
-{% from "components/current-readings.html" import currentReadings %}
+{% from "components/live-readings.html" import liveReadings %}
 
 {% block title %}Dashboard{% endblock title %}
 {% block styles %}
-    <link rel="stylesheet" href={{ url_for('static', filename='css/dashboard/current-readings.css') }}>
-    <link rel="stylesheet" href={{ url_for('static', filename='css/dashboard/entrys.css') }}>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/graph.css') }}>
+    <link rel="stylesheet" href={{ url_for('static', filename='css/sidebar.css') }}>
 {% endblock styles %}
 {% block content %}
-    <div class="app__dashboard-container">
-        {{ sidebar(active_content) }}
-        <div class="app__dashboard-content">
-            <div class="dashboard__content-top">
-                {{ currentReadings(last_entry) }}
-            </div>
-            <div class="dashboard__content-bottom">
-                {{ entrys() }}
-            </div>
+
+    {{ sidebar() }}
+    <div
+        class="dashboard__graphs"
+        id="graphs-container"
+    >
+        <div class="graph__container" id="temp-container">
+            <div id="spinner"></div>
+        </div>
+        <div class="graph__container" id="humi-container">
+            <div id="spinner"></div>
         </div>
     </div>
+    
 {% endblock content %}
 {% block code %}
     <script src={{ url_for('static', filename='js/build/dashboard.js') }}></script>

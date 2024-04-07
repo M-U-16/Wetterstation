@@ -18,5 +18,4 @@ def get_entrys():
         entrys = getLastEntrys(request.args["last"])
         return getEntryResponse(entrys)
         
-    except:
-        return {"error": "NO_VALID_ARGUMENT"}
+    except: return {"error": "NO_VALID_ARGUMENT"}

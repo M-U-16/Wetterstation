@@ -1,8 +1,15 @@
 import os
 import sqlite3
+from flask import g
 from pathlib import Path
 from os.path import join
 from helpers.fakeEntrys import getManyRandomDataEntrys
+
+def get_db():
+    db = getattr(g, "_database", None)
+    if db is None:
+        db = g._database = sqlite3.connect(os.getenv("DATABASE_PATH"))
+    return db
 
 def getConnection():
     database_path = os.getenv("DATABASE_PATH")
@@ -19,7 +26,6 @@ def create_tables():
     files = [f for f in os.listdir(schemas)]
     file_paths = list(map(lambda f: join(schemas, f), files))
     for path in file_paths:
-        con.executescript()
         file = open(path, "r")
         con.executescript(file.read())
         file.close()

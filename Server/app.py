@@ -1,5 +1,6 @@
 import os
 import dotenv
+from flask import g
 # config import
 import settings.env_config as config
 
@@ -17,22 +18,35 @@ from api.api_router import api_bp
 # commands
 from command import register_commands
 # views
+from views.live import blueprint as live_bp
 from views.home import blueprint as home_bp
 from views.admin import blueprint as admin_bp
+from views.suchen import blueprint as suchen_bp
 from views.dashboard import blueprint as dasboard_bp
+from views.messugen import blueprint as messungen_bp
 
 def register_extensions(app):
     socketio.init_app(app)
 
 def register_blueprints(app):
-    app.register_blueprint(admin_bp)
-    app.register_blueprint(dasboard_bp)
-    app.register_blueprint(home_bp)
     app.register_blueprint(api_bp)
+    app.register_blueprint(home_bp)
+    app.register_blueprint(live_bp)
+    app.register_blueprint(admin_bp)
+    app.register_blueprint(suchen_bp)
+    app.register_blueprint(dasboard_bp)
+    app.register_blueprint(messungen_bp)
 
 def create_app():
     app = Flask(__name__, template_folder="temps")
     app.config.from_object(config)
+    
+    @app.teardown_appcontext
+    def close_connection(exception):
+        db = getattr(g, '_database', None)
+        if db is not None:
+            db.close()
+    
     #configuring cors
     app.config["CORS_HEADERS"] = "Content-Type"
     cors = CORS(app, resources={r"/api/*": {"origins": "*"}})

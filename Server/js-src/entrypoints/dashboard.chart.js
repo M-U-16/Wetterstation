@@ -2,20 +2,22 @@ import { LineChart } from "../chart/lineChartV2"
 import { Select } from "../components/select"
 import { compress_one_year } from "../utils/compress"
 import { getConfig, getAxisFormat } from "../chart/config-builder"
-import { InfoPopup } from "../elements/info-popup"
+import { InfoPopup } from "../components/info-popup"
 
 localStorage.setItem("theme-mode", "dark-theme")
-
-// TEST
 customElements.define("info-popup", InfoPopup)
-//--------------------------------------------
 
 let current_time = "1y"
+
 /* SELECT ELEMENT */
 const select = Select(current_time)
+select.init()
 
 drawCharts().then(graphs => {
-    select.init((value) => updateGraphs(graphs, value))
+    //select.init((value) => updateGraphs(graphs, value))
+    document.addEventListener("select:click", (event) => {
+        updateGraphs(graphs, event.detail.value)
+    })
 })
 
 async function drawCharts() {

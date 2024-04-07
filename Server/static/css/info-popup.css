@@ -1,7 +1,6 @@
 info-popup {
-    position: absolute;
-    top: 0;
-    /* right: -100%; */
+    position: fixed;
+    top: var(--navbar-height);
     right: 0;
     transform: translateX(100%);
 

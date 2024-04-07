@@ -1,12 +1,15 @@
 from flask import Blueprint, request, jsonify
-from models.db import getDay, getWeek, getMonth, getYear
+from models.db import getDay, getLastByAmount, getWeek, getMonth, getYear
 
 data_route = Blueprint("graph_route", __name__)
 
 @data_route.route("/data", methods=["GET"])
 def graph():
     if len(request.args) == 0:
-        return {"error": True, "message": "NO_TIME_PARAMETER"}
+        return {
+            "error": True,
+            "message": "NO_PARAMETERS"
+        }
     try:
         if request.args["time"] == "1d":
             return jsonify({ "data": getDay() })
@@ -16,7 +19,15 @@ def graph():
             return jsonify({"data": getMonth() })
         if request.args["time"] == "1y":
             return jsonify({"data": getYear() })
-    except Exception as e:
+        
+    except Exception:
+        if request.args["entrys"]:
+            entrys = getLastByAmount(request.args["entrys"])
+            return jsonify({ "data": entrys })
+    except:
         return jsonify({"error": True})
     
-    return jsonify({"error": True, "message": "COULD_NOT_GET_DATA"})
+    return jsonify({
+        "error": True,
+        "message": "COULD_NOT_GET_DATA"
+    })

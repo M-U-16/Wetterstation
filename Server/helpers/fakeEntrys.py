@@ -3,8 +3,9 @@
     DATABASE AND WEBPAGE TESTING
     -----------------------------------------------
 """
-from datetime import datetime, timedelta
 import random
+from datetime import datetime, timedelta
+
 #just returns new object with random sensor values
 def getEntry(date):
     return {
@@ -21,13 +22,21 @@ def getEntry(date):
         "pm25": random.randint(1, 10),
         "pm100": random.randint(1, 10)
     }
+
 #generates entrys for one year with date
 def EntryGenerator(amount):
     for i in range(amount, 0, -1):
         date = str(datetime.now() - timedelta(days=i)).split(".")[0]
         yield getEntry(date)
+
 #returns a 2 dimensional array with many entrys
 def getManyRandomDataEntrys(amount):
     entrys = [ i for i in EntryGenerator(amount)]
+    
+    for i in range(0, 10):
+        date = str(datetime.now() + timedelta(seconds=i*5)).split(".")[0]
+        print(date)
+        entrys.append(getEntry(date=date))
+    
     return entrys
     

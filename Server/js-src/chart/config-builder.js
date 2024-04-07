@@ -1,9 +1,9 @@
 const default_conf = {
     margin: {
-        top: 40,
+        top: 30,
         right: 60,
-        bottom: 50,
-        left: 30
+        bottom: 40,
+        left: 35
     },
     axis: {
         x: { class: "x-axis" },
@@ -66,9 +66,16 @@ const X_AXIS_FORMATS = {
             ticks: d3.timeDay.every(1),
             timeFormat: d3.timeFormat("%a")
         }
+    },
+    "1d": {
+        x: {
+            ticks: d3.timeSecond.every(10),
+            timeFormat: d3.timeFormat("%H:%M:%S")
+        }
     }
 }
 export function getAxisFormat(time, unit, y) {
+    console.log(unit)
     
     const format = { ...X_AXIS_FORMATS[time] }
     format.y = {  ...value_config[y] }
@@ -78,31 +85,30 @@ export function getAxisFormat(time, unit, y) {
     return format
 }
 
-export function getConfig (
-    container_id,
-    data,
-    x, y,
-    timePeriod,
-    id
-) {
+export function getConfig(options) {
     const container = document
-        .querySelector(container_id)
-
+        .querySelector(options.container_id)
+    
     return {
+        y: options.y,
+        x: options.x,
+        id: options.id,
         ...default_conf,
-        y: y,
-        x: x,
-        id: id,
-        entrys: data,
-        container: container_id,
-        timeRange: timePeriod,
+        entrys: options.data,
         width: container.offsetWidth,
+        y_unit: units_conf[options.y],
+        timeRange: options.timePeriod,
         height: container.offsetHeight,
-        axisFormat: getAxisFormat(timePeriod, units_conf[y], y),
-        y_unit: units_conf[y],
+        responsive: options.responsive,
+        container: options.container_id,
+        axisFormat: getAxisFormat(
+            options.timePeriod,
+            units_conf[options.y],
+            options.y
+        ),
         styles: {
             ...styles_conf.default,
-            ...styles_conf[y]
+            ...styles_conf[options.y]
         } 
     }
 }

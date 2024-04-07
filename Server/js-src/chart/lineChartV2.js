@@ -197,7 +197,11 @@ export function LineChart(initial_config) {
         updateGraph(500)
 
         // rotate labels when to narrow
-        if (width < 500 && config.timeRange != "1m") {
+        if (
+            config.responsive &&
+            width < 500 &&
+            config.timeRange != "1m"
+        ) {
             d3.selectAll(`.linechart__x-axis .tick text`)
             .style("transform", "translateY(10px) translateX(-20px) rotate(-60deg)")
         } else {
@@ -208,7 +212,10 @@ export function LineChart(initial_config) {
     }
     function calcWidth() { return config.width - config.margin.left - config.margin.right }
     function calcHeight() { return config.height - config.margin.bottom - config.margin.top }
-    function addData(obj) { data.push(formatEntry(obj, config.y)) }
+    function addData(obj) {
+        data.push(formatEntry(obj, config.y))
+    }
+    function shiftData() { data.shift() }
     function setData(arr) { data = formatEntrys(arr, config.y) }
     function updateConfig(time) { config.timeRange = time }
     function updateAxisFormat(newFormat) {
@@ -222,6 +229,7 @@ export function LineChart(initial_config) {
         addData,
         setData,
         resize,
+        shiftData,
         updateGraph,
         updateConfig,
         updateAxisFormat
