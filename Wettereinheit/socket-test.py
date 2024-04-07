@@ -26,7 +26,7 @@ def main():
         io.connect(
             "http://localhost:8080",
             namespaces="/readings",
-            auth={"key": "fid222d9349dfkjfkdjf34dfdd2?!"}
+            auth={"key": "1234"}
         )
         # infinite loop for staying connected to server
         # > workaround < io.wait() not possible
