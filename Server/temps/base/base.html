@@ -2,19 +2,22 @@
 <html lang="de">
 <head>
     <meta charset="utf-8" />
-    <meta name="theme-color" content="#b0b0b0" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href={{ url_for('static', filename='assets/images/logo-wriezen.png') }}/>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href={{ url_for('static', filename='assets/images/fish.png') }}/>
+    
     <link rel="stylesheet" href={{ url_for('static', filename='css/index.css') }} media="all" />
+    <link rel="stylesheet" href={{ url_for('static', filename='css/dashboard/dashboard.css') }} media="all">
+    <link rel="stylesheet" href={{ url_for('static', filename='css/sidebar.css') }}>
     
     {% block styles %}{% endblock styles %}
-    <title>Wetterstation{% block title %}{% endblock title%}</title>
+    <title>Wetterstation {% block title %}{% endblock title %}</title>
 </head>
-<body id="body">   
-    {% block content %}{% endblock content %}
+<body id="body" class="dark-theme">
+    <div id="root">
+        {% block root %}{% endblock root %}
+    </div>
+    
+    <script src={{ url_for('static', filename='js/build/main.js') }}></script>
     {% block code %}{% endblock code %}
 </body>
 </html>

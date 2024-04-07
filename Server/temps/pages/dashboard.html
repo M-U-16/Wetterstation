@@ -3,27 +3,28 @@
 {% from "components/entrys.html" import entrys %}
 {% from "components/live-readings.html" import liveReadings %}
 
-{% block title %}Dashboard{% endblock title %}
+{% block title %}| Dashboard{% endblock title %}
 {% block styles %}
     <link rel="stylesheet" href={{ url_for('static', filename='css/graph.css') }}>
-    <link rel="stylesheet" href={{ url_for('static', filename='css/sidebar.css') }}>
 {% endblock styles %}
-{% block content %}
+{% block root %}
 
     {{ sidebar() }}
-    <div
-        class="dashboard__graphs"
-        id="graphs-container"
-    >
-        <div class="graph__container" id="temp-container">
-            <div id="spinner"></div>
-        </div>
-        <div class="graph__container" id="humi-container">
-            <div id="spinner"></div>
+    <div class="content">
+        <div
+            class="dashboard__graphs"
+            id="graphs-container"
+        >
+            <div class="graph__container" id="temp-container">
+                <div id="spinner"></div>
+            </div>
+            <div class="graph__container" id="humi-container">
+                <div id="spinner"></div>
+            </div>
         </div>
     </div>
     
-{% endblock content %}
+{% endblock root %}
 {% block code %}
     <script src={{ url_for('static', filename='js/build/dashboard.js') }}></script>
 {% endblock code %}

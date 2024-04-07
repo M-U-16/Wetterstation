@@ -13,6 +13,6 @@ def dashboard():
         .strftime("%d.%m.%Y %H:%M:%S")
     )
     return render_template(
-        "dashboard/dashboard.html",
+        "pages/dashboard.html",
         last_entry=result
     )

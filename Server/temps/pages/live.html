@@ -1,11 +1,10 @@
 {% extends "base/dashboard.base.html" %}
 {% from "components/sidebar.html" import sidebar %}
-{% block content %}
-<div class="dashboard__container">
+{% block title %}| Live {% endblock title %}
+{% block root %}
     {{ sidebar(active_content) }}
-    <div class="dashboard__content">
+    <div class="content">
         <h1 style="color: white;">Live Daten</h1>
     </div>
-</div>
-{% endblock content %}
+{% endblock root %}
 {% block code %}{% endblock code %}

@@ -21,6 +21,22 @@ export default [
         ]
     },
     {
+        input: BASE_INPUT_PATH + "d3-util.js",
+        output: [
+            {
+                dir: BASE_OUTPUT_PATH + "min",
+                entryFileNames: "[name].min.js",
+                format: "iife",
+                plugins: [terser()],
+            },
+            {
+                dir: BASE_OUTPUT_PATH,
+                entryFileNames: "[name].js",
+                format: "iife",
+            }
+        ]
+    },
+    {
         input: BASE_INPUT_PATH + "dashboard.chart.js",
         output: [
             {

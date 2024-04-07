@@ -1,19 +1,22 @@
-.dashboard__container {
+/* .dashboard__container {
     width: 100%;
     display: grid;
     height: 100vh;
     overflow: hidden;
     background: var(--primary-clr);
     grid-template-columns: auto 1fr;
-}
+} */
 
-.dashboard__content {
+.content {
     display: grid;
     grid-template-rows: var(--top-height) 1fr;
     overflow-y: hidden;
+    width: 100%;
+    min-height: 100vh;
+    padding-top: 3rem;
 }
 
-.dashboard__content-top {
+.content-top {
     background-color: var(--secondary-clr);
     box-shadow: var(--default-box-shadow);
     border-bottom: var(--default-border);
@@ -24,7 +27,7 @@
     align-items: center;
 }
 
-.dashboard__content-bottom {
+.content-bottom {
     padding: 0.5rem;
     overflow-y: auto;
     overflow-x: hidden;
