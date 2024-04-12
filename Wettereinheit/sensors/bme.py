@@ -1,4 +1,3 @@
-import time
 import smbus2
 import bme280
 from datetime import datetime
@@ -17,7 +16,7 @@ class BME:
     # reads the current temperature, humidity and
     # pressure and if set to true(default) also adds current date
     # -----------------------------------------------------------
-    def read(self, date=True):
+    def read_all(self, date=True):
         sample = bme280.sample(
             self.bus,
             self.address,
@@ -31,27 +30,14 @@ class BME:
         if date: data["date"] = datetime.now()
         return data
 
-    # handler for messages from pipe
-    # in start method
-    # -> expects message from main process
-    # ------------------------------------
-    def handleMsg(self, msg):
-        if msg == "stop-running":
-            self.running = False
-
-    # continuously reads bme sensor data
-    # and puts it on a queue for the main process
-    # -> should be started in external process
-    # -------------------------------------------
-    def start(self, msgPipe, dataQueue):
-        self.running = True
-
-        while self.running:
-            #check if process should end
-            if msgPipe.poll():
-                self.handleMsg(msgPipe.recv())
-
-            data = self.read(True)
-            dataQueue.put(data)
-            time.sleep(self.timeout)
-        msgPipe.send("process-stopped")
+    def read_temp(self):
+        data = self.read_all(date=False)
+        return data["temp"]
+    
+    def read_humi(self):
+        data = self.read_all(date=False)
+        return data["humi"]
+    
+    def read_temp(self):
+        data = self.read_all(date=False)
+        return data["pressure"]
