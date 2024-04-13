@@ -13,9 +13,7 @@ class BME:
             self.address
         )
 
-    # reads the current temperature, humidity and
-    # pressure and if set to true(default) also adds current date
-    # -----------------------------------------------------------
+    # reads the current temperature, humidity and pressure
     def read_all(self, date=True):
         sample = bme280.sample(
             self.bus,
@@ -30,14 +28,6 @@ class BME:
         if date: data["date"] = datetime.now()
         return data
 
-    def read_temp(self):
-        data = self.read_all(date=False)
-        return data["temp"]
-    
-    def read_humi(self):
-        data = self.read_all(date=False)
-        return data["humi"]
-    
-    def read_temp(self):
-        data = self.read_all(date=False)
-        return data["pressure"]
+    def read_temp(self): return self.read_all(date=False).temp
+    def read_humi(self): return self.read_all(date=False).humi
+    def read_temp(self): return self.read_all(date=False).pressure

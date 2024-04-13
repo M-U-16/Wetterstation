@@ -2,29 +2,27 @@ import os
 import sqlite3
 from flask import g
 from pathlib import Path
-from os.path import join
+from os.path import join as path_join
 from helpers.fakeEntrys import getManyRandomDataEntrys
 
 def get_db():
     db = getattr(g, "_database", None)
     if db is None:
-        db = g._database = sqlite3.connect(os.getenv("DATABASE_PATH"))
+        db = g._database = sqlite3.connect(os.getenv("WETTER_DATABASE_PATH"))
     return db
 
-def getConnection():
-    database_path = os.getenv("DATABASE_PATH")
-    
-    #create a connection to the sqlite db
-    connection = sqlite3.connect(database_path)
+def getConnection(db_path):
+    #create a connection to the sqlite db pass to it
+    connection = sqlite3.connect(db_path)
     connection.row_factory = sqlite3.Row
     return connection
     
-def create_tables():
-    con = getConnection()
+def create_all_tables(db_path, schema):
+    con = getConnection(db_path)
     
-    schemas = join(Path(__file__).parent.absolute(), "schemas")
-    files = [f for f in os.listdir(schemas)]
-    file_paths = list(map(lambda f: join(schemas, f), files))
+    path_sql_files = path_join(Path(__file__).parent.absolute(), "schemas", schema)
+    files = [f for f in os.listdir(path_sql_files)]
+    file_paths = list(map(lambda f: path_join(path_sql_files, f), files))
     for path in file_paths:
         file = open(path, "r")
         con.executescript(file.read())
@@ -32,9 +30,20 @@ def create_tables():
         
     con.commit()
     con.close()
+    
+def create_table(db_path, table_path):
+    con = getConnection(db_path)
+    
+    file = open(table_path, "r")
+    con.executescript(file.read())
+    file.close()
+    
+    con.commit()
+    con.close()
+    
 
 def random_populate_db(amount):
-    con = getConnection()
+    con = getConnection(os.getenv("WETTER_DATABASE_PATH"))
     
     data = getManyRandomDataEntrys(amount)
     sql = genrateSql(
@@ -57,4 +66,3 @@ def genrateSql(sql_format, keys):
         columns_string += i + ("," if idx+1 != length else "")
         values_string += "?," if idx+1 != length else "?"
     return sql_format.format(columns_string, values_string)
-

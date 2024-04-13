@@ -1,23 +1,19 @@
-from settings import SETTINGS
 from time import sleep
-from datetime import datetime
 from bme280 import BME280
 from enviroplus import gas
+from settings import SETTINGS
+from datetime import datetime
 from enviroplus.noise import Noise
-from pms5003 import PMS5003, ReadTimeoutError as pmsReadTimeoutError
 assert SETTINGS["gas_sensor"] or not particulate_sensor
+from pms5003 import PMS5003, ReadTimeoutError as pmsReadTimeoutError
 
 try:
-    # Transitional fix for breaking change in LTR559
     from ltr559 import LTR559
     ltr559 = LTR559()
-except ImportError:
-    import ltr559
+except ImportError: import ltr559
     
-try:
-    from smbus2 import SMBus
-except ImportError:
-    from smbus import SMBus
+try: from smbus2 import SMBus
+except ImportError: from smbus import SMBus
 
 bus = SMBus(1)
 # BME280 temperature, humidity and pressure sensor
@@ -76,8 +72,7 @@ def read_data():
                 break
             except RuntimeError as e:
                 print("Particle read failed:", e.__class__.__name__)
-                if not run_flag:
-                    raise e
+                if not run_flag: raise e
                 pms5003.reset()
                 sleep(30)
         pm100 = particles.pm_ug_per_m3(10)
@@ -93,10 +88,6 @@ def read_data():
         'humi' : round(humidity,1),
         'pres' : round(pressure,1),
         'lux'  : round(lux),
-        'high' : round(high,2),
-        'mid'  : round(mid,2),
-        'low'  : round(low,2),
-        'amp'  : round(amp,2),        
         'oxi'  : oxi,
         'red'  : red,
         'nh3'  : nh3,

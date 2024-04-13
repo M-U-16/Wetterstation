@@ -4,8 +4,9 @@ import click
 import dotenv
 import sqlite3
 from pathlib import Path
+from os.path import join as path_join
 from helpers.server_path import getServerPath
-from models.model import create_tables, random_populate_db
+from models.model import create_all_tables, random_populate_db
 
 def updateEnv(func):
     def func_wrapper(*args, **kwargs):
@@ -23,11 +24,6 @@ def handleExistingPath(path_type, name):
     message = f">> {path_type} '{name}' already exists!\n Create next? (J/N):"
     if input(message) == "J": return True
     sys.exit(">> Programm stopped!")
-
-def createInitialDatabase(path):
-    #creating the database file
-    conn = sqlite3.connect(path)
-    conn.close()
 
 forward_slash = lambda path: "/".join(path.split("\\"))
 def setEnv(key, value): dotenv.set_key(os.getenv("ENV_PATH"), key, value)
@@ -47,12 +43,12 @@ def createDir(name="data"):
     else: handleExistingPath("Directory", name)
 
 @updateEnv
-def createDb(name="wetter.sqlite3"):
+def createDb(envVarName, name="wetter.sqlite3"):
     path = generatePath(os.getenv("DATA_DIR"), name)
     if checkPath(path, name):
         sqlite3.connect(path).close()
-        setEnv("DATABASE_PATH", forward_slash(path))
-        os.environ["DATABASE_PATH"] = dotenv.get_key(os.getenv("ENV_PATH"), "DATABASE_PATH")
+        setEnv(envVarName, forward_slash(path))
+        os.environ[envVarName] = dotenv.get_key(os.getenv("ENV_PATH"), envVarName)
     else: handleExistingPath("Database file", name)
 
 def populateDb(amount):
@@ -60,8 +56,10 @@ def populateDb(amount):
     
 def create_default():
     createDir()
-    createDb()
-    create_tables()
+    createDb(envVarName="WETTER_DATABASE_PATH" ,name="wetter.sqlite3")
+    create_all_tables(os.getenv("WETTER_DATABASE_PATH"), schema="wetter")
+    createDb(envVarName="DATA_DATABASE_PATH", name="data.sqlite3")
+    create_all_tables(os.getenv("DATA_DATABASE_PATH"), schema="data")
     
 """ 
 FLASK CLI FOR CREATING BASE FILE STRUCTURE
@@ -79,8 +77,8 @@ def register_commands(app):
     @click.argument("name")
     def cli_createDb(name):
         """ 
-            CREATES A NEW DATABASE IN
-            THE DATA DIRECTORY
+        CREATES A NEW DATABASE IN
+        THE DATA DIRECTORY
         """
         createDb(name)
         
@@ -88,24 +86,23 @@ def register_commands(app):
     @app.cli.command("create-tables")
     def cli_createTables():
         """ 
-            CREATES A ALL TABLES IN THE DATABASE
+        CREATES A ALL TABLES IN THE DATABASE
         """
-        create_tables()
+        create_all_tables()
         
     @app.cli.command("populate-db")
     @click.option("-a", "--amount", type=click.INT, default=365)
     def cli_populate_db(amount):
         """ 
-            COMMAND FOR INSERTING RANDOM VALUES IN
-            THE DATABASE FOR TESTING PURPOSES
+        COMMAND FOR INSERTING RANDOM VALUES IN
+        THE DATABASE FOR TESTING PURPOSES
         """
         populateDb(amount)
     
     @app.cli.command("create-default")
     def cli_create_default():
-        
         """ 
-            COMMAND FOR CREATING DEFAULT DATA DIRECTORY,
-            DATABASE AND TABLES
+        COMMAND FOR CREATING DEFAULT DATA DIRECTORY,
+        DATABASE AND TABLES
         """
         create_default()

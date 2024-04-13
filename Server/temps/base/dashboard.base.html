@@ -6,13 +6,13 @@
     <link rel="shortcut icon" href={{ url_for('static', filename='assets/images/fish.png') }}/>
     
     <link rel="stylesheet" href={{ url_for('static', filename='css/index.css') }} media="all" />
-    <link rel="stylesheet" href={{ url_for('static', filename='css/dashboard/dashboard.css') }} media="all">
+    <link rel="stylesheet" href={{ url_for('static', filename='css/dashboard.css') }} media="all">
     <link rel="stylesheet" href={{ url_for('static', filename='css/sidebar.css') }}>
     
     {% block styles %}{% endblock styles %}
     <title>Wetterstation {% block title %}{% endblock title %}</title>
 </head>
-<body id="body" class="dark-theme">
+<body id="body" class="light-theme">
     <div id="root">
         {% block root %}{% endblock root %}
     </div>

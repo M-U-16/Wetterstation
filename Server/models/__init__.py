@@ -3,7 +3,7 @@ import dotenv
 import sqlite3
 
 dotenv.load_dotenv(dotenv_path=os.getenv("ENV_PATH"), override=True)
-DATABASE_PATH = os.getenv("DATABASE_PATH")
+DATABASE_PATH = os.getenv("WETTER_DATABASE_PATH")
 
 #function for converting
 #tuple into dict

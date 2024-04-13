@@ -14,6 +14,7 @@
 {% endmacro %}
 
 {% from "svgs/live.html" import liveIcon %}
+{% from "svgs/square-chart.html" import squareChartIcon %}
 {% from "svgs/diagramme.html" import diagrammIcon %}
 {% from "svgs/search.html" import searchIcon %}
 {% from "svgs/arrowLeft.html" import arrowLeft %}
@@ -41,8 +42,9 @@
                 />
             </svg>
         </button>
+        <div class="sidebar__top"></div>
         <nav>
-            {{ sidebarLink("Dashboard", "/dashboard") }}
+            {{ sidebarLink("Dashboard", "/dashboard", squareChartIcon) }}
             {{ sidebarLink("Suchen", "/suchen", searchIcon) }}
             {{ sidebarLink("Live Daten", "/live", liveIcon) }}
             {{ sidebarLink("Messungen", "/messungen", diagrammIcon) }}
