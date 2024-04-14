@@ -1,23 +1,20 @@
 import sys
 import time
 import socketio
-from helpers.ReadFakeData import read_fake_data
+from helpers.fakeData import read_fake_data
 
 LOGGER = False
 # creating socketio instance
 io = socketio.Client(logger=LOGGER, engineio_logger=LOGGER)
 
-def send_readings(data):
-    io.emit("new-readings", data, namespace="/readings")
+def send_readings(data): io.emit("new-readings", data, namespace="/readings")
 
 # event for getting messages
 @io.on("msg-server", namespace="/readings")
-def readings(msg):
-    print("data: ", msg)
+def readings(msg): print("data: ", msg)
 
 @io.event(namespace="/readings")
-def connect():
-    print(">> Connected to server!")
+def connect(): print(">> Connected to server!")
 
 def main():
     print("--- CTRL + C TO EXIT ---")
@@ -45,6 +42,5 @@ def main():
         print("- ctrl + c -")
         print(">> Disconnected from server!")
         sys.exit("--- PROGRAMM STOPPED ---") # programm exit
-        
-if __name__ == "__main__":
-    main()
+    
+if __name__ == "__main__": main()
