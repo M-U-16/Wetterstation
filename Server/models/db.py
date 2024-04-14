@@ -1,7 +1,8 @@
 from models import queryDb
+from models.model import generateSql
 
 querys = {
-    "add-data": "INSERT INTO wetterdaten(entry_date, temp, humi, pres, lux) VALUES (?, ?, ?, ?, ?)",
+    "add-data": "INSERT INTO wetterdaten(entry_date, temp, humi, pres, lux, pm10, pm25, pm100) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
     "current-day": "select * from wetterdaten where entry_date=Date('now')",
     "time-range": "select * from wetterdaten where entry_date between ? and ?",
     "get-week": "select * from wetterdaten where entry_date between DATE('now', '-7 days') and DATE('now')",
@@ -42,5 +43,13 @@ def getLastEntrys(last=None):
     result = queryDb(querys["last-5"])
     return result, get_last(result)
 
-
-    
+def addGases(data):
+    return queryDb(
+        querys_gases["add-data"],
+        [
+            data["entry_date"],
+            data["oxi"],
+            data["red"],
+            data["nh3"]
+        ]
+    )

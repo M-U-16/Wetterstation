@@ -1,4 +1,6 @@
 import os
+import json
+from models.db import addGases, addEntry
 from flask_socketio import SocketIO, emit
 
 socketio = SocketIO(cors_allowed_origins="*",logger=False)
@@ -19,12 +21,12 @@ def readings_connect(auth):
 
 @socketio.on("new-readings", namespace="/pi")
 def send_new_readings(readings_data):
-    print("new reading: ", readings_data)
+    addEntry(readings_data)
     emit("new-reading", readings_data, namespace="/", broadcast=True)
     
 @socketio.on("new-gas", namespace="/pi")
 def new_gas(gas_data):
-    print("new gas: ", gas_data)
+    addGases(gas_data)
     emit("new-gas", gas_data, namespace="/", broadcast=True)
    
 @socketio.on("disconnect", namespace="/pi")

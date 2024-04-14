@@ -1,8 +1,8 @@
 import socketio
 
 class SocketIoClient:
-    def __init__(self, logger):
-        self.io = socketio.Client(logger=logger, engineio_logger=logger)
+    def __init__(self):
+        self.io = socketio.Client(logger=False, engineio_logger=False)
 
     # method for sending new readings
     def send_readings(self, data):
@@ -16,8 +16,8 @@ class SocketIoClient:
             self.io.emit("new-gas", data, namespace="/pi")
         except Exception as e: print("ERROR: ", e)
     
-def get_client(logger):
-    client = SocketIoClient(logger)
+def get_client():
+    client = SocketIoClient()
 
     # event for getting messages
     @client.io.on("msg-server", namespace="/pi")

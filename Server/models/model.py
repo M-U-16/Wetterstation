@@ -46,7 +46,7 @@ def random_populate_db(amount):
     con = getConnection(os.getenv("WETTER_DATABASE_PATH"))
     
     data = getManyRandomDataEntrys(amount)
-    sql = genrateSql(
+    sql = generateSql(
         "insert into wetterdaten({}) values ({})",
         data[0].keys()
     )
@@ -58,7 +58,7 @@ def random_populate_db(amount):
     con.commit()
     con.close()
 
-def genrateSql(sql_format, keys):
+def generateSql(sql_format, keys):
     columns_string = ""
     values_string = ""
     length = len(keys)

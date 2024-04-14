@@ -7,6 +7,5 @@ CREATE TABLE IF NOT EXISTS wetterdaten (
     lux INTEGER,
     pm10 TEXT,
     pm25 TEXT,
-    pm100 TEXT,
-    noise TEXT
+    pm100 TEXT
 );
