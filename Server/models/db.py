@@ -13,7 +13,11 @@ querys = {
     "last-5": "select * from wetterdaten order by entry_id desc limit 5"
 }
 
-def addData(data):
+querys_gases = {
+    "add-data": "INSERT INTO gas(entry_date, oxi, red, nh3) VALUES (?, ?, ?, ?)"
+}
+
+def addEntry(data):
     data_list = list(data.values())
     queryDb(querys["add-data"], data_list)
 def getTimeRange(firstDate, lastDate):
@@ -37,5 +41,6 @@ def getLastEntrys(last=None):
     
     result = queryDb(querys["last-5"])
     return result, get_last(result)
+
 
     

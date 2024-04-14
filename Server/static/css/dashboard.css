@@ -1,7 +1,7 @@
 .content {
     overflow-y: hidden;
     width: 100%;
-    min-height: 100vh;
+    min-height: calc(100vh - var(--toggle-button-height));
 }
 
 .content-top {
@@ -33,6 +33,10 @@
 }
 
 .dashboard__controls {
+    top: 0;
+    right: 0;
+    z-index: 2;
+    position: sticky;
     height: var(--toggle-button-height);
     margin-left: var(--toggle-button-height);
     width: calc(100% - var(--toggle-button-height));

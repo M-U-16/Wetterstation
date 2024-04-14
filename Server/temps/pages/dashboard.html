@@ -2,6 +2,7 @@
 {% from "components/sidebar.html" import sidebar %}
 {% from "components/entrys.html" import entrys %}
 {% from "components/live-readings.html" import liveReadings %}
+{% from "components/spinner.html" import spinner %}
 
 {% block title %}| Dashboard{% endblock title %}
 {% block styles %}
@@ -10,21 +11,21 @@
 {% block root %}
 
     {{ sidebar() }}
-    <div class="content">
-        <div class="dashboard__controls">
-            <div>
+    <div class="dashboard__controls">
+        <div>
 
-            </div>
         </div>
+    </div>
+    <div class="content">
         <div
             class="dashboard__graphs"
             id="graphs-container"
         >
             <div class="graph__container" id="temp-container">
-                <div id="spinner"></div>
+                {{ spinner() }}
             </div>
             <div class="graph__container" id="humi-container">
-                <div id="spinner"></div>
+                {{ spinner() }}
             </div>
         </div>
     </div>

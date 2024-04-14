@@ -1,0 +1,19 @@
+{% macro spinner() %}
+    <div id="spinner">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 100 100"
+        >
+            <circle
+                r="40"
+                cx="50"
+                cy="50"
+                fill="none"
+                stroke="black"
+                stroke-width="5"
+                stroke-linecap="round"
+                stroke-dasharray="150 200"
+            ></circle>
+        </svg>
+    </div>
+{% endmacro %}

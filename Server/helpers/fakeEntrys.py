@@ -15,9 +15,6 @@ def getEntry(date):
         "pres": 1000,
         "lux": random.randint(1000, 20000),
         "noise": random.choice(["HIGH", "LOW", "MID"]),
-        "oxi": random.randint(1, 10),
-        "red": random.randint(1, 10),
-        "nh3": random.randint(1, 10),
         "pm10": random.randint(1, 10),
         "pm25": random.randint(1, 10),
         "pm100": random.randint(1, 10)
@@ -35,7 +32,6 @@ def getManyRandomDataEntrys(amount):
     
     for i in range(0, 10):
         date = str(datetime.now() + timedelta(seconds=i*5)).split(".")[0]
-        print(date)
         entrys.append(getEntry(date=date))
     
     return entrys

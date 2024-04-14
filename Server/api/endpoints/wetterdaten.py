@@ -1,5 +1,5 @@
 from flask import Blueprint, request
-from models.db import addData
+from models.db import addEntry
 import json
 
 wetterdaten_route = Blueprint("wetterdaten_route", __name__)
@@ -9,7 +9,7 @@ def wetterdaten():
     
     #database
     data = json.loads(request.get_json())
-    addData(data)
+    addEntry(data)
         
     #handling response
     print("wetterdaten erhalten!")

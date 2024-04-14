@@ -14,7 +14,7 @@ from flask_cors import CORS
 # socketio
 from api.events import socketio
 # api endpoints
-from api.api_router import api_bp
+from api import api_bp
 # commands
 from command import register_commands
 # views

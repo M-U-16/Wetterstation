@@ -4,7 +4,6 @@ from flask import Blueprint, render_template
 
 blueprint = Blueprint("dashboard_bp", __name__, url_prefix="/dashboard")
 
-
 @blueprint.get("/")
 def dashboard():
     result =  getLastEntry()[0]
