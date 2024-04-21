@@ -44,13 +44,8 @@
                 />
             </svg>
         </button>
-        <a href="/" class="sidebar__top-link">
-            <div class="icon">
-                {{ homeIcon() }}
-            </div>
-            <p>Startseite</p>
-        </a>
         <nav>
+            {{ sidebarLink("Startseite", "/", homeIcon) }}
             {{ sidebarLink("Dashboard", "/dashboard", barChartIcon) }}
             {{ sidebarLink("Suchen", "/suchen", searchIcon) }}
             {{ sidebarLink("Live Daten", "/live", liveIcon) }}

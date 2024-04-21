@@ -19,8 +19,8 @@ querys_gases = {
 }
 
 def addEntry(data):
-    data_list = list(data.values())
-    queryDb(querys["add-data"], data_list)
+    query = generateSql("INSERT INTO wetterdaten({}) VALUES ({})", data.keys())
+    queryDb(query, list(data.values()))
 def getTimeRange(firstDate, lastDate):
     return queryDb(querys["time-range"], [firstDate, lastDate])
 def getLastByAmount(amount):
