@@ -31,6 +31,7 @@ def getWeek(): return queryDb(querys["get-week"])
 def getMonth(): return queryDb(querys["get-month"])
 def getYear(): return queryDb(querys["get-year"])
 def getLastEntry(): return queryDb(querys["last-entry"])
+def getDate(date): return queryDb("select * from wetterdaten where entry_date=?", [date])
 def printAll(): print(queryDb("select * from wetterdaten"))
 
 def getLastEntrys(last=None):

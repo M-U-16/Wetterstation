@@ -1,0 +1,60 @@
+{% macro MessungsTable(data) %}
+<h1>Messungen</h1>
+<div class="messungen__values">
+    <div class="date" style="display: flex;">
+        <p>Datum: </p>
+        <span>{{ data["entry_date"] }}</span>
+    </div>
+    <div class="temperature" style="display: flex;">
+        <p>Temperatur: </p>
+        <span>{{ data["temp"] }}°C</span>
+    </div>
+    <div class="humidity" style="display: flex;">
+        <p>Luftfeuchtigkeit: </p>
+        <span>{{ data["humi"] }}%</span>
+    </div>
+    <div class="pressure" style="display: flex;">
+        <p>Luftfeuchtigkeit: </p>
+        <span>{{ data["pres"] }}%</span>
+    </div>
+    <div class="pressure" style="display: flex;">
+        <p>Helligkeit: </p>
+        <span>{{ data["lux"] }} lux</span>
+    </div>
+</div>
+{% endmacro %}
+
+{% extends "base/dashboard.base.html" %}
+{% from "components/sidebar.html" import sidebar %}
+{% from "components/inputs/TimeSelect.html" import select %}
+{% block title %}| Messungen {% endblock title %}
+{% block styles %}
+    <link
+        rel="stylesheet"
+        href={{ url_for('static', filename='css/dashboard/select.css')}}
+    />
+    <link
+        rel="stylesheet"
+        href={{ url_for('static', filename='css/graph.css')}}
+    />
+    <link
+        rel="stylesheet"
+        href={{ url_for('static', filename='css/info-popup.css')}}
+    />
+{% endblock styles %}
+{% block root %}
+    {{ sidebar() }}
+    <div class="dashboard__controls">
+        <div>
+
+        </div>
+    </div>
+    <div class="content">
+        {% if entry_data %}
+            {{ MessungsTable(entry_data) }}
+        {% endif %}
+    </div>
+{% endblock root %}
+{% block code %}
+    <script src={{ url_for('static', filename='js/build/dashboard.chart.js') }}></script>
+{% endblock code %}
