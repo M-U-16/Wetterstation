@@ -79,8 +79,6 @@
     fill: none !important;
 }
 
-.dark-theme .sidebar__link:hover {}
-
 .light-theme .sidebar__link:hover {
     background-color: #368aff;
     color: white;

@@ -5,9 +5,9 @@ After=network.target
 [Service]
 User=<user>
 Group=www-data
-WorkingDirectory=/home/<user>/<project>
-Enviroment="PATH=/home/<user>/<project>/venv/bin"
-ExecStart=/home/<user>/<project>/venv/bin/gunicorn --workers 3 --bind unix:<project>.sock -m 007 wsgi:app
+WorkingDirectory=/home/<project>
+Environment="PATH=/home/<project>/venv/bin"
+ExecStart=/home/<project>/venv/bin/gunicorn --workers 3 --bind unix:<project>.sock -m 007 wsgi:app
 
 [Install]
 WantedBy=multi-user.target

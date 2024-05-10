@@ -1,5 +1,6 @@
-from flask import Blueprint, render_template
-from models.db import getDate
+import os
+from models.db import queryDb
+from flask import Blueprint, render_template, request
 
 blueprint = Blueprint(
     "messugen_bp",
@@ -9,22 +10,23 @@ blueprint = Blueprint(
 
 @blueprint.get("/")
 def dashboard_diagramme():
-    
-    
     return render_template(
         "pages/messungen.html",
     )
     
 @blueprint.route("/<date>")
 def date_route(date):
-    print(date)
-    formattedDate = " ".join(date.split("_"))
+    try: limit = request.args["limit"]
+    except: limit = os.getenv("DEFAULT_MESSUNG_LIMIT")
     
-    data = getDate(formattedDate)
-    print(data)
+    formattedDate = " ".join(date.split("_"))
+    data = queryDb(
+        "select * from wetterdaten where entry_date like ? limit ?",
+        ["%{}%".format(formattedDate), limit]
+    )
     if len(data) == 0: return "<h1>Error</h1>"
     
     return render_template(
         "pages/messungen.html",
-        entry_data=data[0]
+        entry_data=data
     )

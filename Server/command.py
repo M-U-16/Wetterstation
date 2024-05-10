@@ -56,10 +56,10 @@ def populateDb(amount):
     
 def create_default():
     createDir()
-    createDb(envVarName="WETTER_DATABASE_PATH" ,name="wetter.sqlite3")
-    create_all_tables(os.getenv("WETTER_DATABASE_PATH"), schema="wetter_tbs")
-    createDb(envVarName="DATA_DATABASE_PATH", name="data.sqlite3")
-    create_all_tables(os.getenv("DATA_DATABASE_PATH"), schema="data_tbs")
+    createDb(envVarName="FLASK_WETTER_DATABASE_PATH" ,name="wetter.sqlite3")
+    create_all_tables(os.getenv("FLASK_WETTER_DATABASE_PATH"), schema="wetter_tbs")
+    createDb(envVarName="FLASK_DATA_DATABASE_PATH", name="data.sqlite3")
+    create_all_tables(os.getenv("FLASK_DATA_DATABASE_PATH"), schema="data_tbs")
     
 """ 
 FLASK CLI FOR CREATING BASE FILE STRUCTURE

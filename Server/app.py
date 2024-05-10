@@ -1,13 +1,3 @@
-import os
-import dotenv
-from flask import g
-# config import
-import settings.env_config as config
-
-ENV_PATH = dotenv.find_dotenv(".env.dev")
-os.environ["ENV_PATH"] = ENV_PATH
-dotenv.load_dotenv(dotenv_path=ENV_PATH, override=True, verbose=True)
-
 # flask and flask utils
 from flask import Flask
 from flask_cors import CORS
@@ -39,17 +29,11 @@ def register_blueprints(app):
 
 def create_app():
     app = Flask(__name__, template_folder="temps")
-    app.config.from_object(config)
-    
-    @app.teardown_appcontext
-    def close_connection(exception):
-        db = getattr(g, '_database', None)
-        if db is not None:
-            db.close()
+    app.config.from_prefixed_env()
     
     #configuring cors
     app.config["CORS_HEADERS"] = "Content-Type"
-    cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
     
     register_blueprints(app)
     register_extensions(app)

@@ -1,15 +1,16 @@
 import os
 import sqlite3
-from flask import g
 from pathlib import Path
+from flask import g, current_app
 from os.path import join as path_join
 from helpers.fakeEntrys import getManyRandomDataEntrys
 
 def get_db():
-    db = getattr(g, "_database", None)
-    if db is None:
-        db = g._database = sqlite3.connect(os.getenv("WETTER_DATABASE_PATH"))
-    return db
+    if "db" not in g:
+        print(current_app.config)
+        #g.db = sqlite3.connect(
+            
+        #)
 
 def getConnection(db_path):
     #create a connection to the sqlite db pass to it
