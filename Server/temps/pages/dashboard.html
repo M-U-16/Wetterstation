@@ -1,6 +1,7 @@
 {% extends "base/dashboard.base.html" %}
 {% from "components/sidebar.html" import sidebar %}
 {% from "components/entrys.html" import entrys %}
+{% from "components/dashboard-navbar.html" import DashboardNavbar %}
 {% from "components/live-readings.html" import liveReadings %}
 {% from "components/spinner.html" import spinner %}
 
@@ -11,11 +12,7 @@
 {% block root %}
 
     {{ sidebar() }}
-    <div class="dashboard__controls">
-        <div>
-
-        </div>
-    </div>
+    {{ DashboardNavbar("Dashboard") }}
     <div class="content">
         <div
             class="dashboard__graphs"

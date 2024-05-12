@@ -1,37 +1,29 @@
-{% macro MessungsTable(data) %}
-    <div class="measurement_table" style="padding: 0.5rem;">
-        <div class="date" style="display: flex;">
-            <p>Datum: </p>
-            <span>{{ data["entry_date"] }}</span>
-        </div>
-        <div class="temperature" style="display: flex;">
-            <p>Temperatur: </p>
-            <span>{{ data["temp"] }}°C</span>
-        </div>
-        <div class="humidity" style="display: flex;">
-            <p>Luftfeuchtigkeit: </p>
-            <span>{{ data["humi"] }}%</span>
-        </div>
-        <div class="pressure" style="display: flex;">
-            <p>Luftdruck: </p>
-            <span>{{ data["pres"] }}hPa</span>
-        </div>
-        <div class="light" style="display: flex;">
-            <p>Helligkeit: </p>
-            <span>{{ data["lux"] }} lux</span>
-        </div>
-    </div>
+{% macro MessungsRow(data) %}
+    <tr class="measurement_row">
+        <td class="date ellipsis">
+            {{ data["entry_date"] }}
+        </td>
+        <td class="temperature entry">
+            {{ data["temp"] }}°C
+        </td>
+        <td class="humidity entry">
+            {{ data["humi"] }}%
+        </td>
+        <td class="pressure entry">
+            {{ data["pres"] }}hPa
+        </td>
+        <td class="light entry">
+            {{ data["lux"] }}lux
+        </td>
+    </tr>
 {% endmacro %}
 
 {% extends "base/dashboard.base.html" %}
 {% from "components/sidebar.html" import sidebar %}
+{% from "components/dashboard-navbar.html" import DashboardNavbar %}
 {% from "components/inputs/TimeSelect.html" import select %}
 {% block title %}| Messungen {% endblock title %}
 {% block styles %}
-    <link
-        rel="stylesheet"
-        href={{ url_for('static', filename='css/dashboard/select.css')}}
-    />
     <link
         rel="stylesheet"
         href={{ url_for('static', filename='css/graph.css')}}
@@ -40,23 +32,38 @@
         rel="stylesheet"
         href={{ url_for('static', filename='css/info-popup.css')}}
     />
+    <link
+        rel="stylesheet"
+        href={{ url_for('static', filename='css/messungen.css')}}
+    />
 {% endblock styles %}
 {% block root %}
     {{ sidebar() }}
-    <div class="dashboard__controls">
-        <div>
-
-        </div>
-    </div>
+    {{ DashboardNavbar("Messungen") }}
     <div class="content">
-        <h1>Messungen</h1>
-        {% if entry_data %}
-            {% for entry in entry_data %}
-                {{ MessungsTable(entry) }}
-            {% endfor %}
-        {% endif %}
+        <div class="messungs__container">
+            {% if entry_data and date %}
+            <table class="messungen__table">
+                <caption>Messungen für <span style="font-style: italic;">'{{ date }}'</span></caption>
+                <thead>
+                    <th>Datum:</th>
+                    <th>Temperatur:</th>
+                    <th class="ellipsis">Luftfeuchtigkeit:</th>
+                    <th>Luftdruck:</th>
+                    <th>Helligkeit:</th>
+                </thead>
+                <tbody>
+                    {% for entry in entry_data %}
+                        {{ MessungsRow(entry) }}
+                    {% endfor %}
+                </tbody>
+            </table>
+            {%  else %}
+                <h1>Keine Daten vorhanden!</h1>
+            {% endif %}
+        </div>
     </div>
 {% endblock root %}
 {% block code %}
-    <script src={{ url_for('static', filename='js/build/dashboard.chart.js') }}></script>
+    <!-- <script src={{ url_for('static', filename='js/build/dashboard.chart.js') }}></script> -->
 {% endblock code %}

@@ -35,6 +35,7 @@ def main():
         
         # infinite loop for staying connected to server
         # via websocket connection
+        # 
         while True: time.sleep(0.1)
             
     except KeyboardInterrupt:

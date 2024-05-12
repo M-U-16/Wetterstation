@@ -26,8 +26,12 @@ def handleExistingPath(path_type, name):
     sys.exit(">> Programm stopped!")
 
 forward_slash = lambda path: "/".join(path.split("\\"))
-def setEnv(key, value): dotenv.set_key(os.getenv("ENV_PATH"), key, value)
-def generatePath(path, name): return str(Path(path, name))
+def setEnv(key, value):
+    dotenv.set_key(os.getenv("ENV_PATH"), key, value)
+    
+def generatePath(path, name):
+    return str(Path(path, name))
+
 def checkPath(path, name):
     if os.path.exists(path):
         return False

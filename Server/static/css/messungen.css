@@ -1,0 +1,57 @@
+.ellipsis {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.messungs__container {
+    height: var(--content-height);
+    overflow-y: scroll;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+    background-color: white;
+    margin: auto;
+    table-layout: fixed;
+    max-width: 57rem;
+    box-shadow: 0px 0px 2px rgb(187, 187, 187);
+}
+
+caption {
+    background-color: #e5e5e5;
+    border: 1px solid #c4c4c4;
+    padding: 0.5rem 0;
+}
+
+table thead {
+    top: 0;
+    position: sticky;
+    
+}
+
+table th {
+    text-align: start;
+    background-color: #F4F4F4;
+    padding: 1rem 0;
+    font-weight: 500;
+    padding: 1rem;
+}
+
+table tr {
+    border-bottom: 1px solid rgb(199, 199, 199);
+}
+
+table tr:hover {
+    background-color: #fcfcfc;
+}
+
+table td {
+    padding: 1rem;
+}
+
+table tr td.date {
+    width: 100%;
+}

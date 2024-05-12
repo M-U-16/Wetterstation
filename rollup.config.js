@@ -12,7 +12,7 @@ const options = {
     ]
 }
 
-function create_rollup_conifg(options) {
+function create_rollup_config(options) {
     const outputConfig = options.input.map(file => {
         return {
             input: BASE_INPUT_PATH + file,
@@ -31,8 +31,7 @@ function create_rollup_conifg(options) {
             ]
         }
     })
-
     return outputConfig
 }
 
-export default create_rollup_conifg(options)
+export default create_rollup_config(options)

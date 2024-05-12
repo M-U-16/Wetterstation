@@ -8,7 +8,7 @@ from helpers.fakeSensor import start_fake_data_measuring
 
 # websocket client to send live data
 server_client = get_client()
-        
+
 def main():
     gas_thread = threading.Thread(
         target=start_fake_gas_measuring,

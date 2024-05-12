@@ -1,10 +1,11 @@
 {% extends "base/dashboard.base.html" %}
 {% from "components/sidebar.html" import sidebar %}
+{% from "components/dashboard-navbar.html" import DashboardNavbar %}
 {% block title %}| Suchen {% endblock title %}
 {% block root %}
     {{ sidebar(active_content) }}
+    {{ DashboardNavbar("Suchen") }}
     <div class="content">
-        <h1 style="color: white;">Suchen</h1>
     </div>
 {% endblock root %}
 {% block code %}{% endblock code %}
