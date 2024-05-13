@@ -1,5 +1,4 @@
 import os
-import json
 from models.db import addGases, addEntry
 from flask_socketio import SocketIO, emit
 
@@ -16,7 +15,7 @@ def connect_event(): print("Client Disconnected!")
 @socketio.on("connect", namespace="/pi")
 def readings_connect(auth):
     print(auth["key"])
-    if auth["key"] != os.getenv("PI_KEY"): return False
+    if auth["key"] != os.getenv("FLASK_PI_KEY"): return False
     print("Pi connected to server!")
 
 @socketio.on("new-readings", namespace="/pi")

@@ -4,9 +4,17 @@ import click
 import dotenv
 import sqlite3
 from pathlib import Path
-from os.path import join as path_join
 from helpers.server_path import getServerPath
 from models.model import create_all_tables, random_populate_db
+
+"""
+    UTILITY FUNCTIONS START
+"""
+
+def populateDb(amount): random_populate_db(amount)
+def forward_slash(path): return "/".join(path.split("\\"))
+def generatePath(path, name): return str(Path(path, name))
+def setEnv(key, value): dotenv.set_key(os.getenv("ENV_PATH"), key, value)
 
 def updateEnv(func):
     def func_wrapper(*args, **kwargs):
@@ -24,24 +32,17 @@ def handleExistingPath(path_type, name):
     message = f">> {path_type} '{name}' already exists!\n Create next? (J/N):"
     if input(message) == "J": return True
     sys.exit(">> Programm stopped!")
-
-forward_slash = lambda path: "/".join(path.split("\\"))
-def setEnv(key, value):
-    dotenv.set_key(os.getenv("ENV_PATH"), key, value)
     
-def generatePath(path, name):
-    return str(Path(path, name))
-
-def checkPath(path, name):
+def checkPath(path):
     if os.path.exists(path):
         return False
     return True
 
+""" UTILITY FUNCTIONS END """
+
 def createDir(name="data"):
-    #creating the path to the directory
     path = generatePath(getServerPath(), name)
     if checkPath(path, name):
-        #creating the directory
         os.mkdir(path)
         setEnv("DATA_DIR", forward_slash(path))
     else: handleExistingPath("Directory", name)
@@ -54,13 +55,10 @@ def createDb(envVarName, name="wetter.sqlite3"):
         setEnv(envVarName, forward_slash(path))
         os.environ[envVarName] = dotenv.get_key(os.getenv("ENV_PATH"), envVarName)
     else: handleExistingPath("Database file", name)
-
-def populateDb(amount):
-    random_populate_db(amount)
     
 def create_default():
     createDir()
-    createDb(envVarName="FLASK_WETTER_DATABASE_PATH" ,name="wetter.sqlite3")
+    createDb(envVarName="FLASK_WETTER_DATABASE_PATH", name="wetter.sqlite3")
     create_all_tables(os.getenv("FLASK_WETTER_DATABASE_PATH"), schema="wetter_tbs")
     createDb(envVarName="FLASK_DATA_DATABASE_PATH", name="data.sqlite3")
     create_all_tables(os.getenv("FLASK_DATA_DATABASE_PATH"), schema="data_tbs")
@@ -74,7 +72,7 @@ def register_commands(app):
     @app.cli.command("create-data-dir")
     @click.argument("name")
     def cli_createDir(name):
-        """ CREATES A NEW DATA DIRECTORY """
+        """ CREATES A NEW DATA DIRECTORY IN THE SERVER """
         createDir(name)
 
     @app.cli.command("create-db")

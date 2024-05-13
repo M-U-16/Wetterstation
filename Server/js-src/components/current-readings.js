@@ -12,5 +12,7 @@ export function LiveEntrys() {
         lux.innerHTML = data.lux
     }
 
-    return update
+    return {
+        update
+    }
 }

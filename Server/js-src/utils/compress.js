@@ -69,7 +69,6 @@ export function compress_one_year(data) {
         if (prev.entry_date < now.entry_date) return -1
         if (prev.entry_date > now.entry_date) return 1
         return 0
-    }) // sorts in ascending order
-    // if now sorted there problems
+    }) // sorted in ascending order
     return compressed_year
 }

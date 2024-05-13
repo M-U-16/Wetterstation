@@ -24,9 +24,16 @@ def date_route(date):
         "select * from wetterdaten where entry_date like ? limit ?",
         ["%{}%".format(formattedDate), limit]
     )
+    
+    if len(data) == 1:
+        return render_template(
+            "pages/messungen.html",
+            entry_data_wetter=data
+        )
+    
     return render_template(
         "pages/messungen.html",
-        
         entry_data=data,
-        date=formattedDate
+        date=formattedDate,
+        results=len(data)
     )

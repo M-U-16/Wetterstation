@@ -1,6 +1,11 @@
-{% macro DashboardNavbar(heading) %}
+{% macro DashboardNavbar(heading, icon) %}
     <div class="dashboard__navbar">
         <div>
+            {% if icon %}
+                <span class="icon">
+                    {{ icon() }}
+                </span>
+            {% endif %}
             <h1>{{ heading }}</h1>
         </div>
     </div>

@@ -22,6 +22,7 @@
 {% from "components/sidebar.html" import sidebar %}
 {% from "components/dashboard-navbar.html" import DashboardNavbar %}
 {% from "components/inputs/TimeSelect.html" import select %}
+{% from "svgs/diagramme.html" import diagrammIcon %}
 {% block title %}| Messungen {% endblock title %}
 {% block styles %}
     <link
@@ -39,13 +40,13 @@
 {% endblock styles %}
 {% block root %}
     {{ sidebar() }}
-    {{ DashboardNavbar("Messungen") }}
+    {{ DashboardNavbar("Messungen", diagrammIcon) }}
     <div class="content">
         <div class="messungs__container">
             {% if entry_data and date %}
             <table class="messungen__table">
                 <caption>Messungen für <span style="font-style: italic;">'{{ date }}'</span></caption>
-                <thead>
+                <thead id="messungen-table-heading">
                     <th>Datum:</th>
                     <th>Temperatur:</th>
                     <th class="ellipsis">Luftfeuchtigkeit:</th>
@@ -65,5 +66,14 @@
     </div>
 {% endblock root %}
 {% block code %}
+    <script>
+        const tableHeading = document.querySelector("#messungen-table-heading")
+        console.log(tableHeading)
+        const observer = new IntersectionObserver(
+            ([e]) => e.target.classList.toggle("sticking", e.intersectionRatio < 1),
+            { threshold: [1] }
+        )
+        observer.observe(tableHeading)
+    </script>
     <!-- <script src={{ url_for('static', filename='js/build/dashboard.chart.js') }}></script> -->
 {% endblock code %}

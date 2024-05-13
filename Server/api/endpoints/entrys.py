@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, jsonify, request
 from models.db import getLastEntrys
 
 entry_route = Blueprint("entry_route", __name__)
@@ -17,5 +17,4 @@ def get_entrys():
     try:
         entrys = getLastEntrys(request.args["last"])
         return getEntryResponse(entrys)
-        
-    except: return {"error": "NO_VALID_ARGUMENT"}
+    except: return jsonify({"error": True, "message": "NO_VALID_ARGUMENT"})

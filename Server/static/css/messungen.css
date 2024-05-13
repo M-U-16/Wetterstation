@@ -6,7 +6,7 @@
 
 .messungs__container {
     height: var(--content-height);
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 table {
@@ -27,9 +27,14 @@ caption {
 }
 
 table thead {
-    top: 0;
     position: sticky;
-    
+    top: -1px;
+    padding-top: 1px;
+}
+table thead.sticking {
+    box-shadow:
+        inset 0px 0px 3px rgb(97, 97, 97), 
+        inset 0px -1px 3px rgb(97, 97, 97);
 }
 
 table th {

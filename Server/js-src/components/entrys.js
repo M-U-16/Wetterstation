@@ -73,5 +73,4 @@ export const lastEntrys = async() => {
         getAddEntrys(current_id)
     })
     getAddEntrys()
-
 }

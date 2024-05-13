@@ -48,12 +48,12 @@
     align-items:center;
     width: 100%;
     height: 100%;
-    border-radius: 0 0 5px 5px;
     box-shadow: var(--test-box-shadow);
 }
 .dashboard__navbar div h1 {
     font-size: 1rem;
-    font-weight:500;
+    font-weight: 500;
+    color: var(--highlight-clr);
     margin-left:1rem;
 }
 

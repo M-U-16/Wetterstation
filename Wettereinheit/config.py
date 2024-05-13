@@ -1,5 +1,11 @@
+""" LOAD THE CONFIG FILE FOR Wettereinheit """
+
 import configparser
 from configparser import ExtendedInterpolation
-config = configparser.ConfigParser(interpolation=ExtendedInterpolation())
-config.optionxform=str
-config.read("pi.ini")
+
+def get_config(path):
+    config = configparser.ConfigParser(interpolation=ExtendedInterpolation())
+    config.optionxform=str
+    config.read(path)
+    
+    return config
