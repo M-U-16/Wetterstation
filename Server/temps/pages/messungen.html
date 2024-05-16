@@ -1,21 +1,40 @@
 {% macro MessungsRow(data) %}
-    <tr class="measurement_row">
-        <td class="date ellipsis">
-            {{ data["entry_date"] }}
-        </td>
-        <td class="temperature entry">
-            {{ data["temp"] }}°C
-        </td>
-        <td class="humidity entry">
-            {{ data["humi"] }}%
-        </td>
-        <td class="pressure entry">
-            {{ data["pres"] }}hPa
-        </td>
-        <td class="light entry">
-            {{ data["lux"] }}lux
-        </td>
-    </tr>
+<tr class="measurement_row">
+    <td class="date ellipsis">
+        {{ data["entry_date"] }}
+    </td>
+    <td class="temperature entry">
+        {{ data["temp"] }}°C
+    </td>
+    <td class="humidity entry">
+        {{ data["humi"] }}%
+    </td>
+    <td class="pressure entry">
+        {{ data["pres"] }}hPa
+    </td>
+    <td class="light entry">
+        {{ data["lux"] }}lux
+    </td>
+</tr>
+{% endmacro %}
+
+
+{% macro CreateTable(data) %}
+    <table class="messungen__table">
+        <caption>Messungen für <span style="font-style: italic;">'{{ date }}'</span></caption>
+        <thead id="messungen-table-heading">
+            <th>Datum:</th>
+            <th>Temperatur:</th>
+            <th class="ellipsis">Luftfeuchtigkeit:</th>
+            <th>Luftdruck:</th>
+            <th>Helligkeit:</th>
+        </thead>
+        <tbody>
+            {% for entry in data %}
+                {{ MessungsRow(entry) }}
+            {% endfor %}
+        </tbody>
+    </table>
 {% endmacro %}
 
 {% extends "base/dashboard.base.html" %}
@@ -44,22 +63,29 @@
     <div class="content">
         <div class="messungs__container">
             {% if entry_data and date %}
-            <table class="messungen__table">
-                <caption>Messungen für <span style="font-style: italic;">'{{ date }}'</span></caption>
-                <thead id="messungen-table-heading">
-                    <th>Datum:</th>
-                    <th>Temperatur:</th>
-                    <th class="ellipsis">Luftfeuchtigkeit:</th>
-                    <th>Luftdruck:</th>
-                    <th>Helligkeit:</th>
-                </thead>
-                <tbody>
-                    {% for entry in entry_data %}
-                        {{ MessungsRow(entry) }}
-                    {% endfor %}
-                </tbody>
-            </table>
-            {%  else %}
+                {% if type == "content-table" %}
+                    {{ CreateTable(entry_data) }}
+                {% else %}
+                    <p>Datum: <span>{{ date }}</span></p>
+                    <p>Eintrag: {{ entry_data[0] }}</p>
+                    {% if data_gas %}
+                        <p>Gase: {{ data_gas[0] }}</p>
+                    {% endif %}
+                    {% if avg_day %}
+                        <h3 style="padding: 1rem;">Durchschnitt des Tages</h3>
+                        <div style="display:flex;flex-wrap:wrap">
+                            {% for entry in avg_day %}
+                                <div style="padding: 1rem;">
+                                    <p>Zeit: {{ entry["entry_date"].split(" ")[1] }}</p>
+                                    <p>Temperatur: {{ entry["avg_temp"] }}</p>
+                                    <p>Luftfeuchtigkeit: {{ entry["avg_humi"] }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endif %}
+
+            {% else %}
                 <h1>Keine Daten vorhanden!</h1>
             {% endif %}
         </div>

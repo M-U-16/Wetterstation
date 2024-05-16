@@ -20,9 +20,9 @@ def read_gases(client):
         client.send_gas(
             data={
                 "entry_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                "oxi": gases["oxidising"] / 1000,  #unit = "kO"
-                "red": gases["reducing"] / 1000,   #unit = "kO"
-                "nh3": gases["nh3"] / 1000         #unit = "kO"
+                "oxi": gases.oxidising / 1000,  #unit = "kO"
+                "red": gases.reducing / 1000,   #unit = "kO"
+                "nh3": gases.nh3 / 1000         #unit = "kO"
             }
         )
 

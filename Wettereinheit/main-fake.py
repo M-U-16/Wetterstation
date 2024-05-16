@@ -1,10 +1,12 @@
 # standard libraries
 import sys, time, threading
 # internal libraries
-from config import config
+from config import get_config
 from socketClient import get_client
 from helpers.fakeSensor import start_fake_gas_measuring
 from helpers.fakeSensor import start_fake_data_measuring
+
+config = get_config("pi.ini")
 
 # websocket client to send live data
 server_client = get_client()

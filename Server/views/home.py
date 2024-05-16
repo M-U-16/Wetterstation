@@ -9,5 +9,5 @@ blueprint = Blueprint(
 
 @blueprint.route("/")
 def index_route():
-    get_db()
+    #get_db()
     return render_template("pages/index.html")

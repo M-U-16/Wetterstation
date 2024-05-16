@@ -1,3 +1,4 @@
+import chunk
 import os
 import sqlite3
 from pathlib import Path
@@ -8,9 +9,6 @@ from helpers.fakeEntrys import getManyRandomDataEntrys
 def get_db():
     if "db" not in g:
         print(current_app.config)
-        #g.db = sqlite3.connect(
-            
-        #)
 
 def getConnection(db_path):
     #create a connection to the sqlite db pass to it
@@ -41,20 +39,23 @@ def create_table(db_path, table_path):
     
     con.commit()
     con.close()
-    
 
 def random_populate_db(amount):
-    con = getConnection(os.getenv("WETTER_DATABASE_PATH"))
+    con = getConnection(os.getenv("FLASK_WETTER_DATABASE_PATH"))
     
-    data = getManyRandomDataEntrys(amount)
+    data_general, data_gas = getManyRandomDataEntrys(amount)
     sql = generateSql(
         "insert into wetterdaten({}) values ({})",
-        data[0].keys()
+        data_general[0].keys()
     )
-    data_tuples = [tuple(entry.values()) for entry in data]
+    data_tuples = [tuple(entry.values()) for entry in data_general]
     chunk_size = 50
-    for i in range(0, len(data), chunk_size):
+    for i in range(0, len(data_general), chunk_size):
         con.executemany(sql, data_tuples[i:i+chunk_size])
+    
+    data_gas_tuple = [tuple(entry.values()) for entry in data_gas]
+    for i in range(0, len(data_gas), chunk_size):
+        con.executemany("insert into gas(entry_date, oxi,red,nh3) values (?,?,?,?)", data_gas_tuple[i:i+chunk_size])
     
     con.commit()
     con.close()

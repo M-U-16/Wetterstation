@@ -34,6 +34,14 @@ def getLastEntry(): return queryDb(querys["last-entry"])
 def getDate(date): return queryDb("select * from wetterdaten where entry_date=?", [date])
 def printAll(): print(queryDb("select * from wetterdaten"))
 
+def getAvgFromDay(date):
+    return queryDb(
+        """SELECT entry_date, round(avg(temp), 2) as avg_temp, round(avg(humi), 2) as avg_humi FROM wetterdaten
+        where entry_date between ? and datetime(?, '+1 day')
+        group by strftime('%Y-%m-%d %H', entry_date)""",
+        [date, date]
+    )
+
 def getLastEntrys(last=None):
     get_last = lambda dict_list: min(dict_list, key=lambda x: x["entry_id"])["entry_id"]
     if last:

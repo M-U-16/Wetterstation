@@ -10,7 +10,6 @@ from models.model import create_all_tables, random_populate_db
 """
     UTILITY FUNCTIONS START
 """
-
 def populateDb(amount): random_populate_db(amount)
 def forward_slash(path): return "/".join(path.split("\\"))
 def generatePath(path, name): return str(Path(path, name))
@@ -33,7 +32,7 @@ def handleExistingPath(path_type, name):
     if input(message) == "J": return True
     sys.exit(">> Programm stopped!")
     
-def checkPath(path):
+def checkPath(path, name):
     if os.path.exists(path):
         return False
     return True

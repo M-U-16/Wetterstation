@@ -1,7 +1,7 @@
 .content {
-    overflow-y: hidden;
+    overflow-y: auto;
     width: 100%;
-    min-height: calc(100vh - var(--toggle-button-height));
+    height: calc(100vh - var(--toggle-button-height));
 }
 
 .content-top {
