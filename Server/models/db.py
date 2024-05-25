@@ -18,12 +18,12 @@ querys_gases = {
     "add-data": "INSERT INTO gas(entry_date, oxi, red, nh3) VALUES (?, ?, ?, ?)"
 }
 
-def addEntry(data):
+def addEntry(data:dict):
     query = generateSql("INSERT INTO wetterdaten({}) VALUES ({})", data.keys())
     queryDb(query, list(data.values()))
-def getTimeRange(firstDate, lastDate):
+def getTimeRange(firstDate:str, lastDate:str):
     return queryDb(querys["time-range"], [firstDate, lastDate])
-def getLastByAmount(amount):
+def getLastByAmount(amount:int):
     return queryDb(querys["last-by-amount"], [amount])
     
 def getDay(): return queryDb(querys["current-day"])
@@ -31,18 +31,25 @@ def getWeek(): return queryDb(querys["get-week"])
 def getMonth(): return queryDb(querys["get-month"])
 def getYear(): return queryDb(querys["get-year"])
 def getLastEntry(): return queryDb(querys["last-entry"])
-def getDate(date): return queryDb("select * from wetterdaten where entry_date=?", [date])
+def getDate(date:str): return queryDb("select * from wetterdaten where entry_date=?", [date])
 def printAll(): print(queryDb("select * from wetterdaten"))
 
-def getAvgFromDay(date):
+def getAvgFromDay(date:str):
     return queryDb(
-        """SELECT entry_date, round(avg(temp), 2) as avg_temp, round(avg(humi), 2) as avg_humi FROM wetterdaten
-        where entry_date between ? and datetime(?, '+1 day')
-        group by strftime('%Y-%m-%d %H', entry_date)""",
+        "SELECT entry_date, round(avg(temp), 2) as avg_temp, round(avg(humi), 2) as avg_humi FROM wetterdaten " \
+        "where entry_date between strftime('%Y-%m-%d 00:00:00', ?) and strftime('%Y-%m-%d 00:00:00', ? ,'+1 day') " \
+        "group by strftime('%Y-%m-%d %H', entry_date)",
         [date, date]
     )
+    
+def getAvgDataFromToday():
+    return queryDb(
+        "SELECT entry_date, round(avg(temp), 2) as avg_temp, round(avg(humi), 2) as avg_humi FROM wetterdaten " \
+        "where entry_date between strftime('%Y-%m-%d 00:00:00', 'now') and strftime('%Y-%m-%d 00:00:00', 'now', '+1 day') " \
+        "group by strftime('%Y-%m-%d %H', entry_date)"
+    )
 
-def getLastEntrys(last=None):
+def getLastEntrys(last:int=None):
     get_last = lambda dict_list: min(dict_list, key=lambda x: x["entry_id"])["entry_id"]
     if last:
         result = queryDb(querys["last-5-with-value"], [last])
@@ -52,7 +59,13 @@ def getLastEntrys(last=None):
     result = queryDb(querys["last-5"])
     return result, get_last(result)
 
-def addGases(data):
+def searchEntrys(date:str, limit:int):
+    return queryDb(
+        "select * from wetterdaten where entry_date like ? order by entry_id desc limit ?",
+        ["%{}%".format(date), limit]
+    )
+
+def addGases(data:dict):
     return queryDb(
         querys_gases["add-data"],
         [
@@ -62,3 +75,18 @@ def addGases(data):
             data["nh3"]
         ]
     )
+    
+def getAvgGas(start_date:str, end_date:str):
+    return queryDb(
+        "select round(avg(red), 2) as avg_red, round(avg(oxi), 2) as avg_oxi, round(avg(nh3), 2) as avg_nh3 from gas where entry_date between ? and ?",
+        [start_date, end_date]
+    )
+    
+def getAvgGasLastMinute(date:str):
+    return queryDb(
+        "select round(avg(red), 2) as avg_red, round(avg(oxi), 2) as avg_oxi, round(avg(nh3), 2) as avg_nh3 from gas where entry_date between Date(?, '-1 minute') and ?",
+        [date, date]
+    )
+    
+def getAvgGasLastMinuteToday():
+    return queryDb("select round(avg(red), 2) as avg_red, round(avg(oxi), 2) as avg_oxi, round(avg(nh3), 2) as avg_nh3 from gas where entry_date between Date('now', '-1 minute') and Date('now')")

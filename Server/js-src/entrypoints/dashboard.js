@@ -1,6 +1,6 @@
 import { socket } from "../socket";
 import { LineChart } from "../chart/lineChartV2"
-import { getConfig } from "../chart/config-builder"
+import { GetConfig } from "../chart/config-builder"
 
 const GRAPH_LOADERS = document.querySelectorAll("#graphs-container #spinner")
 const AMOUNT_FIRST_ENTRYS = 7

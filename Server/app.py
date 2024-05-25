@@ -30,9 +30,7 @@ def register_blueprints(app):
 def create_app():
     app = Flask(__name__, template_folder="temps")
     app.config.from_prefixed_env()
-    
-    app.app_context().push()
-    
+        
     #configuring cors
     app.config["CORS_HEADERS"] = "Content-Type"
     CORS(app, resources={r"/api/*": {"origins": "*"}})

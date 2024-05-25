@@ -1,4 +1,11 @@
 {% extends "base/base.html" %}
+{% from "components/sidebar.html" import sidebar %}
+{% from "components/dashboard-navbar.html" import DashboardNavbar %}
 {% block root %}
-    <a href="/dashboard">Dashboard</a>
+    {{ sidebar() }}
+    {{ DashboardNavbar("Startseite") }}
+    <div class="content">
+        <div>
+        </div>
+    </div>
 {% endblock root %}

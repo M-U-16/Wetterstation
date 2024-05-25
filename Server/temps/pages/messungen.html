@@ -1,4 +1,4 @@
-{% macro MessungsRow(data) %}
+{% macro TableRow(data) %}
 <tr class="measurement_row">
     <td class="date ellipsis">
         {{ data["entry_date"] }}
@@ -18,6 +18,27 @@
 </tr>
 {% endmacro %}
 
+{% macro SingleEntry(date, data, gas) %}
+    <h3>Datum: {{ date }}</h3>
+    <p>Temperatur: {{ data["temp"] }}°C</p>
+    <p>Luftfeuchtigkeit: {{ data["humi"] }}%</p>
+    <p>Helligkeit: {{ data["lux"] }}lux</p>
+    {% if data_gas %}
+        <p>Gase: {{ gas }}</p>
+    {% endif %}
+    {% if avg_day %}
+        <h3 style="padding: 1rem;">Durchschnitt des Tages</h3>
+        <div style="display:flex;flex-wrap:wrap">
+            {% for entry in avg_day %}
+                <div style="padding: 1rem;">
+                    <p>Zeit: {{ entry["entry_date"].split(" ")[1] }}</p>
+                    <p>Temperatur: {{ entry["avg_temp"] }}</p>
+                    <p>Luftfeuchtigkeit: {{ entry["avg_humi"] }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endmacro %}
 
 {% macro CreateTable(data) %}
     <table class="messungen__table">
@@ -31,7 +52,7 @@
         </thead>
         <tbody>
             {% for entry in data %}
-                {{ MessungsRow(entry) }}
+                {{ TableRow(entry) }}
             {% endfor %}
         </tbody>
     </table>
@@ -46,15 +67,15 @@
 {% block styles %}
     <link
         rel="stylesheet"
-        href={{ url_for('static', filename='css/graph.css')}}
+        href="{{ url_for('static', filename='css/graph.css')}}"
     />
     <link
         rel="stylesheet"
-        href={{ url_for('static', filename='css/info-popup.css')}}
+        href="{{ url_for('static', filename='css/info-popup.css')}}"
     />
     <link
         rel="stylesheet"
-        href={{ url_for('static', filename='css/messungen.css')}}
+        href="{{ url_for('static', filename='css/messungen.css')}}"
     />
 {% endblock styles %}
 {% block root %}
@@ -65,24 +86,12 @@
             {% if entry_data and date %}
                 {% if type == "content-table" %}
                     {{ CreateTable(entry_data) }}
-                {% else %}
-                    <p>Datum: <span>{{ date }}</span></p>
-                    <p>Eintrag: {{ entry_data[0] }}</p>
-                    {% if data_gas %}
-                        <p>Gase: {{ data_gas[0] }}</p>
+                {% elif type == "content-entry" %}
+                    {{ SingleEntry(date, entry_data[0], entry_gas[0]) }}
+                    {% if graph %}
+                        <!-- <img style="width: 100%;max-width:500px" src="data:image/svg;base64,{{ graph }}"> -->
                     {% endif %}
-                    {% if avg_day %}
-                        <h3 style="padding: 1rem;">Durchschnitt des Tages</h3>
-                        <div style="display:flex;flex-wrap:wrap">
-                            {% for entry in avg_day %}
-                                <div style="padding: 1rem;">
-                                    <p>Zeit: {{ entry["entry_date"].split(" ")[1] }}</p>
-                                    <p>Temperatur: {{ entry["avg_temp"] }}</p>
-                                    <p>Luftfeuchtigkeit: {{ entry["avg_humi"] }}</p>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    {% endif %}
+
                 {% endif %}
 
             {% else %}
@@ -92,14 +101,15 @@
     </div>
 {% endblock root %}
 {% block code %}
-    <script>
-        const tableHeading = document.querySelector("#messungen-table-heading")
-        console.log(tableHeading)
-        const observer = new IntersectionObserver(
-            ([e]) => e.target.classList.toggle("sticking", e.intersectionRatio < 1),
-            { threshold: [1] }
-        )
-        observer.observe(tableHeading)
-    </script>
+    {% if type == "content-table" %}
+        <script>
+            const tableHeading = document.querySelector("#messungen-table-heading")
+            const observer = new IntersectionObserver(
+                ([e]) => e.target.classList.toggle("sticking", e.intersectionRatio < 1),
+                { threshold: [1] }
+            )
+            observer.observe(tableHeading)
+        </script>
+    {% endif %}
     <!-- <script src={{ url_for('static', filename='js/build/dashboard.chart.js') }}></script> -->
 {% endblock code %}

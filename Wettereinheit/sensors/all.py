@@ -1,5 +1,6 @@
 import sys
 from datetime import datetime
+import time
 try:
     from ltr559 import LTR559
     from bme280 import BME280
@@ -12,7 +13,7 @@ try:
     pms5003 = PMS5003()
 except Exception as e: sys.exit("ERROR: {}".format(e))
 
-def start_data_measuring(client):
+def start_data_measuring(client, interval):
     pm1 = None
     pm10 = None
     pm25 = None
@@ -39,3 +40,5 @@ def start_data_measuring(client):
                 "pm100": pm10,
             }
         )
+        time.sleep(interval)
+        

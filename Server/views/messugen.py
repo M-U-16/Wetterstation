@@ -1,6 +1,11 @@
+# librarys and stdlib
 from flask import current_app
-from models.db import queryDb, getAvgFromDay
+from markupsafe import escape
 from flask import Blueprint, render_template, request
+
+# internal
+from models import db
+from helpers.MessDate import DatetimeInfo
 
 blueprint = Blueprint(
     "messugen_bp",
@@ -10,46 +15,61 @@ blueprint = Blueprint(
 
 @blueprint.get("/")
 def dashboard_diagramme():
-    return render_template("pages/messungen.html")
+    data_gas = db.getAvgGasLastMinuteToday()
+    print("gas: ", data_gas)
     
+    data_all = db.getAvgDataFromToday()
+    print(data_all)
+    
+    return render_template(
+        "pages/messungen.html",
+        type="content-today",
+        gas=data_gas,
+        all=data_all,
+        date="Heute"
+    )
+
 @blueprint.route("/<raw_date>")
 def date_route(raw_date):
     try: limit = request.args["limit"]
     except: limit = current_app.config["DEFAULT_MESSUNG_LIMIT"]
+    inputDate = DatetimeInfo(raw_date)
+    data = db.searchEntrys(str(inputDate), int(limit))
     
-    formattedDate = " ".join(raw_date.split("_"))
-    formattedDateLength = len(formattedDate.split(" "))
-    
-    data = queryDb(
-        "select * from wetterdaten where entry_date like ? order by entry_id desc limit ?",
-        ["%{}%".format(formattedDate), limit]
-    )
-    if len(data) == 1 and formattedDateLength == 2:
-        print(data)
-        
-        date_for_avg_data = formattedDate.split(" ")[0] + " 00:00:00"
-        avg_data = getAvgFromDay(date_for_avg_data)
-        print(avg_data)
-                
-        data_gas = queryDb(
-            "select round(avg(red), 2) as avg_red, round(avg(oxi), 2) as avg_oxi, round(avg(nh3), 2) as avg_nh3 from gas where entry_date between Date(?, '-1 minute') and ?",
-            [formattedDate, formattedDate]
-        )
-        print("gas: ", data_gas)
-        
+    if len(data) > 1 and not inputDate.date.isComplete:
         return render_template(
             "pages/messungen.html",
             entry_data=data,
-            date=formattedDate,
-            avg_day=avg_data,
-            data_gas=data_gas,
-            type="content-entry"
+            date=escape(str(inputDate)),
+            results=len(data),
+            type="content-table"
         )
     
+    avg_data = db.getAvgFromDay(str(inputDate))
+    data_gas = db.getAvgGasLastMinute(str(inputDate))
+    
+    if inputDate.date.isComplete and inputDate.time.isNone:
+        return render_template(
+            "pages/messungen.html",
+            entry_data=data,
+            date=escape(str(inputDate)),
+            avg_day=avg_data,
+            entry_gas=data_gas,
+            type="content-day",
+        )
+        
+    if inputDate.date.isComplete and inputDate.time.isComplete:
+        return render_template(
+            "pages/messungen.html",
+            entry_data=data,
+            date=escape(str(inputDate)),
+            avg_day=avg_data,
+            entry_gas=data_gas,
+            type="content-entry",
+        )
+        
     return render_template(
         "pages/messungen.html",
-        entry_data=data,
-        date=formattedDate,
-        results=len(data),
-        type="content-table"
+        date=escape(str(inputDate)),
+        type="content-none"
     )

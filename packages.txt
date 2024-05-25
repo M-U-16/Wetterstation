@@ -1,8 +1,0 @@
-flask = "*"
-python-dotenv = "*"
-flask-socketio = "*"
-flask-cors = "*"
-socketio-client = "*"
-python-socketio = {extras = ["client"], version = "*"}
-environs = "*"
-waitress = "*"

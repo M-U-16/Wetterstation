@@ -1,8 +1,10 @@
 import os
 import sqlite3
+import sys
 
 #dotenv.load_dotenv(dotenv_path=os.getenv("ENV_PATH"), override=True)
-DATABASE_PATH = os.getenv("FLASK_WETTER_DATABASE_PATH")
+DATABASE_PATH:str|None = os.getenv("FLASK_WETTER_DATABASE_PATH")
+if not DATABASE_PATH: sys.exit(">> ERROR: Database path not defined")
 
 #function for converting
 #tuple into dict
@@ -39,5 +41,5 @@ def test_query(conn, cur):
     return cur.execute("select * from wetterdaten").fetchall()
 
 @connection
-def queryDb(con, cur, query, values=[]):
+def queryDb(_, cur, query, values=[]):
     return cur.execute(query, values).fetchall()

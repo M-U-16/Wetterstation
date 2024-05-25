@@ -13,7 +13,7 @@ const options = {
 }
 
 function create_rollup_config(options) {
-    const outputConfig = options.input.map(file => {
+    let outputConfig = options.input.map(file => {
         return {
             input: BASE_INPUT_PATH + file,
             output: [
@@ -21,16 +21,46 @@ function create_rollup_config(options) {
                     dir: BASE_OUTPUT_PATH + "min",
                     entryFileNames: "[name].min.js",
                     format: "iife",
-                    plugins: [terser()],
+                    plugins: [terser()]
                 },
                 {
                     dir: BASE_OUTPUT_PATH,
                     entryFileNames: "[name].js",
                     format: "iife",
-                }
+                },
+                /* {
+                    dir: BASE_OUTPUT_PATH + "umd",
+                    entryFileNames: "[name].umd.js",
+                    name: "testlib",
+                    format: "umd"
+                } */
             ]
         }
     })
+
+    outputConfig.push({
+        input: ["Server/js-src/chart/index.js"],
+        output: [
+            {
+                file: BASE_OUTPUT_PATH + "umd/" + "chart.lib.js",
+                format: "umd",
+                name: "chart", // this is the name of the global object
+                esModule: false,
+                exports: "named",
+                sourcemap: true,
+            },
+            {
+                file: BASE_OUTPUT_PATH + "umd/" + "chart.lib.min.js",
+                format: "umd",
+                name: "chart", // this is the name of the global object
+                esModule: false,
+                exports: "named",
+                sourcemap: true,
+                plugins: [terser()]
+            }
+        ]
+    })
+
     return outputConfig
 }
 

@@ -1,7 +1,7 @@
 import { LineChart } from "../chart/lineChartV2"
 import { Select } from "../components/select"
 import { compress_one_year } from "../utils/compress"
-import { getConfig, getAxisFormat } from "../chart/config-builder"
+import { GetConfig, getAxisFormat } from "../chart/config-builder"
 import { InfoPopup } from "../components/info-popup"
 
 localStorage.setItem("theme-mode", "dark-theme")
@@ -24,7 +24,7 @@ async function drawCharts() {
     let data = await fetchChartData("1y")
 
     const graph_temp = LineChart(
-        getConfig(
+        GetConfig(
             "#temp-container",
             compress_one_year(data),
             "entry_date",
@@ -34,7 +34,7 @@ async function drawCharts() {
         )
     )
     const graph_humi = LineChart(
-        getConfig(
+        GetConfig(
             "#humi-container",
             compress_one_year(data),
             "entry_date",

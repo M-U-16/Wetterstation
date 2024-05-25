@@ -3,6 +3,7 @@
     height: 25rem;
     position: relative;
     background-color: var(--graph-bg-clr);
+    box-shadow: var(--test-box-shadow);
     border-radius: 5px;
 }
 .graph__container svg {

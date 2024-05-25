@@ -10,10 +10,14 @@
 
     transition: width 0.5s ease, transform 0.5s ease;
     background-color: var(--sidebar-bg-clr);
-    will-change: contents;
+    will-change: transform;
     box-shadow:
         var(--test-box-shadow),
         0px 0px 5px rgba(128, 128, 128, 0.502);
+
+    @media (max-width: 600px) {
+        width: calc(100% - var(--toggle-button-height))
+    }
 }
 .sidebar.active {
     transform: translateX(0);
@@ -48,14 +52,16 @@
 }
 
 .sidebar__link {
-    color: var(--primary-text-clr);
-    text-decoration: none;
-    font-size: 1.2rem;
-    transition: background-color 0.2s ease;
-    padding: 1.2rem 1rem;
     display: flex;
-    align-items: center;
     font-size: 1.2rem;
+    font-size: 1.2rem;
+    position: relative;
+    align-items: center;
+    padding: 1.2rem 1rem;
+    text-decoration: none;
+    will-change: background-color;
+    color: var(--primary-text-clr);
+    transition: 0.2s ease;
 }
 
 .sidebar__link p {
@@ -69,40 +75,49 @@
 .sidebar__link svg {
     width: 1.4rem;
     height: 1.4rem;
-}
-
-.sidebar__link svg {
     fill: var(--icon-color);
     stroke: var(--icon-color);
 }
+
+.sidebar__link::before {
+    top: 0;
+    left: 0;
+    width: 5px;
+    content: "";
+    height: 100%;
+    position: absolute;
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+    background-color: #3a8fff;
+}
+
 .square-chart-icon {
     fill: none !important;
 }
 
 .light-theme .sidebar__link:hover {
-    background-color: #368aff;
-    color: white;
+    color: #3a8fff;
+    background-color: #008cff21;
 }
+.light-theme .sidebar__link:hover::before {
+    transform: translateX(0);
+}
+
 .light-theme .sidebar nav a:hover svg {
-    fill: white;
-    stroke: white;
+    fill: #3a8fff;
+    stroke: #3a8fff;
 }
 
 .sidebar .toggle {
+    box-shadow: var(--test-box-shadow);
+    width: var(--toggle-button-height);
+    height: var(--toggle-button-height);
+    
+    z-index: 2;
     left: 100%;
     border: none;
     cursor: pointer;
-    width: var(--toggle-button-height);
-    height: var(--toggle-button-height);
-    z-index: 2;
     position: absolute;
     background-color: white;
     border-bottom-right-radius: 5px;
-    box-shadow: var(--test-box-shadow);
-}
-
-@media (max-width: 600px) {
-    .sidebar {
-        width: calc(100% - var(--toggle-button-height))
-    }
 }
