@@ -11,9 +11,9 @@ service_file_destination="/etc/systemd/system/Wetterstation.service"
 
 # FEEDBACK
 echo "Copying service file for Wetterstation Server"
-echo "${BLUE}$service_file_origin ▶ $service_file_destination${NC}"
+echo "${BLUE}$service_file_origin ▶ $service_file_destination${NO_COLOR}"
+sudo cp $servicefile_origin $service_file_destination
 echo ""
-cp $servicefile_origin $service_file_destination
 # ---
 
 sudo systemctl start Wetterstation # start daemon
@@ -22,16 +22,16 @@ sudo systemctl status Wetterstation
 
 nginx_config_origin="setup-files/wetterstation.nginx.conf"
 nginx_config_sites_available="/etc/nginx/sites-available/Wetterstation"
-nginx_config_sites_enabled="etc/nginx/sites-enabled/Wetterstation"
+nginx_config_sites_enabled="/etc/nginx/sites-enabled/Wetterstation"
 
 # FEEDBACK
 echo "Copying Nginx config file for Wetterstation Server"
-echo "$nginx_config_origin ▶ $nginx_config_sites_available"
+echo "${BLUE}$nginx_config_origin ▶ $nginx_config_sites_available${NO_COLOR}"
 echo ""
 # ---
-cp $nginx_config_origin $nginx_config_sites_available
+sudo cp $nginx_config_origin $nginx_config_sites_available
 sudo ln -s $nginx_config_sites_available $nginx_config_sites_enabled
 
-echo -e "Testing Nginx Config\n"
+echo "Testing Nginx Config"
 sudo nginx -t
 sudo systemctl restart nginx

@@ -4,7 +4,7 @@ npm install     # use node package manager to install javascript librarys used t
 npm run build   # build project using Rollup.js (runs command specified in package.json)
 
 source venv/bin/activate 
-pip install requirements.txt # install all python packages using pip
+pip install -r requirements.txt # install all python packages using pip
 pip install gunicorn
 cd Server
 export FLASK_APP=run:app
