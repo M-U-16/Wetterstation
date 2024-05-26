@@ -2,9 +2,9 @@ import sys
 import time
 from datetime import datetime
 try: from enviroplus import gas
-except Exception as e: sys.exit("ERROR: {}".format(e))
+except Exception as e: sys.exit(">> ERROR: {}".format(e))
 
-def start_up_gas_sensor(startupTime):
+def start_up_gas_sensor(startupTime:int):
     start_time = time.time()
     running = True
     while running:
@@ -14,7 +14,7 @@ def start_up_gas_sensor(startupTime):
         if time.time() > start_time + startupTime:
             running = False
                 
-def read_gases(client):
+def read_gases(client, interval:int):
     while True:
         gases = gas.read_all()
         client.send_gas(
@@ -26,8 +26,12 @@ def read_gases(client):
             }
         )
 
-        time.sleep(30)
+        time.sleep(interval)
 
-def start_gas_measuring(client, startupTime):
+def start_gas_measuring(
+    client,
+    startupTime:int,
+    interval:int
+):
     start_up_gas_sensor(startupTime)
-    read_gases(client)
+    read_gases(client, interval)

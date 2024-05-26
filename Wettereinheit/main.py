@@ -16,12 +16,12 @@ def main():
     gas_thread = threading.Thread(
         target=start_gas_measuring,
         daemon=True,
-        args=(client, config["sensors.gas"]["StartUpTime"],)
+        args=(client, 60, 30,) #int(config["sensors.gas"]["StartUpTime"])
     )
     data_thread = threading.Thread(
         target=start_data_measuring,
         daemon=True,
-        args=(client,)
+        args=(client, 10,)
     )
     
     try:
@@ -38,7 +38,7 @@ def main():
         
         # infinite loop for staying connected to server
         # via websocket connection
-        while True: time.sleep(0.1)
+        while True: time.sleep(0.5)
             
     except KeyboardInterrupt:
         client.io.disconnect() # disconnecting from server
