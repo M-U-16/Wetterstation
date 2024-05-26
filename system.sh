@@ -18,7 +18,7 @@ echo ""
 
 sudo systemctl daemon-reload
 sudo systemctl start Wetterstation # start daemon
-sudo systemctl enable Wetterstation # start on boot
+#sudo systemctl enable Wetterstation # start on boot
 sudo systemctl status Wetterstation
 
 nginx_config_origin="setup-files/wetterstation.nginx.conf"
