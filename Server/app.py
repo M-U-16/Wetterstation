@@ -5,8 +5,6 @@ from flask_cors import CORS
 from api.events import socketio
 # api endpoints
 from api import api_bp
-# commands
-from command import register_commands
 # views
 from views.live import blueprint as live_bp
 from views.home import blueprint as home_bp
@@ -37,6 +35,5 @@ def create_app():
     
     register_blueprints(app)
     register_extensions(app)
-    register_commands(app)
     
     return app

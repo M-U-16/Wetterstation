@@ -7,5 +7,4 @@ source venv/bin/activate
 pip install -r requirements.txt # install all python packages using pip
 pip install gunicorn
 cd Server
-export FLASK_APP=run:app
-flask create-default # create database files and tables
+python command.py create-default # create database files and tables

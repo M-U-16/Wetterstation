@@ -1,14 +1,12 @@
-import chunk
 import os
 import sqlite3
 from pathlib import Path
-from flask import g, current_app
 from os.path import join as path_join
 from helpers.fakeEntrys import getManyRandomDataEntrys
 
-def get_db():
+""" def get_db():
     if "db" not in g:
-        print(current_app.config)
+        print(current_app.config) """
 
 def getConnection(db_path):
     #create a connection to the sqlite db pass to it

@@ -1,10 +1,5 @@
 import os
 import sqlite3
-import sys
-
-#dotenv.load_dotenv(dotenv_path=os.getenv("ENV_PATH"), override=True)
-DATABASE_PATH:str|None = os.getenv("FLASK_WETTER_DATABASE_PATH")
-if not DATABASE_PATH: sys.exit(">> ERROR: Database path not defined")
 
 #function for converting
 #tuple into dict
@@ -23,6 +18,8 @@ def formatResponse(arr):
 #connection wrapper
 #connects and closes db connection for querys
 def connection(func):
+    DATABASE_PATH = os.getenv("FLASK_WETTER_DATABASE_PATH")
+    
     def func_wrapper(*args, **kwargs):
         #create a connection to the sqlite db
         connection = sqlite3.connect(DATABASE_PATH)
