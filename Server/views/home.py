@@ -1,4 +1,3 @@
-from models.model import get_db
 from flask import Blueprint, render_template
 
 blueprint = Blueprint(
@@ -9,5 +8,4 @@ blueprint = Blueprint(
 
 @blueprint.route("/")
 def index_route():
-    #get_db()
     return render_template("pages/index.html")

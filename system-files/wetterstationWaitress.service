@@ -3,11 +3,11 @@ Description=Wriezen Gymnasium Wetterstation Server
 After=network.target
 
 [Service]
-User=<user>
+User=pi
 Group=www-data
 WorkingDirectory=/home/Wetterstation/Server
 Environment="PATH=/home/Wetterstation/venv/bin"
-ExecStart=/home/Wetterstation/venv/bin/gunicorn --workers 3 --bind unix:<project>.sock -m 007 wsgi:app
+ExecStart=ENV_FILE="../environments/.env" python wsgi.py
 
 [Install]
 WantedBy=multi-user.target

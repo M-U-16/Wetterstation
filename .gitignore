@@ -19,12 +19,13 @@ ignore
 .vscode
 *.db
 venv
-.env
+.env.dev
 data
 *.rdb
 *.prod
-*.dev
 
 node_modules/
 temp/
 logs/
+
+environments/*

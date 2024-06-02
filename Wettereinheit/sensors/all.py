@@ -30,14 +30,14 @@ def start_data_measuring(client, interval):
         client.send_readings(
             data={
                 "entry_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                "temp": bme280.get_temperature(),
-                "proxi": ltr559.get_proximity(),
-                "humi": bme280.get_humidity(), #unit = "%"
-                "pres": bme280.get_pressure(), #unit = "hPa"
-                "lux": ltr559.get_lux(), # unit = lux
-                "pm10": pm1,
-                "pm25": pm25,
-                "pm100": pm10,
+                "temp": round(bme280.get_temperature(), 2),
+                "proxi": round(ltr559.get_proximity()),
+                "humi": round(bme280.get_humidity()), #unit = "%"
+                "pres": round(bme280.get_pressure()), #unit = "hPa"
+                "lux": round(ltr559.get_lux()), # unit = lux
+                "pm10": round(pm1),
+                "pm25": round(pm25),
+                "pm100": round(pm10),
             }
         )
         time.sleep(interval)

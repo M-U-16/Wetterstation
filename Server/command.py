@@ -15,7 +15,9 @@ load_config(".env.dev")
 """
 def populateDb(amount): random_populate_db(amount)
 def forward_slash(path): return "/".join(path.split("\\"))
-def set_env(key, value): dotenv.set_key(os.getenv("ENV_PATH"), key, value)
+def set_env(key, value):
+    os.environ[key] = value
+    dotenv.set_key(os.getenv("ENV_PATH"), key, value)
 
 def update_env():
     path = os.getenv("ENV_PATH")
@@ -40,7 +42,6 @@ def checkPath(path, name):
 
 def createDir(name="data"):
     path = str(Path(getServerPath(), name))
-    print(path)
     if checkPath(path, name):
         os.mkdir(path)
         set_env("DATA_DIR", forward_slash(path))
@@ -48,10 +49,10 @@ def createDir(name="data"):
 
 def createDb(envVarName, name="wetter.sqlite3"):
     path = str(Path(os.getenv("DATA_DIR"), name))
+    forward_slash_path = forward_slash(path)
     if checkPath(path, name):
         sqlite3.connect(path).close()
-        set_env(envVarName, forward_slash(path))
-        os.environ[envVarName] = dotenv.get_key(os.getenv("ENV_PATH"), envVarName)
+        set_env(envVarName, forward_slash_path)
     else: handleExistingPath("Database file", name)
     
 def create_default():

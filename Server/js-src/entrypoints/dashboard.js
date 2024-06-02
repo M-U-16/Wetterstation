@@ -49,7 +49,7 @@ async function main() {
     
 async function drawCharts(data) {
     const graph_temp = LineChart(
-        getConfig({
+        GetConfig({
             container_id: "#temp-container",
             data: data,
             x: "entry_date",
@@ -60,7 +60,7 @@ async function drawCharts(data) {
         })
     )
     const graph_humi = LineChart(
-        getConfig({
+        GetConfig({
             container_id: "#humi-container",
             data: data,
             x: "entry_date",
