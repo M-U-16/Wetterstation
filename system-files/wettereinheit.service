@@ -3,11 +3,11 @@ Description=Wettereinheit Python Service
 After=network.target
  
 [Service]
-User=<user>
+User=pi
 Group=www-data
-WorkingDirectory=/home/Wetterstation/Wettereinheit
-Environment="PATH=/home/Wetterstation/venv/bin"
-ExecStart=/home/Wetterstation/venv/bin/python main.py
+WorkingDirectory=/home/pi/Wetterstation/Wettereinheit
+Environment="PATH=/home/pi/Wetterstation/venv/bin"
+ExecStart=/home/pi/Wetterstation/venv/bin/python main.py
 
 [Install]
 WantedBy=multi-user.target

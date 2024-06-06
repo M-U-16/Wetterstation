@@ -5,9 +5,9 @@ After=network.target
 [Service]
 User=pi
 Group=www-data
-WorkingDirectory=/home/Wetterstation/Server
-Environment="PATH=/home/Wetterstation/venv/bin"
-ExecStart=ENV_FILE="../environments/.env" /home/Wetterstation/venv/bin/gunicorn --workers 2 --bind unix:Wetterstation.sock -m 007 wsgi:app
+WorkingDirectory=/home/pi/Wetterstation/Server
+Environment="PATH=/home/pi/Wetterstation/venv/bin"
+ExecStart=/home/pi/Wetterstation/venv/bin/gunicorn -k gevent -w 1 --bind unix:Wetterstation.sock -m 007 wsgi:app
 
 [Install]
 WantedBy=multi-user.target
