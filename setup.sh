@@ -17,6 +17,6 @@ npm run build   # build project using Rollup.js (runs command specified in packa
 source venv/bin/activate 
 pip install -r server.packages.txt # install all python packages using pip
 pip install gunicorn
-pip install gevent
+pip install eventlet
 cd Server
 python command.py create-default # create database files and tables
