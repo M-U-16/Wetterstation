@@ -21,6 +21,7 @@
 {% from "svgs/search.html" import searchIcon %}
 {% from "svgs/arrowLeft.html" import arrowLeft %}
 {% from "svgs/home.html" import homeIcon %}
+{% from "svgs/list.html" import listIcon %}
 {% from "components/inputs/themeToggle.html" import themeToggle %}
 
 {% macro sidebar(active_link) %}
@@ -49,7 +50,7 @@
             {{ sidebarLink("Dashboard", "/dashboard", barChartIcon) }}
             <!-- {{ sidebarLink("Suchen", "/suchen", searchIcon) }}
             {{ sidebarLink("Live Daten", "/live", liveIcon) }} -->
-            {{ sidebarLink("Messungen", "/messungen", diagrammIcon) }}
+            {{ sidebarLink("Messungen", "/messungen", listIcon) }}
         </nav>
     </aside>
 {% endmacro %}

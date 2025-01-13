@@ -41,4 +41,3 @@ def start_data_measuring(client, interval):
             }
         )
         time.sleep(interval)
-        

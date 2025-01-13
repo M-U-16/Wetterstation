@@ -1,14 +1,20 @@
+import os
 import logging
+from logging.handlers import TimedRotatingFileHandler
 
+from config import test
+
+TimedRotatingFileHandler()
+logging.StreamHandler()
 logger = logging.getLogger(__name__)
+logger.getChild()
+
 logging.basicConfig(
-    filename="test.log",
+    handlers=[
+        logging.FileHandler(os.getenv(""))
+    ],
     encoding="utf-8",
-    level=logging.DEBUG,
-    format='[%(asctime)s] %(levelname)s: %(message)s',
+    level=logging.ERROR,
+    format="[%(asctime)s] %(filename)s:%(lineno)d | %(levelname)s: %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S"
 )
-logger.debug("hello world")
-logger.info("info lol")
-logger.warning("warning")
-logger.error("error")

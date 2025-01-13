@@ -22,6 +22,7 @@ def connection(func):
     
     def func_wrapper(*args, **kwargs):
         #create a connection to the sqlite db
+        print(DATABASE_PATH)
         connection = sqlite3.connect(DATABASE_PATH)
         connection.row_factory = sqlite3.Row
         cursor = connection.cursor()

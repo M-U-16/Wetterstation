@@ -1,7 +1,6 @@
 """
     EXPIRMENTAL TESTING FOR SOUND RECORDING
 """
-
 import sys
 import time
 import argparse

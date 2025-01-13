@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS wetterdaten (
     humi INTEGER,
     pres INTEGER,
     lux INTEGER,
-    proxi INTEGER,
+    prox INTEGER,
     noise TEXT,
     pm10 TEXT,
     pm25 TEXT,
