@@ -2,10 +2,8 @@
 {% from "components/sidebar.html" import sidebar %}
 {% from "components/dashboard-navbar.html" import DashboardNavbar %}
 {% block title %}| Suchen {% endblock title %}
-{% block root %}
-    {{ sidebar(active_content) }}
-    {{ DashboardNavbar("Suchen") }}
-    <div class="content">
-    </div>
-{% endblock root %}
+{% block content %}
+   <!--  {{ sidebar(active_content) }}
+    {{ DashboardNavbar("Suchen") }} -->
+{% endblock content %}
 {% block code %}{% endblock code %}

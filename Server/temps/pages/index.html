@@ -1,11 +1,8 @@
 {% extends "base/base.html" %}
 {% from "components/sidebar.html" import sidebar %}
-{% from "components/dashboard-navbar.html" import DashboardNavbar %}
-{% block root %}
-    {{ sidebar() }}
-    {{ DashboardNavbar("Startseite") }}
-    <div class="content">
-        <div>
-        </div>
+{% block titlebarHeading %}Startseite{% endblock titlebarHeading %}
+{% block content %}
+    <div>
+        <h1>Startseite</h1>
     </div>
-{% endblock root %}
+{% endblock content %}

@@ -1,18 +1,17 @@
-{% extends "base/dashboard.base.html" %}
-{% from "components/sidebar.html" import sidebar %}
+{% extends "base/base.html" %}
 {% from "components/entrys.html" import entrys %}
-{% from "components/dashboard-navbar.html" import DashboardNavbar %}
 {% from "components/live-readings.html" import liveReadings %}
 {% from "components/spinner.html" import spinner %}
 
 {% block title %}| Dashboard{% endblock title %}
 {% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
     <link rel="stylesheet" href={{ url_for('static', filename='css/graph.css') }}>
 {% endblock styles %}
-{% block root %}
 
-    {{ sidebar() }}
-    {{ DashboardNavbar("Dashboard") }}
+{% block titlebarHeading %}Dashboard{% endblock titlebarHeading %}
+
+{% block content %}
     <div class="content">
         <div
             class="dashboard__graphs"
@@ -27,7 +26,13 @@
         </div>
     </div>
     
-{% endblock root %}
-{% block code %}
+{% endblock content %}
+{% block scripts %}
+    <script
+        src="{{ url_for('static', filename='js/libs/socket.io.min.js') }}"
+        integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz"
+        crossorigin="anonymous"
+    ></script>
+    <script src="{{ url_for('static', filename='js/libs/d3.v7.min.js') }}"></script>
     <script src={{ url_for('static', filename='js/build/dashboard.js') }}></script>
-{% endblock code %}
+{% endblock scripts %}

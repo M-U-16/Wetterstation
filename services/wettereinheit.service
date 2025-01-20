@@ -5,9 +5,9 @@ After=network.target
 [Service]
 User=pi
 Group=www-data
-WorkingDirectory=/home/pi/Wetterstation/Wettereinheit
-Environment="PATH=/home/pi/Wetterstation/venv/bin"
-ExecStart=/home/pi/Wetterstation/venv/bin/python main.py
+WorkingDirectory=$HOME/Wetterstation/Wettereinheit
+Environment="PATH=$HOME/Wetterstation/venv/bin"
+ExecStart=$HOME/Wetterstation/venv/bin/python main.py
 
 [Install]
 WantedBy=multi-user.target

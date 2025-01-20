@@ -15,12 +15,13 @@ except Exception as e:
 DEFAULT_STARTUP_TIME = 600
 
 class GasSensor(Thread):
-    def __init__(self, client, interval, start_up_time):
+    def __init__(self, client, interval, start_up_time=DEFAULT_STARTUP_TIME):
+        self.name = "gas_sensor"
         self.start_up_time = start_up_time
         self.interval = interval
         self.client = client
     
-    def _start_up(self):
+    def start_up(self):
         start_time = time.time()
         running = True
         while running:
@@ -31,18 +32,23 @@ class GasSensor(Thread):
             if time.time() > start_time + self.start_up_time:
                 running = False
     
-    def read(self):
+    def read(self, date=False):
         gases = gas.read_all()
-        
-        return {
-            "entry_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        readings = {
             "oxi": gases.oxidising / 1000,  #unit = "kO"
             "red": gases.reducing / 1000,   #unit = "kO"
             "nh3": gases.nh3 / 1000         #unit = "kO"
         }
-            
+        if date: readings["entry_date"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        return readings
+    
+class GasSensorThread(GasSensor, Thread):
+    def __init__(self, client, interval, start_up_time=DEFAULT_STARTUP_TIME):
+        GasSensor.__init__(client, interval, start_up_time)
+        Thread.__init__(daemon=True)
+    
     def run(self):
-        self._start_up()
+        self.start_up()
         while True:
             self.client.send_gas(data=self.read())
             time.sleep(self.interval)

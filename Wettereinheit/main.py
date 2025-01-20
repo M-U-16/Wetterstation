@@ -1,35 +1,67 @@
 # standard libraries
 import os
-import sys, time, threading
+import sys
+import time
+
 # internal libraries
+from sensors import SensorGroup
 from config import get_config
 from socketClient import get_client
-from sensors.all import start_data_measuring
-from sensors.gas import start_gas_measuring
+isFake = os.getenv("WETTEREINHEIT_IS_FAKE", "False") == "True"
 
-# specifies if random readings are
-# used to send to server
-isFake = os.getenv("WETTEREINHEIT_IS_FAKE", "False")
+if isFake:
+    from sensors.fake import Bme280SensorFake
+    from sensors.fake import Ltr559SensorFake
+else:
+    from sensors.bme import Bme280Sensor
+    from sensors.fake import ParticleSensorFake
+    from sensors.ltr import Ltr559Sensor
+    from sensors.pms import ParticleSensor
+
+
 config = get_config("pi.ini")
 
 # websocket client to send live data
 client = get_client()
         
 def main():
-    gas_thread = threading.Thread(
+    sensors = []
+    if isFake:
+        sensors=[
+            Bme280SensorFake(),
+            Ltr559SensorFake(),
+            ParticleSensorFake(),
+        ]
+    else:
+        sensors = [
+            Bme280Sensor(),
+            Ltr559Sensor(),
+            ParticleSensor(),
+            
+        ]
+        
+    sensor_group = SensorGroup(
+        client,
+        10, 
+        sensors=sensors,
+        print=True,
+        send=False
+    )
+    
+    """ gas_thread = threading.Thread(
         target=start_gas_measuring,
         daemon=True,
         args=(client, 60, 30,) #int(config["sensors.gas"]["StartUpTime"])
-    )
-    data_thread = threading.Thread(
+    ) """
+    """ data_thread = threading.Thread(
         target=start_data_measuring,
         daemon=True,
         args=(client, 10,)
-    )
+    ) """
     
     try:
         # connect to server
-        if isFake == "True":
+        if isFake:
             client.io.connect(
                 "http://localhost:8080",
                 namespaces="/pi",
@@ -42,10 +74,7 @@ def main():
                 auth={"key": config["server"]["key"]}
             )
         
-        # start threads
-        gas_thread.start()
-        data_thread.start()
-        
+        sensor_group.run()
         client.io.wait()
         # infinite loop for staying connected to server
         # via websocket connection

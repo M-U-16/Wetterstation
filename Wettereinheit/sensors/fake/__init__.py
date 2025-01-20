@@ -3,13 +3,19 @@ import random
 from threading import Thread
 from datetime import datetime
 
-class GasSensorFake(Thread):
-    def __init__(self, client, interval, start_up_time):
+TEST_START_UP_TIME = 60
+
+class GasSensorFake:
+    def __init__(
+        self, client,
+        interval=None, start_up_time=TEST_START_UP_TIME
+    ):
+        self.name = "gas_sensor_fake"
         self.start_up_time = start_up_time
         self.interval = interval
         self.client = client
     
-    def _start_up(self):
+    def start_up(self):
         start_time = time.time()
         running = True
         while running:
@@ -17,26 +23,31 @@ class GasSensorFake(Thread):
             if time.time() > start_time + self.start_up_time:
                 running = False
     
-    def read(self):
+    def read(self, date=False):
         gases = {"oxidising": 10000, "reducing": 10000, "nh3": 10000}
-        
-        return {
-            "entry_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        readings = {
             "oxi": gases.oxidising / 1000,  #unit = "kO"
             "red": gases.reducing / 1000,   #unit = "kO"
             "nh3": gases.nh3 / 1000         #unit = "kO"
         }
+        if date: readings["entry_date"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        return readings
             
+
+class GasSensorThreadFake(Thread, GasSensorFake):
+    def __init__(self, client, interval, start_up_time=TEST_START_UP_TIME):
+        super(client, interval, start_up_time)
+    
     def run(self):
-        self._start_up()
+        self.start_up()
         while True:
             self.client.send_gas(data=self.read())
             time.sleep(self.interval)
+    
 
 class Bme280SensorFake:
-    def __init__(self, timeout):
-        self.timeout = timeout
-        self.running = False
+    def __init__(self):
+        self.name = "bme280_fake"
 
     # reads the current temperature, humidity and pressure
     def read(self, date=False):
@@ -52,8 +63,9 @@ class Bme280SensorFake:
     def read_humi(self): return self.read(date=False)["humi"]
     def read_pres(self): return self.read(date=False)["pres"]
 
-class PMS5003Fake:
-    def __init__(self): pass
+class ParticleSensorFake:
+    def __init__(self):
+        self.name = "pms5003_fake"
     
     def read(self, date=False):
         readings = {
@@ -68,8 +80,9 @@ class PMS5003Fake:
     def read_pm25(self): return self.read(date=False)["pm25"]
     def read_pm100(self): return self.read(date=False)["pm100"]
     
-class LightSensorFake:
-    def __init__(self): pass
+class Ltr559SensorFake:
+    def __init__(self):
+        self.name = "ltr_sensor_fake"
     def read(self, date=False):
         reading = random.randrange(1, 100)
         if date: reading["date"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')

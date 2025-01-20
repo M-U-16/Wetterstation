@@ -20,8 +20,14 @@ def readings_connect(auth):
 
 @socketio.on("new-readings", namespace="/pi")
 def send_new_readings(readings_data):
-    addEntry(readings_data)
-    emit("new-reading", readings_data, namespace="/", broadcast=True)
+    """ addEntry(readings_data) """
+    data = { "entry_date": readings_data["entry_date"],
+        **(readings_data["bme280_fake"])}
+    print(data)
+    emit(
+        "new-reading", data,
+        namespace="/", broadcast=True
+    )
     
 @socketio.on("new-gas", namespace="/pi")
 def new_gas(gas_data):

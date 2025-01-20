@@ -1,3 +1,4 @@
+{% from "components/sidebar.html" import sidebar %}
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -6,21 +7,41 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='assets/images/fish.png') }}"/>
     
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}" media="all" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}" media="all">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/title-bar.css') }}" media="all">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/content.css') }}" media="all">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/sidebar.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flashed-message.css') }}" media="all" />
     
     {% block styles %}{% endblock styles %}
     <title>Wetterstation {% block title %}{% endblock title %}</title>
 </head>
 <body id="body" class="light-theme">
     <div id="root">
-        {% block root %}{% endblock root %}
+        {{ sidebar() }}
+        <div class="app-title-bar">
+            <div class="title">
+                {% block titlebarIcon %}
+                {% endblock titlebarIcon %}
+                <h1>
+                {% block titlebarHeading %}
+                {% endblock titlebarHeading %}
+                </h1>
+            </div>
+            <div>
+                {% block titlebarNav %}
+                {% endblock titlebarNav %}
+            </div>
+        </div>
+        <div class="content">
+            {% block content %}{% endblock content %}
+        </div>
     </div>
+
     <!-- <script src="https://unpkg.com/htmx.org@1.9.12"></script> -->
-    <script src="{{ url_for('static', filename='js/libs/htmx.min.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='js/libs/htmx.min.js') }}"></script> -->
     <!-- <script src="https://unpkg.com/alpinejs"></script> -->
     <script src="{{ url_for('static', filename='js/libs/alpine.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/build/main.js') }}"></script>
-    {% block code %}{% endblock code %}
+    {% block scripts %}
+    {% endblock scripts %}
 </body>
 </html>

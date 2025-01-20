@@ -1,0 +1,173 @@
+{% extends "base/base.html" %}
+{% from "svgs/close.html" import close %}
+{% from "components/flashed-messages.html" import FlashedMessages %}
+
+{% block title %}| Admin{% endblock title %}
+{% block styles %}
+    <style>
+        .admin-container {
+            width: 100%;
+            height: 100%;
+            padding: 1rem;
+            margin: auto;
+            max-width: 55rem;
+        }
+
+        .flashed-messages {
+            position: absolute;
+            max-width: 15rem;
+            right: 0;
+            padding: 0.5rem;
+            width: 100%;
+        }
+
+        .logout-link {
+            text-decoration: none;
+            color: black;
+            transition: 0.3s ease;
+            margin: 0 1rem 0 0;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+        }
+
+        .logout-link svg {
+            width: 1.4rem;
+            height: 1.4rem;
+        }
+
+        .logout-link:hover {
+            color: var(--highlight-clr)
+        }
+
+        .information-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .information-container .info {
+            padding: 1rem;
+            background-color: white;
+            box-shadow: var(--test-box-shadow);
+
+        }
+
+        .select-container {
+            padding: 0.5rem 0;
+        }
+
+        .select-container h3 {
+            font-weight: 500;
+            font-size: 1.5rem;
+        }
+
+        .select-container select,
+        .select-container input {
+            padding: 1rem;
+            border: 1px solid rgba(95, 95, 95, 0.253);
+            box-shadow: inset 0px 0px 1px rgb(59, 59, 59);
+        }
+        
+        .select-container input {
+            width: 6rem;
+            border-radius: 5px 0 0 5px;
+        }
+        
+        .select-container select {
+            border-radius: 0 5px 5px 0;
+            border-left: none;
+        }
+
+        .input-container {
+            display: flex;
+        }
+    </style>
+
+{% endblock styles %}
+{% block titlebarHeading %}Admin{% endblock titlebarHeading %}
+{% block titlebarNav %}
+<a class="logout-link" href="/admin/logout">
+    <span>Abmelden</span>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
+    </svg>
+</a>
+{% endblock titlebarNav %}
+
+{% block content %}
+    <div class="flashed-messages">
+        {{ FlashedMessages() }}
+    </div>
+    <div class="admin-container">
+        <h1>Generelle Informationen</h1>
+        <div class="information-container">
+            <div class="info status">
+                <h3>Messstatus:</h3>
+                <p>
+                    {% if piStatus %}
+                    {{piStatus}}
+                    {% else %}
+                        Nicht verfügbar
+                    {% endif %}
+                </p>
+            </div>
+            <div class="info last-measurement">
+                <h3>Letzte Messung:</h3>
+                <p>
+                    {% if data %}
+                        {{ data["lastMeasurement"] }}
+                    {% else %}
+                        Nicht verfügbar
+                    {% endif %}
+                </p>
+            </div>
+            <div class="info cpu-temperature">
+                <h3>CPU-Temperatur:</h3>
+                <p>
+                    {% if data %}
+                        {{ data["cpuTemp"] }}
+                    {% else %}
+                        Nicht verfügbar
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        <div class="pi-settings">
+            <h1>Einstellungen</h1>
+            <div class="select-container">
+                <h3>Messinterval</h3>
+                <div class="input-container">
+                    <input type="number" min="0">
+                    <select name="type">
+                        <option value="sec">Sekunden</option>
+                        <option value="min">Minuten</option>
+                        <option value="h">Stunden</option>
+                        <option value="d">Tage</option>
+                    </select>
+                </div>
+            </div>
+    
+            <h2>Gassensor</h2>
+            <div class="select-container">
+                <h3>Messverzögerung</h3>
+                <div class="input-container">
+                    <input type="number" min="0">
+                    <select name="type">
+                        <option value="sec">Sekunden</option>
+                        <option value="min">Minuten</option>
+                        <option value="h">Stunden</option>
+                        <option value="d">Tage</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    
+        <div class="general-settings">
+        </div>
+    </div>
+{% endblock content %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/flashed-messages.js') }}"></script>
+{% endblock scripts %}

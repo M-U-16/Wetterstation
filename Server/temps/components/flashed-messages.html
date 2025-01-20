@@ -1,0 +1,24 @@
+{% from "svgs/close.html" import close %}
+
+{% macro FlashedMessages(category) %}
+{% with messages = get_flashed_messages(
+    with_categories=true,
+    category_filter=category | default("")
+)%}
+{% if messages %}
+    {% for category, message in messages %}
+    <div
+        x-data="{ open: true }"
+        x-show="open"
+        class="flashed-message {{ category }}"
+        x-transition:leave.duration.200ms
+    >
+        <p>{{message}}</p>
+        <button type="button" @click="open=false">
+            {{ close() }}
+        </button>
+    </div>
+    {% endfor %}
+{% endif %}
+{% endwith %}
+{% endmacro %}

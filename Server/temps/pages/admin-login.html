@@ -1,0 +1,81 @@
+{% extends "base/base.html" %}
+{% from "components/flashed-messages.html" import FlashedMessages %}
+
+{% block titlebarHeading %}Admin{% endblock titlebarHeading %}
+{% block title %}
+| Admin
+{% endblock title %}
+{% block styles %}
+<style>
+    .login-container {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        max-width: 20rem;
+        width: 100%;
+        margin: auto;
+    }
+
+    form h1 {
+        text-align: center;
+        margin-bottom: 0.4rem;
+    }
+
+    form input {
+        position: relative;
+        padding: 1rem;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        border: 1px solid rgb(185, 185, 185);
+        margin-bottom: 0.5rem;
+    }
+
+    form input::after {
+        content: "Hilfe!";
+        color: red;
+        position: absolute;
+        width: 5rem;
+        right: 0;
+        top: 0;
+    }
+
+    form button[type="submit"] {
+        padding: 1rem;
+        border: none;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+        background-color: var(--highlight-clr);
+    }
+</style>
+{% endblock styles %}
+
+{% block content %}
+<div class="login-container">
+    <form action="/admin" method="POST">
+        <h1>Anmelden</h1>
+        <div class="flashed-messages">
+            {{ FlashedMessages("error") }}
+        </div>
+        <!-- <input name="username" type="text" placeholder="Benutzername"> -->
+        <input
+            required name="password"
+            type="password"
+            value=""
+            placeholder="Passwort"
+        >
+        <button type="submit">Los gehts!</button>
+    </form>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/flashed-messages.js') }}"></script>
+{% endblock scripts %}

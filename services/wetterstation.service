@@ -1,13 +1,16 @@
 [Unit]
-Description=Wriezen Gymnasium Wetterstation Server
+Description=Gymnasium Wriezen Wetterstation Server
 After=network.target
 
 [Service]
 User=pi
 Group=www-data
-WorkingDirectory=/home/pi/Wetterstation/Server
-Environment="PATH=/home/pi/Wetterstation/venv/bin"
-ExecStart=/home/pi/Wetterstation/venv/bin/gunicorn -k eventlet -w 1 --bind unix:Wetterstation.sock -m 007 wsgi:app
+WorkingDirectory=$HOME/Wetterstation/Server
+Environment="PATH=$HOME/Wetterstation/venv/bin"
+ExecStart=$HOME/Wetterstation/venv/bin/gunicorn -k eventlet \
+    -w 1 \
+    --bind unix:Wetterstation.sock \
+    -m 007 wsgi:app \
 
 [Install]
 WantedBy=multi-user.target

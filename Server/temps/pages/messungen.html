@@ -58,9 +58,7 @@
     </table>
 {% endmacro %}
 
-{% extends "base/dashboard.base.html" %}
-{% from "components/sidebar.html" import sidebar %}
-{% from "components/dashboard-navbar.html" import DashboardNavbar %}
+{% extends "base/base.html" %}
 {% from "components/inputs/TimeSelect.html" import select %}
 {% from "svgs/diagramme.html" import diagrammIcon %}
 {% block title %}| Messungen {% endblock title %}
@@ -78,28 +76,26 @@
         href="{{ url_for('static', filename='css/messungen.css')}}"
     />
 {% endblock styles %}
-{% block root %}
-    {{ sidebar() }}
-    {{ DashboardNavbar("Messungen", diagrammIcon) }}
-    <div class="content">
-        <div class="messungs__container">
-            {% if entry_data and date %}
-                {% if type == "content-table" %}
-                    {{ CreateTable(entry_data) }}
-                {% elif type == "content-entry" %}
-                    {{ SingleEntry(date, entry_data[0], entry_gas[0]) }}
-                    {% if graph %}
-                        <!-- <img style="width: 100%;max-width:500px" src="data:image/svg;base64,{{ graph }}"> -->
-                    {% endif %}
+{% block titlebarHeading %}Messungen{% endblock titlebarHeading %}
 
+{% block content %}
+    <div class="messungs__container">
+        {% if entry_data and date %}
+            {% if type == "content-table" %}
+                {{ CreateTable(entry_data) }}
+            {% elif type == "content-entry" %}
+                {{ SingleEntry(date, entry_data[0], entry_gas[0]) }}
+                {% if graph %}
+                    <!-- <img style="width: 100%;max-width:500px" src="data:image/svg;base64,{{ graph }}"> -->
                 {% endif %}
 
-            {% else %}
-                <h1>Keine Daten vorhanden!</h1>
             {% endif %}
-        </div>
+        {% else %}
+            <h1>Keine Daten vorhanden!</h1>
+        {% endif %}
     </div>
-{% endblock root %}
+{% endblock content %}
+
 {% block code %}
     {% if type == "content-table" %}
         <script>

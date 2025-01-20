@@ -1,10 +1,11 @@
 import sys
-from datetime import datetime
 import time
+from datetime import datetime
 try:
     from ltr559 import LTR559
     from bme280 import BME280
     from pms5003 import PMS5003, ReadTimeoutError as pmsReadTimeoutError
+    
     # LIGHT SENSOR
     ltr559 = LTR559()
     # BME280 temperature/pressure/humidity sensor
@@ -27,17 +28,15 @@ def start_data_measuring(client, interval):
             pm10 = float(pm.pm_ug_per_m3(10)) #unit = "ug/m3"
             pm25 = float(pm.pm_ug_per_m3(2.5)) #unit = "ug/m3"
             
-        client.send_readings(
-            data={
-                "entry_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
-                "temp": round(bme280.get_temperature(), 2),
-                "proxi": round(ltr559.get_proximity()),
-                "humi": round(bme280.get_humidity()), #unit = "%"
-                "pres": round(bme280.get_pressure()), #unit = "hPa"
-                "lux": round(ltr559.get_lux()), # unit = lux
-                "pm10": round(pm1),
-                "pm25": round(pm25),
-                "pm100": round(pm10),
-            }
-        )
+        client.send_readings(data={
+            "entry_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            "temp": round(bme280.get_temperature(), 2),
+            "proxi": round(ltr559.get_proximity()),
+            "humi": round(bme280.get_humidity()), #unit = "%"
+            "pres": round(bme280.get_pressure()), #unit = "hPa"
+            "lux": round(ltr559.get_lux()), # unit = lux
+            "pm1": round(pm1),
+            "pm25": round(pm25),
+            "pm10": round(pm10),
+        })
         time.sleep(interval)
