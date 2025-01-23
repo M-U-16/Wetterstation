@@ -6,7 +6,6 @@ from api.events import socketio
 # api endpoints
 from api import api_bp
 # views
-from views.live import blueprint as live_bp
 from views.home import blueprint as home_bp
 from views.admin import blueprint as admin_bp
 from views.suchen import blueprint as suchen_bp
@@ -19,7 +18,6 @@ def register_extensions(app):
 def register_blueprints(app):
     app.register_blueprint(api_bp)
     app.register_blueprint(home_bp)
-    app.register_blueprint(live_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(suchen_bp)
     app.register_blueprint(dasboard_bp)

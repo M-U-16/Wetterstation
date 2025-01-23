@@ -2,6 +2,8 @@ import time
 from threading import Thread
 from datetime import datetime
 
+class ExceptionWarmUpNotDone(RuntimeError): pass
+
 class SensorGroup(Thread):
     def __init__(
         self, client, interval,
@@ -41,10 +43,12 @@ class SensorGroup(Thread):
         while True:
             readings = {}
             for sensor in self.sensors:
-                readings[sensor.name] = sensor.read()
+                try:
+                    readings[sensor.name] = sensor.read()
+                except ExceptionWarmUpNotDone: pass
                 
             readings["entry_date"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             if self.send and self.client:
                 self.client.send_readings(data=readings)
             if self.print: print(readings)
-            time.sleep(self.interval)            
+            time.sleep(self.interval)

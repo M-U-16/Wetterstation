@@ -1,6 +1,8 @@
 # librarys and stdlib
+import datetime
 from flask import current_app
 from markupsafe import escape
+from datetime import datetime
 from flask import Blueprint, render_template, request
 
 # internal
@@ -15,6 +17,8 @@ blueprint = Blueprint(
 
 @blueprint.get("/")
 def dashboard_diagramme():
+    
+    
     data_gas = db.getAvgGasLastMinuteToday()
     print("gas: ", data_gas)
     
@@ -35,6 +39,10 @@ def date_route(raw_date):
     except: limit = current_app.config["DEFAULT_MESSUNG_LIMIT"]
     inputDate = DatetimeInfo(raw_date)
     data = db.searchEntrys(str(inputDate), int(limit))
+    
+    datetime()
+    date = datetime.strptime(raw_date, "%d-%m-%Y %H:%M:%S")
+    date.month
     
     if len(data) > 1 and not inputDate.date.isComplete:
         return render_template(

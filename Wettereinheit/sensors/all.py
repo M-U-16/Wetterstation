@@ -1,3 +1,15 @@
+""" gas_thread = threading.Thread(
+target=start_gas_measuring,
+daemon=True,
+args=(client, 60, 30,) #int(config["sensors.gas"]["StartUpTime"])
+) """
+""" data_thread = threading.Thread(
+target=start_data_measuring,
+daemon=True,
+args=(client, 10,)
+) """
+    
+    
 import sys
 import time
 from datetime import datetime

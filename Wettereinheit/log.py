@@ -2,9 +2,7 @@ import os
 import logging
 from logging.handlers import TimedRotatingFileHandler
 
-from config import test
-
-#TimedRotatingFileHandler()
+TimedRotatingFileHandler()
 #logging.StreamHandler()
 logger = logging.getLogger(__name__)
 
@@ -17,5 +15,3 @@ logging.basicConfig(
     format="[%(asctime)s] %(filename)s:%(lineno)d | %(levelname)s: %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S"
 )
-
-test(logger)

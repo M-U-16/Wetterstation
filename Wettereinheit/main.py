@@ -1,12 +1,14 @@
 # standard libraries
 import os
 import sys
-import time
 
 # internal libraries
 from sensors import SensorGroup
 from config import get_config
 from socketClient import get_client
+
+# isFake exists only to test the program
+# random values are generated and send to the server 
 isFake = os.getenv("WETTEREINHEIT_IS_FAKE", "False") == "True"
 
 if isFake:
@@ -47,17 +49,6 @@ def main():
         print=True,
         send=False
     )
-    
-    """ gas_thread = threading.Thread(
-        target=start_gas_measuring,
-        daemon=True,
-        args=(client, 60, 30,) #int(config["sensors.gas"]["StartUpTime"])
-    ) """
-    """ data_thread = threading.Thread(
-        target=start_data_measuring,
-        daemon=True,
-        args=(client, 10,)
-    ) """
     
     try:
         # connect to server

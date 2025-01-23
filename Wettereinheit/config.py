@@ -10,6 +10,3 @@ def get_config(path):
     config.optionxform=str
     config.read(path)
     return config
-
-def test(logger):
-    logger.error("hello this is error")
