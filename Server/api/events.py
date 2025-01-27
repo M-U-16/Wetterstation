@@ -33,6 +33,6 @@ def send_new_readings(readings_data):
 def new_gas(gas_data):
     addGases(gas_data)
     emit("new-gas", gas_data, namespace="/", broadcast=True)
-   
+
 @socketio.on("disconnect", namespace="/pi")
 def disconnect(): print("Pi Disconnected!")

@@ -1,3 +1,7 @@
+import os
+import secrets
+from config import load_config
+
 # flask and flask utils
 from flask import Flask
 from flask_cors import CORS
@@ -12,6 +16,8 @@ from views.suchen import blueprint as suchen_bp
 from views.dashboard import blueprint as dasboard_bp
 from views.messugen import blueprint as messungen_bp
 
+from models.meta import close_meta_db
+
 def register_extensions(app):
     socketio.init_app(app)
 
@@ -25,8 +31,24 @@ def register_blueprints(app):
 
 def create_app():
     app = Flask(__name__, template_folder="temps")
+    
+    # config
+    ENV_FILE = os.getenv("ENV_FILE", ".env.dev")
+    if ENV_FILE == ".env.dev":
+        if os.getenv("ENV", "development") == "production":
+            print("ERROR: Mode is 'production' can't use '.env.dev' as env file")
+            exit(1)
+        print("INFO: Running in development mode")
+        print("INFO: Running with .env.dev")
+
+    load_config(ENV_FILE)
     app.config.from_prefixed_env()
-        
+    
+    app.config["SECRET_KEY"] = secrets.token_hex()
+    # -------------
+
+    app.teardown_appcontext(close_meta_db)
+
     #configuring cors
     app.config["CORS_HEADERS"] = "Content-Type"
     CORS(app, resources={r"/api/*": {"origins": "*"}})

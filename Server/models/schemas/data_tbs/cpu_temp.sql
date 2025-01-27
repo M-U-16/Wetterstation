@@ -1,5 +1,0 @@
-CREATE TABLE IF NOT EXISTS cpu (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    cpu_temperature INTEGER,
-    date DATE
-);

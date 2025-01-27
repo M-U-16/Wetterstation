@@ -13,14 +13,6 @@
             max-width: 55rem;
         }
 
-        .flashed-messages {
-            position: absolute;
-            max-width: 15rem;
-            right: 0;
-            padding: 0.5rem;
-            width: 100%;
-        }
-
         .logout-link {
             text-decoration: none;
             color: black;
@@ -96,9 +88,6 @@
 {% endblock titlebarNav %}
 
 {% block content %}
-    <div class="flashed-messages">
-        {{ FlashedMessages() }}
-    </div>
     <div class="admin-container">
         <h1>Generelle Informationen</h1>
         <div class="information-container">
@@ -133,13 +122,24 @@
                 </p>
             </div>
         </div>
-        <div class="pi-settings">
+
+        <div class="simple-controls">
+            <h1>Wettereinheit</h1>
+            <button>Starten</button>
+            <button>Stoppen</button>
+            <button>Neustarten</button>
+        </div>
+
+        <form class="pi-settings" method="POST" action="/api/settings/wettereinheit">
             <h1>Einstellungen</h1>
             <div class="select-container">
                 <h3>Messinterval</h3>
                 <div class="input-container">
-                    <input type="number" min="0">
-                    <select name="type">
+                    <input
+                        name="input-measure-interval"
+                        type="number" min="0"
+                    >
+                    <select name="select-measure-interval">
                         <option value="sec">Sekunden</option>
                         <option value="min">Minuten</option>
                         <option value="h">Stunden</option>
@@ -147,13 +147,15 @@
                     </select>
                 </div>
             </div>
-    
             <h2>Gassensor</h2>
             <div class="select-container">
                 <h3>Messverzögerung</h3>
                 <div class="input-container">
-                    <input type="number" min="0">
-                    <select name="type">
+                    <input
+                        name="input-gas-startup-time"
+                        type="number" min="0"
+                    >
+                    <select name="select-gas-startup">
                         <option value="sec">Sekunden</option>
                         <option value="min">Minuten</option>
                         <option value="h">Stunden</option>
@@ -161,13 +163,33 @@
                     </select>
                 </div>
             </div>
-        </div>
+            <button type="submit">Speichern</button>
+        </form>
     
-        <div class="general-settings">
-        </div>
+        <div class="general-settings"></div>
     </div>
 {% endblock content %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/flashed-messages.js') }}"></script>
+<script>
+    const form = document.querySelector(".pi-settings")
+    
+    document.querySelector(".pi-settings button[type='submit']").addEventListener("click", (e) => {
+        e.preventDefault()
+        //console.log(document.querySelector(".pi-settings input").value)
+        const data = new FormData(form)
+        for (const [key, value] of data) {
+            console.log(`${key}: ${value}`)
+        }
+        
+        fetch("/api/settings/wettereinheit", {
+            body: new FormData(form),
+            method: "POST",
+        }).then(async(res) => {
+            console.log(await res.json())
+        }).catch(err => {
+            console.log(err)
+        })
+    })
+</script>
 {% endblock scripts %}

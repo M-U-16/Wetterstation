@@ -4,11 +4,7 @@ blueprint = Blueprint("admin_bp", __name__, url_prefix="/admin")
 @blueprint.get("/")
 def admin():
     if not session.get("is_admin"):
-        response = make_response(render_template("pages/admin-login.html"))
-        response.headers["Cache-Control"] = "no-store"
-        response.headers["Pragma"] = "no-cache"
-        response.headers["Expires"] = "0"
-        return response
+        return render_template("pages/admin-login.html")
     else: return render_template("pages/admin.html")
 
 @blueprint.post("/")

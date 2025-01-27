@@ -6,8 +6,7 @@ from datetime import datetime
 from . import ExceptionWarmUpNotDone
 
 try: from enviroplus import gas
-except Exception as e:
-    sys.exit(">> ERROR: {}".format(e))
+except Exception as e: sys.exit(">> ERROR: {}".format(e))
 
 # the gas sensor (MICS6814) needs around 10mins
 # to warm up and stabilise its readings
@@ -39,7 +38,6 @@ class GasSensor:
         self._finished_start_up.set()
     
     def read(self, date=False):
-        # still 
         if not self._finished_start_up.is_set():
             raise ExceptionWarmUpNotDone("GasSensor still in warm up mode")
         
@@ -51,17 +49,3 @@ class GasSensor:
         }
         if date: readings["entry_date"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         return readings
-        
-""" class GasSensorThread(GasSensor, Thread):
-    def __init__(self, client, interval, start_up_time=DEFAULT_STARTUP_TIME):
-        GasSensor.__init__(
-            self, client,
-            interval, start_up_time
-        )
-        Thread.__init__(daemon=True)
-    
-    def run(self):
-        self.start_up()
-        while True:
-            self.client.send_gas(data=self.read())
-            time.sleep(self.interval) """

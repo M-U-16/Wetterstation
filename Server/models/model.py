@@ -4,22 +4,33 @@ from pathlib import Path
 from os.path import join as path_join
 from helpers.fakeEntrys import getManyRandomDataEntrys
 
-""" def get_db():
-    if "db" not in g:
-        print(current_app.config) """
-
 def getConnection(db_path):
     #create a connection to the sqlite db pass to it
     connection = sqlite3.connect(db_path)
     connection.row_factory = sqlite3.Row
     return connection
     
-def create_all_tables(db_path, schema):
+def create_tables(db_path, sql_dir="", sql_file=""):
     con = getConnection(db_path)
     
-    path_sql_files = path_join(Path(__file__).parent.absolute(), "schemas", schema)
-    files = [f for f in os.listdir(path_sql_files)]
-    file_paths = list(map(lambda f: path_join(path_sql_files, f), files))
+    path_sql = ""
+    if sql_file != "":
+        path_sql = path_join(Path(__file__).parent.absolute(), "schemas", sql_file)
+    elif sql_dir != "":
+        path_sql = path_join(Path(__file__).parent.absolute(), "schemas", sql_dir)
+    if not path_sql: raise Exception("no sql file or directory with sql files given")
+        
+    files = []
+    file_paths = []
+    
+    # if given path is path to
+    # directory then get all files in the directory
+    # otherwise it is a file
+    if os.path.isdir(path_sql):
+        files = [f for f in os.listdir(path_sql)]
+        file_paths = list(map(lambda f: path_join(path_sql, f), files))
+    else: file_paths = [path_sql]
+    
     for path in file_paths:
         file = open(path, "r")
         con.executescript(file.read())

@@ -57,6 +57,8 @@
 </style>
 {% endblock styles %}
 
+{% block flashedMessages %}
+{% endblock flashedMessages %}
 {% block content %}
 <div class="login-container">
     <form action="/admin" method="POST">
@@ -75,7 +77,3 @@
     </form>
 </div>
 {% endblock content %}
-
-{% block scripts %}
-<script src="{{ url_for('static', filename='js/flashed-messages.js') }}"></script>
-{% endblock scripts %}

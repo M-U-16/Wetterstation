@@ -7,19 +7,21 @@ from sensors import SensorGroup
 from config import get_config
 from socketClient import get_client
 
-# isFake exists only to test the program
+# isFake exists only to test the program and server
+# without the actual sensors
 # random values are generated and send to the server 
 isFake = os.getenv("WETTEREINHEIT_IS_FAKE", "False") == "True"
 
 if isFake:
+    from sensors.fake import GasSensorFake
     from sensors.fake import Bme280SensorFake
     from sensors.fake import Ltr559SensorFake
+    from sensors.fake import ParticleSensorFake
 else:
     from sensors.bme import Bme280Sensor
-    from sensors.fake import ParticleSensorFake
     from sensors.ltr import Ltr559Sensor
     from sensors.pms import ParticleSensor
-
+    from sensors.gas import GasSensor
 
 config = get_config("pi.ini")
 
@@ -33,20 +35,20 @@ def main():
             Bme280SensorFake(),
             Ltr559SensorFake(),
             ParticleSensorFake(),
+            GasSensorFake(start_up_time=10)
         ]
     else:
         sensors = [
             Bme280Sensor(),
             Ltr559Sensor(),
+            GasSensor(),
             ParticleSensor(),
-            
         ]
         
     sensor_group = SensorGroup(
-        client,
-        10, 
+        client, 10, 
         sensors=sensors,
-        print=True,
+        do_print=True if isFake else False,
         send=False
     )
     

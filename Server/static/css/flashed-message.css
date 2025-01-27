@@ -7,6 +7,14 @@
     border-radius: 5px;
 }
 
+.flashed-messages.default {
+    right: 0;
+    width: 100%;
+    padding: 0.5rem;
+    max-width: 15rem;
+    position: absolute;
+}
+
 .flashed-message.error {
     color: white;
     background-color: rgb(255, 60, 60);

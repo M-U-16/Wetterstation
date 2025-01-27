@@ -17,13 +17,15 @@ def formatResponse(arr):
 
 #connection wrapper
 #connects and closes db connection for querys
-def connection(func):
-    DATABASE_PATH = os.getenv("FLASK_WETTER_DATABASE_PATH")
+def connection(func, db=None):
+    if not db:
+        database_path = os.getenv("FLASK_DATABASE")
+    else: database_path = db
     
     def func_wrapper(*args, **kwargs):
         #create a connection to the sqlite db
-        print(DATABASE_PATH)
-        connection = sqlite3.connect(DATABASE_PATH)
+        print(database_path)
+        connection = sqlite3.connect(database_path)
         connection.row_factory = sqlite3.Row
         cursor = connection.cursor()
         #execute the func parameter

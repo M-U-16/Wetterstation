@@ -1,4 +1,6 @@
 {% from "components/sidebar.html" import sidebar %}
+{% from "components/flashed-messages.html" import FlashedMessages %}
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -14,6 +16,7 @@
     
     {% block styles %}{% endblock styles %}
     <title>Wetterstation {% block title %}{% endblock title %}</title>
+
 </head>
 <body id="body" class="light-theme">
     <div id="root">
@@ -33,6 +36,11 @@
             </div>
         </div>
         <div class="content">
+            {% block flashedMessages %}
+                <div class="flashed-messages default">
+                    {{ FlashedMessages() }}
+                </div>
+            {% endblock flashedMessages %}
             {% block content %}{% endblock content %}
         </div>
     </div>
@@ -41,7 +49,7 @@
     <!-- <script src="{{ url_for('static', filename='js/libs/htmx.min.js') }}"></script> -->
     <!-- <script src="https://unpkg.com/alpinejs"></script> -->
     <script src="{{ url_for('static', filename='js/libs/alpine.min.js') }}"></script>
-    {% block scripts %}
-    {% endblock scripts %}
+    <script src="{{ url_for('static', filename='js/flashed-messages.js') }}"></script>
+    {% block scripts %}{% endblock scripts %}
 </body>
 </html>

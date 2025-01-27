@@ -1,49 +1,46 @@
 import time
 import random
-from threading import Thread
+import threading
 from datetime import datetime
+from sensors import ExceptionWarmUpNotDone
 
 TEST_START_UP_TIME = 60
 
 class GasSensorFake:
     def __init__(
-        self, client,
-        interval=None, start_up_time=TEST_START_UP_TIME
+        self,
+        interval=None,
+        start_up_time=TEST_START_UP_TIME
     ):
         self.name = "gas_sensor_fake"
         self.start_up_time = start_up_time
         self.interval = interval
-        self.client = client
     
-    def start_up(self):
+        # setup and start a new thread
+        # to warm up the sensor
+        self._start_up_time = start_up_time
+        self._finished_start_up = threading.Event()
+        self._start_up_thread = threading.Thread(target=self._start_up)
+        self._start_up_thread.start()
+            
+    def _start_up(self):
         start_time = time.time()
-        running = True
-        while running:
-            time.sleep(0.5)
-            if time.time() > start_time + self.start_up_time:
-                running = False
+        while time.time() <= start_time + self._start_up_time:
+            time.sleep(0.5) # slepp for short period
+        self._finished_start_up.set()
     
     def read(self, date=False):
+        if not self._finished_start_up.is_set():
+            raise ExceptionWarmUpNotDone("GasSensor still in warm up mode")
+        
         gases = {"oxidising": 10000, "reducing": 10000, "nh3": 10000}
         readings = {
-            "oxi": gases.oxidising / 1000,  #unit = "kO"
-            "red": gases.reducing / 1000,   #unit = "kO"
-            "nh3": gases.nh3 / 1000         #unit = "kO"
+            "oxi": gases["oxidising"] / 1000,  #unit = "kO"
+            "red": gases["reducing"] / 1000,   #unit = "kO"
+            "nh3": gases["nh3"] / 1000         #unit = "kO"
         }
         if date: readings["entry_date"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         return readings
-            
-
-class GasSensorThreadFake(Thread, GasSensorFake):
-    def __init__(self, client, interval, start_up_time=TEST_START_UP_TIME):
-        super(client, interval, start_up_time)
-    
-    def run(self):
-        self.start_up()
-        while True:
-            self.client.send_gas(data=self.read())
-            time.sleep(self.interval)
-    
 
 class Bme280SensorFake:
     def __init__(self):
@@ -84,6 +81,9 @@ class Ltr559SensorFake:
     def __init__(self):
         self.name = "ltr_sensor_fake"
     def read(self, date=False):
-        reading = random.randrange(1, 100)
+        reading = {
+            "lux": random.randrange(1, 100),
+            "prox": random.randrange(400, 1000)
+        }
         if date: reading["date"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         return reading

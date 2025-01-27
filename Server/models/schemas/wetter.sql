@@ -11,3 +11,11 @@ CREATE TABLE IF NOT EXISTS wetterdaten (
     pm25 TEXT,
     pm100 TEXT
 );
+
+CREATE TABLE IF NOT EXISTS gas (
+    entry_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    entry_date DATE,
+    oxi TEXT,
+    red TEXT,
+    nh3 TEXT
+);
