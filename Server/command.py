@@ -6,6 +6,7 @@ import sqlite3
 
 #from flask import current_app
 #from helpers.server_path import getServerPath
+from models.meta import get_meta_db
 from models.model import create_tables, random_populate_db
 from wsgi import app
 
@@ -70,6 +71,37 @@ def create_default():
             os.getenv("FLASK_META_DATABASE"),
             sql_file="meta.sql"
         )
+        
+        with app.app_context():
+            devices_path = os.path.join(app.root_path, "devices")
+            devices = os.listdir(devices_path)
+            for device in devices:
+                if "." not in device: continue
+                
+                device_file_path = os.path.join(devices_path, device)
+                device_name, _ = device.split(".")
+                print(device_name)
+                
+                db = get_meta_db()
+                cursor = db.cursor()
+                cursor.execute("INSERT INTO device_lookup(device_name) VALUES (?)", [device_name])
+                device_id = cursor.execute("""
+                    SELECT id FROM device_lookup WHERE device_name=?;
+                """, [device_name]).fetchone()["id"]
+                print(device_id)
+                
+                settings = []
+                with open(device_file_path, "r", encoding="utf8") as file:
+                    for line in file.readlines():
+                        if "#" in line or "=" not in line: continue
+                        setting = line.removesuffix("\n").split("=")
+                        setting.insert(0, device_id)
+                        settings.append(setting)
+                
+                print(settings)
+                cursor.executemany("INSERT INTO device_settings(device_id, setting_name, setting_value) VALUES (?, ?, ?)", settings)
+                db.commit()
+                
     except Exception as e:
         print(e)
         exit(1)

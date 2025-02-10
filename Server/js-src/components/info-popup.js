@@ -1,36 +1,34 @@
 export class InfoPopup extends HTMLElement {
-    constructor() {
+    constructor(category, text) {
         super()
-        this.className = "info__popup"
-    }
-
-    delete() {
-        this.style.animation = "slideOut 1s ease"
-        setTimeout(() => this.remove(), 1500)
+        this.text = text
+        this.category = category
     }
 
     connectedCallback() {
         const shadow = this.attachShadow({mode:"open"})
 
-        // info message
-        const infoText = document.createElement("span")
-        const text = this.getAttribute("data-text")
-        infoText.innerHTML = text
+        const div = document.createElement("div")
+        div.setAttribute("x-data", "{open: true }")
+        div.setAttribute("x-show", "open")
+        div.className = "flashed-message"
+        div.classList.add(this.category)
+        div.setAttribute("x-transition:leave.duration.200ms", "")
 
-        // styles
-        const link = document.createElement("link")
-        link.type = "text/css"
-        link.setAttribute("rel", "stylesheet")
-        link.setAttribute("href", "/static/css/info-popup.css")
+        // info message
+        const text = document.createElement("p")
+        /* const text = this.getAttribute("data-text") */
+        text.innerHTML = this.text
 
         // close button
         const closeButton = document.createElement("button")
-        closeButton.className = "info__popup-btn"
+        closeButton.type = "button"
+        closeButton.setAttribute("@click", "open=false")
         closeButton.innerHTML = "x"
         closeButton.onclick = () => this.delete()
 
-        shadow.appendChild(link)
-        shadow.appendChild(infoText)
-        shadow.appendChild(closeButton)
+        div.appendChild(text)
+        div.appendChild(closeButton)
+        shadow.appendChild(shadow)
     }
 }

@@ -45,6 +45,9 @@
 
         }
 
+        .pi-settings {
+        }
+
         .select-container {
             padding: 0.5rem 0;
         }
@@ -56,7 +59,7 @@
 
         .select-container select,
         .select-container input {
-            padding: 1rem;
+            padding: 0.8rem 1rem;
             border: 1px solid rgba(95, 95, 95, 0.253);
             box-shadow: inset 0px 0px 1px rgb(59, 59, 59);
         }
@@ -74,6 +77,20 @@
         .input-container {
             display: flex;
         }
+
+        #save-button {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--highlight-clr);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #save-button.disabled {
+            background-color: grey;
+            cursor: not-allowed;
+        }
     </style>
 
 {% endblock styles %}
@@ -86,6 +103,32 @@
     </svg>
 </a>
 {% endblock titlebarNav %}
+
+{% macro NumberSelect(name, value, extra) %}
+    {% if extra %}
+        {% set value, selected = extra.split(",") %}
+    {% else %}
+        {% set selected = "sec" %}
+    {% endif %}
+
+    <input
+        name="{{ name }}"
+        type="number" min="1"
+        value="{{ value }}"
+        data-first="{{ value }}"
+        onchange="onchange_event(event)"
+    >
+    <select
+        name="{{ name }}-type"
+        data-first="{{ selected }}"
+        onchange="onchange_event(event)"
+    >
+        <option value="sec" {{ "selected" if selected == "sec" }}>Sekunde(n)</option>
+        <option value="min" {{ "selected" if selected == "min" }}>Minute(n)</option>
+        <option value="h" {{ "selected" if selected == "h" }}>Stunde(n)</option>
+        <option value="d" {{ "selected" if selected == "d" }}>Tag(e)</option>
+    </select>
+{% endmacro %}
 
 {% block content %}
     <div class="admin-container">
@@ -130,40 +173,48 @@
             <button>Neustarten</button>
         </div>
 
-        <form class="pi-settings" method="POST" action="/api/settings/wettereinheit">
+        <form
+            class="pi-settings"
+            method="POST"
+            action="/api/settings/wettereinheit"
+
+            x-data="{saveButton: false}"
+        >
             <h1>Einstellungen</h1>
             <div class="select-container">
                 <h3>Messinterval</h3>
-                <div class="input-container">
-                    <input
-                        name="input-measure-interval"
-                        type="number" min="0"
-                    >
-                    <select name="select-measure-interval">
-                        <option value="sec">Sekunden</option>
-                        <option value="min">Minuten</option>
-                        <option value="h">Stunden</option>
-                        <option value="d">Tage</option>
-                    </select>
-                </div>
+                {% if settings["Interval"] %}
+                    <div class="input-container">
+                        {{ NumberSelect(
+                            "interval",
+                            settings["Interval"]["value"],
+                            settings["Interval"]["extra"]
+                        )}}
+                    </div>
+                {% else %}
+                    <p>Einstellungen konnten nicht geladen werden.</p>
+                {% endif %}
             </div>
-            <h2>Gassensor</h2>
             <div class="select-container">
+                <h2>Gassensor</h2>
                 <h3>Messverzögerung</h3>
-                <div class="input-container">
-                    <input
-                        name="input-gas-startup-time"
-                        type="number" min="0"
-                    >
-                    <select name="select-gas-startup">
-                        <option value="sec">Sekunden</option>
-                        <option value="min">Minuten</option>
-                        <option value="h">Stunden</option>
-                        <option value="d">Tage</option>
-                    </select>
-                </div>
+                {% if settings["GasStartUpTime"] %}
+                    <div class="input-container">
+                        {{ NumberSelect(
+                            "gas-startup",
+                            settings["GasStartUpTime"]["value"],
+                            settings["GasStartUpTime"]["extra"]
+                        )}}
+                    </div>
+                {% else %}
+                    <p>Einstellungen konnten nicht geladen werden.</p>
+                {% endif %}
             </div>
-            <button type="submit">Speichern</button>
+            <button
+                id="save-button"
+                type="submit"
+            >Speichern</button>
+            <!-- :class="{'disabled': !saveButton}" -->
         </form>
     
         <div class="general-settings"></div>
@@ -173,20 +224,62 @@
 {% block scripts %}
 <script>
     const form = document.querySelector(".pi-settings")
-    
+    const flashedMessage = document.querySelector(".flashed-messages")
+
+    const interval = document.querySelector(".pi-settings input[name='interval']")
+    const intervalType = document.querySelector(".pi-settings select[name='interval-type']")
+
+    const gasStartUp = document.querySelector(".pi-settings input[name='gas-startup']")
+    const gasStartUpType = document.querySelector(".pi-settings select[name='gas-startup-type']")
+    //console.log(gasStartUp, gasStartUpType)
+
+    function onchange_event(e) {
+        console.log(e.srcElement.value)
+    }
+
+    // returns the given time in seconds
+    function time_to_second(time) {
+        if (time == "sec") {
+            return 1
+        } else if (time == "min") {
+            return 60
+        } else if (time == "h") {
+            return 3600
+        } else if (time == "d") {
+            return 24*3600
+        }
+    }
+
     document.querySelector(".pi-settings button[type='submit']").addEventListener("click", (e) => {
         e.preventDefault()
-        //console.log(document.querySelector(".pi-settings input").value)
-        const data = new FormData(form)
-        for (const [key, value] of data) {
-            console.log(`${key}: ${value}`)
+        if (e.srcElement.classList.contains("disabled")) {
+            console.log(event)
+            return
         }
         
         fetch("/api/settings/wettereinheit", {
-            body: new FormData(form),
+            body: JSON.stringify({
+                Interval: {
+                    value: interval.value * time_to_second(intervalType.value),
+                    extra: interval.value.toString()+","+intervalType.value
+                },
+                GasStartUpTime: {
+                    value: gasStartUp.value * time_to_second(gasStartUpType.value),
+                    extra: gasStartUp.value.toString()+","+gasStartUpType.value
+                }
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            },
             method: "POST",
         }).then(async(res) => {
-            console.log(await res.json())
+            
+            const json = await res.json()
+            if (json.error) {
+                flashedMessage.appendChild(
+                    new InfoPopup("error", "Fehler beim Speichern")
+                )
+            }
         }).catch(err => {
             console.log(err)
         })

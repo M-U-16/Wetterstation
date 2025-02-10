@@ -44,7 +44,7 @@ def create_app():
     load_config(ENV_FILE)
     app.config.from_prefixed_env()
     
-    app.config["SECRET_KEY"] = secrets.token_hex()
+    #app.config["SECRET_KEY"] = secrets.token_hex()
     # -------------
 
     app.teardown_appcontext(close_meta_db)

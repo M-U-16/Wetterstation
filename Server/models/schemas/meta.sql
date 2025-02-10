@@ -11,9 +11,11 @@ CREATE TABLE IF NOT EXISTS device_lookup(
 );
 
 CREATE TABLE IF NOT EXISTS device_settings(
-    device_id INTEGER,
+    device_id INTEGER NOT NULL,
     setting_name varchar(100),
     setting_value TEXT,
+    setting_extra TEXT,
     
     FOREIGN KEY(device_id) REFERENCES device_lookup(id)
+    UNIQUE (device_id, setting_name)
 );

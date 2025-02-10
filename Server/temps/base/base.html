@@ -19,6 +19,7 @@
 
 </head>
 <body id="body" class="light-theme">
+
     <div id="root">
         {{ sidebar() }}
         <div class="app-title-bar">
@@ -45,11 +46,11 @@
         </div>
     </div>
 
-    <!-- <script src="https://unpkg.com/htmx.org@1.9.12"></script> -->
-    <!-- <script src="{{ url_for('static', filename='js/libs/htmx.min.js') }}"></script> -->
-    <!-- <script src="https://unpkg.com/alpinejs"></script> -->
     <script src="{{ url_for('static', filename='js/libs/alpine.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/flashed-messages.js') }}"></script>
+    <script>
+        customElements.define("info-popup", InfoPopup)
+    </script>
     {% block scripts %}{% endblock scripts %}
 </body>
 </html>
