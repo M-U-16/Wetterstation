@@ -8,7 +8,7 @@ class SensorGroup(Thread):
     def __init__(
         self, client, interval,
         sensors, daemon=True,
-        do_print=False, send=True
+        do_print=False, send=True, is_fake=False
     ):
         """
         SensorGroup is a simple class used to group sensors
@@ -29,6 +29,7 @@ class SensorGroup(Thread):
             send: bool
                 print to sensor readings to console
         """
+        
         # call Thread constructor
         super().__init__(daemon=daemon)
         
@@ -38,6 +39,7 @@ class SensorGroup(Thread):
         self.send = send
         self.client = client
         self.interval = interval
+        self.is_fake = is_fake
     
     def run(self):
         while True:
@@ -48,6 +50,8 @@ class SensorGroup(Thread):
                 except ExceptionWarmUpNotDone: pass
                 
             readings["entry_date"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            if self.is_fake:
+                readings["is_fake"] = self.is_fake
             if self.send and self.client:
                 self.client.send_readings(data=readings)
             if self.print: print(readings)

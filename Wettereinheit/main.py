@@ -31,7 +31,7 @@ client = get_client()
 def main():
     sensors = []
     if isFake:
-        sensors=[
+        sensors = [
             Bme280SensorFake(),
             Ltr559SensorFake(),
             ParticleSensorFake(),
@@ -46,10 +46,11 @@ def main():
         ]
         
     sensor_group = SensorGroup(
-        client, 10, 
+        client, 10,
         sensors=sensors,
-        do_print=True if isFake else False,
-        send=False
+        do_print=isFake,
+        is_fake=isFake,
+        send=True
     )
     
     try:

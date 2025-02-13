@@ -1,8 +1,5 @@
 # Provides routes to get and change settings of devices.
 # User needs to be locked in as admin user to access 
-from ctypes import util
-import time
-
 from models.db import addEntry
 from models.meta import get_meta_db
 from flask import Blueprint, jsonify, request, session

@@ -65,21 +65,127 @@
 {% block styles %}
     <link
         rel="stylesheet"
-        href="{{ url_for('static', filename='css/graph.css')}}"
+        href="{{ url_for('static', filename='css/graph.css') }}"
     />
     <link
         rel="stylesheet"
-        href="{{ url_for('static', filename='css/info-popup.css')}}"
+        href="{{ url_for('static', filename='css/info-popup.css') }}"
     />
     <link
         rel="stylesheet"
-        href="{{ url_for('static', filename='css/messungen.css')}}"
+        href="{{ url_for('static', filename='css/messungen.css') }}"
     />
+
+    <style>
+        .controls {
+            --label-color: #e6e6e6;
+            --border-color: #c2c2c2;
+
+            width: 100%;
+            height: 4.5rem;
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-bottom: 1px solid rgb(150, 150, 150);
+            background-color: white;
+        }
+
+        .controls .input-container {
+            height: 100%;
+            display: grid;
+            grid-template-rows: auto 1fr;
+        }
+
+        .controls .input-container label {
+            background-color: rgb(223, 223, 223);
+            background-color: var(--label-color);
+            border-radius: 5px 5px 0 0;
+            border-top: 1px solid var(--border-color);
+            border-left: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            padding: 0.1rem 0.4rem;
+            font-size: 0.8rem;
+        }
+
+        .controls .input-container select,
+        .controls .input-container input {
+            padding: 0 1rem 0 0.2rem;
+            border-radius: 0 0 5px 5px;
+            border: 1px solid var(--border-color);
+            height: 100%;
+        }
+        
+        .controls .divider {
+            height: 100%;
+            width: 1px;
+            background-color: rgba(121, 121, 121, 0.488);
+        }
+        
+        .controls .time-range-date {
+            height: 100%;
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            flex-direction: column;
+        }
+
+        .controls .time-range-date div label {
+            border-radius: 3px 0 0 3px;
+        }
+        
+        .controls .time-range-date div {
+            height: 100%;
+            display: flex;
+            overflow: hidden;
+        }
+        
+        .controls .time-range-date div input {
+            padding: 0.2rem;
+            border-radius: 2px;
+            border: 1px solid var(--border-color);
+            border-left: none;
+        }
+        
+        .controls .time-range-date div label {
+            font-size: 0.8rem;
+            border: 1px solid var(--border-color);
+            background-color: var(--label-color);
+            display: flex;
+            padding: 0.2rem;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
 {% endblock styles %}
 {% block titlebarHeading %}Messungen{% endblock titlebarHeading %}
 
 {% block content %}
     <div class="messungs__container">
+        <div class="controls">
+            <div class="input-container">
+                <label for="time-range-select">Zeitraum:</label>
+                <select name="time" id="time-range-select">
+                    <option value="1d">1 Tag</option>
+                    <option value="1w">1 Woche</option>
+                    <option value="1m">1 Monat</option>
+                    <option value="1y">1 Jahr</option>
+                </select>
+            </div>
+            <div class="input-container">
+                <label for="date">Datum:</label>
+                <input type="date" id="date">
+            </div>
+            <div class="divider"></div>
+            <div class="time-range-date">
+                <div>
+                    <label for="von">Von:</label>
+                    <input type="date">
+                </div>
+                <div>
+                    <label for="bis">Bis:</label>
+                    <input type="date">
+                </div>
+            </div>
+        </div>
         {% if entry_data and date %}
             {% if type == "content-table" %}
                 {{ CreateTable(entry_data) }}

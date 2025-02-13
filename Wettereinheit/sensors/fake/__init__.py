@@ -12,7 +12,7 @@ class GasSensorFake:
         interval=None,
         start_up_time=TEST_START_UP_TIME
     ):
-        self.name = "gas_sensor_fake"
+        self.name = "gas_sensor"
         self.start_up_time = start_up_time
         self.interval = interval
     
@@ -44,7 +44,7 @@ class GasSensorFake:
 
 class Bme280SensorFake:
     def __init__(self):
-        self.name = "bme280_fake"
+        self.name = "bme280"
 
     # reads the current temperature, humidity and pressure
     def read(self, date=False):
@@ -62,7 +62,7 @@ class Bme280SensorFake:
 
 class ParticleSensorFake:
     def __init__(self):
-        self.name = "pms5003_fake"
+        self.name = "pms5003"
     
     def read(self, date=False):
         readings = {
@@ -79,7 +79,7 @@ class ParticleSensorFake:
     
 class Ltr559SensorFake:
     def __init__(self):
-        self.name = "ltr_sensor_fake"
+        self.name = "ltr_sensor"
     def read(self, date=False):
         reading = {
             "lux": random.randrange(1, 100),
