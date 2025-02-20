@@ -1,5 +1,19 @@
 import os
 import sqlite3
+from flask import g
+from .model import getConnection
+
+def get_db():
+    db = getattr(g, "_db", None)
+    if db is None:
+        db = g._meta_db = getConnection(os.getenv("FLASK_DATABASE"))
+    return db
+
+def close_db(exception):
+    db = getattr(g, "_db", None)
+    if db is not None:
+        print("closing data db")
+        db.close()
 
 #function for converting
 #tuple into dict
@@ -24,7 +38,6 @@ def connection(func, db=None):
     
     def func_wrapper(*args, **kwargs):
         #create a connection to the sqlite db
-        print(database_path)
         connection = sqlite3.connect(database_path)
         connection.row_factory = sqlite3.Row
         cursor = connection.cursor()

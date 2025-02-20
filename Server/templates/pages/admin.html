@@ -13,25 +13,6 @@
             max-width: 55rem;
         }
 
-        .logout-link {
-            text-decoration: none;
-            color: black;
-            transition: 0.3s ease;
-            margin: 0 1rem 0 0;
-            display: flex;
-            align-items: center;
-            gap: 0.2rem;
-        }
-
-        .logout-link svg {
-            width: 1.4rem;
-            height: 1.4rem;
-        }
-
-        .logout-link:hover {
-            color: var(--highlight-clr)
-        }
-
         .information-container {
             display: flex;
             flex-wrap: wrap;
@@ -95,14 +76,6 @@
 
 {% endblock styles %}
 {% block titlebarHeading %}Admin{% endblock titlebarHeading %}
-{% block titlebarNav %}
-<a class="logout-link" href="/admin/logout">
-    <span>Abmelden</span>
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
-    </svg>
-</a>
-{% endblock titlebarNav %}
 
 {% macro NumberSelect(name, value, extra) %}
     {% if extra %}

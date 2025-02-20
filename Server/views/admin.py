@@ -1,3 +1,4 @@
+from re import escape
 from flask import Blueprint, flash, jsonify, make_response, redirect, render_template, request, session, url_for
 
 from models import formatResponse
@@ -43,7 +44,6 @@ def admin():
         print(settings)
     except Exception as e:
         print(e)
-        
     
     return render_template(
         "pages/admin.html",
@@ -66,4 +66,10 @@ def admin_login():
 def admin_logout():
     session["is_admin"] = False
     flash("Erfolgreich Abgemeldet!", category="success")
-    return redirect("/")
+    
+    path_filter = filter(lambda x: x != "", request.referrer.split("/"))
+    referrer_path = "/" + list(path_filter)[-1]
+    if referrer_path in "/admin":
+        return redirect("/")
+    
+    return redirect(escape(referrer_path))

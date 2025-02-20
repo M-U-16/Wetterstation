@@ -12,10 +12,12 @@ from api import api_bp
 # views
 from views.home import blueprint as home_bp
 from views.admin import blueprint as admin_bp
+from views.backup import blueprint as backup_bp
 from views.suchen import blueprint as suchen_bp
 from views.dashboard import blueprint as dasboard_bp
 from views.messugen import blueprint as messungen_bp
 
+from models import close_db
 from models.meta import close_meta_db
 
 def register_extensions(app):
@@ -24,13 +26,14 @@ def register_extensions(app):
 def register_blueprints(app):
     app.register_blueprint(api_bp)
     app.register_blueprint(home_bp)
+    app.register_blueprint(backup_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(suchen_bp)
     app.register_blueprint(dasboard_bp)
     app.register_blueprint(messungen_bp)
 
 def create_app():
-    app = Flask(__name__, template_folder="temps")
+    app = Flask(__name__)
     
     # config
     ENV_FILE = os.getenv("ENV_FILE", ".env.dev")
@@ -44,10 +47,8 @@ def create_app():
     load_config(ENV_FILE)
     app.config.from_prefixed_env()
     
-    #app.config["SECRET_KEY"] = secrets.token_hex()
-    # -------------
-
     app.teardown_appcontext(close_meta_db)
+    app.teardown_appcontext(close_db)
 
     #configuring cors
     app.config["CORS_HEADERS"] = "Content-Type"

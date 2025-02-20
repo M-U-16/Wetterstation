@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="500" height="250"></canvas>
+    <script type="text/javascript" src="smoothie.js"></script>
+    <script>
+        const smoothie = new SmoothieChart({
+            grid: {
+                strokeStyle: "rgba(100, 100, 100, 1)",
+                fillStyle: "rgba(216, 216, 216, 0)",
+                lineWidth: 0.2
+            },
+            labels: {
+                fillStyle: "rgb(0, 0, 0)"
+            }
+        })
+        smoothie.streamTo(document.getElementById("canvas"), 1000)
+
+        const line1 = new TimeSeries()
+        const line2 = new TimeSeries()
+
+        setInterval(() => {
+            //line1.append(Date.now(), Math.random())
+            line2.append(Date.now(), Math.random()*10)
+        }, 1000)
+
+        /*
+        smoothie.addTimeSeries(line1, {
+            strokeStyle: "#0091ff",
+            lineWidth: 3,
+        })
+        */
+        smoothie.addTimeSeries(line2, {
+            strokeStyle: "#ff0000",
+            lineWidth: 3,
+            fillStyle: "rgba(255, 0, 0, 0.2)"
+        })
+    </script>
+</body>
+</html>

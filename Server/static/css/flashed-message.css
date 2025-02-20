@@ -1,3 +1,12 @@
+.flashed-messages.default {
+    z-index: 1000;
+    right: 0;
+    width: 100%;
+    padding: 0.5rem;
+    max-width: 15rem;
+    position: absolute;
+}
+
 .flashed-message {
     display: flex;
     align-items: center;
@@ -5,14 +14,6 @@
     padding: 0.5rem 0.5rem 0.5rem 1rem;
     margin: 0 0 0.5rem 0;
     border-radius: 5px;
-}
-
-.flashed-messages.default {
-    right: 0;
-    width: 100%;
-    padding: 0.5rem;
-    max-width: 15rem;
-    position: absolute;
 }
 
 .flashed-message.error {

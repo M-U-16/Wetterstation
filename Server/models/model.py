@@ -9,9 +9,12 @@ def getConnection(db_path):
     connection = sqlite3.connect(db_path)
     connection.row_factory = sqlite3.Row
     return connection
-    
-def create_tables(db_path, sql_dir="", sql_file=""):
-    con = getConnection(db_path)
+
+def create_tables(db, sql_dir="", sql_file=""):
+    con = None
+    if not isinstance(db, sqlite3.Connection):
+        con = getConnection(db)
+    else: con = db
     
     path_sql = ""
     if sql_file != "":

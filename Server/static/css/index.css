@@ -8,6 +8,7 @@
     --test-box-shadow: inset 0px 0px 5px #cfcfcfb0;
     --content-height: calc(100vh - var(--toggle-button-height));
 }
+
 .light-theme {
     --primary-clr: rgb(236, 236, 236);
     --secondary-clr: #ffffff;
@@ -28,6 +29,7 @@
     
     color-scheme: light;
 }
+
 .dark-theme {
     --primary-clr: #121212;
     --secondary-clr: #1E1E1E;
