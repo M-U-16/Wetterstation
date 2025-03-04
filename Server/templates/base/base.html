@@ -40,8 +40,36 @@
 </head>
 <body id="body" class="light-theme">
 
+    <template id="flashed-msg-tmp">
+        <div
+            x-data="{ open: true }"
+            x-show="open"
+            class="flashed-message"
+            x-transition:leave.duration.200ms
+        >
+            <p></p>
+            <button type="button" @click="open=false">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                    class="icon"
+                >
+                    <path
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="32"
+                        d="M368 368L144 144M368 144L144 368"
+                    />
+                </svg>
+            </button>
+        </div>
+    </template>
+
     <div id="root">
         {{ sidebar() }}
+        <main>
         <div class="app-title-bar">
             <div class="title">
                 {% block titlebarIcon %}
@@ -55,7 +83,7 @@
                 {% block titlebarNav %}
                 {% endblock titlebarNav %}
                 {% if session["is_admin"] %}
-                <a class="logout-link" href="/admin/logout">
+                <a title="" class="logout-link" href="/admin/logout">
                     <span>Abmelden</span>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
@@ -72,13 +100,14 @@
             {% endblock flashedMessages %}
             {% block content %}{% endblock content %}
         </div>
+        </main>
     </div>
 
     <script src="{{ url_for('static', filename='js/libs/alpine.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/flashed-messages.js') }}"></script>
-    <script>
+    <!-- <script>
         customElements.define("info-popup", InfoPopup)
-    </script>
+    </script> -->
     {% block scripts %}{% endblock scripts %}
 </body>
 </html>

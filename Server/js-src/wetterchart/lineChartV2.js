@@ -1,6 +1,6 @@
-import Formatter from "../utils/formatter"
+import Formatter from "./formatter"
 import TooltipController from "./tooltip"
-import { windowManager } from "../utils/WindowManager"
+import { windowManager } from "./WindowManager"
 
 export function LineChart(initial_config) {
     

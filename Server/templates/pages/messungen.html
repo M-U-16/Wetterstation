@@ -41,7 +41,7 @@
 {% endmacro %}
 
 {% macro CreateTable(data) %}
-    <table class="messungen__table">
+    <table class="messungen-table">
         <caption>Messungen für <span style="font-style: italic;">'{{ date }}'</span></caption>
         <thead id="messungen-table-heading">
             <th>Datum:</th>
@@ -61,7 +61,9 @@
 {% extends "base/base.html" %}
 {% from "components/inputs/TimeSelect.html" import select %}
 {% from "svgs/chart.html" import chartThin as chartIcon %}
+{% from "svgs/calendar.html" import calendar as calendarIcon %}
 {% from "svgs/list.html" import listIcon %}
+
 
 
 {% block title %}| Messungen {% endblock title %}
@@ -153,6 +155,10 @@
         .controls .active-label {
             background-color: rgb(222, 240, 255) !important;
         }
+        
+        .controls .error-label {
+            background-color: rgb(255, 222, 222) !important;
+        }
 
         .controls .time-range-date div {
             height: 100%;
@@ -192,23 +198,61 @@
             padding: 0.2rem;
             border-radius: 5px;
         }
+
+        .data-container {
+            padding: 0.5rem;
+        }
+
+        .data-table {
+            width: 60%;
+            width: 100%;
+            padding: 1rem;
+            max-width: 35rem;
+            border-radius: 5px;
+            border: 1px solid rgb(196, 196, 196);
+            background-color: white;
+        }
+
+        .data-table .date {
+            gap: 0.5rem;
+            display: flex;
+        }
+
+        .data-table .top {
+            display: flex;
+            align-items: center;
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.462);
+            justify-content: space-between;
+        }
+
+        .data-table .top .info {
+            font-size: 0.8rem;
+        }
+
+        .data-table .date .icon {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
     </style>
 {% endblock styles %}
 {% block titlebarHeading %}Messungen{% endblock titlebarHeading %}
 
 {% block content %}
-    <div class="messungs__container">
+    <div class="messungs-container">
         <div class="controls">
             <div class="time-filter left" onchange="filter_change(event)">
                 <div class="input-container" id="container-time-range-select">
-                    <label for="time-range-select" class="active-label">Zeitraum:</label>
+                    <label class="active-label" for="time-range-select">Zeitraum:</label>
                     <select
-                        data-default="empty" name="time"
+                        data-default="empty"
+                        name="time-range-select"
                         id="time-range-select"
                         data-container="time-range-select"
                     >
                         <option value="today">Heute</option>
-                        <option value="1d">1 Tag</option>
+                        <!-- <option value="1d">1 Tag</option> -->
                         <option value="1w">1 Woche</option>
                         <option value="1m">1 Monat</option>
                         <option value="1y">1 Jahr</option>
@@ -218,40 +262,81 @@
                 <div class="divider"></div>
                 <div class="input-container" id="container-date">
                     <label for="date">Datum:</label>
-                    <input type="date" id="date" data-container="date">
+                    <input
+                        type="date"
+                        id="date"
+                        name="date"
+                        data-container="date"
+                    >
                 </div>
                 <div class="divider"></div>
-                <div class="time-range-date">
-                    <div id="container-from">
-                        <label for="von">Von:</label>
-                        <input type="date" data-container="from">
+                <div
+                    class="time-range-date"
+                    id="container-time-range"
+                    data-required="from,to"
+                >
+                    <div>
+                        <label for="from-input">Von:</label>
+                        <input
+                            type="date"
+                            id="from-input"
+                            data-container="time-range"
+                            name="from"
+                        >
                     </div>
-                    <div id="container-to">
-                        <label for="bis">Bis:</label>
-                        <input type="date" data-container="to">
+                    <div>
+                        <label for="to-input">Bis:</label>
+                        <input
+                            id="to-input"
+                            type="date"
+                            data-container="time-range"
+                            name="to"
+                        >
                     </div>
                 </div>
             </div>
-            <div class="view-filter right">
+            <!-- <div class="view-filter right">
                 <div class="view-select">
                     <button title="Graphen Ansicht">{{ chartIcon() }}</button>
                     <button title="Listen Ansicht">{{ listIcon() }}</button>
                 </div>
-            </div>
+            </div> -->
         </div>
-        {% if entry_data and date %}
-            {% if type == "content-table" %}
-                {{ CreateTable(entry_data) }}
-            {% elif type == "content-entry" %}
-                {{ SingleEntry(date, entry_data[0], entry_gas[0]) }}
-                {% if graph %}
-                    <!-- <img style="width: 100%;max-width:500px" src="data:image/svg;base64,{{ graph }}"> -->
+        <div class="data-container">
+            <div class="data-table">
+                <div class="top">
+                    <div class="date">
+                        <div class="icon">
+                            {{ calendarIcon() }}
+                        </div>
+                        <h2>{{query}}</h2>
+                    </div>
+                    <div class="info">
+                        <p>Letzte Messung: 28.02.2025 20:58</p>
+                        <p>Messungen Insgesamt: {{ messungen }}</p>
+                    </div>
+                </div>
+                <div class="">
+                    {% if not entry_data %}
+                        <p>Keine Daten vorhanden!</p>
+                    {% else %}
+                        <p></p>
+                    {% endif %}
+                </div>
+            </div>
+            {% if entry_data and date %}
+                {% if type == "content-table" %}
+                    {{ CreateTable(entry_data) }}
+                {% elif type == "content-entry" %}
+                    {{ SingleEntry(date, entry_data[0], entry_gas[0]) }}
+                    {% if graph %}
+                        <!-- <img style="width: 100%;max-width:500px" src="data:image/svg;base64,{{ graph }}"> -->
+                    {% endif %}
+    
                 {% endif %}
-
+            {% else %}
             {% endif %}
-        {% else %}
-            <h1>Keine Daten vorhanden!</h1>
-        {% endif %}
+        </div>
     </div>
 {% endblock content %}
 
@@ -268,7 +353,7 @@
     {% endif %}
     <script>
         const timeFilter = document.querySelector(".controls .time-filter")
-        let activeInput = document.getElementById("time-range-select")
+        let activeInputs = [document.getElementById("time-range-select")]
         let activeContainer
 
         function get_container(container=document, nameElement) {
@@ -277,26 +362,40 @@
         }
 
         function filter_change(e) {
-            activeContainer = get_container(timeFilter, activeInput)
-            if (activeInput != e.target) {
-                console.log(true)
-                const default_value = activeInput.dataset["default"]
-                if (default_value) {
-                    activeInput.value = default_value
-                } else {
-                    activeInput.value = ""
+            activeContainer = get_container(timeFilter, activeInputs[0])
+            activeInputs.forEach(input => {
+                if (input != e.target && !activeContainer.contains(e.target)) {
+                    const default_value = input.dataset["default"]
+                    if (default_value) {
+                        input.value = default_value
+                    } else {
+                        input.value = ""
+                    }
                 }
+            })
+            
+            activeContainer.querySelectorAll("label")
+            .forEach(label => {label.className = ""})
+            
+            if (activeContainer.contains(e.target)) {
+                activeInputs.push(e.target)
+            } else {
+                activeInputs = [e.target]
             }
 
-            activeContainer.querySelector("label")
-                .classList.remove("active-label")
-            
-            activeInput = e.target
-            activeContainer = get_container(timeFilter, activeInput)
-            activeContainer.querySelector("label")
-                .classList.add("active-label")
-            console.log(activeInput)
+            activeContainer = get_container(timeFilter, e.target)
+            activeContainer.querySelectorAll("label")
+            .forEach(label => {
+                const forAttribute = label.getAttribute("for")
+                const inputForLabel = activeContainer.querySelector("#"+forAttribute)
+                if (inputForLabel.value != "") {
+                    label.classList.add("active-label")
+                } else {
+                    label.classList.add("error-label")
+                }
+            })
         }
     </script>
-    <!-- <script src={{ url_for('static', filename='js/build/dashboard.chart.js') }}></script> -->
+    <script src="{{ url_for('static', filename='js/libs/d3.v7.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/build/wetterchart.min.js') }}"></script>
 {% endblock scripts %}

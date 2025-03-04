@@ -4,22 +4,23 @@
     --default-padding: 0.5rem;
     --top-height: 4rem;
 
-    --toggle-button-height: 43px;
+    --toggle-button-size: 43px;
+    --toggle-button-current-size: var(--toggle-button-size);
     --test-box-shadow: inset 0px 0px 5px #cfcfcfb0;
-    --content-height: calc(100vh - var(--toggle-button-height));
+    --content-height: calc(100vh - var(--toggle-button-size));
 }
 
 .light-theme {
-    --primary-clr: rgb(236, 236, 236);
+    --primary-clr: #ececec;
     --secondary-clr: #ffffff;
     --primary-text-clr: #000000;
     --secondary-text-clr: #999999;
-    --shadow-clr: rgba(61, 75, 79, 0);
+    --shadow-clr: #3d4b4f00;
     --accent-clr: #80808023;
     --highlight-clr: #0080ff;
     
     
-    --theme-icon-clr: rgb(28, 36, 61);
+    --theme-icon-clr: #1c243d;
     --gradient: transparent;
     --default-box-shadow: inset 0px 0px 4px grey;
     --default-border: none;
@@ -70,6 +71,17 @@ body {
     min-height: 100vh;
     position: relative;
     background-color: var(--primary-clr);
+}
+
+@media screen and (min-width: 1000px) {
+    #root {
+        display: grid;
+        grid-template-columns: auto 1fr;
+    }
+
+    :root {
+        --toggle-button-current-size: 0;
+    }
 }
 
 .disable-select {

@@ -4,12 +4,12 @@
     overflow: hidden;
 }
 
-.messungs__container {
+.messungs-container {
     height: var(--content-height);
     overflow-y: auto;
 }
 
-table {
+table.messungen-table {
     box-shadow: 1px 1px 3px rgb(187, 187, 187);
     width: 100%;
     border-collapse: collapse;
@@ -26,16 +26,16 @@ caption {
     padding: 0.5rem 0;
 }
 
-table thead {
+table.messungen-table thead {
     position: sticky;
     top: -1px;
     padding-top: 1px;
 }
-table thead.sticking {
+table.messungen-table thead.sticking {
     box-shadow: inset 0px 0px 3px rgb(97, 97, 97);
 }
 
-table th {
+table.messungen-table th {
     text-align: start;
     background-color: #F4F4F4;
     font-weight: 500;

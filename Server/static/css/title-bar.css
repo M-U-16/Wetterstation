@@ -5,9 +5,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: var(--toggle-button-height);
-    margin-left: var(--toggle-button-height);
-    width: calc(100% - var(--toggle-button-height));
+    height: var(--toggle-button-size);
+    margin-left: var(--toggle-button-current-size);
+    width: calc(100% - var(--toggle-button-current-size));
     background-color: white;
     box-shadow: var(--test-box-shadow);
 }

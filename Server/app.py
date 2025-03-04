@@ -13,7 +13,6 @@ from api import api_bp
 from views.home import blueprint as home_bp
 from views.admin import blueprint as admin_bp
 from views.backup import blueprint as backup_bp
-from views.suchen import blueprint as suchen_bp
 from views.dashboard import blueprint as dasboard_bp
 from views.messugen import blueprint as messungen_bp
 
@@ -28,7 +27,6 @@ def register_blueprints(app):
     app.register_blueprint(home_bp)
     app.register_blueprint(backup_bp)
     app.register_blueprint(admin_bp)
-    app.register_blueprint(suchen_bp)
     app.register_blueprint(dasboard_bp)
     app.register_blueprint(messungen_bp)
 

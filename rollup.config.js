@@ -1,5 +1,6 @@
 import terser from "@rollup/plugin-terser"
 
+const SOURCE_PATH = "Server/js-src/wetterchart/"
 const BASE_INPUT_PATH = "Server/js-src/entrypoints/"
 const BASE_OUTPUT_PATH = "Server/static/js/build/"
 
@@ -64,4 +65,18 @@ function create_rollup_config(options) {
     return outputConfig
 }
 
-export default create_rollup_config(options)
+//export default create_rollup_config(options)
+
+export default {
+    input: SOURCE_PATH+"index.js",
+    plugins: [
+        terser()
+    ],
+    output: {
+        file: BASE_OUTPUT_PATH + "wetterchart.min.js",
+        name: "wetterchart",
+        format: "umd",
+        exports: "named",
+        //sourcemap: true,
+    }
+}

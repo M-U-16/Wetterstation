@@ -2,7 +2,7 @@
     overflow-y: auto;
     width: 100%;
     position: relative;
-    height: calc(100vh - var(--toggle-button-height));
+    height: calc(100vh - var(--toggle-button-size));
 }
 
 .content-top {

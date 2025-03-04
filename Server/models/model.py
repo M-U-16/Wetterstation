@@ -53,13 +53,14 @@ def create_table(db_path, table_path):
     con.close()
 
 def random_populate_db(amount):
-    con = getConnection(os.getenv("FLASK_WETTER_DATABASE_PATH"))
+    con = getConnection(os.getenv("FLASK_DATABASE"))
     
     data_general, data_gas = getManyRandomDataEntrys(amount)
     sql = generateSql(
         "insert into wetterdaten({}) values ({})",
         data_general[0].keys()
     )
+    
     data_tuples = [tuple(entry.values()) for entry in data_general]
     chunk_size = 50
     for i in range(0, len(data_general), chunk_size):

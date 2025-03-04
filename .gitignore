@@ -31,3 +31,4 @@ logs/
 environments/*
 
 data2/
+test/

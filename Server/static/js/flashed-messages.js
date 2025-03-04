@@ -13,45 +13,18 @@ function RemoveFlashedMessage(node) {
     }))
 }
 
-class InfoPopup extends HTMLElement {
-    constructor(category, text) {
-        super()
-        this.text = text
-        this.category = category
-    }
+function NewFlashedMessage(msg, category) {
+    const node = document.querySelector("#flashed-msg-tmp")
+    const flashedMessage = node.content
+        .cloneNode(true)
+        .querySelector(".flashed-message")
 
-    
+    flashedMessage.classList.add(category)
+    flashedMessage.querySelector("p").innerHTML = msg
 
-    connectedCallback() {
-        let popup = this
-        const shadow = this.attachShadow({mode:"open"})
-
-        const div = document.createElement("div")
-        div.setAttribute("x-data", "{open: true }")
-        div.setAttribute("x-show", "open")
-        div.className = "flashed-message"
-        div.classList.add(this.category)
-        div.setAttribute("x-transition:leave.duration.200ms", "")
-
-        // info message
-        const text = document.createElement("p")
-        /* const text = this.getAttribute("data-text") */
-        text.innerHTML = this.text
-
-        // close button
-        const closeButton = document.createElement("button")
-        closeButton.type = "button"
-        //closeButton.setAttribute("@click", "open=false")
-        closeButton.setAttributeNS
-        closeButton.innerHTML = "x"
-        closeButton.onclick = function() {
-            popup.remove()
-        }
-        div.appendChild(text)
-        div.appendChild(closeButton)
-        shadow.appendChild(div)
-    }
+    return flashedMessage
 }
 
-const messages = document.querySelectorAll(".flashed-message")
-messages.forEach(message => addRemoveMessageListener(message))
+document.querySelectorAll(".flashed-message").forEach(
+    message => addRemoveMessageListener(message)
+)

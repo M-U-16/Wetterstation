@@ -5,6 +5,7 @@ export default function TooltipController(
     data, x, y
 ) {
     const MARGIN_LEFT = config.margin.left
+
     /* ADDING TOOLTIP */
     const tooltip = d3.select(config.container)
         .append("div")
@@ -78,11 +79,13 @@ export default function TooltipController(
         const yPos = y(d[config.y])
         return {xPos, yPos, d}
     }
+
     function remove() {
         rect.remove()
         tooltip.remove()
         circle.remove()
     }
+    
     return {
         remove
     }
