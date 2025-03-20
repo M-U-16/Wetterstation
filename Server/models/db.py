@@ -29,9 +29,12 @@ def getLastByAmount(amount:int):
 def getDay(): return queryDb(querys["current-day"])
 def getWeek(): return queryDb(querys["get-week"])
 def getMonth(): return queryDb(querys["get-month"])
-def getYear(): return queryDb(querys["get-year"])
+def getYear(year=None):
+    if year:
+        return queryDb("SELECT * FROM wetterdaten WHERE STRFTIME('%Y', entry_date)=?", year)
+    return queryDb(querys["get-year"])
 def getLastEntry(): return queryDb(querys["last-entry"])
-def getDate(date:str): return queryDb("select * from wetterdaten where entry_date=?", [date])
+def getDate(date:str): return queryDb("SELECT * FROM wetterdaten WHERE STRFTIME('%Y-%m-%d', entry_date)=?", [date])
 def printAll(): print(queryDb("select * from wetterdaten"))
 
 def getAvgFromDay(date:str):

@@ -1,15 +1,7 @@
 const config = {
     default: {
-        margin: {
-            top: 30,
-            right: 60,
-            bottom: 40,
-            left: 35
-        },
-        axis: {
-            x: { class: "x-axis" },
-            y: { class: "y-axis" }
-        },
+        margin: { top: 30, right: 60, bottom: 40, left: 35},
+        axis: {x: { class: "x-axis" }, y: { class: "y-axis" }},
     },
     styles: {
         default: {
@@ -17,7 +9,7 @@ const config = {
             line: { strokeWidth: "3px" },
             area: { opacity: 0.5 },
         },
-        temp: { 
+        temp: {
             color: "#ff8080", // #df2f34
             dots: "#f00", //#ff0000
             axis: {
@@ -32,10 +24,7 @@ const config = {
             },
         }
     },
-    units: {
-        temp: "°C",
-        humi: "%"
-    },
+    units: {temp: "°C", humi: "%"},
     values: {
         temp: {
             domain: (data, y) => {
@@ -51,47 +40,35 @@ const config = {
     },
     x_axis: {
         format: {
-            "1m": {
-                x: {
-                    ticks: d3.timeWeek.every(1),
-                    timeFormat: d3.timeFormat("%e %b")
-                }
-            },
-            "1y": {
-                x: {
-                    ticks: d3.timeMonth.every(1),
-                    timeFormat: d3.timeFormat("%b")
-                }
-            },
-            "1w": {
-                x: {
-                    ticks: d3.timeDay.every(1),
-                    timeFormat: d3.timeFormat("%a")
-                }
-            },
-            "1d": {
-                x: {
-                    ticks: d3.timeSecond.every(10),
-                    timeFormat: d3.timeFormat("%H:%M:%S")
-                }
-            }
+            "1m": {x: {
+                ticks: d3.timeWeek.every(1),
+                timeFormat: d3.timeFormat("%e %b")
+            }},
+            "1y": {x: {
+                ticks: d3.timeMonth.every(1),
+                timeFormat: d3.timeFormat("%b")
+            }},
+            "1w": {x: {
+                ticks: d3.timeDay.every(1),
+                timeFormat: d3.timeFormat("%a")
+            }},
+            "1d": {x: {
+                ticks: d3.timeSecond.every(10),
+                timeFormat: d3.timeFormat("%H:%M:%S")
+            }}
         }
     }
 }
 
-export function getAxisFormat(time, unit, y) {
-    console.log(unit)
-    
+export function GetYAxisFormat(time, unit, y) {
     const format = { ...config.x_axis.format[time] }
     format.y = {  ...config.values[y] }
     format.y.tickFormat = d => isNaN(d)?"":`${d}`+unit
     format.y.ticks = 6
-
     return format
 }
 
 export function GetConfig(options) {
-    const container = document.querySelector(options.container_id)
     
     return {
         y: options.y,
@@ -99,14 +76,14 @@ export function GetConfig(options) {
         id: options.id,
         ...config.default,
         entrys: options.data,
-        width: container.offsetWidth,
         y_unit: config.units[options.y],
-        timeRange: options.timePeriod,
-        height: container.offsetHeight,
+        period: options.period,
+        //width: container.offsetWidth,
+        //height: container.offsetHeight,
         responsive: options.responsive,
-        container: options.container_id,
-        axisFormat: getAxisFormat(
-            options.timePeriod,
+        container: options.container,
+        axisFormat: GetYAxisFormat(
+            options.period,
             config.units[options.y],
             options.y
         ),

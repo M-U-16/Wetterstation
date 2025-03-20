@@ -1,17 +1,17 @@
 // calculates the average temp, humi and lux level
 // of the given month
 function average_one_month(data) {
-    const ENTRY_AMOUNT = data.length
+    const entry_amount = data.length
     let new_entry = { ...data[0] }
+    // sum all entries
     data.forEach((entry, index) => {
         new_entry.humi += entry.humi
         new_entry.lux += entry.lux
         new_entry.temp += entry.temp
-
     })
-    new_entry.humi = Math.round(new_entry.humi / ENTRY_AMOUNT)
-    new_entry.lux = Math.round(new_entry.lux / ENTRY_AMOUNT)
-    new_entry.temp = Math.round(new_entry.temp / ENTRY_AMOUNT)
+    new_entry.humi = Math.round(new_entry.humi / entry_amount)
+    new_entry.lux = Math.round(new_entry.lux / entry_amount)
+    new_entry.temp = Math.round(new_entry.temp / entry_amount)
     return new_entry
 }
 
@@ -24,6 +24,11 @@ function average_one_month(data) {
         - light level
 */
 export function compress_one_year(data) {
+    if (!data) {
+        console.error("No data provided to function")
+        return
+    }
+
     data = data.map(entry => {
         return {
             entry_date: entry.entry_date,
@@ -63,6 +68,7 @@ export function compress_one_year(data) {
             sorted_months[month].push(data[data.length-1])
         }
     })
+
     const compressed_year = allMonths.map(month => {
         return average_one_month(sorted_months[month])
     }).sort((prev, now) => {
@@ -70,5 +76,10 @@ export function compress_one_year(data) {
         if (prev.entry_date > now.entry_date) return 1
         return 0
     }) // sorted in ascending order
+
     return compressed_year
+}
+
+export function average(data) {
+    
 }

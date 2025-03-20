@@ -1,6 +1,6 @@
 .flashed-messages.default {
     z-index: 1000;
-    right: 0;
+    right: 1rem;
     bottom: 0;
     width: 100%;
     padding: 0.5rem;
@@ -15,6 +15,12 @@
     padding: 0.5rem 0.5rem 0.5rem 1rem;
     margin: 0 0 0.5rem 0;
     border-radius: 5px;
+}
+
+.flashed-message button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .flashed-message.error {

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import os
 import secrets
 from config import load_config
@@ -13,11 +15,19 @@ from api import api_bp
 from views.home import blueprint as home_bp
 from views.admin import blueprint as admin_bp
 from views.backup import blueprint as backup_bp
+from views.edit import blueprint as edit_bp
 from views.dashboard import blueprint as dasboard_bp
 from views.messugen import blueprint as messungen_bp
 
 from models import close_db
 from models.meta import close_meta_db
+
+def date_format(date, fmt="%Y-%m-%d %H:%M:%S"):
+    date_obj = datetime.strptime(date, fmt)
+    return date_obj.strftime("%d.%m.%Y %H:%M:%S")
+
+def register_filters(app):
+    app.jinja_env.filters["date_format"] = date_format
 
 def register_extensions(app):
     socketio.init_app(app)
@@ -29,6 +39,7 @@ def register_blueprints(app):
     app.register_blueprint(admin_bp)
     app.register_blueprint(dasboard_bp)
     app.register_blueprint(messungen_bp)
+    app.register_blueprint(edit_bp)
 
 def create_app():
     app = Flask(__name__)
@@ -54,5 +65,6 @@ def create_app():
     
     register_blueprints(app)
     register_extensions(app)
+    register_filters(app)
     
     return app

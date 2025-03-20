@@ -1,7 +1,7 @@
 {% macro TableRow(data) %}
 <tr class="measurement_row">
     <td class="date ellipsis">
-        {{ data["entry_date"] }}
+        {{ data["entry_date"]|date_format }}
     </td>
     <td class="temperature entry">
         {{ data["temp"] }}°C
@@ -63,8 +63,7 @@
 {% from "svgs/chart.html" import chartThin as chartIcon %}
 {% from "svgs/calendar.html" import calendar as calendarIcon %}
 {% from "svgs/list.html" import listIcon %}
-
-
+{% from "components/spinner.html" import spinner %}
 
 {% block title %}| Messungen {% endblock title %}
 {% block styles %}
@@ -85,7 +84,6 @@
         .controls {
             --label-color: #e6e6e6;
             --border-color: #c2c2c2;
-
             --controls-border-color: #969696;
 
             width: 100%;
@@ -137,8 +135,19 @@
         .controls .time-range-date {
             height: 100%;
             display: grid;
-            grid-template-rows: 1fr 1fr;
             flex-direction: column;
+            grid-template-rows: 1fr 1fr;
+        }
+
+        .controls .time-range-date div {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .controls .time-range-date div input {
+            flex: 1;
         }
 
         .controls .time-range-date div label {
@@ -158,13 +167,6 @@
         
         .controls .error-label {
             background-color: rgb(255, 222, 222) !important;
-        }
-
-        .controls .time-range-date div {
-            height: 100%;
-            width: 100%;
-            display: flex;
-            overflow: hidden;
         }
         
         .controls .time-range-date div input {
@@ -240,19 +242,18 @@
 {% block titlebarHeading %}Messungen{% endblock titlebarHeading %}
 
 {% block content %}
-    <div class="messungs-container">
+    <div class="main-container" data-wetter="">
         <div class="controls">
             <div class="time-filter left" onchange="filter_change(event)">
                 <div class="input-container" id="container-time-range-select">
                     <label class="active-label" for="time-range-select">Zeitraum:</label>
                     <select
                         data-default="empty"
-                        name="time-range-select"
+                        name="range"
                         id="time-range-select"
                         data-container="time-range-select"
                     >
-                        <option value="today">Heute</option>
-                        <!-- <option value="1d">1 Tag</option> -->
+                        <option value="1d">Heute</option>
                         <option value="1w">1 Woche</option>
                         <option value="1m">1 Monat</option>
                         <option value="1y">1 Jahr</option>
@@ -273,7 +274,6 @@
                 <div
                     class="time-range-date"
                     id="container-time-range"
-                    data-required="from,to"
                 >
                     <div>
                         <label for="from-input">Von:</label>
@@ -302,7 +302,7 @@
                 </div>
             </div> -->
         </div>
-        <div class="data-container">
+        <div class="messungen-container">
             <div class="data-table">
                 <div class="top">
                     <div class="date">
@@ -312,7 +312,7 @@
                         <h2>{{query}}</h2>
                     </div>
                     <div class="info">
-                        <p>Letzte Messung: 28.02.2025 20:58</p>
+                        <p>Letzte Messung: {{ last_entry|date_format }}</p>
                         <p>Messungen Insgesamt: {{ messungen }}</p>
                     </div>
                 </div>
@@ -322,6 +322,20 @@
                     {% else %}
                         <p></p>
                     {% endif %}
+                </div>
+            </div>
+            <div class="graph__container">
+                <div class="header graph-header-temperature">
+                    <h1>Temperatur<span>in °C</span></h1>
+                </div>
+                <div class="graph" id="temp-container">
+                </div>
+            </div>
+            <div class="graph__container">
+                <div class="header graph-header-humidity">
+                    <h1>Luftfeuchtigkeit<span>in %</span></h1>
+                </div>
+                <div class="graph" id="humi-container">
                 </div>
             </div>
             {% if entry_data and date %}
@@ -351,6 +365,91 @@
             observer.observe(tableHeading)
         </script>
     {% endif %}
+
+    <script src="{{ url_for('static', filename='js/libs/d3.v7.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/build/wetterchart.js') }}"></script>
+
+    <script>
+        const parseDate = d3.timeParse("%Y-%m-%dT%H:%M")
+
+        drawCharts().then(graphs => {
+            console.log(graphs)
+            //select.init((value) => updateGraphs(graphs, value))
+            document.addEventListener("filter:change", (event) => {
+                console.log(event)
+                //updateGraphs(graphs, event.detail)
+            })
+        }).catch(error => {
+            console.error(error)
+
+            document.querySelector(".flashed-messages").appendChild(
+                NewFlashedMessage("Fehler beim laden von Daten", "error")
+            )
+        })
+        
+        async function drawCharts() {
+            //let data = await wetterchart.FetchData("year", "2024")
+            //console.log(data)
+            const graph_temp = wetterchart.LineChart({
+                id: "svg-graph-temp",
+                container: "#temp-container",
+                color: "#ff8080",
+                x: "entry_date",
+                y: "temp",
+                timeFormat: "%Y-%m-%dT%H:%M",
+
+                axis: {
+                    x: {...wetterchart.X_FORMAT_1Y},
+                    y: {
+                        unit: "°C",
+                        ticks: 6,
+                        tickFormat: wetterchart.TICK_FORMAT,
+                        domain: wetterchart.DEFAULT_TEMP_DOMAIN
+                    }
+                }
+            })
+
+            const graph_humi = wetterchart.LineChart({
+                id: "svg-graph-humi",
+                container: "#humi-container",
+                color: "#0177c0",
+                x: "entry_date",
+                y: "humi",
+                timeFormat: "%Y-%m-%dT%H:%M",
+
+                axis: {
+                    x: {...wetterchart.X_FORMAT_1Y},
+                    y: {
+                        unit: "%", 
+                        ticks: 6,
+                        tickFormat: wetterchart.TICK_FORMAT,
+                        domain: wetterchart.DEFAULT_HUMI_DOMAIN
+                    }
+                }
+            })
+
+            d3.csv("/messungen/1year-2.csv")
+            .then(data => data.map(row => {
+                return {
+                    entry_date: row.entry_date,
+                    temp: +row.temp,
+                    humi: +row.rh
+                }
+            }))
+            .then(data => {
+                graph_temp.load(data)
+                graph_humi.load(data)
+            })
+            
+            return [graph_temp, graph_humi]
+            //if (null) {
+            //    throw new Error("fehler beim laden von daten")
+            //}
+
+            
+        }
+    </script>
+
     <script>
         const timeFilter = document.querySelector(".controls .time-filter")
         let activeInputs = [document.getElementById("time-range-select")]
@@ -383,6 +482,8 @@
                 activeInputs = [e.target]
             }
 
+            let change = true
+
             activeContainer = get_container(timeFilter, e.target)
             activeContainer.querySelectorAll("label")
             .forEach(label => {
@@ -391,11 +492,31 @@
                 if (inputForLabel.value != "") {
                     label.classList.add("active-label")
                 } else {
+                    change = false // input missing so don't change anything
                     label.classList.add("error-label")
                 }
             })
+
+            if (change) {
+                const filter_inputs = {}
+                activeInputs.map(input => {
+                    return {
+                        name: input.name,
+                        value: input.value
+                    }
+                }).forEach(input => {
+                    filter_inputs[input.name] = input.value
+                })
+                console.log(filter_inputs)
+
+                document.dispatchEvent(
+                    new CustomEvent("filter:change", {
+                        bubbles: true,
+                        detail: filter_inputs 
+                    })
+                )
+            }
         }
     </script>
-    <script src="{{ url_for('static', filename='js/libs/d3.v7.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/build/wetterchart.min.js') }}"></script>
+    
 {% endblock scripts %}

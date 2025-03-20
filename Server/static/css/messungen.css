@@ -4,8 +4,14 @@
     overflow: hidden;
 }
 
-.messungs-container {
+.main-container {
     height: var(--content-height);
+    /* overflow-y: hidden; */
+}
+
+.messungen-container {
+    padding: 1rem;
+    height: auto;
     overflow-y: auto;
 }
 
@@ -27,12 +33,12 @@ caption {
 }
 
 table.messungen-table thead {
-    position: sticky;
     top: -1px;
+    position: sticky;
     padding-top: 1px;
 }
 table.messungen-table thead.sticking {
-    box-shadow: inset 0px 0px 3px rgb(97, 97, 97);
+    box-shadow: inset 0px 0px 3px #616161;
 }
 
 table.messungen-table th {

@@ -1,12 +1,13 @@
 # librarys and stdlib
 import datetime
-from flask import current_app
+import os
+from flask import current_app, send_file
 from markupsafe import escape
 from datetime import datetime
 from flask import Blueprint, render_template, request
 
 # internal
-from models import db
+from models import db, get_db
 from helpers.MessDate import DatetimeInfo
 
 blueprint = Blueprint(
@@ -15,24 +16,38 @@ blueprint = Blueprint(
     url_prefix="/messungen/"
 )
 
+@blueprint.get("/<file>")
+def messungen_test(file):
+    return send_file(os.path.join(current_app.config["DATA_DIR"], file))
+
 @blueprint.get("/")
-def dashboard_diagramme():
-    
-    
+def messungen():
     #data_gas = db.getAvgGasLastMinuteToday()
     #print("gas: ", data_gas)
     
     #data_all = db.getAvgDataFromToday()
     #print(data_all)
     
-    date = datetime.now()
-    print(str(date))
+    date = datetime.now().strftime("%Y-%m-%d")
+    print(date)
+    date = "2025-02-28"
+    
+    db = get_db()
+    cursor = db.cursor()
+    
+    #get all entries from today
+    data = cursor.execute(
+        "SELECT * FROM wetterdaten WHERE entry_date BETWEEN strftime('%Y-%m-%d 00:00:00', ?)"+
+        "AND strftime('%Y-%m-%d 23:59:59', ?) ORDER BY entry_id asc",
+        (date, date)
+    ).fetchall()
+    
     return render_template(
         "pages/messungen.html",
-        entry_data="1",
-        messungen=80,
-        date=date.strftime("%d.%m.%Y"),
-        type="content-day",
+        entry_data=data,
+        last_entry=data[-1]["entry_date"],
+        messungen=len(data),
+        date=date,
         query="Heute"
         #avg_day=avg_data,
         #entry_gas=data_gas,

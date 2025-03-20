@@ -35,20 +35,16 @@ export default function TooltipController(
             let offset_x = tool_pos_x?MARGIN_LEFT:MARGIN_LEFT-tooltipWidth
             let offset_y = tool_pos_y?yPos-20:yPos+tooltipHeight-22
 
-
-
-            circle
-                .attr("cx", xPos)
+            circle.attr("cx", xPos)
                 .attr("cy", yPos)
                 .style("opacity", 1)
                 .style("transform", "scale(1)")
-            tooltip
-                .style("top", `${offset_y}px`)
+            tooltip.style("top", `${offset_y + tooltipHeight}px`)
                 .style("left", `${xPos + offset_x}px`)
                 .html(
                     `
-                    <p>${d.entry_date.toLocaleString("de-DE").split(",")[0]}</p>
-                    <p>${d[config.y]+config.y_unit}</p>
+                    <p>${config.axis.x.tooltipFormat(d['entry_date'])}</p>
+                    <p>${(d[config.y]).toString() + config.axis.y.unit}</p>
                     `
                 )
                 .transition()
@@ -57,13 +53,11 @@ export default function TooltipController(
                 .style("transform", "scale(1)")
         })
         .on("mouseleave", () => {
-            tooltip
-                .transition()
+            tooltip.transition()
                 .duration(100)
                 .style("opacity", 0)
                 .style("transform", "scale(0)")
-            circle
-                .style("opacity", 0)
+            circle.style("opacity", 0)
                 .style("transform", "scale(0)")
         })
 

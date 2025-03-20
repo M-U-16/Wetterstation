@@ -1,6 +1,6 @@
 import { LineChart } from "../chart/lineChartV2"
 import { Select } from "../components/select"
-import { compress_one_year } from "../utils/compress"
+import { compress_one_year } from "../wetterchart/compress"
 import { GetConfig, getAxisFormat } from "../chart/config-builder"
 import { InfoPopup } from "../components/info-popup"
 
@@ -62,9 +62,7 @@ async function updateGraphs(graphs, value) {
             graph.updateGraph(0)
         })
     } else {
-        const popup = new InfoPopup()
-        popup.dataset.type = "error"
-        popup.dataset.text = "Keine Daten für diesen Zeitraum!"
+        const popup = NewFlashedMessage("Keine Date für diesen Zeitraum!", "error")
         document.querySelector("#dashboard-right-bottom")
             .appendChild(popup)
     }

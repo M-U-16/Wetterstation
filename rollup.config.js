@@ -69,14 +69,23 @@ function create_rollup_config(options) {
 
 export default {
     input: SOURCE_PATH+"index.js",
-    plugins: [
-        terser()
-    ],
-    output: {
-        file: BASE_OUTPUT_PATH + "wetterchart.min.js",
-        name: "wetterchart",
-        format: "umd",
-        exports: "named",
-        //sourcemap: true,
-    }
+    output: [
+        {
+            file: BASE_OUTPUT_PATH + "wetterchart.min.js",
+            name: "wetterchart",
+            format: "umd",
+            exports: "named",
+            plugins: [
+                terser()
+            ],
+            //sourcemap: true,
+        },
+        {
+            file: BASE_OUTPUT_PATH + "wetterchart.js",
+            name: "wetterchart",
+            format: "umd",
+            exports: "named",
+            //sourcemap: true,
+        }
+    ]
 }

@@ -1,0 +1,137 @@
+{% extends "base/base.html" %}
+{% block titlebarHeading %}Edit{% endblock titlebarHeading %}
+
+{% block styles %}
+    <style>
+        .container {
+            padding: 1rem;
+            margin: 0 auto;
+            max-width: 50rem;
+        }
+
+        .container .list-header {
+            background-color: #e5e5e5;
+            border: 1px solid #c4c4c4;
+            display: flex;
+            gap: 0.3rem;
+            padding: 1rem;
+        }
+
+        .container .list-header a {
+            text-decoration: none;
+            color: black;
+            text-decoration: underline;
+        }
+
+        .container .entry {
+            display: flex;
+            justify-content: space-between;
+            padding-right: 0.6rem;
+            align-items: center;
+            border-bottom: 1px solid #b2b2b2;
+            border-left: 1px solid #b2b2b2;
+            border-right: 1px solid #b2b2b2;
+            background-color: white;
+        }
+
+        .container .entry .link {
+            gap: 0.4rem;
+            display: flex;
+            padding: 0.6rem;
+            color: black;
+            height: 100%;
+            text-decoration: none;
+        }
+
+        .container .entry .link .icon {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        .container .entry .link:hover {
+            text-decoration: underline;
+        }
+
+        .container .entry .right .icon {
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+
+        .container .entry .right {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        .container .entry .right a {
+            text-decoration: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 0.3rem;
+        }
+    </style>
+{% endblock styles %}
+
+{% macro FileOptions(download_link, download_name, is_dir=False) %}
+    {% if not is_dir %}
+    <a href="" class="edit">
+        <svg class="icon" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="m3.99 16.854-1.314 3.504a.75.75 0 0 0 .966.965l3.503-1.314a3 3 0 0 0 1.068-.687L18.36 9.175s-.354-1.061-1.414-2.122c-1.06-1.06-2.122-1.414-2.122-1.414L4.677 15.786a3 3 0 0 0-.687 1.068zm12.249-12.63 1.383-1.383c.248-.248.579-.406.925-.348.487.08 1.232.322 1.934 1.025.703.703.945 1.447 1.025 1.934.058.346-.1.677-.348.925L19.774 7.76s-.353-1.06-1.414-2.12c-1.06-1.062-2.121-1.415-2.121-1.415z" fill="#000000"/>
+        </svg>
+    </a>
+    {% endif %}
+    <a
+        class="download"
+        href="/edit?download={{download_link}}{{ '&is_dir=1' if is_dir else '' }}"
+        download="{{download_name}}"
+    >
+        <svg class="icon" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g id="Interface / Download">
+            <path id="Vector" d="M6 21H18M12 3V17M12 17L17 12M12 17L7 12" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+        </svg>
+    </a>
+{% endmacro %}
+
+{% block content %}
+    <div class="container">
+        <div class="list-header">
+            {% for value in display_path %}
+                <a href="/">{{ value }}</a>
+                <p>/</p>
+            {% endfor %}
+        </div>
+        <div class="dirs">
+            {% for dir in folder["dirs"] %}
+            <div class="entry">
+                <a class="link" href="/edit?open={{current_path + dir}}">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 512 512">
+                        <path d="M64 192v-72a40 40 0 0140-40h75.89a40 40 0 0122.19 6.72l27.84 18.56a40 40 0 0022.19 6.72H408a40 40 0 0140 40v40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M479.9 226.55L463.68 392a40 40 0 01-39.93 40H88.25a40 40 0 01-39.93-40L32.1 226.55A32 32 0 0164 192h384.1a32 32 0 0131.8 34.55z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/>
+                    </svg>
+                    <p>{{ dir }}</p>
+                </a>
+                <div class="right">
+                    {{ FileOptions(dir, dir+".zip", is_dir=True) }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="files">
+            {% for file in folder["files"] %}
+            <div class="entry" href="">
+                <a class="link" href="/edit/">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 512 512">
+                        <path d="M416 221.25V416a48 48 0 01-48 48H144a48 48 0 01-48-48V96a48 48 0 0148-48h98.75a32 32 0 0122.62 9.37l141.26 141.26a32 32 0 019.37 22.62z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/><path d="M256 56v120a32 32 0 0032 32h120M176 288h160M176 368h160" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/>
+                    </svg>
+                    <p>{{ file }}</p>
+                </a>
+                <div class="right">
+                    {{ FileOptions(file, file) }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}
