@@ -52,7 +52,7 @@ async function drawCharts(data) {
         GetConfig({
             container_id: "#temp-container",
             data: data,
-            x: "entry_date",
+            x: "date",
             y: "temp",
             timePeriod: "1d",
             id: "svg-graph-temp",
@@ -63,7 +63,7 @@ async function drawCharts(data) {
         GetConfig({
             container_id: "#humi-container",
             data: data,
-            x: "entry_date",
+            x: "date",
             y: "humi",
             timePeriod: "1d",
             id: "svg-graph-humi",

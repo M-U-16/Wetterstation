@@ -23,35 +23,7 @@ export default function TooltipController(
         .attr("class", "svg-listener-rect")
         .attr("width", width)
         .attr("height", height)
-        .on("mousemove", function(e) {
-            const {xPos,yPos,d} = calculatePosition(data, e, this)
-            const tooltipWidth = tooltip.node().offsetWidth
-            const tooltipHeight = tooltip.node().offsetHeight
-            const rectWidth = this.width.animVal.value
-
-            let tool_pos_x = xPos+tooltipWidth <= rectWidth
-            let tool_pos_y = yPos-tooltipHeight >= 0
-
-            let offset_x = tool_pos_x?MARGIN_LEFT:MARGIN_LEFT-tooltipWidth
-            let offset_y = tool_pos_y?yPos-20:yPos+tooltipHeight-22
-
-            circle.attr("cx", xPos)
-                .attr("cy", yPos)
-                .style("opacity", 1)
-                .style("transform", "scale(1)")
-            tooltip.style("top", `${offset_y + tooltipHeight}px`)
-                .style("left", `${xPos + offset_x}px`)
-                .html(
-                    `
-                    <p>${config.axis.x.tooltipFormat(d['entry_date'])}</p>
-                    <p>${(d[config.y]).toString() + config.axis.y.unit}</p>
-                    `
-                )
-                .transition()
-                .duration(100)
-                .style("opacity", 1)
-                .style("transform", "scale(1)")
-        })
+        .on("mousemove", handleMouseMove)
         .on("mouseleave", () => {
             tooltip.transition()
                 .duration(100)
@@ -60,6 +32,36 @@ export default function TooltipController(
             circle.style("opacity", 0)
                 .style("transform", "scale(0)")
         })
+
+    function handleMouseMove(event) {
+        const {xPos,yPos,d} = calculatePosition(data, event, this)
+        const tooltipWidth = tooltip.node().offsetWidth
+        const tooltipHeight = tooltip.node().offsetHeight
+        const rectWidth = this.width.animVal.value
+
+        let tool_pos_x = xPos+tooltipWidth <= rectWidth
+        let tool_pos_y = yPos-tooltipHeight >= 0
+
+        let offset_x = tool_pos_x?MARGIN_LEFT:MARGIN_LEFT-tooltipWidth
+        let offset_y = tool_pos_y?yPos:yPos+tooltipHeight
+
+        circle.attr("cx", xPos)
+            .attr("cy", yPos)
+            .style("opacity", 1)
+            .style("transform", "scale(1)")
+        tooltip.style("top", `${offset_y}px`)
+            .style("left", `${xPos + offset_x}px`)
+            .html(
+                `
+                <p>${config.axis.x.tooltipFormat(d['date'])}</p>
+                <p>${(d[config.y]).toString() + config.axis.y.unit}</p>
+                `
+            )
+            .transition()
+            .duration(100)
+            .style("opacity", 1)
+            .style("transform", "scale(1)")
+    }
 
     function calculatePosition(data, e, rect) {
         const [xCoord] = d3.pointer(e, rect)
@@ -74,6 +76,16 @@ export default function TooltipController(
         return {xPos, yPos, d}
     }
 
+    function enable() {
+        circle.attr("style", "display:static;")
+        rect.attr("style", "pointer-events:all;")
+    }
+    
+    function disable() {
+        circle.attr("style", "display:none;")
+        rect.attr("style", "pointer-events:none;")
+    }
+
     function remove() {
         rect.remove()
         tooltip.remove()
@@ -81,6 +93,8 @@ export default function TooltipController(
     }
     
     return {
-        remove
+        remove,
+        enable,
+        disable
     }
 }

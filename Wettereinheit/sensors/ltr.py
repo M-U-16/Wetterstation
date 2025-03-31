@@ -13,7 +13,7 @@ class Ltr559Sensor:
         }
         
         if date:
-            readings["entry_date"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            readings["date"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         
         return readings
     

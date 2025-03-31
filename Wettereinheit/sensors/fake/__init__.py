@@ -39,7 +39,7 @@ class GasSensorFake:
             "red": gases["reducing"] / 1000,   #unit = "kO"
             "nh3": gases["nh3"] / 1000         #unit = "kO"
         }
-        if date: readings["entry_date"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        if date: readings["date"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         return readings
 
 class Bme280SensorFake:

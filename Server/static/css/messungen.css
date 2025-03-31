@@ -63,3 +63,162 @@ table td {
 table tr td.date {
     width: 100%;
 }
+
+.controls {
+    --label-color: #e6e6e6;
+    --border-color: #c2c2c2;
+    --controls-border-color: #969696;
+
+    width: 100%;
+    height: 4.5rem;
+    display: flex;
+    padding: 0.5rem;
+    position: relative;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--controls-border-color);
+    background-color: white;
+}
+
+.controls .left {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.controls .input-container {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr;
+}
+
+.controls .input-container label {
+    background-color: rgb(223, 223, 223);
+    background-color: var(--label-color);
+    border-radius: 5px 5px 0 0;
+    border-top: 1px solid var(--border-color);
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+    padding: 0.1rem 0.4rem;
+    font-size: 0.8rem;
+}
+
+.controls .input-container select,
+.controls .input-container input {
+    padding: 0 1rem 0 0.2rem;
+    border-radius: 0 0 5px 5px;
+    border: 1px solid var(--border-color);
+    background-color: white;
+    height: 100%;
+}
+
+.controls .divider {
+    height: 100%;
+    width: 1px;
+    background-color: rgba(121, 121, 121, 0.488);
+}
+
+.controls .time-range-date {
+    height: 100%;
+    display: grid;
+    flex-direction: column;
+    grid-template-rows: 1fr 1fr;
+}
+
+.controls .time-range-date div {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+}
+
+.controls .time-range-date div input {
+    flex: 1;
+    background-color: white;
+}
+
+.controls .time-range-date div label {
+    border-radius: 3px 0 0 3px;
+    font-size: 0.8rem;
+    border: 1px solid var(--border-color);
+    background-color: var(--label-color);
+    display: flex;
+    padding: 0.2rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.controls .active-label {
+    background-color: rgb(222, 240, 255) !important;
+}
+
+.controls .error-label {
+    background-color: rgb(255, 222, 222) !important;
+}
+
+.controls .time-range-date div input {
+    padding: 0.2rem;
+    border-radius: 2px;
+    border: 1px solid var(--border-color);
+    border-left: none;
+}
+
+.controls .right .view-select {
+    display: flex;
+    gap: 0.2rem;
+    padding: 0.2rem;
+    border: 1px solid var(--controls-border-color);
+    border-top: none;
+    grid-template-rows: 1fr 1fr;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border-radius: 0 0 0 5px;
+}
+
+.controls .right .view-select button {
+    width: 2rem;
+    height: 2rem;
+    color: grey;
+    cursor: pointer;
+    background-color: transparent;
+    border: 1px solid grey;
+    padding: 0.2rem;
+    border-radius: 5px;
+}
+
+.data-container {
+    padding: 0.5rem;
+}
+
+.data-table {
+    width: 60%;
+    width: 100%;
+    padding: 1rem;
+    max-width: 35rem;
+    border-radius: 5px;
+    border: 1px solid rgb(196, 196, 196);
+    background-color: white;
+}
+
+.data-table .date {
+    gap: 0.5rem;
+    display: flex;
+}
+
+.data-table .top {
+    display: flex;
+    align-items: center;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.462);
+    justify-content: space-between;
+}
+
+.data-table .top .info {
+    font-size: 0.8rem;
+}
+
+.data-table .date .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+}

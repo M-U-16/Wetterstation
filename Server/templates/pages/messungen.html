@@ -1,63 +1,3 @@
-{% macro TableRow(data) %}
-<tr class="measurement_row">
-    <td class="date ellipsis">
-        {{ data["entry_date"]|date_format }}
-    </td>
-    <td class="temperature entry">
-        {{ data["temp"] }}°C
-    </td>
-    <td class="humidity entry">
-        {{ data["humi"] }}%
-    </td>
-    <td class="pressure entry">
-        {{ data["pres"] }}hPa
-    </td>
-    <td class="light entry">
-        {{ data["lux"] }}lux
-    </td>
-</tr>
-{% endmacro %}
-
-{% macro SingleEntry(date, data, gas) %}
-    <h3>Datum: {{ date }}</h3>
-    <p>Temperatur: {{ data["temp"] }}°C</p>
-    <p>Luftfeuchtigkeit: {{ data["humi"] }}%</p>
-    <p>Helligkeit: {{ data["lux"] }}lux</p>
-    {% if data_gas %}
-        <p>Gase: {{ gas }}</p>
-    {% endif %}
-    {% if avg_day %}
-        <h3 style="padding: 1rem;">Durchschnitt des Tages</h3>
-        <div style="display:flex;flex-wrap:wrap">
-            {% for entry in avg_day %}
-                <div style="padding: 1rem;">
-                    <p>Zeit: {{ entry["entry_date"].split(" ")[1] }}</p>
-                    <p>Temperatur: {{ entry["avg_temp"] }}</p>
-                    <p>Luftfeuchtigkeit: {{ entry["avg_humi"] }}</p>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-{% endmacro %}
-
-{% macro CreateTable(data) %}
-    <table class="messungen-table">
-        <caption>Messungen für <span style="font-style: italic;">'{{ date }}'</span></caption>
-        <thead id="messungen-table-heading">
-            <th>Datum:</th>
-            <th>Temperatur:</th>
-            <th class="ellipsis">Luftfeuchtigkeit:</th>
-            <th>Luftdruck:</th>
-            <th>Helligkeit:</th>
-        </thead>
-        <tbody>
-            {% for entry in data %}
-                {{ TableRow(entry) }}
-            {% endfor %}
-        </tbody>
-    </table>
-{% endmacro %}
-
 {% extends "base/base.html" %}
 {% from "components/inputs/TimeSelect.html" import select %}
 {% from "svgs/chart.html" import chartThin as chartIcon %}
@@ -79,165 +19,6 @@
         rel="stylesheet"
         href="{{ url_for('static', filename='css/messungen.css') }}"
     />
-
-    <style>
-        .controls {
-            --label-color: #e6e6e6;
-            --border-color: #c2c2c2;
-            --controls-border-color: #969696;
-
-            width: 100%;
-            height: 4.5rem;
-            display: flex;
-            padding: 0.5rem;
-            position: relative;
-            justify-content: space-between;
-            border-bottom: 1px solid var(--controls-border-color);
-            background-color: white;
-        }
-        
-        .controls .left {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .controls .input-container {
-            height: 100%;
-            display: grid;
-            grid-template-rows: auto 1fr;
-        }
-
-        .controls .input-container label {
-            background-color: rgb(223, 223, 223);
-            background-color: var(--label-color);
-            border-radius: 5px 5px 0 0;
-            border-top: 1px solid var(--border-color);
-            border-left: 1px solid var(--border-color);
-            border-right: 1px solid var(--border-color);
-            padding: 0.1rem 0.4rem;
-            font-size: 0.8rem;
-        }
-
-        .controls .input-container select,
-        .controls .input-container input {
-            padding: 0 1rem 0 0.2rem;
-            border-radius: 0 0 5px 5px;
-            border: 1px solid var(--border-color);
-            height: 100%;
-        }
-        
-        .controls .divider {
-            height: 100%;
-            width: 1px;
-            background-color: rgba(121, 121, 121, 0.488);
-        }
-        
-        .controls .time-range-date {
-            height: 100%;
-            display: grid;
-            flex-direction: column;
-            grid-template-rows: 1fr 1fr;
-        }
-
-        .controls .time-range-date div {
-            height: 100%;
-            width: 100%;
-            display: flex;
-            overflow: hidden;
-        }
-
-        .controls .time-range-date div input {
-            flex: 1;
-        }
-
-        .controls .time-range-date div label {
-            border-radius: 3px 0 0 3px;
-            font-size: 0.8rem;
-            border: 1px solid var(--border-color);
-            background-color: var(--label-color);
-            display: flex;
-            padding: 0.2rem;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .controls .active-label {
-            background-color: rgb(222, 240, 255) !important;
-        }
-        
-        .controls .error-label {
-            background-color: rgb(255, 222, 222) !important;
-        }
-        
-        .controls .time-range-date div input {
-            padding: 0.2rem;
-            border-radius: 2px;
-            border: 1px solid var(--border-color);
-            border-left: none;
-        }
-        
-        .controls .right .view-select {
-            display: flex;
-            gap: 0.2rem;
-            padding: 0.2rem;
-            border: 1px solid var(--controls-border-color);
-            border-top: none;
-            grid-template-rows: 1fr 1fr;
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background-color: white;
-            border-radius: 0 0 0 5px;
-        }
-
-        .controls .right .view-select button {
-            width: 2rem;
-            height: 2rem;
-            color: grey;
-            cursor: pointer;
-            background-color: transparent;
-            border: 1px solid grey;
-            padding: 0.2rem;
-            border-radius: 5px;
-        }
-
-        .data-container {
-            padding: 0.5rem;
-        }
-
-        .data-table {
-            width: 60%;
-            width: 100%;
-            padding: 1rem;
-            max-width: 35rem;
-            border-radius: 5px;
-            border: 1px solid rgb(196, 196, 196);
-            background-color: white;
-        }
-
-        .data-table .date {
-            gap: 0.5rem;
-            display: flex;
-        }
-
-        .data-table .top {
-            display: flex;
-            align-items: center;
-            padding-bottom: 0.5rem;
-            margin-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.462);
-            justify-content: space-between;
-        }
-
-        .data-table .top .info {
-            font-size: 0.8rem;
-        }
-
-        .data-table .date .icon {
-            width: 1.5rem;
-            height: 1.5rem;
-        }
-    </style>
 {% endblock styles %}
 {% block titlebarHeading %}Messungen{% endblock titlebarHeading %}
 
@@ -338,6 +119,13 @@
                 <div class="graph" id="humi-container">
                 </div>
             </div>
+            <!-- <div class="graph__container">
+                <div class="header graph-header-particles">
+                    <h1>Luftpartikel<span>in &#181;g/m<sup>3</sup></span></h1>
+                </div>
+                <div class="graph" id="particles-container">
+                </div>
+            </div> -->
             {% if entry_data and date %}
                 {% if type == "content-table" %}
                     {{ CreateTable(entry_data) }}
@@ -353,6 +141,66 @@
         </div>
     </div>
 {% endblock content %}
+
+{% macro TableRow(data) %}
+<tr class="measurement_row">
+    <td class="date ellipsis">
+        {{ data["date"]|date_format }}
+    </td>
+    <td class="temperature entry">
+        {{ data["temp"] }}°C
+    </td>
+    <td class="humidity entry">
+        {{ data["humi"] }}%
+    </td>
+    <td class="pressure entry">
+        {{ data["pres"] }}hPa
+    </td>
+    <td class="light entry">
+        {{ data["lux"] }}lux
+    </td>
+</tr>
+{% endmacro %}
+
+{% macro SingleEntry(date, data, gas) %}
+    <h3>Datum: {{ date }}</h3>
+    <p>Temperatur: {{ data["temp"] }}°C</p>
+    <p>Luftfeuchtigkeit: {{ data["humi"] }}%</p>
+    <p>Helligkeit: {{ data["lux"] }}lux</p>
+    {% if data_gas %}
+        <p>Gase: {{ gas }}</p>
+    {% endif %}
+    {% if avg_day %}
+        <h3 style="padding: 1rem;">Durchschnitt des Tages</h3>
+        <div style="display:flex;flex-wrap:wrap">
+            {% for entry in avg_day %}
+                <div style="padding: 1rem;">
+                    <p>Zeit: {{ entry["date"].split(" ")[1] }}</p>
+                    <p>Temperatur: {{ entry["avg_temp"] }}</p>
+                    <p>Luftfeuchtigkeit: {{ entry["avg_humi"] }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro CreateTable(data) %}
+    <table class="messungen-table">
+        <caption>Messungen für <span style="font-style: italic;">'{{ date }}'</span></caption>
+        <thead id="messungen-table-heading">
+            <th>Datum:</th>
+            <th>Temperatur:</th>
+            <th class="ellipsis">Luftfeuchtigkeit:</th>
+            <th>Luftdruck:</th>
+            <th>Helligkeit:</th>
+        </thead>
+        <tbody>
+            {% for entry in data %}
+                {{ TableRow(entry) }}
+            {% endfor %}
+        </tbody>
+    </table>
+{% endmacro %}
 
 {% block scripts %}
     {% if type == "content-table" %}
@@ -370,10 +218,10 @@
     <script src="{{ url_for('static', filename='js/build/wetterchart.js') }}"></script>
 
     <script>
-        const parseDate = d3.timeParse("%Y-%m-%dT%H:%M")
+        wetterchart.setDE()
 
-        drawCharts().then(graphs => {
-            console.log(graphs)
+        drawCharts().then(charts => {
+            console.log(charts)
             //select.init((value) => updateGraphs(graphs, value))
             document.addEventListener("filter:change", (event) => {
                 console.log(event)
@@ -390,16 +238,16 @@
         async function drawCharts() {
             //let data = await wetterchart.FetchData("year", "2024")
             //console.log(data)
-            const graph_temp = wetterchart.LineChart({
-                id: "svg-graph-temp",
+            const chart_temp = wetterchart.LineChart({
+                id: "svg-chart-temp",
                 container: "#temp-container",
-                color: "#ff8080",
-                x: "entry_date",
-                y: "temp",
+                color: ["#ff8080"],
+                x: "date",
+                y: ["temp"],
                 timeFormat: "%Y-%m-%dT%H:%M",
 
                 axis: {
-                    x: {...wetterchart.X_FORMAT_1Y},
+                    x: {...wetterchart.DEFAULT_X_FORMAT_1Y},
                     y: {
                         unit: "°C",
                         ticks: 6,
@@ -409,44 +257,75 @@
                 }
             })
 
-            const graph_humi = wetterchart.LineChart({
-                id: "svg-graph-humi",
+            const chart_humi = wetterchart.LineChart({
+                id: "svg-chart-humi",
                 container: "#humi-container",
-                color: "#0177c0",
-                x: "entry_date",
-                y: "humi",
+                color: ["#0177c0"],
+                x: "date",
+                y: ["humi"],
                 timeFormat: "%Y-%m-%dT%H:%M",
-
+                area: true,
+                
                 axis: {
-                    x: {...wetterchart.X_FORMAT_1Y},
+                    x: {...wetterchart.DEFAULT_X_FORMAT_1Y},
                     y: {
-                        unit: "%", 
+                        unit: "%",
                         ticks: 6,
                         tickFormat: wetterchart.TICK_FORMAT,
                         domain: wetterchart.DEFAULT_HUMI_DOMAIN
                     }
                 }
             })
+            
+            /*const chart_particles = wetterchart.LineChart({
+                id: "svg-chart-particles",
+                container: "#particles-container",
+                color: ["#09bff7", "#0099c8", "#0083e0"],
+                x: "date",
+                y: ["pm_10", "pm_25", "pm_100"],
+                timeFormat: "%Y-%m-%dT%H:%M",
+                do_gaps: true,
+                
+                axis: {
+                    x: {...wetterchart.DEFAULT_X_FORMAT_1Y},
+                    y: {
+                        unit: "&#181;g/m<sup>3</sup></span>",
+                        ticks: 6,
+                        tickFormat: function () {return (d) => d},
+                        domain: wetterchart.DEFAULT_PARTICLE_DOMAIN
+                    }
+                }
+            })*/
 
-            d3.csv("/messungen/1year-2.csv")
+            d3.csv("/messungen/1year-combined-gaps.csv")
             .then(data => data.map(row => {
                 return {
-                    entry_date: row.entry_date,
+                    date: row.date,
                     temp: +row.temp,
-                    humi: +row.rh
+                    humi: +row.humi,
+                    pm_10: +row.pm_10,
+                    pm_25: +row.pm_25,
+                    pm_100: +row.pm_100,
                 }
             }))
             .then(data => {
-                graph_temp.load(data)
-                graph_humi.load(data)
+                const avg_data = wetterchart.average_per_day(
+                    data,//data, //data.slice(0, 80),
+                    ["temp", "humi", "pm_100", "pm_25", "pm_10"]
+                )
+
+                //console.log(avg_data)
+                chart_temp.load(avg_data, {
+                    gaps: {interval: 24*60*60, gap_size:3}
+                })
+                //console.log(chart_temp)
+                chart_humi.load(avg_data,{
+                    gaps: {interval: 24*60*60, gap_size:3}
+                })
+                //chart_particles.load(avg_data)
             })
             
-            return [graph_temp, graph_humi]
-            //if (null) {
-            //    throw new Error("fehler beim laden von daten")
-            //}
-
-            
+            return [chart_temp, chart_humi]
         }
     </script>
 

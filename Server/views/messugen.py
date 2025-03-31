@@ -8,7 +8,6 @@ from flask import Blueprint, render_template, request
 
 # internal
 from models import db, get_db
-from helpers.MessDate import DatetimeInfo
 
 blueprint = Blueprint(
     "messungen_bp",
@@ -18,7 +17,7 @@ blueprint = Blueprint(
 
 @blueprint.get("/<file>")
 def messungen_test(file):
-    return send_file(os.path.join(current_app.config["DATA_DIR"], file))
+    return send_file(os.path.join(current_app.root_path, "samples", file))
 
 @blueprint.get("/")
 def messungen():

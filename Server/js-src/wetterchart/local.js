@@ -1,13 +1,23 @@
-export function setD3DE() {
+export let timelocale = d3.timeFormat
+export let formatlocale = d3.format
+
+export function setDefault() {
+    formatlocale = d3.format
+    timelocale = d3.timeFormat
+}
+
+export function setDE() {
     // set default locale
-    d3.formatDefaultLocale({
+    formatlocale = d3.formatDefaultLocale({
         "decimal": ",",
         "thousands": ".",
         "grouping": [3],
         "currency": ["", "\u00a0€"]
     })
+    //d3.formatDefaultLocale(formatLocale)
+
     // set default time locale
-    d3.timeFormatDefaultLocale({
+    timelocale = d3.timeFormatLocale({
         "dateTime": "%A, der %e. %B %Y, %X",
         "date": "%d.%m.%Y",
         "time": "%H:%M:%S",
@@ -17,6 +27,10 @@ export function setD3DE() {
         "months": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
         "shortMonths": ["Jan", "Feb", "Mrz", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
     })
+
+    console.log(timelocale, formatlocale)
+    //d3.timeFormatDefaultLocale(timeFormatLocale)
+
     let formatMillisecond = d3.timeFormat(".%L")
     let formatSecond = d3.timeFormat(":%S")
     let formatMinute = d3.timeFormat("%I:%M")

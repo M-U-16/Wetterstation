@@ -6,7 +6,7 @@ export function LiveEntrys() {
     const lux = document.querySelector("#current-lux-value")
     
     function update() {
-        date.innerHTML = data.entry_date
+        date.innerHTML = data.date
         temp.innerHTML = data.temp
         humi.innerHTML = data.humi
         lux.innerHTML = data.lux

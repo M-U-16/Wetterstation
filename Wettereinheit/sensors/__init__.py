@@ -49,7 +49,7 @@ class SensorGroup(Thread):
                     readings[sensor.name] = sensor.read()
                 except ExceptionWarmUpNotDone: pass
                 
-            readings["entry_date"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            readings["date"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             if self.is_fake:
                 readings["is_fake"] = self.is_fake
             if self.send and self.client:

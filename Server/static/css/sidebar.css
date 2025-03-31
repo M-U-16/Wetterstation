@@ -79,8 +79,8 @@
 }
 
 .sidebar__link svg {
-    width: 1.4rem;
-    height: 1.4rem;
+    width: 1.4rem !important;
+    height: 1.4rem !important;
     fill: var(--icon-color);
     stroke: var(--icon-color);
 }

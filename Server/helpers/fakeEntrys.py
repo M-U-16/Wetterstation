@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 #just returns new object with random sensor values
 def getEntry(date):
     return {
-        "entry_date": date,
+        "date": date,
         "temp": random.randint(-5, 30),
         "humi": random.randint(1, 100),
         "pres": 1000,
@@ -22,7 +22,7 @@ def getEntry(date):
     
 def getEntryGas(date):
     return {
-        "entry_date": date,
+        "date": date,
         "oxi": random.randint(10, 40),
         "nh3": random.randint(10, 50),
         "red": random.randint(10, 100)

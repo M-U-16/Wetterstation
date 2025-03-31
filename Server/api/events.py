@@ -23,7 +23,7 @@ def send_new_readings(readings_data):
     """ addEntry(readings_data) """
     print(readings_data)
     """ data = {
-        "entry_date": readings_data["entry_date"],
+        "date": readings_data["date"],
         **(readings_data["bme280_fake"])
     }
     print(data) """

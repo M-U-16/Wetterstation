@@ -7,9 +7,9 @@ CREATE TABLE IF NOT EXISTS wetterdaten (
     lux INTEGER,
     prox INTEGER,
     noise TEXT,
-    pm10 TEXT,
-    pm25 TEXT,
-    pm100 TEXT
+    pm_10 TEXT,
+    pm_25 TEXT,
+    pm_100 TEXT
 );
 
 CREATE TABLE IF NOT EXISTS gas (

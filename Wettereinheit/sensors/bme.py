@@ -25,7 +25,7 @@ class Bme280Sensor:
             "humi": sample.humidity,
             "pressure": sample.pressure
         }
-        if date: data["entry_date"] = datetime.now()
+        if date: data["date"] = datetime.now()
         return data
 
     def read_temp(self): return self.read()["temp"]

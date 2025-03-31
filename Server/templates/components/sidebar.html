@@ -13,7 +13,7 @@
     </a>
 {% endmacro %}
 
-{% from "svgs/home.html" import homeIcon %}
+{% from "svgs/home.html" import home as HomeIcon %}
 {% from "svgs/live.html" import liveIcon %}
 {% from "svgs/barChart.html" import barChartIcon %}
 {% from "svgs/square-chart.html" import squareChartIcon %}
@@ -45,10 +45,8 @@
             </svg>
         </button>
         <nav>
-            {{ sidebarLink("Startseite", "/", homeIcon) }}
+            {{ sidebarLink("Startseite", "/", HomeIcon) }}
             {{ sidebarLink("Dashboard", "/dashboard", barChartIcon) }}
-            <!-- {{ sidebarLink("Suchen", "/suchen", searchIcon) }}
-            {{ sidebarLink("Live Daten", "/live", liveIcon) }} -->
             {{ sidebarLink("Messungen", "/messungen", listIcon) }}
         </nav>
     </aside>

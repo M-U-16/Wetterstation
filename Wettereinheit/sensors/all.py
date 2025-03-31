@@ -41,7 +41,7 @@ def start_data_measuring(client, interval):
             pm25 = float(pm.pm_ug_per_m3(2.5)) #unit = "ug/m3"
             
         client.send_readings(data={
-            "entry_date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+            "date": datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
             "temp": round(bme280.get_temperature(), 2),
             "proxi": round(ltr559.get_proximity()),
             "humi": round(bme280.get_humidity()), #unit = "%"

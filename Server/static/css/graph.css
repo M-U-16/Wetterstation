@@ -26,19 +26,21 @@
     align-items: center;
     border-bottom: 1px solid rgba(187, 187, 187, 0.242);
     border: none;
+    padding: 1rem 1rem 0.3rem 23px;
 }
 
 .graph__container .header h1 {
     font-size: 1.2rem;
     position: relative;
-    padding: 0.8rem 0.5rem 0.3rem 23px;
+   /*  padding: 0.8rem 0.5rem 0.3rem 23px; */
 }
 
 .graph__container .header h1 span {
-    left: 100%;
+    left: 105%;
+    bottom: 50%;
     position: absolute;
     font-size: 0.8rem;
-    width: 2rem;
+    width: 5rem;
 }
 
 .graph__container svg {
@@ -136,6 +138,11 @@ humi: {
 }
 
 .graph-header-humidity {
-    color: #09bff7;
     color: #0177c0;
+}
+
+.graph-header-particles {
+    color: #0083e0;
+    color: #0099c8;
+    color: #09bff7;
 }

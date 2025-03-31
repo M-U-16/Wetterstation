@@ -1,9 +1,9 @@
-from io import BytesIO
 import os
-import urllib.parse as urllib_parse
 import tempfile
-from wsgiref.util import FileWrapper
 import zipfile
+from io import BytesIO
+from wsgiref.util import FileWrapper
+import urllib.parse as urllib_parse
 from flask import Blueprint, current_app, render_template, request, send_file, Response
 
 blueprint = Blueprint(
@@ -24,6 +24,8 @@ def check_ignore(dst):
     return True
 
 def get_files(path):
+    get_files2(current_app.root_path,path)
+    
     server_dir = {"dirs": [], "files": []}
     for server_file in os.listdir(path):
         is_allowed = True
@@ -38,6 +40,31 @@ def get_files(path):
 
     return server_dir
 
+def get_files2(root, path):
+    directory_listing = {"dirs": [], "files": []}
+    
+    for _, dirs, files in os.walk(path):
+        for directory in dirs:
+            if not check_ignore(directory): continue
+            directory_listing["dirs"].append({
+                "name": directory,
+                "path": os.path.relpath(
+                    os.path.join(path, directory), root
+                ).replace("\\", "/")
+            })
+        for file in files:
+            if not check_ignore(file): continue
+            directory_listing["files"].append({
+                "name": file,
+                "path": os.path.relpath(
+                    os.path.join(path, file), root
+                ).replace("\\", "/")
+            })
+        break
+    
+    print(directory_listing)
+    return directory_listing
+
 def zipdir(path, zip_file):
     for root, dirs, files in os.walk(path):
         if not check_ignore(root): continue
@@ -47,17 +74,28 @@ def zipdir(path, zip_file):
                 os.path.relpath(os.path.join(root, file), path)
             )
 
+def get_display_path(path):
+    dir_path_list = []
+    files = path.split("/")
+    print(files)
+    for idx, file in enumerate(filter(lambda x: x != "", files)):
+        dir_path_list.append({
+            "name": file,
+            "path": "/".join(files[:idx+1])
+        })
+    print(dir_path_list)
+    return dir_path_list
+
 @blueprint.route("/")
 def index_route():
     if request.args.get("download"):
         path = os.path.join(
             current_app.root_path,
             request.args.get("download")
-        )
-        
+        ).replace("\\", "/")
         
         if request.args.get("is_dir"):
-            download_name = request.args.get("download")+".zip"
+            download_name = request.args.get("name")+".zip"
             zip_contents = None
             with tempfile.TemporaryDirectory() as tmpdir:
                 print(tmpdir)
@@ -84,22 +122,21 @@ def index_route():
         if not open_dir.endswith("/"): open_dir += "/"
         
         dir_path = os.path.join(root, open_dir)
-        if "\\" in dir_path:
-            dir_path = dir_path.replace("\\", "/")
+        if "\\" in dir_path: dir_path = dir_path.replace("\\", "/")
         
         display_path = [display_path_root, *[value for value in open_dir.split("/") if value != ""]]
         print(display_path)
         return render_template(
             "pages/edit.html",
-            folder=get_files(dir_path),
-            current_path=urllib_parse.quote_plus(open_dir),
-            display_path=display_path
+            folder=get_files2(root, dir_path),
+            current_path=open_dir,
+            display_path=get_display_path(open_dir)
         )
         
     #return send_file()
     return render_template(
         "pages/edit.html",
-        folder=get_files(current_app.root_path),
+        folder=get_files2(current_app.root_path, current_app.root_path),
         current_path="",
-        display_path=["Server"]
+        display_path=[]
     )

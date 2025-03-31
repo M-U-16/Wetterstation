@@ -27,7 +27,7 @@ async function drawCharts() {
         GetConfig(
             "#temp-container",
             compress_one_year(data),
-            "entry_date",
+            "date",
             "temp",
             "1y",
             "svg-graph-temp"
@@ -37,7 +37,7 @@ async function drawCharts() {
         GetConfig(
             "#humi-container",
             compress_one_year(data),
-            "entry_date",
+            "date",
             "humi",
             "1y",
             "svg-graph-humi"

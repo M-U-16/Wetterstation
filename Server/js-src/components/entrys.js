@@ -11,7 +11,7 @@ export const lastEntrys = async() => {
     function formatEntrys(data) {
         const timeParser = d3.timeParse("%Y-%m-%d %H:%M:%S")
         return data.map(entry => {
-            entry.entry_date = timeParser(entry.entry_date)
+            entry.date = timeParser(entry.date)
             return entry
         })
     }
@@ -29,7 +29,7 @@ export const lastEntrys = async() => {
         entry_container.className = "recent__entry-container"
 
         const date = document.createElement("p")
-        date.innerHTML = formatEntryDate(entry.entry_date)
+        date.innerHTML = formatEntryDate(entry.date)
 
         const p_temp = document.createElement("p")
 

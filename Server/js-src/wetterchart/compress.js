@@ -31,7 +31,7 @@ export function compress_one_year(data) {
 
     data = data.map(entry => {
         return {
-            entry_date: entry.entry_date,
+            date: entry.date,
             humi: entry.humi,
             lux: entry.lux,
             temp: entry.temp
@@ -43,7 +43,7 @@ export function compress_one_year(data) {
     const month_index = {}
     let current_month = null
     data.forEach((entry, index) => {
-        const month = entry.entry_date.split("-")[1]
+        const month = entry.date.split("-")[1]
         if (index === 0) current_month = month
         
         if (!Object.keys(month_index).includes(month))
@@ -72,14 +72,63 @@ export function compress_one_year(data) {
     const compressed_year = allMonths.map(month => {
         return average_one_month(sorted_months[month])
     }).sort((prev, now) => {
-        if (prev.entry_date < now.entry_date) return -1
-        if (prev.entry_date > now.entry_date) return 1
+        if (prev.date < now.date) return -1
+        if (prev.date > now.date) return 1
         return 0
     }) // sorted in ascending order
 
     return compressed_year
 }
 
-export function average(data) {
-    
+/*
+*/
+export function average_per_day(data=[], data_points=[]) {
+    if (data.length == 0) {
+        return []
+    }
+
+    if (data_points.length == 0) {
+        return data
+    }
+
+    // array containing averaged data of the days
+    let averaged_days = []
+
+    // use first value as starting date
+    let day = new Date(data[0].date)
+    let current_day
+    let current_entry = {
+        count: 0,
+        data: null
+    }
+
+    data.push(0)
+    data.forEach(entry => {
+        current_day = new Date(entry.date)
+
+        if (current_day.getDate() != day.getDate() || entry == 0) {
+            data_points.forEach(point => {
+                current_entry.data[point] = +(
+                    current_entry.data[point] / current_entry.count
+                ).toFixed(2)
+            })
+            averaged_days.push(current_entry.data)
+            current_entry.data = null
+            day = current_day
+        }
+        
+        if (!current_entry.data) {
+            current_entry.count = 1
+            current_entry.data = entry
+            return
+        }
+
+        data_points.forEach(point => {
+            current_entry.data[point] += entry[point]
+        })
+
+        current_entry.count++
+    })
+
+    return averaged_days
 }

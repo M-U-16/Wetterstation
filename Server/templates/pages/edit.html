@@ -1,4 +1,5 @@
 {% extends "base/base.html" %}
+{% from "svgs/home.html" import home as HomeIcon %}
 {% block titlebarHeading %}Edit{% endblock titlebarHeading %}
 
 {% block styles %}
@@ -13,14 +14,16 @@
             background-color: #e5e5e5;
             border: 1px solid #c4c4c4;
             display: flex;
+            align-items: center;
             gap: 0.3rem;
-            padding: 1rem;
         }
 
-        .container .list-header a {
+        .container .list-header .link {
             text-decoration: none;
             color: black;
+            min-width: min-content;
             text-decoration: underline;
+            padding: 1rem;
         }
 
         .container .entry {
@@ -84,7 +87,7 @@
     {% endif %}
     <a
         class="download"
-        href="/edit?download={{download_link}}{{ '&is_dir=1' if is_dir else '' }}"
+        href="/edit?download={{download_link}}&name={{download_name}}{{ '&is_dir=1' if is_dir else '' }}"
         download="{{download_name}}"
     >
         <svg class="icon" width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -98,37 +101,37 @@
 {% block content %}
     <div class="container">
         <div class="list-header">
+            <a href="/edit" style="width: 1.2rem;height:1.2rem;">{{ HomeIcon() }}</a>
             {% for value in display_path %}
-                <a href="/">{{ value }}</a>
-                <p>/</p>
+                <a class="link" href="/edit?open={{value['path']}}">{{ value["name"] }}</a>
             {% endfor %}
         </div>
         <div class="dirs">
             {% for dir in folder["dirs"] %}
             <div class="entry">
-                <a class="link" href="/edit?open={{current_path + dir}}">
+                <a class="link" href="/edit?open={{dir['path']}}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 512 512">
                         <path d="M64 192v-72a40 40 0 0140-40h75.89a40 40 0 0122.19 6.72l27.84 18.56a40 40 0 0022.19 6.72H408a40 40 0 0140 40v40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><path d="M479.9 226.55L463.68 392a40 40 0 01-39.93 40H88.25a40 40 0 01-39.93-40L32.1 226.55A32 32 0 0164 192h384.1a32 32 0 0131.8 34.55z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/>
                     </svg>
-                    <p>{{ dir }}</p>
+                    <p>{{ dir["name"] }}</p>
                 </a>
                 <div class="right">
-                    {{ FileOptions(dir, dir+".zip", is_dir=True) }}
+                    {{ FileOptions(dir["path"], dir["name"]+".zip", is_dir=True) }}
                 </div>
             </div>
             {% endfor %}
         </div>
         <div class="files">
             {% for file in folder["files"] %}
-            <div class="entry" href="">
+            <div class="entry" href="/edit">
                 <a class="link" href="/edit/">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 512 512">
                         <path d="M416 221.25V416a48 48 0 01-48 48H144a48 48 0 01-48-48V96a48 48 0 0148-48h98.75a32 32 0 0122.62 9.37l141.26 141.26a32 32 0 019.37 22.62z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"/><path d="M256 56v120a32 32 0 0032 32h120M176 288h160M176 368h160" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/>
                     </svg>
-                    <p>{{ file }}</p>
+                    <p>{{ file["name"] }}</p>
                 </a>
                 <div class="right">
-                    {{ FileOptions(file, file) }}
+                    {{ FileOptions(file["path"], file["name"]) }}
                 </div>
             </div>
             {% endfor %}

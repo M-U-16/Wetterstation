@@ -21,7 +21,7 @@ class ParticleSensor:
                 "pm10": data.pm_ug_per_m3(10), # for particles of 10 microns
                 "pm25": data.pm_ug_per_m3(2.5) # for particles of 2.5 microns
             }
-            if date: readings["entry_date"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            if date: readings["date"] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             return readings
         except PmsReadTimeoutError:
             # recursivly calling read

@@ -105,7 +105,6 @@
 
 {% block content %}
     <div class="admin-container">
-        <h1>Generelle Informationen</h1>
         <div class="information-container">
             <div class="info status">
                 <h3>Messstatus:</h3>
@@ -139,8 +138,8 @@
             </div>
         </div>
 
+        <h1>Wettereinheit</h1>
         <div class="simple-controls">
-            <h1>Wettereinheit</h1>
             <button>Starten</button>
             <button>Stoppen</button>
             <button>Neustarten</button>
@@ -153,7 +152,6 @@
 
             x-data="{saveButton: false}"
         >
-            <h1>Einstellungen</h1>
             <div class="select-container">
                 <h3>Messinterval</h3>
                 {% if settings["Interval"] %}
@@ -169,8 +167,7 @@
                 {% endif %}
             </div>
             <div class="select-container">
-                <h2>Gassensor</h2>
-                <h3>Messverzögerung</h3>
+                <h3>Messverzögerung (Gassensor)</h3>
                 {% if settings["GasStartUpTime"] %}
                     <div class="input-container">
                         {{ NumberSelect(
