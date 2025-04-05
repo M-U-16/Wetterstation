@@ -4,13 +4,14 @@ from models.db import addEntry
 from models.meta import get_meta_db
 from flask import Blueprint, jsonify, request, session
 
+settings_route = Blueprint("settings_route", __name__)
+
 def time_to_second(time):
     if time == "sec": return 1
     elif time == "min": return 60
     elif time == "h": return 3600
     elif time == "d": return 24*3600
 
-settings_route = Blueprint("settings_route", __name__)
 
 @settings_route.before_request
 def settings_authenticator():
@@ -25,18 +26,15 @@ def settings_device(device_name):
     cursor = db.cursor()
     body = request.get_json()
     device_id = ""
-    print(body)
+    print(request.get_json())
     
-    try:
-        if int(body["GasStartUpTime"]) != int: raise TypeError()
-        if int(body["Interval"]) != int: raise TypeError()
-    except SyntaxError:
-        return jsonify({"error": True, "text": "Bad Request"}), 400
-    except TypeError:
-        return jsonify({"error": True, "text": "Bad Request"}), 400
-    except Exception:
-        return jsonify({"error": True, "text": "Internal Server Error"}), 500
-    return jsonify({"error": True, "text": "Internal Server Error"}), 500
+    #try:
+    #    if int(body["GasStartUpTime"]) != int: raise TypeError()
+    #    if int(body["Interval"]) != int: raise TypeError()
+    #except SyntaxError: return jsonify({"error": True, "text": "Bad Request"}), 400
+    #except TypeError: return jsonify({"error": True, "text": "Bad Request"}), 400
+    #except Exception: return jsonify({"error": True, "text": "Internal Server Error"}), 500
+    #return jsonify({"error": True, "text": "Internal Server Error"}), 500
     
     cursor.execute("INSERT OR IGNORE INTO device_lookup(device_name) VALUES(?)", (device_name,))
     device_id = cursor.execute(
@@ -62,7 +60,6 @@ def settings_device(device_name):
             settings
         )
     except Exception as e:
-        print(e)
         return jsonify({"error": True, "text": "Internal Server Error"}), 500
         
     db.commit()
@@ -88,10 +85,7 @@ def get_device_settings(device_name):
             (device_id,)
         )
         
-        return jsonify({"error": False,
-            "text": "OK",
-            "res": settings
-        }), 200
+        return jsonify({"error": False, "text": "OK", "res": settings}), 200
     except Exception as e:
-        print(e)
+        #print(e)
         return jsonify({"error": True, "text": "Internal Server Error"}), 500

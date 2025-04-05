@@ -11,5 +11,4 @@ def get_meta_db():
 def close_meta_db(exception):
     db = getattr(g, "_meta_db", None)
     if db is not None:
-        print("closing meta db")
         db.close()

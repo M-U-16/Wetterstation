@@ -1,10 +1,10 @@
-.graph__container {
+.chart__container {
+    /* max-width: 40rem; */
+
     width: 100%;
     height: 25rem;
     position: relative;
-    /* max-width: 40rem; */
-    background-color: var(--graph-bg-clr);
-    /* box-shadow: var(--test-box-shadow); */
+    background-color: var(--chart-bg-clr);
     border: 1px solid lightgray;
     border-radius: 5px;
     
@@ -12,7 +12,7 @@
     grid-template-rows: auto 1fr;
 }
 
-.graph__container .graph {
+.chart__container .chart {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -21,7 +21,7 @@
     overflow: hidden;  /* Prevent overflow */
 }
 
-.graph__container .header {
+.chart__container .header {
     display: flex;
     align-items: center;
     border-bottom: 1px solid rgba(187, 187, 187, 0.242);
@@ -29,13 +29,13 @@
     padding: 1rem 1rem 0.3rem 23px;
 }
 
-.graph__container .header h1 {
+.chart__container .header h1 {
     font-size: 1.2rem;
     position: relative;
    /*  padding: 0.8rem 0.5rem 0.3rem 23px; */
 }
 
-.graph__container .header h1 span {
+.chart__container .header h1 span {
     left: 105%;
     bottom: 50%;
     position: absolute;
@@ -43,7 +43,7 @@
     width: 5rem;
 }
 
-.graph__container svg {
+.chart__container svg {
     width: 100%;
     height: 100%;
     border-radius: 5px;
@@ -62,12 +62,7 @@
     transition: 0.3s ease;
 }
 
-.dark-theme .graph__grid-line {
-    stroke: white;
-    stroke-width: 0.2;
-}
-
-.light-theme .graph__grid-line {
+.light-theme .chart__grid-line {
     stroke: black;
     stroke-width: 0.2;
 }
@@ -76,7 +71,7 @@
     opacity: 0;
 }
 
-.graph-tooltip {
+.chart-tooltip {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -96,53 +91,33 @@
     overflow: hidden;
 }
 
-.graph-tooltip p {
+.chart-tooltip p {
     width: 100%;
     font-size: 0.8rem;
 }
 
-.graph__circle {
+.chart__circle {
     transition:
         top 0.1s linear,
         left 0.1s linear;
 }
 
-.graph__grid-line {
+.chart__grid-line {
     stroke: rgba(255, 255, 255, 0.193);
 }
 
-/*
-GRAPH HEADER THEMES
-*/
-
-/*
-temp: { 
-    color: "#ff8080", // #df2f34
-    dots: "#f00", //#ff0000
-    axis: {
-    color: "white",
-},
-},
-humi: {
-    color: "#09bff7",
-    dots: "#00f", //#09a4f7
-    axis: {
-    color: "grey",
-},
-}
-*/
-
-.graph-header-temperature {
+.chart-header-temperature {
     color: #ff8080;
     color: #df2f34;
 }
 
-.graph-header-humidity {
+.chart-header-humidity {
     color: #0177c0;
 }
 
-.graph-header-particles {
+.chart-header-particles {
     color: #0083e0;
     color: #0099c8;
     color: #09bff7;
+    color: #ad9c70;
 }

@@ -1,4 +1,4 @@
-export default function(format="%Y-%m-%d %H:%M:%s") {
+export function Formatter(format="%Y-%m-%d %H:%M:%s") {
     const parseDate = d3.timeParse(format)
     
     function formatEntrys(entrys, ...args) {

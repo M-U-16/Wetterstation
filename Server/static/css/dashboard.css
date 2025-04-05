@@ -1,4 +1,4 @@
-.dashboard__graphs {
+/* .dashboard__graphs {
     gap: 0.5rem;
     padding: 0.5rem;
     width: 100%;
@@ -13,4 +13,8 @@
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 1fr;
     }   
+} */
+
+.main-container {
+    padding: 1rem;
 }

@@ -15,12 +15,12 @@ blueprint = Blueprint(
 @blueprint.get("/")
 def backup_route():
     # date of the last backup
-    date = request.args.get("date")
-    data_db = get_db()
-    data_db_cr = data_db.cursor()
     #data_db_cr.execute("SELECT * FROM ")
     #data_db.execute("")
     #print(tempfile.gettempdir())
+    
+    date = request.args.get("date")
+    data_db, cursor = get_db()
     
     # create database that lives in
     # memory to store all data entries

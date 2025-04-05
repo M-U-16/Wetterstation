@@ -28,9 +28,6 @@ export function setDE() {
         "shortMonths": ["Jan", "Feb", "Mrz", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"]
     })
 
-    console.log(timelocale, formatlocale)
-    //d3.timeFormatDefaultLocale(timeFormatLocale)
-
     let formatMillisecond = d3.timeFormat(".%L")
     let formatSecond = d3.timeFormat(":%S")
     let formatMinute = d3.timeFormat("%I:%M")

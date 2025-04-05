@@ -1,0 +1,59 @@
+{% macro TableRow(data) %}
+<tr class="measurement_row">
+    <td class="date ellipsis">
+        {{ data["date"]|date_format }}
+    </td>
+    <td class="temperature entry">
+        {{ data["temp"] }}°C
+    </td>
+    <td class="humidity entry">
+        {{ data["humi"] }}%
+    </td>
+    <td class="pressure entry">
+        {{ data["pres"] }}hPa
+    </td>
+    <td class="light entry">
+        {{ data["lux"] }}lux
+    </td>
+</tr>
+{% endmacro %}
+
+{% macro SingleEntry(date, data, gas) %}
+    <h3>Datum: {{ date }}</h3>
+    <p>Temperatur: {{ data["temp"] }}°C</p>
+    <p>Luftfeuchtigkeit: {{ data["humi"] }}%</p>
+    <p>Helligkeit: {{ data["lux"] }}lux</p>
+    {% if data_gas %}
+        <p>Gase: {{ gas }}</p>
+    {% endif %}
+    {% if avg_day %}
+        <h3 style="padding: 1rem;">Durchschnitt des Tages</h3>
+        <div style="display:flex;flex-wrap:wrap">
+            {% for entry in avg_day %}
+                <div style="padding: 1rem;">
+                    <p>Zeit: {{ entry["date"].split(" ")[1] }}</p>
+                    <p>Temperatur: {{ entry["avg_temp"] }}</p>
+                    <p>Luftfeuchtigkeit: {{ entry["avg_humi"] }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro CreateTable(data) %}
+    <table class="messungen-table">
+        <caption>Messungen für <span style="font-style: italic;">'{{ date }}'</span></caption>
+        <thead id="messungen-table-heading">
+            <th>Datum:</th>
+            <th>Temperatur:</th>
+            <th class="ellipsis">Luftfeuchtigkeit:</th>
+            <th>Luftdruck:</th>
+            <th>Helligkeit:</th>
+        </thead>
+        <tbody>
+            {% for entry in data %}
+                {{ TableRow(entry) }}
+            {% endfor %}
+        </tbody>
+    </table>
+{% endmacro %}

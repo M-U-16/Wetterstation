@@ -14,14 +14,11 @@
 {% endmacro %}
 
 {% from "svgs/home.html" import home as HomeIcon %}
-{% from "svgs/live.html" import liveIcon %}
-{% from "svgs/barChart.html" import barChartIcon %}
-{% from "svgs/square-chart.html" import squareChartIcon %}
+{% from "svgs/chart.html" import barChartIcon %}
+{% from "svgs/chart.html" import squareChartIcon %}
 {% from "svgs/search.html" import searchIcon %}
-{% from "svgs/arrowLeft.html" import arrowLeft %}
-{% from "svgs/home.html" import homeIcon %}
-{% from "svgs/list.html" import listIcon %}
-{% from "components/inputs/themeToggle.html" import themeToggle %}
+{% from "svgs/arrows.html" import arrowLeft %}
+{% from "svgs/list.html" import ListIcon %}
 
 {% macro sidebar(active_link) %}
     <aside
@@ -47,7 +44,7 @@
         <nav>
             {{ sidebarLink("Startseite", "/", HomeIcon) }}
             {{ sidebarLink("Dashboard", "/dashboard", barChartIcon) }}
-            {{ sidebarLink("Messungen", "/messungen", listIcon) }}
+            {{ sidebarLink("Messungen", "/messungen", ListIcon) }}
         </nav>
     </aside>
 {% endmacro %}

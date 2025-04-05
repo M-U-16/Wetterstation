@@ -16,6 +16,7 @@ export async function FetchData(type, time) {
 }
 
 export { LineChart } from "./LineChart"
+export {StackedAreaChart} from "./StackedChart"
 export { GetConfig, GetYAxisFormat } from "./config-builder"
 export * from "./compress"
 export * from "./config"

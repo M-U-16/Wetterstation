@@ -1,13 +1,12 @@
 # librarys and stdlib
-import datetime
 import os
+import datetime
 from flask import current_app, send_file
-from markupsafe import escape
 from datetime import datetime
 from flask import Blueprint, render_template, request
 
 # internal
-from models import db, get_db
+from models import get_db
 
 blueprint = Blueprint(
     "messungen_bp",
@@ -15,41 +14,60 @@ blueprint = Blueprint(
     url_prefix="/messungen/"
 )
 
+def get_extrema(cur, from_date, to_date):
+    return {
+        "max_humi": dict(cur.execute(
+            """SELECT entry_date, MAX(humi) as humi FROM wetterdaten WHERE entry_date BETWEEN strftime('%Y-%m-%d 00:00:00', ?) 
+            AND strftime('%Y-%m-%d 23:59:59', ?) ORDER BY entry_id ASC""",
+            (from_date, to_date)
+        ).fetchone()),
+        "min_humi": dict(cur.execute(
+            """SELECT entry_date, MIN(humi) as humi FROM wetterdaten WHERE entry_date BETWEEN strftime('%Y-%m-%d 00:00:00', ?) 
+            AND strftime('%Y-%m-%d 23:59:59', ?) ORDER BY entry_id ASC""",
+            (from_date, to_date)
+        ).fetchone()),
+        "max_temp": dict(cur.execute(
+            """SELECT entry_date, MAX(temp) as temp FROM wetterdaten WHERE entry_date BETWEEN strftime('%Y-%m-%d 00:00:00', ?) 
+            AND strftime('%Y-%m-%d 23:59:59', ?) ORDER BY entry_id ASC""",
+            (from_date, to_date)
+        ).fetchone()),
+        "min_temp": dict(cur.execute(
+            """SELECT entry_date, MIN(temp) as temp FROM wetterdaten WHERE entry_date BETWEEN strftime('%Y-%m-%d 00:00:00', ?) 
+            AND strftime('%Y-%m-%d 23:59:59', ?) ORDER BY entry_id ASC""",
+            (from_date, to_date)
+        ).fetchone())
+    }
+
 @blueprint.get("/<file>")
 def messungen_test(file):
     return send_file(os.path.join(current_app.root_path, "samples", file))
 
 @blueprint.get("/")
-def messungen():
-    #data_gas = db.getAvgGasLastMinuteToday()
-    #print("gas: ", data_gas)
-    
-    #data_all = db.getAvgDataFromToday()
-    #print(data_all)
-    
+def messungen(): 
     date = datetime.now().strftime("%Y-%m-%d")
-    print(date)
+    #print(date)
     date = "2025-02-28"
     
-    db = get_db()
-    cursor = db.cursor()
+    _, cursor = get_db()
     
     #get all entries from today
     data = cursor.execute(
         "SELECT * FROM wetterdaten WHERE entry_date BETWEEN strftime('%Y-%m-%d 00:00:00', ?)"+
         "AND strftime('%Y-%m-%d 23:59:59', ?) ORDER BY entry_id asc",
-        (date, date)
+        ("2024-01-01 00:00:00", "2024-12-30 23:00:00")
     ).fetchall()
+    # print(data)
+    if not data: data = []
     
+    #print(dict(data))
     return render_template(
         "pages/messungen.html",
         entry_data=data,
-        last_entry=data[-1]["entry_date"],
+        last_entry="2024-05-01 10:20:10",#data[-1]["entry_date"],
         messungen=len(data),
         date=date,
+        extrema=get_extrema(cursor, "2024-01-01 00:00:00", "2024-12-30 23:00:00"),
         query="Heute"
-        #avg_day=avg_data,
-        #entry_gas=data_gas,
     )
 
 @blueprint.route("/")

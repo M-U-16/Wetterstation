@@ -20,11 +20,13 @@ class Bme280Sensor:
             self.address,
             self.calibration
         )
+        
         data = {
             "temp": sample.temperature,
             "humi": sample.humidity,
             "pressure": sample.pressure
         }
+        
         if date: data["date"] = datetime.now()
         return data
 

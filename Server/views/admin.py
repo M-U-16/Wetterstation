@@ -66,10 +66,4 @@ def admin_login():
 def admin_logout():
     session["is_admin"] = False
     flash("Erfolgreich Abgemeldet!", category="success")
-    
-    path_filter = filter(lambda x: x != "", request.referrer.split("/"))
-    referrer_path = "/" + list(path_filter)[-1]
-    if referrer_path in "/admin":
-        return redirect("/")
-    
-    return redirect(escape(referrer_path))
+    return redirect("/")

@@ -2,14 +2,14 @@
 {% from "components/inputs/TimeSelect.html" import select %}
 {% from "svgs/chart.html" import chartThin as chartIcon %}
 {% from "svgs/calendar.html" import calendar as calendarIcon %}
-{% from "svgs/list.html" import listIcon %}
+{% from "svgs/list.html" import ListIcon %}
 {% from "components/spinner.html" import spinner %}
 
 {% block title %}| Messungen {% endblock title %}
 {% block styles %}
     <link
         rel="stylesheet"
-        href="{{ url_for('static', filename='css/graph.css') }}"
+        href="{{ url_for('static', filename='css/chart.css') }}"
     />
     <link
         rel="stylesheet"
@@ -19,11 +19,15 @@
         rel="stylesheet"
         href="{{ url_for('static', filename='css/messungen.css') }}"
     />
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/data-table.css') }}"
+    />
 {% endblock styles %}
 {% block titlebarHeading %}Messungen{% endblock titlebarHeading %}
 
 {% block content %}
-    <div class="main-container" data-wetter="">
+    <div class="main-container">
         <div class="controls">
             <div class="time-filter left" onchange="filter_change(event)">
                 <div class="input-container" id="container-time-range-select">
@@ -76,12 +80,14 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="view-filter right">
+            {# 
+                <div class="view-filter right">
                 <div class="view-select">
-                    <button title="Graphen Ansicht">{{ chartIcon() }}</button>
+                    <button title="charten Ansicht">{{ chartIcon() }}</button>
                     <button title="Listen Ansicht">{{ listIcon() }}</button>
                 </div>
-            </div> -->
+            </div>
+            #}
         </div>
         <div class="messungen-container">
             <div class="data-table">
@@ -97,42 +103,61 @@
                         <p>Messungen Insgesamt: {{ messungen }}</p>
                     </div>
                 </div>
-                <div class="">
+                <div style="display:flex;gap:1rem;">
                     {% if not entry_data %}
                         <p>Keine Daten vorhanden!</p>
                     {% else %}
-                        <p></p>
+                        <div>
+                            <h3>Temperatur:</h3>
+                            <div>
+                                <h4>Höchste: {{ extrema["max_temp"]["temp"] }}°C</h4>
+                                <p>am {{ extrema["max_temp"]["entry_date"]|date_format }}</p>
+                            </div>
+                            <div>
+                                <h4>Niedrigste: {{ extrema["min_temp"]["temp"] }}°C</h4>
+                                <p>am {{ extrema["min_temp"]["entry_date"]|date_format }}</p>
+                            </div>
+                        </div>
+                        <div>
+                            <h3>Luftfeuchtigkeit</h3>
+                            <div>
+                                <h4>Höchste: {{ extrema["max_humi"]["humi"] }}%</h4>
+                                <p>am {{ extrema["max_humi"]["entry_date"]|date_format }}</p>
+                            </div>
+                            <div>
+                                <h4>Niedrigste: {{ extrema["min_humi"]["humi"] }}%</h4>
+                                <p>am {{ extrema["min_humi"]["entry_date"]|date_format }}</p>
+                            </div>
+                        </div>
                     {% endif %}
                 </div>
             </div>
-            <div class="graph__container">
-                <div class="header graph-header-temperature">
+            <div class="chart__container">
+                <div class="header chart-header-temperature">
                     <h1>Temperatur<span>in °C</span></h1>
                 </div>
-                <div class="graph" id="temp-container">
-                </div>
+                <div class="chart" id="temp-container"></div>
             </div>
-            <div class="graph__container">
-                <div class="header graph-header-humidity">
+            <div class="chart__container">
+                <div class="header chart-header-humidity">
                     <h1>Luftfeuchtigkeit<span>in %</span></h1>
                 </div>
-                <div class="graph" id="humi-container">
-                </div>
+                <div class="chart" id="humi-container"></div>
             </div>
-            <!-- <div class="graph__container">
-                <div class="header graph-header-particles">
-                    <h1>Luftpartikel<span>in &#181;g/m<sup>3</sup></span></h1>
+            <div class="chart__container">
+                <div class="header chart-header-particles">
+                    <h1>Feinstaub<span>in &#181;g/m<sup>3</sup></span></h1>
                 </div>
-                <div class="graph" id="particles-container">
-                </div>
-            </div> -->
+                <div class="chart" id="particles-container"></div>
+            </div>
+
             {% if entry_data and date %}
                 {% if type == "content-table" %}
                     {{ CreateTable(entry_data) }}
                 {% elif type == "content-entry" %}
                     {{ SingleEntry(date, entry_data[0], entry_gas[0]) }}
-                    {% if graph %}
-                        <!-- <img style="width: 100%;max-width:500px" src="data:image/svg;base64,{{ graph }}"> -->
+                    {% if chart %}
+                        <!-- <img style="width: 100%;max-width:500px" src="data:image/svg;base64,{{ chart }}"> -->
                     {% endif %}
     
                 {% endif %}
@@ -141,66 +166,6 @@
         </div>
     </div>
 {% endblock content %}
-
-{% macro TableRow(data) %}
-<tr class="measurement_row">
-    <td class="date ellipsis">
-        {{ data["date"]|date_format }}
-    </td>
-    <td class="temperature entry">
-        {{ data["temp"] }}°C
-    </td>
-    <td class="humidity entry">
-        {{ data["humi"] }}%
-    </td>
-    <td class="pressure entry">
-        {{ data["pres"] }}hPa
-    </td>
-    <td class="light entry">
-        {{ data["lux"] }}lux
-    </td>
-</tr>
-{% endmacro %}
-
-{% macro SingleEntry(date, data, gas) %}
-    <h3>Datum: {{ date }}</h3>
-    <p>Temperatur: {{ data["temp"] }}°C</p>
-    <p>Luftfeuchtigkeit: {{ data["humi"] }}%</p>
-    <p>Helligkeit: {{ data["lux"] }}lux</p>
-    {% if data_gas %}
-        <p>Gase: {{ gas }}</p>
-    {% endif %}
-    {% if avg_day %}
-        <h3 style="padding: 1rem;">Durchschnitt des Tages</h3>
-        <div style="display:flex;flex-wrap:wrap">
-            {% for entry in avg_day %}
-                <div style="padding: 1rem;">
-                    <p>Zeit: {{ entry["date"].split(" ")[1] }}</p>
-                    <p>Temperatur: {{ entry["avg_temp"] }}</p>
-                    <p>Luftfeuchtigkeit: {{ entry["avg_humi"] }}</p>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-{% endmacro %}
-
-{% macro CreateTable(data) %}
-    <table class="messungen-table">
-        <caption>Messungen für <span style="font-style: italic;">'{{ date }}'</span></caption>
-        <thead id="messungen-table-heading">
-            <th>Datum:</th>
-            <th>Temperatur:</th>
-            <th class="ellipsis">Luftfeuchtigkeit:</th>
-            <th>Luftdruck:</th>
-            <th>Helligkeit:</th>
-        </thead>
-        <tbody>
-            {% for entry in data %}
-                {{ TableRow(entry) }}
-            {% endfor %}
-        </tbody>
-    </table>
-{% endmacro %}
 
 {% block scripts %}
     {% if type == "content-table" %}
@@ -222,17 +187,15 @@
 
         drawCharts().then(charts => {
             console.log(charts)
-            //select.init((value) => updateGraphs(graphs, value))
+            //select.init((value) => updatecharts(charts, value))
             document.addEventListener("filter:change", (event) => {
-                console.log(event)
-                //updateGraphs(graphs, event.detail)
+                const url_params = new URLSearchParams(event.detail)
+                console.log(url_params.toString())
+                //updatecharts(charts, event.detail)
             })
         }).catch(error => {
             console.error(error)
-
-            document.querySelector(".flashed-messages").appendChild(
-                NewFlashedMessage("Fehler beim laden von Daten", "error")
-            )
+            NewFlashedMessage("Fehler beim laden von Daten", "error")
         })
         
         async function drawCharts() {
@@ -265,6 +228,7 @@
                 y: ["humi"],
                 timeFormat: "%Y-%m-%dT%H:%M",
                 area: true,
+                gradient: true,
                 
                 axis: {
                     x: {...wetterchart.DEFAULT_X_FORMAT_1Y},
@@ -277,15 +241,28 @@
                 }
             })
             
-            /*const chart_particles = wetterchart.LineChart({
+            const chart_particles = wetterchart.LineChart({
                 id: "svg-chart-particles",
                 container: "#particles-container",
-                color: ["#09bff7", "#0099c8", "#0083e0"],
+                color: ["#EAE4DD", "#E1D7C6", "#CDC2A5"].reverse(),//["#9AA6B2", "#BCCCDC", "#D9EAFD"].reverse(),//["#09bff7", "#0099c8", "#0083e0"].reverse(),
                 x: "date",
-                y: ["pm_10", "pm_25", "pm_100"],
+                colors: {
+                    pm_10: "#EAE4DD",
+                    pm_25: "#E1D7C6",
+                    pm_100: "#CDC2A5"
+                },
+                y: ["pm_10", "pm_25", "pm_100"].reverse(),
                 timeFormat: "%Y-%m-%dT%H:%M",
-                do_gaps: true,
+
+                area: true,
+                gradient: false,
                 
+                //styles: {
+                //    area: {
+                //        opacity: 0.3
+                //    }
+                //},
+
                 axis: {
                     x: {...wetterchart.DEFAULT_X_FORMAT_1Y},
                     y: {
@@ -295,9 +272,9 @@
                         domain: wetterchart.DEFAULT_PARTICLE_DOMAIN
                     }
                 }
-            })*/
+            })
 
-            d3.csv("/messungen/1year-combined-gaps.csv")
+            d3.csv("/messungen/1year-combined.csv")
             .then(data => data.map(row => {
                 return {
                     date: row.date,
@@ -322,14 +299,17 @@
                 chart_humi.load(avg_data,{
                     gaps: {interval: 24*60*60, gap_size:3}
                 })
-                //chart_particles.load(avg_data)
+                chart_particles.load(avg_data, {
+                    gaps: {interval: 24*60*60, gap_size:3}
+                })
             })
             
-            return [chart_temp, chart_humi]
+            return [chart_temp, chart_humi, chart_particles]
         }
     </script>
 
     <script>
+        // code for the controls/time filters
         const timeFilter = document.querySelector(".controls .time-filter")
         let activeInputs = [document.getElementById("time-range-select")]
         let activeContainer
@@ -386,7 +366,37 @@
                 }).forEach(input => {
                     filter_inputs[input.name] = input.value
                 })
-                console.log(filter_inputs)
+
+                // checks for valid dates
+                const input_names = Object.keys(filter_inputs)
+                if (input_names.includes("date")) {
+                    const date = new Date(filter_inputs["date"])
+                    if (typeof(date) == "string") {
+                        NewFlashedMessage(`'${filter_inputs['date']}' ist kein zulässiges Datum!`, "error")
+                        return
+                    }
+
+                    if (new Date() < date) {
+                        NewFlashedMessage("'Datum' darf nicht in der Zukunft liegen!", "error")
+                        return
+                    }
+                }
+
+                if (input_names.includes("to") || input_names.includes("from")) {
+                    const to = new Date(filter_inputs["to"])
+                    const from = new Date(filter_inputs["from"])
+
+                    const today = new Date()
+                    if (to < from) {
+                        NewFlashedMessage("'Von' Datum darf nicht nach 'Bis' sein!", "error")
+                        return
+                    }
+
+                    if (to > today) {
+                        NewFlashedMessage("'Bis' darf nicht in der Zukunft liegen!", "error")
+                        return
+                    }
+                }
 
                 document.dispatchEvent(
                     new CustomEvent("filter:change", {

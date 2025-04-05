@@ -59,6 +59,9 @@ export const DEFAULT_HUMI_DOMAIN = (data, y) => {
 
 export const DEFAULT_PARTICLE_DOMAIN = (data) => {
     let max = d3.max(data, d => d["pm_100"])
+   /*  const max = d3.max(layers, function(layer) {
+        return d3.max(layer, function(d) { return d[1]; });  // sum of stacked values
+    }); */
     //let min = d3.min(data, d => d["pm_10"])
     return [0, max+5]
 }

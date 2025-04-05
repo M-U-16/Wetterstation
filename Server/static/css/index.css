@@ -24,7 +24,7 @@
     --gradient: transparent;
     --default-box-shadow: inset 0px 0px 4px grey;
     --default-border: none;
-    --graph-bg-clr: white;
+    --chart-bg-clr: white;
     --icon-color: rgb(0, 0, 0);
     --sidebar-bg-clr: rgb(255, 255, 255);
     
@@ -46,7 +46,7 @@
     --default-box-shadow: none;
     --sidebar-bg-clr: rgb(23, 23, 23);
     --icon-color: rgb(240, 240, 240);
-    --graph-bg-clr: black;
+    --chart-bg-clr: black;
 
     color-scheme: dark;
 

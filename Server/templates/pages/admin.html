@@ -246,9 +246,7 @@
             
             const json = await res.json()
             if (json.error) {
-                flashedMessage.appendChild(
-                    new InfoPopup("error", "Fehler beim Speichern")
-                )
+                NewFlashedMessage("Fehler beim speichern", "error")
             }
         }).catch(err => {
             console.log(err)

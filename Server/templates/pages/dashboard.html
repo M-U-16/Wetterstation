@@ -1,18 +1,61 @@
 {% extends "base/base.html" %}
-{% from "components/entrys.html" import entrys %}
-{% from "components/live-readings.html" import liveReadings %}
+{% from "svgs/calendar.html" import calendar as calendarIcon %}
+{% from "svgs/location.html" import LocationIcon %}
 {% from "components/spinner.html" import spinner %}
 
 {% block title %}| Dashboard{% endblock title %}
 {% block styles %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
-    <link rel="stylesheet" href={{ url_for('static', filename='css/graph.css') }}>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/graph.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/graph.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/data-table.css') }}">
 {% endblock styles %}
 
 {% block titlebarHeading %}Dashboard{% endblock titlebarHeading %}
 
 {% block content %}
-    <div class="content">
+    <div class="main-container">
+        <div class="data-table">
+            <div class="top">
+                <div class="date">
+                    <div class="icon" style="color: rgba(236, 12, 0, 0.899);">
+                        {{ LocationIcon() }}
+                    </div>
+                    <div style="display: flex;flex-direction:column;">
+                        <h3>Wriezen</h3>
+                        <p style="font-size: 0.8rem;">52°42'57.6"N 14°07'58.8"E</p>
+                    </div>
+                </div>
+                <div class="info">
+                    <p>Stand: {{ last_entry }}</p>
+                </div>
+            </div>
+            <div>
+                {% if entry_data %}
+                    <p>Keine Daten vorhanden!</p>
+                {% else %}
+                    <h2>Temperatur:</h2>
+                    <div>
+                        <h3>Höchste: 12°C</h3>
+                        <p>am 10.6.2025</p>
+                    </div>
+                    <div>
+                        <h3>Niedrigste: -3°C</h3>
+                        <p>am 10.12.2025</p>
+                    </div>
+                    <h2>Luftfeuchtigkeit</h2>
+                    <div>
+                        <h3>Höchste: 80%</h3>
+                        <p>am 10.12.2025</p>
+                    </div>
+                    <div>
+                        <h3>Niedrigste: 10%</h3>
+                        <p>am 10.12.2025</p>
+                    </div>
+                    <p></p>
+                {% endif %}
+            </div>
+        </div>
         <div
             class="dashboard__graphs"
             id="graphs-container"
@@ -32,5 +75,5 @@
         crossorigin="anonymous"
     ></script>
     <script src="{{ url_for('static', filename='js/libs/d3.v7.min.js') }}"></script>
-    <script src={{ url_for('static', filename='js/build/dashboard.js') }}></script>
+    <script src="{{ url_for('static', filename='js/build/dashboard.js') }}"></script>
 {% endblock scripts %}

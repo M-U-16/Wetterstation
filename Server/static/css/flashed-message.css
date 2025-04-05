@@ -17,6 +17,22 @@
     border-radius: 5px;
 }
 
+.flashed-messages.default .flashed-message {
+    animation: slidein 0.3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    animation-iteration-count: 1;
+}
+
+@keyframes slidein {
+    from {
+        transform: translateX(50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0px);
+        opacity: 1;
+    }
+}
+
 .flashed-message button {
     display: flex;
     justify-content: center;

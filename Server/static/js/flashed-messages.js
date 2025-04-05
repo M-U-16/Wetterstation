@@ -22,6 +22,7 @@ function NewFlashedMessage(msg, category) {
     flashedMessage.classList.add(category)
     flashedMessage.querySelector("p").innerHTML = msg
 
+    document.querySelector(".flashed-messages").appendChild(flashedMessage)
     return flashedMessage
 }
 

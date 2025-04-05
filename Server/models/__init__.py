@@ -6,8 +6,8 @@ from .model import getConnection
 def get_db():
     db = getattr(g, "_db", None)
     if db is None:
-        db = g._meta_db = getConnection(os.getenv("FLASK_DATABASE"))
-    return db
+        db = g._db = getConnection(os.getenv("FLASK_DATABASE"))
+    return db, db.cursor()
 
 def close_db(exception):
     db = getattr(g, "_db", None)

@@ -10,7 +10,7 @@ export default function TooltipController(
     const tooltip = d3.select(config.container)
         .append("div")
         .style("opacity", 0)
-        .attr("class", "graph-tooltip")
+        .attr("class", "chart-tooltip")
 
     const circle = svg.append("circle")
         .attr("class", "graph__circle")
@@ -42,9 +42,10 @@ export default function TooltipController(
         let tool_pos_x = xPos+tooltipWidth <= rectWidth
         let tool_pos_y = yPos-tooltipHeight >= 0
 
-        let offset_x = tool_pos_x?MARGIN_LEFT:MARGIN_LEFT-tooltipWidth
-        let offset_y = tool_pos_y?yPos:yPos+tooltipHeight
+        let offset_x = tool_pos_x? MARGIN_LEFT:MARGIN_LEFT-tooltipWidth
+        let offset_y = tool_pos_y? yPos:yPos+tooltipHeight
 
+        console.log(d)
         circle.attr("cx", xPos)
             .attr("cy", yPos)
             .style("opacity", 1)
