@@ -186,11 +186,73 @@
         wetterchart.setDE()
 
         drawCharts().then(charts => {
-            console.log(charts)
+            function get_new_data() {
+
+            }
+
+            fetch("/api/wetterdaten")
+                .then(res => res.json())
+                .then(json => {
+                    const data = json.data.map(row => {
+                        return {
+                            date: row.entry_date,
+                            temp: +row.temp,
+                            humi: +row.humi,
+                            pm_10: +row.pm_10,
+                            pm_25: +row.pm_25,
+                            pm_100: +row.pm_100,
+                        }
+                    })
+                    if (data.length < 3) {
+                        console.log("not enough data")
+                        return
+                    }
+                    charts.forEach(chart => {
+                        chart.hide()
+                        chart.spinner.show()
+                    })
+                    
+                    charts.forEach(chart => chart.load(json.data))
+                    
+                })
+
             //select.init((value) => updatecharts(charts, value))
             document.addEventListener("filter:change", (event) => {
-                const url_params = new URLSearchParams(event.detail)
-                console.log(url_params.toString())
+                console.log(window.location)
+                const url = new URL("/api/wetterdaten", window.location.origin)
+                console.log(event.detail)
+                const keys = Object.keys(event.detail)
+                for (idx in Object.keys(event.detail)) {
+                    const key = keys[idx]
+                    url.searchParams.set(key, event.detail[key])
+                }
+
+                console.log(url.toString())
+                //history.pushState({}, "", url)
+                fetch(url)
+                .then(res => res.json())
+                .then(json => {
+                    console.log(json.data)
+                    const data = json.data.map(row => {
+                        return {
+                            date: row.entry_date,
+                            temp: +row.temp,
+                            humi: +row.humi,
+                            pm_10: +row.pm_10,
+                            pm_25: +row.pm_25,
+                            pm_100: +row.pm_100,
+                        }
+                    })
+                    console.log(data)
+                    charts.forEach(chart => {
+                        chart.hide()
+                        chart.spinner.show()
+                    })
+                    
+                    charts.forEach(chart => chart.load(json.data))
+                    
+                })
+
                 //updatecharts(charts, event.detail)
             })
         }).catch(error => {
@@ -207,7 +269,7 @@
                 color: ["#ff8080"],
                 x: "date",
                 y: ["temp"],
-                timeFormat: "%Y-%m-%dT%H:%M",
+                timeFormat: "%Y-%m-%d %H:%M:%S",
 
                 axis: {
                     x: {...wetterchart.DEFAULT_X_FORMAT_1Y},
@@ -226,7 +288,7 @@
                 color: ["#0177c0"],
                 x: "date",
                 y: ["humi"],
-                timeFormat: "%Y-%m-%dT%H:%M",
+                timeFormat: "%Y-%m-%d %H:%M:%S",
                 area: true,
                 gradient: true,
                 
@@ -252,16 +314,10 @@
                     pm_100: "#CDC2A5"
                 },
                 y: ["pm_10", "pm_25", "pm_100"].reverse(),
-                timeFormat: "%Y-%m-%dT%H:%M",
+                timeFormat: "%Y-%m-%d %H:%M:%S",
 
                 area: true,
                 gradient: false,
-                
-                //styles: {
-                //    area: {
-                //        opacity: 0.3
-                //    }
-                //},
 
                 axis: {
                     x: {...wetterchart.DEFAULT_X_FORMAT_1Y},
@@ -273,8 +329,7 @@
                     }
                 }
             })
-
-            d3.csv("/messungen/1year-combined.csv")
+            /*d3.csv("/messungen/1year-combined.csv")
             .then(data => data.map(row => {
                 return {
                     date: row.date,
@@ -302,7 +357,7 @@
                 chart_particles.load(avg_data, {
                     gaps: {interval: 24*60*60, gap_size:3}
                 })
-            })
+            })*/
             
             return [chart_temp, chart_humi, chart_particles]
         }

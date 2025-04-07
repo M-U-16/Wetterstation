@@ -1,6 +1,11 @@
 # standard libraries
+from http import server
+import json
 import os
 import sys
+from urllib import response
+from urllib.parse import urljoin
+from urllib.request import urlopen, Request
 
 # internal libraries
 from sensors import SensorGroup
@@ -24,11 +29,21 @@ else:
     from sensors.gas import GasSensor
 
 config = get_config("pi.ini")
+server_url = config["server"]["url"]
 
 # websocket client to send live data
 client = get_client()
-        
+
 def main():
+    print(config["server"]["url"])
+    settings_request = Request(
+        urljoin(server_url, "/api/settings/wettereinheit"),
+        headers={"key": config["server"]["key"]}
+    )
+    settings = urlopen(settings_request, timeout=10)
+    print(json.loads(settings.read()))
+    settings.close()
+    
     sensors = []
     if isFake:
         sensors = [

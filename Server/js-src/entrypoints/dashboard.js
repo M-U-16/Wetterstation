@@ -10,13 +10,6 @@ let loadingData = true
 
 main()
 
-socket.on("new-reading", (data) => {
-    document.dispatchEvent(new CustomEvent("socket:readings", {
-        bubbles: true,
-        detail: { data: data }
-    }))
-})
-
 async function main() {
     let graphs
 

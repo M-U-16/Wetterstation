@@ -2,7 +2,7 @@
 # User needs to be locked in as admin user to access 
 from models.db import addEntry
 from models.meta import get_meta_db
-from flask import Blueprint, jsonify, request, session
+from flask import Blueprint, current_app, jsonify, request, session
 
 settings_route = Blueprint("settings_route", __name__)
 
@@ -15,15 +15,15 @@ def time_to_second(time):
 
 @settings_route.before_request
 def settings_authenticator():
-    if not session.get("is_admin"):
+    if not session.get("is_admin") and current_app.config["PI_KEY"] != request.headers["key"]:
+        print("not allowed")
         return jsonify({"error": True, "text": "Forbidden"}), 403
 
 @settings_route.post("/settings/<device_name>")
 def settings_device(device_name):
     #data = json.loads(request.get_json())
     #print(device_name, request.form.keys())
-    db = get_meta_db()
-    cursor = db.cursor()
+    db, cursor = get_meta_db()
     body = request.get_json()
     device_id = ""
     print(request.get_json())
@@ -40,7 +40,8 @@ def settings_device(device_name):
     device_id = cursor.execute(
         "SELECT id FROM device_lookup WHERE device_name=?",
         (device_name,)
-    ).fetchone()["id"]
+    ).fetchone()
+    if device_id: device_id = device_id["id"]
     print(device_id)
         
     try:
@@ -60,6 +61,7 @@ def settings_device(device_name):
             settings
         )
     except Exception as e:
+        print(e)
         return jsonify({"error": True, "text": "Internal Server Error"}), 500
         
     db.commit()
@@ -68,8 +70,7 @@ def settings_device(device_name):
 
 @settings_route.get("/settings/<device_name>")
 def get_device_settings(device_name):
-    db = get_meta_db()
-    cursor = db.cursor()
+    db, cursor = get_meta_db()
     try:
         device_id = cursor.execute(
             "SELECT id FROM device_lookup WHERE device_name=?",
@@ -83,9 +84,12 @@ def get_device_settings(device_name):
             WHERE device_settings.device_id=?;
             """,
             (device_id,)
-        )
+        ).fetchall()
         
-        return jsonify({"error": False, "text": "OK", "res": settings}), 200
+        # convert list of sqlite.Row object to {key: value}
+        settings = [dict(setting) for setting in settings]
+        settings = {setting["setting_name"]: setting["setting_value"] for setting in settings}
+        return jsonify({"error": False, "text": "OK", "settings": settings}), 200
     except Exception as e:
-        #print(e)
+        print(e)
         return jsonify({"error": True, "text": "Internal Server Error"}), 500

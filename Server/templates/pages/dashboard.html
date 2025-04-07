@@ -6,8 +6,7 @@
 {% block title %}| Dashboard{% endblock title %}
 {% block styles %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/graph.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/graph.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/chart.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/data-table.css') }}">
 {% endblock styles %}
 
@@ -69,6 +68,16 @@
 {% endblock content %}
     
 {% block scripts %}
+<!--
+{#
+socket.on("new-reading", (data) => {
+    document.dispatchEvent(new CustomEvent("socket:readings", {
+        bubbles: true,
+        detail: { data: data }
+    }))
+})
+#}
+-->
     <script
         src="{{ url_for('static', filename='js/libs/socket.io.min.js') }}"
         integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz"

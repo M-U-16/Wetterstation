@@ -19,9 +19,7 @@ def admin():
     if not session.get("is_admin"):
         return render_template("pages/admin-login.html")
     
-    db = get_meta_db()
-    cursor = db.cursor()
-    
+    db, cursor = get_meta_db()
     settings = []
     
     try:

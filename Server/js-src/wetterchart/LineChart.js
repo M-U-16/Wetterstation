@@ -306,7 +306,7 @@ export function LineChart(options) {
     function setData(arr) {
         data = formatEntrys(arr, ...config.y)
     }
-    function load(new_data, options) {
+    function load(new_data, options={}) {
         setData(new_data)
         if (options.gaps) {
             config.gaps = date_gap_analyzer(
@@ -314,6 +314,7 @@ export function LineChart(options) {
                 options.gaps.gap_size
             )
         }
+        console.log(data)
 
         const start_end = d3.extent(data, d => d.date)
         updateChart(0, {...find_best_format(start_end[0], start_end[1])})
@@ -333,6 +334,7 @@ export function LineChart(options) {
         updateChart,
         updateConfig,
         updateAxisFormat,
+        spinner,
 
         show,
         hide
