@@ -1,6 +1,6 @@
 {% macro sidebarLink(content, link, icon) %}
     <a
-        class="sidebar__link disable-select"
+        class="sidebar-link disable-select"
         href={{ link }}
     >
         <div class="sidebar__icon flex-center">
@@ -19,6 +19,8 @@
 {% from "svgs/search.html" import searchIcon %}
 {% from "svgs/arrows.html" import arrowLeft %}
 {% from "svgs/list.html" import ListIcon %}
+{% from "svgs/admin.html" import adminIcon %}
+
 
 {% macro sidebar(active_link) %}
     <aside
@@ -45,6 +47,14 @@
             {{ sidebarLink("Startseite", "/", HomeIcon) }}
             {{ sidebarLink("Dashboard", "/dashboard", barChartIcon) }}
             {{ sidebarLink("Messungen", "/messungen", ListIcon) }}
+
+
+            <a href="/admin" class="admin-link">
+                <div>
+                    {{ adminIcon() }}
+                </div>
+                <p>Admin</p>
+            </a>
         </nav>
     </aside>
 {% endmacro %}

@@ -17,22 +17,22 @@ blueprint = Blueprint(
 def get_extrema(cur, from_date, to_date):
     return {
         "max_humi": dict(cur.execute(
-            """SELECT entry_date, MAX(humi) as humi FROM wetterdaten WHERE entry_date BETWEEN strftime('%Y-%m-%d 00:00:00', ?) 
+            """SELECT date, MAX(humi) as humi FROM wetterdaten WHERE date BETWEEN strftime('%Y-%m-%d 00:00:00', ?) 
             AND strftime('%Y-%m-%d 23:59:59', ?) ORDER BY entry_id ASC""",
             (from_date, to_date)
         ).fetchone()),
         "min_humi": dict(cur.execute(
-            """SELECT entry_date, MIN(humi) as humi FROM wetterdaten WHERE entry_date BETWEEN strftime('%Y-%m-%d 00:00:00', ?) 
+            """SELECT date, MIN(humi) as humi FROM wetterdaten WHERE date BETWEEN strftime('%Y-%m-%d 00:00:00', ?) 
             AND strftime('%Y-%m-%d 23:59:59', ?) ORDER BY entry_id ASC""",
             (from_date, to_date)
         ).fetchone()),
         "max_temp": dict(cur.execute(
-            """SELECT entry_date, MAX(temp) as temp FROM wetterdaten WHERE entry_date BETWEEN strftime('%Y-%m-%d 00:00:00', ?) 
+            """SELECT date, MAX(temp) as temp FROM wetterdaten WHERE date BETWEEN strftime('%Y-%m-%d 00:00:00', ?) 
             AND strftime('%Y-%m-%d 23:59:59', ?) ORDER BY entry_id ASC""",
             (from_date, to_date)
         ).fetchone()),
         "min_temp": dict(cur.execute(
-            """SELECT entry_date, MIN(temp) as temp FROM wetterdaten WHERE entry_date BETWEEN strftime('%Y-%m-%d 00:00:00', ?) 
+            """SELECT date, MIN(temp) as temp FROM wetterdaten WHERE date BETWEEN strftime('%Y-%m-%d 00:00:00', ?) 
             AND strftime('%Y-%m-%d 23:59:59', ?) ORDER BY entry_id ASC""",
             (from_date, to_date)
         ).fetchone())
@@ -45,28 +45,26 @@ def messungen_test(file):
 @blueprint.get("/")
 def messungen(): 
     date = datetime.now().strftime("%Y-%m-%d")
-    #print(date)
-    date = "2025-02-28"
+    print(date)
     
     _, cursor = get_db()
     
     #get all entries from today
     data = cursor.execute(
-        "SELECT * FROM wetterdaten WHERE entry_date BETWEEN strftime('%Y-%m-%d 00:00:00', ?)"+
+        "SELECT * FROM wetterdaten WHERE date BETWEEN strftime('%Y-%m-%d 00:00:00', ?)"+
         "AND strftime('%Y-%m-%d 23:59:59', ?) ORDER BY entry_id asc",
-        ("2024-01-01 00:00:00", "2024-12-30 23:00:00")
+        (date, date)
     ).fetchall()
-    # print(data)
     if not data: data = []
     
     #print(dict(data))
     return render_template(
         "pages/messungen.html",
         entry_data=data,
-        last_entry="2024-05-01 10:20:10",#data[-1]["entry_date"],
+        last_entry="2024-05-01 10:20:10",#data[-1]["date"],
         messungen=len(data),
         date=date,
-        extrema=get_extrema(cursor, "2024-01-01 00:00:00", "2024-12-30 23:00:00"),
+        extrema=get_extrema(cursor, date + " 00:00:00", date + " 23:00:00"),
         query="Heute"
     )
 

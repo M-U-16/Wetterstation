@@ -85,7 +85,6 @@ export function StackedAreaChart(options) {
         }
 
         const stackedData = d3.stack().keys(keys)(data)
-        console.log("stacked data:", stackedData)
         
         x = GetTimeScaleX(data, width, config.x)
         y = GetScaleY(stackedData, height, config.axis.y.domain, "pm_100")
@@ -115,7 +114,7 @@ export function StackedAreaChart(options) {
         .style("stroke", function(d) {return color(d.key)})
         .style("stroke-width", "1px")
         .style("fill", function(d) { return color(d.key) })
-        .style("fill-opacity", "0.3")
+        .style("fill-opacity", "1")
         .attr("d", d3.area()
             .x(function(d) { return x(d.data.date); })
             .y0(function(d) { return y(d[0]); })

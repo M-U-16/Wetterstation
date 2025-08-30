@@ -62,11 +62,6 @@
     transition: 0.3s ease;
 }
 
-.light-theme .chart__grid-line {
-    stroke: black;
-    stroke-width: 0.2;
-}
-
 .svg-listener-rect {
     opacity: 0;
 }
@@ -77,8 +72,7 @@
     align-items: center;
     justify-content: center;
 
-    height: 50px;
-    padding: 0 1rem;
+    padding: 0.7rem 1rem;
     transition:
         top 0.1s linear,
         left 0.1s linear;
@@ -103,7 +97,8 @@
 }
 
 .chart__grid-line {
-    stroke: rgba(255, 255, 255, 0.193);
+    stroke: black;
+    stroke-width: 0.2;
 }
 
 .chart-header-temperature {

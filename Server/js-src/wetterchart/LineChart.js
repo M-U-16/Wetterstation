@@ -57,18 +57,6 @@ export function LineChart(options) {
     const {svg, show, hide} = CreateSVG(config.container, width, height, config.id)
     let chart_group = svg.append("g").attr("transform", `translate(${margin.left}, ${margin.top})`)
 
-    /* function NewBrush() {
-        return d3.brushX()
-        .extent([[margin.left, margin.top], [config.width-config.margin.right+1, config.height-config.margin.bottom+1]])
-        .on("end", function({selection}){
-            console.log(selection)
-        });
-    } */
-
-    /* let brush = svg.append("g")
-        .attr("id", "chart-brush")
-        .call(NewBrush()) */
-
     /* GRADIENT */
     if (config.area && config.gradient) {
         if (Array.isArray(config.y)) {
@@ -111,6 +99,9 @@ export function LineChart(options) {
             x_axis_ticks = config.axis.x.ticks
         }
 
+        config.axis.x.timeFormat = x_axis_time_format
+        config.axis.x.ticks = x_axis_ticks
+
         x = GetTimeScaleX(data, width, config.x)
         y = GetScaleY(data, height, config.axis.y.domain, config.y[0])
 
@@ -148,6 +139,7 @@ export function LineChart(options) {
                         color: config.color[idx],
                         duration: duration
                     })
+
                     if (config.area) {
                         draw_area(chart_group,
                             data.slice(last_gap_end, gap[0]+1),
@@ -190,23 +182,25 @@ export function LineChart(options) {
             }
         });
 
-        chart_group.selectAll(".chart-no-data").remove()
-        chart_group.selectAll(".chart-no-data").append("g")
-            .data(config.gaps)
-            .enter()
-            .append("g")
-            .attr("class", "chart-no-data")
-            .append("rect")
-            .attr("width", d => {
-                return x(data[d[1]].date) - x(data[d[0]].date)
-            })
-            .attr("x", d => {
-                return x(data[d[0]].date)
-            })
-            .attr("height", height)
-            .attr("stroke", "grey")
-            .attr("stroke-width", "1px")
-            .attr("fill", "url(#chart-no-data-pattern)")
+        if (config.gaps) {
+            chart_group.selectAll(".chart-no-data").remove()
+            chart_group.selectAll(".chart-no-data").append("g")
+                .data(config.gaps)
+                .enter()
+                .append("g")
+                .attr("class", "chart-no-data")
+                .append("rect")
+                .attr("width", d => {
+                    return x(data[d[1]].date) - x(data[d[0]].date)
+                })
+                .attr("x", d => {
+                    return x(data[d[0]].date)
+                })
+                .attr("height", height)
+                .attr("stroke", "grey")
+                .attr("stroke-width", "1px")
+                .attr("fill", "url(#chart-no-data-pattern)")
+        }
 
         /* UPDATE TOOLTIP */
         try {
@@ -294,27 +288,23 @@ export function LineChart(options) {
         y_axis.attr("transform", `translate(${width}, 0)`)
 
         updateChart(500)
-
-        if (brush) {
-            brush.node().remove()
-            brush = svg.append("g").call(NewBrush())
-        }
     }
     
     function addData(obj) { data.push(formatEntry(obj, ...config.y))}
     function shiftData() { data.shift() }
     function setData(arr) {
-        data = formatEntrys(arr, ...config.y)
+        data = formatEntrys(arr, config.y)
     }
     function load(new_data, options={}) {
+        console.log("LineChart.load args:", config.y)
         setData(new_data)
-        if (options.gaps) {
+
+        if (config.gaps) {
             config.gaps = date_gap_analyzer(
                 data, options.gaps.interval,
                 options.gaps.gap_size
             )
         }
-        console.log(data)
 
         const start_end = d3.extent(data, d => d.date)
         updateChart(0, {...find_best_format(start_end[0], start_end[1])})

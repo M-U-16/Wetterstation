@@ -1,7 +1,11 @@
 {% extends "base/base.html" %}
 {% block titlebarHeading %}Startseite{% endblock titlebarHeading %}
 {% block content %}
-    <div>
-        <h1>Startseite</h1>
+    <div class="content" style="display: flex;flex-direction:column;align-items:center;">
+        <img src="/static/assets/images/logo-wriezen.png" alt="Schullogo" style="width:20rem;margin:1rem 0;">
+        <h1 style="text-align: center;width: 100%;font-size: clamp(5vw, 3rem, 6rem);color: var(--highlight-clr);">Wetterstation</h1>  
+        <h3 style="text-align: center;">Ein Projekt des Informatikkurses des Jahres 2025</h3>
+        <p style="text-align: center;width:70%;max-width:35rem">Mozhgan Alizadah, Kara Grigas, Niclas Mallow, Cindy Mittelstädt, Mattes Reschke, Sandro Scheibel, Ben Schüler, Lukas Selent, Janosch Siebenrock, Maurice Ueberfeld</p>
     </div>
+   
 {% endblock content %}

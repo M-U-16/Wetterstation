@@ -55,6 +55,8 @@ def create_app():
 
     load_config(ENV_FILE)
     app.config.from_prefixed_env()
+    app.config["ENV_FILE"] = ENV_FILE
+    #print(app.config["ENV_FILE"])
     
     app.teardown_appcontext(close_meta_db)
     app.teardown_appcontext(close_db)
@@ -66,5 +68,6 @@ def create_app():
     register_blueprints(app)
     register_extensions(app)
     register_filters(app)
+    
     
     return app

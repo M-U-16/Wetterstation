@@ -1,10 +1,18 @@
 function addRemoveMessageListener(node) {
-    console.log(node)
-    node.addEventListener("remove-message", (e) => {
+   /*  let timeoutId = setTimeout(() => {
+        console.log("remove")
+        RemoveFlashedMessage(node)
+    }, 3000)
+    console.log(timeoutId) */
+
+    node.addEventListener("remove-message", function(e) {
         e.stopPropagation()
+        console.log("clear timeout")
+        clearTimeout(timeoutId)
         node.addEventListener("remove-message", ()=>{})
         node.remove()
     })
+
 }
 
 function RemoveFlashedMessage(node) {
@@ -13,7 +21,7 @@ function RemoveFlashedMessage(node) {
     }))
 }
 
-function NewFlashedMessage(msg, category) {
+function NewFlashedMessage(msg, category, remove=true) {
     const node = document.querySelector("#flashed-msg-tmp")
     const flashedMessage = node.content
         .cloneNode(true)
@@ -26,6 +34,6 @@ function NewFlashedMessage(msg, category) {
     return flashedMessage
 }
 
-document.querySelectorAll(".flashed-message").forEach(
+/* document.querySelectorAll(".flashed-message").forEach(
     message => addRemoveMessageListener(message)
-)
+) */

@@ -68,7 +68,7 @@ def random_populate_db(amount):
     
     data_gas_tuple = [tuple(entry.values()) for entry in data_gas]
     for i in range(0, len(data_gas), chunk_size):
-        con.executemany("insert into gas(entry_date, oxi,red,nh3) values (?,?,?,?)", data_gas_tuple[i:i+chunk_size])
+        con.executemany("insert into gas(date, oxi,red,nh3) values (?,?,?,?)", data_gas_tuple[i:i+chunk_size])
     
     con.commit()
     con.close()

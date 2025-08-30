@@ -1,6 +1,7 @@
 {% from "svgs/close.html" import close %}
 
 {% macro FlashedMessages(category) %}
+
 {% with messages = get_flashed_messages(
     with_categories=true,
     category_filter=category | default("")
@@ -21,4 +22,5 @@
     {% endfor %}
 {% endif %}
 {% endwith %}
+
 {% endmacro %}

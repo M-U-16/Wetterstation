@@ -17,32 +17,75 @@
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
+            margin-bottom: 0.5rem;
         }
         
         .information-container .info {
             padding: 1rem;
             background-color: white;
-            box-shadow: var(--test-box-shadow);
-
+            border: 1px solid rgb(189, 189, 189);
+            display: flex;
+            align-items: center;
+            border-radius: 5px;
+            gap: 0.5rem;
+        }
+        
+        .password-form input {
+            padding: 0.8rem;
+            border: 1px solid rgb(189, 189, 189);
+            background-color: white;
+            border-radius: 5px 0 0 5px;
+            font-size: 1rem;
         }
 
-        .pi-settings {
+        .password-form button {
+            background-color: var(--highlight-clr);
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            padding: 0 1rem;
+            cursor: pointer;
         }
 
         .select-container {
             padding: 0.5rem 0;
         }
 
-        .select-container h3 {
+        h3.normal-heading {
             font-weight: 500;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .wettereinheit-controls button {
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .wettereinheit-controls button.start {
+            background-color: rgb(212, 255, 212);
+            border: 1px solid green;
+            color: rgb(0, 126, 0);
+        }
+        
+        .wettereinheit-controls button.stop {
+            background-color: rgb(255, 223, 223);
+            border: 1px solid red;
+            color: rgb(219, 0, 0);
+        }
+        
+        .wettereinheit-controls button.restart {
+            background-color: #fff7e4;
+            border: 1px solid #ffae00;
+            color: #ce8d00;
         }
 
         .select-container select,
         .select-container input {
-            padding: 0.8rem 1rem;
-            border: 1px solid rgba(95, 95, 95, 0.253);
-            box-shadow: inset 0px 0px 1px rgb(59, 59, 59);
+            padding: 0.8rem;
+            border: 1px solid rgb(168, 168, 168);
         }
         
         .select-container input {
@@ -66,11 +109,6 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-        }
-
-        #save-button.disabled {
-            background-color: grey;
-            cursor: not-allowed;
         }
     </style>
 
@@ -106,27 +144,17 @@
 {% block content %}
     <div class="admin-container">
         <div class="information-container">
-            <div class="info status">
-                <h3>Messstatus:</h3>
-                <p>
-                    {% if piStatus %}
-                    {{piStatus}}
-                    {% else %}
-                        Nicht verfügbar
-                    {% endif %}
-                </p>
-            </div>
-            <div class="info last-measurement">
+            <div class="info">
                 <h3>Letzte Messung:</h3>
                 <p>
-                    {% if data %}
-                        {{ data["lastMeasurement"] }}
+                    {% if last_entry %}
+                        {{ last_entry | date_format }}
                     {% else %}
                         Nicht verfügbar
                     {% endif %}
                 </p>
             </div>
-            <div class="info cpu-temperature">
+            <div class="info">
                 <h3>CPU-Temperatur:</h3>
                 <p>
                     {% if data %}
@@ -138,11 +166,28 @@
             </div>
         </div>
 
-        <h1>Wettereinheit</h1>
-        <div class="simple-controls">
-            <button>Starten</button>
-            <button>Stoppen</button>
-            <button>Neustarten</button>
+        <div class="settings" style="margin-bottom: 0.5rem;">
+            <h1 style="margin-bottom: 0.5rem;">Generelle Einstellungen</h1>
+            <h3 class="normal-heading">Admin-Passwort</h3>
+            <form
+                action="/admin/change-password"
+                onsubmit="changePassword(event)"
+                method="post"
+                style="display: flex;"
+                class="password-form"
+            >
+                <div style="width: min-content;">
+                    <input class="password-input" type="text" placeholder="Passwort" name="password" value="{{password}}">
+                </div>
+                <button type="submit">Passwort ändern</button>
+            </form>
+        </div>
+
+        <h1 style="margin-bottom: 0.5rem;">Wettereinheit</h1>
+        <div class="wettereinheit-controls">
+            <button class="start">Starten</button>
+            <button class="stop">Stoppen</button>
+            <button class="restart">Neustarten</button>
         </div>
 
         <form
@@ -153,7 +198,7 @@
             x-data="{saveButton: false}"
         >
             <div class="select-container">
-                <h3>Messinterval</h3>
+                <h3 class="normal-heading">Messinterval</h3>
                 {% if settings["Interval"] %}
                     <div class="input-container">
                         {{ NumberSelect(
@@ -167,7 +212,7 @@
                 {% endif %}
             </div>
             <div class="select-container">
-                <h3>Messverzögerung (Gassensor)</h3>
+                <h3 class="normal-heading">Messverzögerung (Gassensor)</h3>
                 {% if settings["GasStartUpTime"] %}
                     <div class="input-container">
                         {{ NumberSelect(
@@ -184,15 +229,36 @@
                 id="save-button"
                 type="submit"
             >Speichern</button>
-            <!-- :class="{'disabled': !saveButton}" -->
         </form>
-    
-        <div class="general-settings"></div>
     </div>
 {% endblock content %}
 
 {% block scripts %}
 <script>
+    function changePassword(event) {
+        event.preventDefault()
+        const input = event.srcElement.querySelector("input[name=password]")
+
+        fetch("/admin/change-password", {
+            body: JSON.stringify({
+                password: input.value
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            method: "POST",
+        }).then(res => res.json()).then(res => {
+            console.log(res)
+            if (!res.error) {
+                NewFlashedMessage("Passwort geändert!", "success")
+            }
+            
+        }).catch(error => {
+            console.error(error)
+            NewFlashedMessage("Passwort konnte nicht ", "error")
+        })
+    }
+
     const form = document.querySelector(".pi-settings")
     const flashedMessage = document.querySelector(".flashed-messages")
 
@@ -222,10 +288,6 @@
 
     document.querySelector(".pi-settings button[type='submit']").addEventListener("click", (e) => {
         e.preventDefault()
-        if (e.srcElement.classList.contains("disabled")) {
-            console.log(event)
-            return
-        }
         
         fetch("/api/settings/wettereinheit", {
             body: JSON.stringify({

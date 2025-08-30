@@ -111,22 +111,22 @@
                             <h3>Temperatur:</h3>
                             <div>
                                 <h4>Höchste: {{ extrema["max_temp"]["temp"] }}°C</h4>
-                                <p>am {{ extrema["max_temp"]["entry_date"]|date_format }}</p>
+                                <p>am {{ extrema["max_temp"]["date"]|date_format }}</p>
                             </div>
                             <div>
                                 <h4>Niedrigste: {{ extrema["min_temp"]["temp"] }}°C</h4>
-                                <p>am {{ extrema["min_temp"]["entry_date"]|date_format }}</p>
+                                <p>am {{ extrema["min_temp"]["date"]|date_format }}</p>
                             </div>
                         </div>
                         <div>
                             <h3>Luftfeuchtigkeit</h3>
                             <div>
                                 <h4>Höchste: {{ extrema["max_humi"]["humi"] }}%</h4>
-                                <p>am {{ extrema["max_humi"]["entry_date"]|date_format }}</p>
+                                <p>am {{ extrema["max_humi"]["date"]|date_format }}</p>
                             </div>
                             <div>
                                 <h4>Niedrigste: {{ extrema["min_humi"]["humi"] }}%</h4>
-                                <p>am {{ extrema["min_humi"]["entry_date"]|date_format }}</p>
+                                <p>am {{ extrema["min_humi"]["date"]|date_format }}</p>
                             </div>
                         </div>
                     {% endif %}
@@ -186,23 +186,12 @@
         wetterchart.setDE()
 
         drawCharts().then(charts => {
-            function get_new_data() {
 
-            }
-
-            fetch("/api/wetterdaten")
+            fetch("/api/wetterdaten"+window.location.search)
                 .then(res => res.json())
                 .then(json => {
-                    const data = json.data.map(row => {
-                        return {
-                            date: row.entry_date,
-                            temp: +row.temp,
-                            humi: +row.humi,
-                            pm_10: +row.pm_10,
-                            pm_25: +row.pm_25,
-                            pm_100: +row.pm_100,
-                        }
-                    })
+                    const data = json.data
+
                     if (data.length < 3) {
                         console.log("not enough data")
                         return
@@ -212,48 +201,37 @@
                         chart.spinner.show()
                     })
                     
-                    charts.forEach(chart => chart.load(json.data))
-                    
+                    charts.forEach(chart => chart.load(data))
                 })
 
             //select.init((value) => updatecharts(charts, value))
             document.addEventListener("filter:change", (event) => {
                 console.log(window.location)
-                const url = new URL("/api/wetterdaten", window.location.origin)
-                console.log(event.detail)
+                const url = new URL("/messungen", window.location.origin)
+                const api_url = new URL("/api/wetterdaten", window.location.origin)
+                
                 const keys = Object.keys(event.detail)
                 for (idx in Object.keys(event.detail)) {
                     const key = keys[idx]
                     url.searchParams.set(key, event.detail[key])
+                    api_url.searchParams.set(key, event.detail[key])
                 }
 
-                console.log(url.toString())
-                //history.pushState({}, "", url)
-                fetch(url)
+                history.pushState({}, "", url)
+                fetch(api_url)
                 .then(res => res.json())
                 .then(json => {
-                    console.log(json.data)
-                    const data = json.data.map(row => {
-                        return {
-                            date: row.entry_date,
-                            temp: +row.temp,
-                            humi: +row.humi,
-                            pm_10: +row.pm_10,
-                            pm_25: +row.pm_25,
-                            pm_100: +row.pm_100,
-                        }
-                    })
-                    console.log(data)
+                    const data = json.data
+                    
                     charts.forEach(chart => {
                         chart.hide()
                         chart.spinner.show()
                     })
                     
-                    charts.forEach(chart => chart.load(json.data))
+                    charts.forEach(chart => chart.load(data))
                     
                 })
 
-                //updatecharts(charts, event.detail)
             })
         }).catch(error => {
             console.error(error)
@@ -262,7 +240,6 @@
         
         async function drawCharts() {
             //let data = await wetterchart.FetchData("year", "2024")
-            //console.log(data)
             const chart_temp = wetterchart.LineChart({
                 id: "svg-chart-temp",
                 container: "#temp-container",
@@ -318,6 +295,7 @@
 
                 area: true,
                 gradient: false,
+                is_line: true,
 
                 axis: {
                     x: {...wetterchart.DEFAULT_X_FORMAT_1Y},
@@ -329,35 +307,6 @@
                     }
                 }
             })
-            /*d3.csv("/messungen/1year-combined.csv")
-            .then(data => data.map(row => {
-                return {
-                    date: row.date,
-                    temp: +row.temp,
-                    humi: +row.humi,
-                    pm_10: +row.pm_10,
-                    pm_25: +row.pm_25,
-                    pm_100: +row.pm_100,
-                }
-            }))
-            .then(data => {
-                const avg_data = wetterchart.average_per_day(
-                    data,//data, //data.slice(0, 80),
-                    ["temp", "humi", "pm_100", "pm_25", "pm_10"]
-                )
-
-                //console.log(avg_data)
-                chart_temp.load(avg_data, {
-                    gaps: {interval: 24*60*60, gap_size:3}
-                })
-                //console.log(chart_temp)
-                chart_humi.load(avg_data,{
-                    gaps: {interval: 24*60*60, gap_size:3}
-                })
-                chart_particles.load(avg_data, {
-                    gaps: {interval: 24*60*60, gap_size:3}
-                })
-            })*/
             
             return [chart_temp, chart_humi, chart_particles]
         }
@@ -388,7 +337,7 @@
             })
             
             activeContainer.querySelectorAll("label")
-            .forEach(label => {label.className = ""})
+                .forEach(label => {label.className = ""})
             
             if (activeContainer.contains(e.target)) {
                 activeInputs.push(e.target)

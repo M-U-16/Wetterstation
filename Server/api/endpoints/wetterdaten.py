@@ -6,10 +6,10 @@ from flask import Blueprint, jsonify, request
 wetterdaten_route = Blueprint("wetterdaten_route", __name__)
 
 queries_date_range = {
-    "1d": "SELECT * FROM wetterdaten WHERE DATE(entry_date) = DATE('now')",
-    "1w": "SELECT * FROM wetterdaten WHERE DATE(entry_date) BETWEEN DATE('now', '-7 days') AND DATETIME('now')",
-    "1m": "SELECT * FROM wetterdaten WHERE DATE(entry_date) BETWEEN DATE('now', '-1 month') AND DATETIME('now')",
-    "1y": "SELECT * FROM wetterdaten WHERE DATETIME(entry_date) BETWEEN DATE('now', '-1 year') AND DATETIME('now')",
+    "1d": "SELECT * FROM wetterdaten WHERE DATE(date) = DATE('now')",
+    "1w": "SELECT * FROM wetterdaten WHERE DATE(date) BETWEEN DATE('now', '-7 days') AND DATETIME('now')",
+    "1m": "SELECT * FROM wetterdaten WHERE DATE(date) BETWEEN DATE('now', '-1 month') AND DATETIME('now')",
+    "1y": "SELECT * FROM wetterdaten WHERE DATETIME(date) BETWEEN DATE('now', '-1 year') AND DATETIME('now')",
 }
 
 @wetterdaten_route.get("/wetterdaten")
@@ -28,11 +28,11 @@ def get_wetterdaten():
         wetterdata = cur.execute(sql_query).fetchall()
         wetterdata = [dict(data) for data in wetterdata]
     elif date:
-        sql_query = "SELECT * FROM wetterdaten WHERE DATE(entry_date) = DATE(?)"
+        sql_query = "SELECT * FROM wetterdaten WHERE DATE(date) = DATE(?)"
         wetterdata = cur.execute(sql_query, [date])
         wetterdata = [dict(data) for data in wetterdata]
     elif date_from and date_to:
-        sql_query = "SELECT * FROM wetterdaten WHERE entry_date BETWEEN DATE(?) AND DATETIME(?, '23:59:59')"
+        sql_query = "SELECT * FROM wetterdaten WHERE date BETWEEN DATE(?) AND DATETIME(?, '23:59:59')"
         wetterdata = cur.execute(sql_query, [date_from, date_to]).fetchall()
         wetterdata = [dict(data) for data in wetterdata]
     else:

@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS wetterdaten (
     entry_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    entry_date DATE,
+    date DATE,
     temp INTEGER,
     humi INTEGER,
     pres INTEGER,
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS wetterdaten (
 
 CREATE TABLE IF NOT EXISTS gas (
     entry_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    entry_date DATE,
+    date DATE,
     oxi TEXT,
     red TEXT,
     nh3 TEXT

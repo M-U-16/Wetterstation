@@ -1,6 +1,10 @@
 {% extends "base/base.html" %}
 {% from "svgs/calendar.html" import calendar as calendarIcon %}
 {% from "svgs/location.html" import LocationIcon %}
+{% from "svgs/weather.html" import humidityIcon %}
+{% from "svgs/weather.html" import thermometerIcon %}
+{% from "svgs/weather.html" import temperatureIcon %}
+{% from "svgs/weather.html" import particleIcon %}
 {% from "components/spinner.html" import spinner %}
 
 {% block title %}| Dashboard{% endblock title %}
@@ -8,63 +12,153 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/chart.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/data-table.css') }}">
+    <style>
+        .panels-container {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .panel {
+            margin-bottom: 0.25rem;
+        }
+
+        .panel .icon {
+            width: 3.2rem;
+            height: 3.2rem;
+        }
+
+        .panel .value {
+            font-size: 3rem;
+
+        }
+
+        .panel .type {
+            font-size: 1.5rem;
+        }
+
+        .panel-extra p {
+            color: #777777;
+            font-size: 0.9rem;
+        }
+
+        @media screen and (max-width: 500px) {
+            .panel {
+                margin: 0;
+            }
+
+            .panels-container {
+                flex-direction: column;
+            }
+
+            .panel-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding-right: 2rem;
+            }
+        }
+    </style>
 {% endblock styles %}
 
 {% block titlebarHeading %}Dashboard{% endblock titlebarHeading %}
 
 {% block content %}
-    <div class="main-container">
-        <div class="data-table">
-            <div class="top">
-                <div class="date">
-                    <div class="icon" style="color: rgba(236, 12, 0, 0.899);">
-                        {{ LocationIcon() }}
-                    </div>
-                    <div style="display: flex;flex-direction:column;">
-                        <h3>Wriezen</h3>
-                        <p style="font-size: 0.8rem;">52°42'57.6"N 14°07'58.8"E</p>
-                    </div>
+<div class="main-container">
+    <div class="data-table">
+        <div class="top">
+            <div class="date">
+                <div class="icon" style="color: #ec0c00fd;">
+                    {{ LocationIcon() }}
                 </div>
-                <div class="info">
-                    <p>Stand: {{ last_entry }}</p>
+                <div style="display: flex;flex-direction:column;">
+                    <h3>Wriezen</h3>
+                    <p style="font-size: 0.8rem;">52°42'57.6"N 14°07'58.8"E</p>
                 </div>
             </div>
-            <div>
-                {% if entry_data %}
-                    <p>Keine Daten vorhanden!</p>
-                {% else %}
-                    <h2>Temperatur:</h2>
-                    <div>
-                        <h3>Höchste: 12°C</h3>
-                        <p>am 10.6.2025</p>
-                    </div>
-                    <div>
-                        <h3>Niedrigste: -3°C</h3>
-                        <p>am 10.12.2025</p>
-                    </div>
-                    <h2>Luftfeuchtigkeit</h2>
-                    <div>
-                        <h3>Höchste: 80%</h3>
-                        <p>am 10.12.2025</p>
-                    </div>
-                    <div>
-                        <h3>Niedrigste: 10%</h3>
-                        <p>am 10.12.2025</p>
-                    </div>
-                    <p></p>
-                {% endif %}
+            <div class="info">
+                <p>Stand: {{ last_entry }}</p>
             </div>
         </div>
-        <div
-            class="dashboard__graphs"
-            id="graphs-container"
-        >
-            <div class="graph__container" id="temp-container">
-            </div>
-            <div class="graph__container" id="humi-container">
-            </div>
+        <div>
+            {% if entry_data %}
+                <p>Keine Daten vorhanden!</p>
+            {% else %}
+                <div class="panels-container">
+                    <div class="panel-container">
+                        <div class="panel">
+                            <!-- <p>Temperatur</p> -->
+                            <div style="display: flex;">
+                                <p><span class="value">0</span><span class="type">°C</span></p>
+                                <div class="icon" style="color:#ff3737;">
+                                    {{ thermometerIcon() }}
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="panel-extra">
+                                <h4>Höchste: 12°C</h4>
+                                <p>am 10.6.2025</p>
+                            </div>
+                            <div class="panel-extra">
+                                <h4>Niedrigste: -3°C</h4>
+                                <p>am 10.12.2025</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-container">
+                        <div class="panel">
+                            <!-- <p>Luftfeuchtigkeit</p> -->
+                            <div style="display: flex;">
+                                <p><span class="value">50</span><span class="type">%</span></p>
+                                <div class="icon" style="color: #3784f7;">
+                                    {{ humidityIcon() }}
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="panel-extra">
+                                <h4>Höchste: <span>80</span>%</h4>
+                                <p>um <span>16:30</span> Uhr</p>
+                            </div>
+                            <div class="panel-extra">
+                                <h4>Niedrigste: <span>10</span>%</h4>
+                                <p>um <span>4:00</span> Uhr</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-container">
+                        <div class="panel">
+                            <!-- <p>Luftfeuchtigkeit</p> -->
+                            <div style="display: flex;">
+                                <p><span class="value">50</span><span class="type">%</span></p>
+                                <div class="icon" style="color: #c2bb81;">
+                                    {{ particleIcon() }}
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <!-- <div class="panel-extra">
+                                <h4>Höchste: <span>80</span>%</h4>
+                                <p>um <span>16:30</span> Uhr</p>
+                            </div>
+                            <div class="panel-extra">
+                                <h4>Niedrigste: <span>10</span>%</h4>
+                                <p>um <span>4:00</span> Uhr</p>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         </div>
     </div>
+    <div
+        class="dashboard__graphs"
+        id="graphs-container"
+    >
+        <div class="graph__container" id="temp-container"></div>
+        <div class="graph__container" id="humi-container"></div>
+    </div>
+</div>
 {% endblock content %}
     
 {% block scripts %}

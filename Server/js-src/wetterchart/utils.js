@@ -62,7 +62,7 @@ import {timelocale} from "./local"
 
 export function find_best_format(start_date, end_date) {
     const daydiff = d3.timeDay.count(start_date, end_date)
-
+    
     if (daydiff <= 1) { // data from one day
         const hourdiff = d3.timeHour.count(start_date, end_date)
         if (hourdiff <= 1) { // data from one hour or less
@@ -73,13 +73,14 @@ export function find_best_format(start_date, end_date) {
         }
 
         return {
-            ticks: d3.timeHour.every(1),
+            ticks: d3.timeHour.every(3),
             timeFormat: function(d) {
                 const hour = timelocale.format("%H")(d)
+                console.log("find_best_format_", hour)
                 if (hour[0] == "0") {
-                    return hour[1]
+                    return hour[1] + " Uhr"
                 }
-                return  hour
+                return hour + " Uhr"
             }
         }
     }
@@ -88,8 +89,12 @@ export function find_best_format(start_date, end_date) {
         return {
             ticks: d3.timeDay.every(1),
             timeFormat: timelocale.format("%A")
+            /* gaps: {
+                interval: 60*60, 
+                gap_size: 1
+            } */
         }
-    } else if (daydiff < 7) {
+    } else if (daydiff <= 7) {
         return {
             ticks: d3.timeDay.every(1),
             timeFormat: timelocale.format("%a")
